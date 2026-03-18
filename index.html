@@ -1,11 +1,222 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Fly in the Hill Country</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fly in the Hill Country</title>
+
+  <style>
+    :root {
+      --reflective-white: #F7F7F2;
+      --sky-cool-blue: #A9C9FF;
+      --cedar-green: #2F4F3E;
+      --soil-neutral: #C7B8A3;
+      --shadow-slate: #2A2A2A;
+      --thermal-accent: #E6A96B;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      color: var(--shadow-slate);
+      min-height: 100vh;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.45);
+    }
+
+    header {
+      position: relative;
+      z-index: 2;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    header h1 { font-size: 1.4rem; font-weight: 600; }
+
+    nav ul { list-style: none; display: flex; gap: 16px; }
+    nav a { color: #fff; text-decoration: none; font-size: 0.95rem; }
+    nav a:hover { text-decoration: underline; }
+
+    .panel {
+      position: relative;
+      z-index: 2;
+      background: rgba(247,247,242,0.92);
+      padding: 40px 24px;
+      border-radius: 16px;
+      backdrop-filter: blur(4px);
+      max-width: 1100px;
+      margin: 40px auto;
+    }
+
+    .hero h2 {
+      font-size: 2.4rem;
+      margin-bottom: 16px;
+      color: var(--cedar-green);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 24px;
+      max-width: 700px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: var(--sky-cool-blue);
+      color: #111;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .cta-button:hover { background: #8fb5ff; }
+
+    .eco-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 32px;
+      color: var(--cedar-green);
+    }
+
+    .eco-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .eco-card {
+      background: var(--soil-neutral);
+      border-radius: 12px;
+      padding: 20px;
+      border-left: 6px solid var(--cedar-green);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      transition: 0.2s ease;
+    }
+
+    .eco-card:hover {
+      transform: translateY(-4px);
+      border-left-color: var(--thermal-accent);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.24);
+    }
+
+    .eco-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .eco-card p {
+      line-height: 1.55;
+      font-size: 0.98rem;
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+      color: #eee;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+    }
+  </style>
 </head>
+
 <body>
-    <video controls>
-        <source src="video/VID20260310202316.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
+
+  <video autoplay muted loop playsinline id="bg-video">
+    <source src="video/VID20260310202316.mp4" type="video/mp4">
+  </video>
+
+  <header>
+    <h1>Fly in the Hill Country</h1>
+    <nav>
+      <ul>
+        <li><a href="#ecosystem">Ecosystem</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="panel hero">
+    <h2>Highly Reflective, Deeply Grounded</h2>
+    <p>
+      A hilltop lab for cooling materials, sensing networks, and land-healing practice—
+      showing how small daily actions can shift entire systems.
+    </p>
+    <a href="#ecosystem" class="cta-button">Explore the Ecosystem</a>
+  </section>
+
+  <section id="ecosystem" class="panel">
+    <h2 class="eco-title">Ecosystem Branches</h2>
+
+    <div class="eco-grid">
+
+      <div class="eco-card">
+        <h3>coolerifyoudid — Materials That Cool the World</h3>
+        <p>
+          The materials branch: highly reflective coatings, phase-change composites,
+          ground-coupled thermal batteries, and passive cooling benches. Low-cost,
+          bio-sourced, off-grid heat mitigation for real people in real heat.
+        </p>
+      </div>
+
+      <div class="eco-card">
+        <h3>Highly Reflective — Civic Awareness & Collective Action</h3>
+        <p>
+          The civic branch: public installations, heat-relief benches, and tools that help
+          communities understand AGW heat buildup and the cooling potential of reflective
+          surfaces. Turning technical cooling into shared civic momentum.
+        </p>
+      </div>
+
+      <div class="eco-card">
+        <h3>Snow White Reflections — Data, Sensing & Insight</h3>
+        <p>
+          The sensing branch: weather stations, thermal cameras, and ground-truth nodes
+          mapping the Hill Country's heat in real time. A live dashboard showing what's
+          warming, what's cooling, and where interventions matter most.
+        </p>
+      </div>
+
+      <div class="eco-card">
+        <h3>Self-Awear — Cultural Signals</h3>
+        <p>
+          The cultural branch: wearables, prints, and reflective artifacts that carry the
+          movement into everyday life. Not swag—signal. Small visible commitments to a
+          cooler, more climate-literate future.
+        </p>
+      </div>
+
+      <div class="eco-card">
+        <h3>Hilltop Healing Center — Land & Self Regeneration</h3>
+        <p>
+          The land-healing branch: cedar management, water-catchment literacy, and
+          practical ecological stewardship. Heal the land → the land heals you → you heal
+          the land. Ikigai rooted in soil.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Fly in the Hill Country · Highly Reflective Project
+  </footer>
+
 </body>
 </html>
