@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fly in the Hill Country</title>
 
-  <!-- Base styles -->
   <style>
     :root {
       --reflective-white: #F7F7F2;
@@ -16,14 +15,10 @@
       --thermal-accent: #E6A96B;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, sans-serif;
       color: var(--shadow-slate);
       min-height: 100vh;
     }
@@ -42,7 +37,7 @@
 
     header {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       padding: 16px 24px;
       display: flex;
       justify-content: space-between;
@@ -51,53 +46,34 @@
       text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
 
-    header h1 {
-      font-size: 1.4rem;
-      font-weight: 600;
-    }
+    header h1 { font-size: 1.4rem; font-weight: 600; }
 
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 16px;
-    }
+    nav ul { list-style: none; display: flex; gap: 16px; }
+    nav a { color: #fff; text-decoration: none; font-size: 0.95rem; }
+    nav a:hover { text-decoration: underline; }
 
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
-    }
-
-    .hero {
+    /* Content panel wrapper */
+    .panel {
       position: relative;
-      z-index: 1;
-      min-height: 70vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 80px 24px 40px;
-      color: #fff;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.7);
-    }
-
-    .hero-inner {
-      max-width: 800px;
-      margin: 0 auto;
+      z-index: 2;
+      background: rgba(247,247,242,0.92);
+      padding: 40px 24px;
+      border-radius: 16px;
+      backdrop-filter: blur(4px);
+      max-width: 1100px;
+      margin: 40px auto;
     }
 
     .hero h2 {
       font-size: 2.4rem;
       margin-bottom: 16px;
+      color: var(--cedar-green);
     }
 
     .hero p {
       font-size: 1.1rem;
       margin-bottom: 24px;
-      max-width: 600px;
+      max-width: 700px;
     }
 
     .cta-button {
@@ -108,31 +84,16 @@
       color: #111;
       text-decoration: none;
       font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
-    .cta-button:hover {
-      background: #8fb5ff;
-    }
-
-    .ecosystem-section {
-      position: relative;
-      z-index: 1;
-      padding: 60px 20px 80px;
-      max-width: 1100px;
-      margin: 0 auto 40px;
-      background: rgba(247,247,242,0.92);
-      border-radius: 16px;
-      backdrop-filter: blur(4px);
-    }
+    .cta-button:hover { background: #8fb5ff; }
 
     .eco-title {
       text-align: center;
-      font-size: 2.1rem;
+      font-size: 2rem;
       margin-bottom: 32px;
-      font-weight: 600;
       color: var(--cedar-green);
-      letter-spacing: 0.5px;
     }
 
     .eco-grid {
@@ -144,54 +105,40 @@
     .eco-card {
       background: var(--soil-neutral);
       border-radius: 12px;
-      padding: 20px 20px 22px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      padding: 20px;
       border-left: 6px solid var(--cedar-green);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-left-color 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+      transition: 0.2s ease;
     }
 
     .eco-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.24);
       border-left-color: var(--thermal-accent);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.24);
     }
 
     .eco-card h3 {
-      margin-top: 0;
-      font-size: 1.2rem;
       margin-bottom: 10px;
+      font-size: 1.2rem;
       font-weight: 600;
-      color: var(--shadow-slate);
     }
 
     .eco-card p {
-      margin: 0;
       line-height: 1.55;
       font-size: 0.98rem;
-      color: var(--shadow-slate);
     }
 
     footer {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       text-align: center;
       padding: 20px;
       color: #eee;
-      font-size: 0.85rem;
       text-shadow: 0 2px 6px rgba(0,0,0,0.7);
-    }
-
-    @media (max-width: 600px) {
-      .hero {
-        padding-top: 70px;
-      }
-
-      .hero h2 {
-        font-size: 2rem;
-      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Storm-cell video background -->
@@ -203,4 +150,78 @@
     <h1>Fly in the Hill Country</h1>
     <nav>
       <ul>
-        <li>
+        <li><a href="#ecosystem">Ecosystem</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO PANEL -->
+  <section class="panel hero">
+    <h2>Highly Reflective, Deeply Grounded</h2>
+    <p>
+      A hilltop lab for cooling materials, sensing networks, and land‑healing practice—
+      showing how small daily actions can shift entire systems.
+    </p>
+    <a href="#ecosystem" class="cta-button">Explore the Ecosystem</a>
+  </section>
+
+  <!-- ECOSYSTEM PANEL -->
+  <section id="ecosystem" class="panel">
+    <h2 class="eco-title">Ecosystem Branches</h2>
+
+    <div class="eco-grid">
+
+      <div class="eco-card">
+        <h3>coolerifyoudid — Materials That Cool the World</h3>
+        <p>
+          The materials branch: highly reflective coatings, phase‑change composites,
+          ground‑coupled thermal batteries, and passive cooling benches. Low‑cost,
+          bio‑sourced, off‑grid heat mitigation for real people in real heat.
+        </p>
+      </div>
+
+      <div class="eco-card">
+        <h3>Highly Reflective — Civic Awareness & Collective Action</h3>
+        <p>
+          The civic branch: public installations, heat‑relief benches, and tools that help
+          communities understand AGW heat buildup and the cooling potential of reflective
+          surfaces. Turning technical cooling into shared civic momentum.
+        </p>
+      </div>
+
+      <div class="eco-card">
+        <h3>Snow White Reflections — Data, Sensing & Insight</h3>
+        <p>
+          The sensing branch: weather stations, thermal cameras, and ground‑truth nodes
+          mapping the Hill Country’s heat in real time. A live dashboard showing what’s
+          warming, what’s cooling, and where interventions matter most.
+        </p>
+      </div>
+
+      <div class="eco-card">
+        <h3>Self‑Awear — Cultural Signals</h3>
+        <p>
+          The cultural branch: wearables, prints, and reflective artifacts that carry the
+          movement into everyday life. Not swag—signal. Small visible commitments to a
+          cooler, more climate‑literate future.
+        </p>
+      </div>
+
+      <div class="eco-card">
+        <h3>Hilltop Healing Center — Land & Self Regeneration</h3>
+        <p>
+          The land‑healing branch: cedar management, water‑catchment literacy, and
+          practical ecological stewardship. Heal the land → the land heals you → you heal
+          the land. Ikigai rooted in soil.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © 2026 Fly in the Hill Country · Highly Reflective Project
+  </footer>
+
+</body>
+</html>
