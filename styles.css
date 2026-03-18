@@ -43,6 +43,14 @@ nav a:hover {
     bottom: 0;
     width: 100%;
 }
+.content-panel {
+  background: rgba(247,247,242,0.92);
+  padding: 40px 20px;
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+  margin: 40px auto;
+  max-width: 1100px;
+}
 
 @media screen and (max-width: 600px) {
     .header, nav, .hero, .footer {
