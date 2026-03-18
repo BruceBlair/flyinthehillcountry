@@ -1,7 +1,18 @@
+:root {
+  --reflective-white: #F7F7F2;
+  --sky-cool-blue: #A9C9FF;
+  --cedar-green: #2F4F3E;
+  --soil-neutral: #C7B8A3;
+  --shadow-slate: #2A2A2A;
+  --thermal-accent: #E6A96B;
+}
+
 .ecosystem-section {
   padding: 60px 20px;
   max-width: 1100px;
   margin: 0 auto;
+  background: var(--reflective-white);
+  border-radius: 16px;
 }
 
 .eco-title {
@@ -9,6 +20,7 @@
   font-size: 2.4rem;
   margin-bottom: 40px;
   font-weight: 600;
+  color: var(--cedar-green);
   letter-spacing: 0.5px;
 }
 
@@ -19,16 +31,18 @@
 }
 
 .eco-card {
-  background: #ffffff;
+  background: var(--soil-neutral);
   border-radius: 12px;
   padding: 24px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 6px solid var(--cedar-green);
 }
 
 .eco-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  border-left-color: var(--thermal-accent);
 }
 
 .eco-card h3 {
@@ -36,11 +50,12 @@
   font-size: 1.3rem;
   margin-bottom: 12px;
   font-weight: 600;
+  color: var(--shadow-slate);
 }
 
 .eco-card p {
   margin: 0;
   line-height: 1.55;
   font-size: 1rem;
-  color: #333;
+  color: var(--shadow-slate);
 }
