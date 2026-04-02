@@ -7,7 +7,7 @@ const CONFIG = {
   refreshMs:  60_000,
   // Vote endpoint — set to your NAS IP/port (or Cloudflare Tunnel URL).
   // Leave empty to store votes in localStorage only (LAN or local testing).
-  voteEndpoint: '',
+  voteEndpoint: 'http://192.168.100.202:8765',
 };
 
 // ── Label display metadata ───────────────────────────────────────────────────
