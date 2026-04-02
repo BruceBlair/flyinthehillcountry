@@ -5,6 +5,9 @@ const CONFIG = {
   mediaBase:  './',
   streamUrl:  'http://192.168.100.202:8888/trackmix_wide/index.m3u8',
   refreshMs:  60_000,
+  // Vote endpoint — set to your NAS IP/port (or Cloudflare Tunnel URL).
+  // Leave empty to store votes in localStorage only (LAN or local testing).
+  voteEndpoint: '',
 };
 
 // ── Label display metadata ───────────────────────────────────────────────────
@@ -83,6 +86,38 @@ function badgeFor(cat) {
   if (cat.includes('sunrise'))      return { text: 'Sunrise',  cls: 'b-golden'   };
   if (cat.includes('sunset'))       return { text: 'Sunset',   cls: 'b-golden'   };
   return { text: cat, cls: '' };
+}
+
+// ── Voting ────────────────────────────────────────────────────────────────────
+const VOTE_KEY = 'gtn_votes_v1';  // localStorage key
+
+function getLocalVotes() {
+  try { return JSON.parse(localStorage.getItem(VOTE_KEY) || '{}'); }
+  catch { return {}; }
+}
+
+function setLocalVote(snapshot, direction) {
+  const v = getLocalVotes();
+  v[snapshot] = direction;
+  localStorage.setItem(VOTE_KEY, JSON.stringify(v));
+}
+
+function hasVoted(snapshot) {
+  return getLocalVotes()[snapshot] ?? null;  // 'up' | 'down' | null
+}
+
+async function submitVote(snapshot, vote) {
+  setLocalVote(snapshot, vote);
+  if (!CONFIG.voteEndpoint || !snapshot) return;
+  try {
+    await fetch(`${CONFIG.voteEndpoint}/vote`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ snapshot, vote }),
+    });
+  } catch (e) {
+    console.warn('Vote POST failed (stored locally):', e.message);
+  }
 }
 
 // ── State ─────────────────────────────────────────────────────────────────────
@@ -305,17 +340,46 @@ function showLbEntry() {
   $lbImg.src = e.snapshot ? CONFIG.mediaBase + e.snapshot : '';
   $lbImg.alt = name;
 
-  const clipUrl = e.clip ? CONFIG.mediaBase + e.clip : null;
+  const clipUrl   = e.clip ? CONFIG.mediaBase + e.clip : null;
+  const snap      = e.snapshot ?? '';
+  const myVote    = hasVoted(snap);
+  const voteUp    = e.votes?.up   ?? 0;
+  const voteDown  = e.votes?.down ?? 0;
+  const scoreStr  = e.nice_shot != null ? ` · ★ ${e.nice_shot.toFixed(0)}` : '';
+
   $lbMeta.innerHTML = `
     <div class="lb-title">${icon} ${name}</div>
-    <div class="lb-time">${formatTs(e.timestamp)}</div>
+    <div class="lb-time">${formatTs(e.timestamp)}${scoreStr}</div>
     ${clipUrl ? `<button class="lb-play-btn" id="lb-play">▶ Play Clip</button>` : ''}
+    <div class="lb-votes">
+      <button class="vote-btn vote-up${myVote === 'up' ? ' voted' : ''}" data-dir="up" data-snap="${snap}">
+        👍 <span class="vote-n">${voteUp}</span>
+      </button>
+      <button class="vote-btn vote-down${myVote === 'down' ? ' voted' : ''}" data-dir="down" data-snap="${snap}">
+        👎 <span class="vote-n">${voteDown}</span>
+      </button>
+      ${myVote ? '<span class="vote-thanks">Thanks for voting!</span>' : ''}
+    </div>
   `;
+
   document.getElementById('lb-play')?.addEventListener('click', () => {
     $lbImg.classList.add('hidden');
     $lbVideo.classList.remove('hidden');
     $lbVideo.src = clipUrl;
     $lbVideo.play();
+  });
+
+  $lbMeta.querySelectorAll('.vote-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const dir  = btn.dataset.dir;
+      const sn   = btn.dataset.snap;
+      if (hasVoted(sn)) return;   // already voted
+      await submitVote(sn, dir);
+      // Optimistically update counts in the entry for the rest of the session
+      if (!e.votes) e.votes = { up: 0, down: 0 };
+      e.votes[dir] = (e.votes[dir] ?? 0) + 1;
+      showLbEntry();   // re-render to show updated state
+    });
   });
 }
 
