@@ -129,6 +129,8 @@ let sortMode          = 'score';   // 'score' | 'newest'
 let lbIndex           = 0;
 let streamOpen        = false;
 let hls               = null;
+let slideshowTimer    = null;
+let slideshowIndex    = 0;
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const $grid         = document.getElementById('media-grid');
@@ -139,10 +141,11 @@ const $lightbox     = document.getElementById('lightbox');
 const $lbImg        = document.getElementById('lb-img');
 const $lbVideo      = document.getElementById('lb-video');
 const $lbMeta       = document.getElementById('lb-meta');
-const $streamPanel  = document.getElementById('stream-panel');
-const $liveVideo    = document.getElementById('live-video');
-const $streamStatus = document.getElementById('stream-status');
-const $streamToggle = document.getElementById('stream-toggle');
+const $streamPanel    = document.getElementById('stream-panel');
+const $liveVideo      = document.getElementById('live-video');
+const $streamStatus   = document.getElementById('stream-status');
+const $streamToggle   = document.getElementById('stream-toggle');
+const $slideshowImg   = document.getElementById('slideshow-img');
 
 // ── Manifests ─────────────────────────────────────────────────────────────────
 async function loadManifest() {
@@ -400,6 +403,38 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') { lbIndex = (lbIndex + 1) % filteredEntries.length; showLbEntry(); }
 });
 
+// ── Top-photo slideshow ───────────────────────────────────────────────────────
+const SLIDE_MS = 5000;
+
+function startSlideshow() {
+  const pool = allEntries.filter(e => e.snapshot).slice(0, 30);
+  if (!pool.length) return;
+  $slideshowImg.classList.remove('hidden');
+
+  function showSlide() {
+    const entry = pool[slideshowIndex % pool.length];
+    $slideshowImg.classList.add('fade');
+    setTimeout(() => {
+      $slideshowImg.src = CONFIG.mediaBase + entry.snapshot;
+      $slideshowImg.classList.remove('fade');
+    }, 700);
+  }
+
+  showSlide();
+  slideshowTimer = setInterval(() => {
+    slideshowIndex = (slideshowIndex + 1) % pool.length;
+    showSlide();
+  }, SLIDE_MS);
+
+  $streamStatus.textContent = `✨ Top ${pool.length} shots`;
+}
+
+function stopSlideshow() {
+  if (slideshowTimer) { clearInterval(slideshowTimer); slideshowTimer = null; }
+  $slideshowImg.classList.add('hidden');
+  $slideshowImg.src = '';
+}
+
 // ── HLS live stream ───────────────────────────────────────────────────────────
 function startStream() {
   const url = CONFIG.streamUrl;
@@ -408,7 +443,7 @@ function startStream() {
   // letting the player hang with a cryptic network error.
   const isLan = /^https?:\/\/(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(url);
   if (isLan && !window.location.hostname.match(/^(localhost|127\.|192\.168\.|10\.|172\.)/)) {
-    $streamStatus.textContent = 'Live stream available on local network only';
+    startSlideshow();
     return;
   }
 
@@ -439,6 +474,7 @@ function startStream() {
 }
 
 function stopStream() {
+  stopSlideshow();
   if (hls) { hls.destroy(); hls = null; }
   $liveVideo.pause();
   $liveVideo.removeAttribute('src');
