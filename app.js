@@ -4,6 +4,7 @@ const CONFIG = {
   timelapseManifestUrl: './timelapse_manifest.json',
   mediaBase:  './',
   streamUrl:  'http://192.168.100.202:8888/trackmix_wide/index.m3u8',
+  slowmoUrl:  './last_hour_slowmo.mp4',   // generated hourly; shown to external visitors
   refreshMs:  60_000,
   // Vote endpoint — set to your NAS IP/port (or Cloudflare Tunnel URL).
   // Leave empty to store votes in localStorage only (LAN or local testing).
@@ -439,11 +440,11 @@ function stopSlideshow() {
 function startStream() {
   const url = CONFIG.streamUrl;
 
-  // If the stream URL is a private LAN address, warn immediately rather than
-  // letting the player hang with a cryptic network error.
+  // If the stream URL is a private LAN address, external visitors can't reach
+  // it — show the slow-motion last-hour reel instead (falls back to slideshow).
   const isLan = /^https?:\/\/(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(url);
   if (isLan && !window.location.hostname.match(/^(localhost|127\.|192\.168\.|10\.|172\.)/)) {
-    startSlideshow();
+    startSlowmoReel();
     return;
   }
 
@@ -473,11 +474,35 @@ function startStream() {
   }
 }
 
+// ── Slow-motion highlight reel (last hour, for external visitors) ─────────────
+function startSlowmoReel() {
+  if (!CONFIG.slowmoUrl) { startSlideshow(); return; }
+
+  // Probe whether the file exists before committing the video element to it.
+  fetch(CONFIG.slowmoUrl + '?_=' + Date.now(), { method: 'HEAD' })
+    .then(r => {
+      if (!r.ok) throw new Error('not found');
+      $slideshowImg.classList.add('hidden');
+      $liveVideo.classList.remove('hidden');
+      $liveVideo.src = CONFIG.slowmoUrl;
+      $liveVideo.loop = true;
+      $liveVideo.play().catch(() => {});
+      $streamStatus.textContent = '↩ Last Hour · Slow Motion';
+      $streamStatus.classList.add('ok');
+    })
+    .catch(() => {
+      // Reel not generated yet — fall back to the photo slideshow.
+      startSlideshow();
+    });
+}
+
 function stopStream() {
   stopSlideshow();
   if (hls) { hls.destroy(); hls = null; }
   $liveVideo.pause();
   $liveVideo.removeAttribute('src');
+  $liveVideo.loop = false;
+  $liveVideo.classList.add('hidden');
   $streamStatus.textContent = 'Paused';
   $streamStatus.classList.remove('ok');
 }
