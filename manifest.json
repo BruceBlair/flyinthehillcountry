@@ -924,7 +924,11 @@
       "snapshot": "weather/20260319_090720_scene_camera_raw.jpg",
       "clip": null,
       "source": "backfill_scene",
-      "nice_shot": 30.0
+      "nice_shot": 30.0,
+      "votes": {
+        "up": 2,
+        "down": 0
+      }
     },
     {
       "timestamp": "20260317_104642",
@@ -1215,5 +1219,5 @@
       "nice_shot": 3.7
     }
   ],
-  "updated": "2026-04-05T11:00:04.334722"
+  "updated": "2026-04-05T12:00:03.390652"
 }
