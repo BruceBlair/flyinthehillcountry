@@ -997,6 +997,42 @@
       "nice_shot": 46.3
     },
     {
+      "timestamp": "20260409_065826",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260409_065826_scene.jpg",
+      "clip": null,
+      "nice_shot": 44.2
+    },
+    {
+      "timestamp": "20260409_065425",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260409_065425_scene.jpg",
+      "clip": null,
+      "nice_shot": 44.0
+    },
+    {
+      "timestamp": "20260409_064025",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260409_064025_scene.jpg",
+      "clip": null,
+      "nice_shot": 43.9
+    },
+    {
       "timestamp": "20260326_091539",
       "label": "scene",
       "score": null,
@@ -1471,5 +1507,5 @@
       "nice_shot": 3.7
     }
   ],
-  "updated": "2026-04-09T06:00:02.436173"
+  "updated": "2026-04-09T07:00:02.921543"
 }
