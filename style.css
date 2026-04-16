@@ -71,6 +71,21 @@ header {
 .btn-live:hover    { background: rgba(231,76,60,.12); }
 .btn-live.active   { background: var(--live-red); color: #fff; }
 
+.btn-pano {
+  display: flex; align-items: center; gap: 6px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--muted);
+  padding: 7px 16px;
+  border-radius: 99px;
+  text-decoration: none;
+  font-size: 0.8rem; font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: border-color .2s, color .2s;
+  white-space: nowrap;
+}
+.btn-pano:hover { border-color: var(--accent); color: var(--accent); }
+
 .live-dot {
   width: 8px; height: 8px;
   border-radius: 50%;

@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Night Watch — Ground Truth Network</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Night header tint ───────────────────────────────────────────────── */
+    :root {
+      --star-blue:   #4a9edd;
+      --star-purple: #7c5cbf;
+      --star-gold:   #f5d76e;
+    }
+
+    /* ── Tonight's sky panel ─────────────────────────────────────────────── */
+    .sky-panel {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: start;
+      gap: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 680px) {
+      .sky-panel { grid-template-columns: 1fr; gap: 16px; }
+    }
+
+    /* Moon */
+    .moon-block {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      min-width: 90px;
+    }
+    .moon-glyph {
+      font-size: 3.6rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 8px rgba(255,230,130,.35));
+    }
+    .moon-name {
+      font-size: 0.72rem; font-weight: 700; color: var(--star-gold);
+      text-align: center; letter-spacing: .04em; white-space: nowrap;
+    }
+    .moon-illum {
+      font-size: 0.65rem; color: var(--muted); text-align: center;
+    }
+
+    /* Center column */
+    .sky-center { min-width: 0; }
+    .sky-center h2 {
+      font-size: 0.7rem; font-weight: 700; color: var(--muted);
+      letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    /* Targets list */
+    .targets-list {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .target-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 4px 11px;
+      font-size: 0.72rem; color: var(--text);
+    }
+    .target-chip .alt {
+      font-size: 0.62rem; color: var(--muted); margin-left: 2px;
+    }
+
+    .sky-stale {
+      font-size: 0.7rem; color: var(--muted); font-style: italic;
+      margin-top: 8px;
+    }
+
+    /* Showers column */
+    .shower-block { min-width: 140px; }
+    .shower-block h2 {
+      font-size: 0.7rem; font-weight: 700; color: var(--muted);
+      letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .shower-active {
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .shower-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(124,92,191,.22);
+      border: 1px solid rgba(124,92,191,.45);
+      border-radius: 99px;
+      padding: 4px 12px;
+      font-size: 0.72rem; font-weight: 600; color: #c0a8ff;
+      white-space: nowrap;
+    }
+    .shower-pill .pulse {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #a080ff;
+      animation: blink 1.4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .shower-next {
+      font-size: 0.68rem; color: var(--muted); margin-top: 4px;
+    }
+    .shower-none {
+      font-size: 0.72rem; color: var(--muted); font-style: italic;
+    }
+
+    /* ── Meteor shower calendar ──────────────────────────────────────────── */
+    .calendar-section { margin-bottom: 28px; }
+    .calendar-section h3 {
+      font-size: 0.72rem; font-weight: 700; color: var(--muted);
+      letter-spacing: .08em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .shower-calendar {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .cal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 8px 14px;
+      min-width: 130px;
+      flex: 1;
+      transition: border-color .15s;
+    }
+    .cal-card.active {
+      border-color: var(--star-purple);
+      background: rgba(124,92,191,.10);
+    }
+    .cal-name { font-size: 0.78rem; font-weight: 600; margin-bottom: 2px; }
+    .cal-peak { font-size: 0.68rem; color: var(--muted); }
+    .cal-zhr  {
+      font-size: 0.62rem; font-weight: 700;
+      color: var(--star-gold);
+      margin-top: 3px;
+    }
+    .cal-active-badge {
+      font-size: 0.58rem; font-weight: 800; letter-spacing: .04em;
+      text-transform: uppercase;
+      background: var(--star-purple); color: #fff;
+      padding: 1px 6px; border-radius: 3px;
+      margin-left: 5px; vertical-align: middle;
+    }
+
+    /* ── Star capture grid ───────────────────────────────────────────────── */
+    .star-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+    }
+
+    .star-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden; cursor: pointer; position: relative;
+      transition: transform .14s, box-shadow .14s, border-color .14s;
+    }
+    .star-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(0,0,0,.7);
+      border-color: var(--star-blue);
+    }
+    .star-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      object-fit: cover; display: block;
+      background: #030508;
+    }
+    .star-thumb-ph {
+      width: 100%; aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; background: #030508;
+    }
+    .star-card-body { padding: 8px 11px 10px; }
+    .star-target {
+      font-size: 0.82rem; font-weight: 700;
+      color: var(--star-blue); margin-bottom: 1px;
+    }
+    .star-time { font-size: 0.68rem; color: var(--muted); }
+    .star-score-pill {
+      position: absolute; bottom: 40px; right: 7px;
+      background: rgba(0,0,0,.75); color: var(--star-gold);
+      font-size: 0.62rem; font-weight: 800;
+      padding: 2px 7px; border-radius: 4px;
+    }
+    .star-preset-badge {
+      position: absolute; top: 7px; left: 7px;
+      background: rgba(0,0,0,.65); color: var(--muted);
+      font-size: 0.6rem; font-weight: 700;
+      padding: 2px 7px; border-radius: 4px; letter-spacing: .05em;
+    }
+
+    /* ── Target filter tabs ──────────────────────────────────────────────── */
+    .target-tabs {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding-bottom: 18px;
+    }
+
+    /* ── Lightbox (reuse main page style) ────────────────────────────────── */
+    .nw-lightbox {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.94);
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      padding: 60px 20px 20px;
+    }
+    .nw-lb-inner {
+      max-width: 1000px; width: 100%;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+    }
+    .nw-lb-img {
+      max-width: 100%; max-height: 72vh;
+      object-fit: contain; border-radius: var(--radius);
+      border: 1px solid rgba(74,158,221,.2);
+    }
+    .nw-lb-meta { text-align: center; }
+    .nw-lb-title {
+      font-size: 1.05rem; font-weight: 700; color: var(--star-blue);
+      margin-bottom: 3px;
+    }
+    .nw-lb-time { font-size: 0.78rem; color: var(--muted); }
+
+    .nw-lb-close {
+      position: fixed; top: 14px; right: 14px;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 210; transition: background .15s;
+    }
+    .nw-lb-close:hover { background: rgba(255,255,255,.18); }
+    .nw-lb-controls {
+      position: fixed; inset: 0; pointer-events: none;
+      z-index: 205; display: flex;
+      align-items: center; justify-content: space-between; padding: 0 10px;
+    }
+    .nw-lb-btn {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff; font-size: 1.6rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; pointer-events: all; transition: background .15s;
+    }
+    .nw-lb-btn:hover { background: rgba(255,255,255,.18); }
+
+    /* ── Target icon map ─────────────────────────────────────────────────── */
+    /* used by JS */
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="site-title">
+        <div class="site-icon">◉</div>
+        <div>
+          <h1>Ground Truth Network</h1>
+          <p>Wimberley, Texas · Wildlife &amp; Weather</p>
+        </div>
+      </div>
+      <a href="index.html" class="back-link">&#8592; Gallery</a>
+    </div>
+  </header>
+
+  <main>
+    <div style="max-width:1400px;margin:0 auto;padding:20px 20px 0">
+
+      <!-- Tonight's Sky panel (populated from tonight_sky.json + client-side fallback) -->
+      <div id="sky-panel" class="sky-panel">
+        <div class="moon-block">
+          <div id="moon-glyph" class="moon-glyph">🌙</div>
+          <div id="moon-name"  class="moon-name">Loading…</div>
+          <div id="moon-illum" class="moon-illum"></div>
+        </div>
+        <div class="sky-center">
+          <h2>Visible Tonight</h2>
+          <div id="targets-list" class="targets-list">
+            <span style="font-size:.75rem;color:var(--muted)">—</span>
+          </div>
+          <div id="sky-stale" class="sky-stale hidden"></div>
+        </div>
+        <div class="shower-block">
+          <h2>Meteor Showers</h2>
+          <div id="shower-active" class="shower-active">
+            <span class="shower-none">—</span>
+          </div>
+          <div id="shower-next" class="shower-next"></div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div id="stats-bar" class="stats-bar" style="margin-bottom:18px"></div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;padding-bottom:18px;align-items:center">
+          <nav id="target-tabs" class="target-tabs" style="padding-bottom:0"></nav>
+        </div>
+        <div class="sort-controls">
+          <button class="sort-btn active" data-sort="score">★ Best Shot</button>
+          <button class="sort-btn" data-sort="newest">🕐 Newest</button>
+        </div>
+      </div>
+
+      <!-- Capture grid -->
+      <div id="star-grid" class="star-grid">
+        <div class="loading"></div>
+      </div>
+
+      <!-- Meteor shower calendar -->
+      <div class="calendar-section" style="margin-top:32px">
+        <h3>Annual Meteor Shower Calendar</h3>
+        <div id="shower-calendar" class="shower-calendar"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="nw-lb" class="nw-lightbox hidden">
+    <button id="nw-lb-close" class="nw-lb-close">✕</button>
+    <div class="nw-lb-inner">
+      <img id="nw-lb-img" class="nw-lb-img" src="" alt="">
+      <div class="nw-lb-meta">
+        <div id="nw-lb-title" class="nw-lb-title"></div>
+        <div id="nw-lb-time"  class="nw-lb-time"></div>
+      </div>
+    </div>
+    <div class="nw-lb-controls">
+      <button id="nw-lb-prev" class="nw-lb-btn">&#8249;</button>
+      <button id="nw-lb-next" class="nw-lb-btn nw-lb-btn-right">&#8250;</button>
+    </div>
+  </div>
+
+  <script>
+  // ── Config ────────────────────────────────────────────────────────────────
+  const STARS_MANIFEST_URL  = './stars_manifest.json';
+  const TONIGHT_SKY_URL     = './tonight_sky.json';
+  const MEDIA_BASE          = './';
+  const REFRESH_MS          = 120_000;
+
+  // ── Meteor shower calendar (matches patrol.py) ────────────────────────────
+  const SHOWERS = [
+    { name:'Quadrantids',   month:1,  day:3,  window:2,  zhr:120 },
+    { name:'Lyrids',        month:4,  day:22, window:3,  zhr:20  },
+    { name:'Eta Aquariids', month:5,  day:6,  window:5,  zhr:60  },
+    { name:'Delta Aquariids',month:7, day:30, window:5,  zhr:20  },
+    { name:'Perseids',      month:8,  day:12, window:5,  zhr:100 },
+    { name:'Draconids',     month:10, day:8,  window:2,  zhr:10  },
+    { name:'Orionids',      month:10, day:21, window:5,  zhr:25  },
+    { name:'Taurids',       month:11, day:4,  window:7,  zhr:10  },
+    { name:'Leonids',       month:11, day:17, window:3,  zhr:15  },
+    { name:'Geminids',      month:12, day:14, window:3,  zhr:120 },
+    { name:'Ursids',        month:12, day:22, window:2,  zhr:10  },
+  ];
+
+  // ── Target icons ──────────────────────────────────────────────────────────
+  const TARGET_ICONS = {
+    'Moon':             '🌕',
+    'Venus':            '✨',
+    'Mars':             '🔴',
+    'Jupiter':          '🟠',
+    'Saturn':           '🪐',
+    'Sirius':           '⭐',
+    'Vega':             '💫',
+    'Arcturus':         '🌟',
+    'Orion Nebula':     '🌌',
+    'Pleiades':         '✨',
+    'Milky Way Center': '🌌',
+    'Betelgeuse':       '⭐',
+    'Altair':           '⭐',
+    'Deneb':            '⭐',
+    'Capella':          '⭐',
+  };
+
+  function targetIcon(name) {
+    return TARGET_ICONS[name] ?? (name.toLowerCase().includes('meteor') ? '☄️' : '⭐');
+  }
+
+  // ── Timestamp helpers ─────────────────────────────────────────────────────
+  function parseTs(ts) {
+    const m = ts.match(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})/);
+    if (!m) return new Date(0);
+    return new Date(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +m[6]);
+  }
+  function formatTs(ts) {
+    return parseTs(ts).toLocaleString('en-US', {
+      month:'short', day:'numeric', year:'numeric',
+      hour:'numeric', minute:'2-digit', hour12:true,
+    });
+  }
+  function timeAgo(ts) {
+    const m = Math.floor((Date.now() - parseTs(ts)) / 60000);
+    if (m <  1) return 'just now';
+    if (m < 60) return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h ago`;
+    return `${Math.floor(h/24)}d ago`;
+  }
+
+  // ── Moon phase (client-side fallback) ─────────────────────────────────────
+  // Known new moon: 2000-01-06 18:14 UTC
+  const KNOWN_NEW_MOON = new Date(Date.UTC(2000, 0, 6, 18, 14, 0));
+  const LUNAR_CYCLE    = 29.53058867;
+
+  function moonPhaseDays(date) {
+    const diff = (date - KNOWN_NEW_MOON) / (1000 * 60 * 60 * 24);
+    return ((diff % LUNAR_CYCLE) + LUNAR_CYCLE) % LUNAR_CYCLE;
+  }
+
+  function moonInfo(date) {
+    const days       = moonPhaseDays(date);
+    const tomorrow   = moonPhaseDays(new Date(date.getTime() + 86400000));
+    const waxing     = tomorrow > days || (days > 27 && tomorrow < 2);
+    const illum      = Math.round(50 * (1 - Math.cos(2 * Math.PI * days / LUNAR_CYCLE)));
+    let glyph, name;
+    if (illum < 4)       { glyph = '🌑'; name = 'New Moon'; }
+    else if (illum < 45) { glyph = waxing ? '🌒' : '🌘'; name = waxing ? 'Waxing Crescent' : 'Waning Crescent'; }
+    else if (illum < 55) { glyph = waxing ? '🌓' : '🌗'; name = waxing ? 'First Quarter'   : 'Last Quarter';   }
+    else if (illum < 96) { glyph = waxing ? '🌔' : '🌖'; name = waxing ? 'Waxing Gibbous'  : 'Waning Gibbous'; }
+    else                 { glyph = '🌕'; name = 'Full Moon'; }
+
+    const daysToFull = waxing ? LUNAR_CYCLE/2 - days : LUNAR_CYCLE - days + LUNAR_CYCLE/2;
+    const daysToNew  = LUNAR_CYCLE - days;
+    return { glyph, name, illum, daysToFull: Math.ceil(daysToFull % LUNAR_CYCLE),
+             daysToNew: Math.ceil(daysToNew) };
+  }
+
+  function activeShowers(date) {
+    const active = [], upcoming = [];
+    for (const s of SHOWERS) {
+      const peak    = new Date(date.getFullYear(), s.month - 1, s.day);
+      const diffDays = (date - peak) / 86400000;
+      if (Math.abs(diffDays) <= s.window) {
+        active.push({ ...s, daysFromPeak: Math.round(diffDays) });
+      } else {
+        let futurePeak = new Date(date.getFullYear(), s.month - 1, s.day);
+        if (futurePeak < date) futurePeak = new Date(date.getFullYear()+1, s.month-1, s.day);
+        const daysAway = Math.ceil((futurePeak - date) / 86400000);
+        upcoming.push({ ...s, daysAway, peakDate: futurePeak });
+      }
+    }
+    upcoming.sort((a,b) => a.daysAway - b.daysAway);
+    return { active, next: upcoming[0] ?? null };
+  }
+
+  // ── Render tonight's sky panel ────────────────────────────────────────────
+  function renderSkyPanel(data, fromServer) {
+    const now    = new Date();
+    const moon   = fromServer ? data.moon  : moonInfo(now);
+    const showers = fromServer ? null : activeShowers(now);
+
+    // Moon
+    const glyph = fromServer ? moonGlyphFromServer(data.moon) : moon.glyph;
+    document.getElementById('moon-glyph').textContent = glyph;
+    document.getElementById('moon-name').textContent  =
+      fromServer ? data.moon.phase_name : moon.name;
+    document.getElementById('moon-illum').textContent =
+      fromServer
+        ? `${data.moon.illumination_pct}% illuminated`
+        : `${moon.illum}% illuminated`;
+
+    // Visible targets
+    const $tl = document.getElementById('targets-list');
+    const targets = fromServer ? (data.targets_tonight ?? []) : [];
+    if (targets.length) {
+      $tl.innerHTML = targets.map(t =>
+        `<span class="target-chip">
+          ${targetIcon(t.label)} ${t.label}
+          <span class="alt">${t.alt_deg}°</span>
+        </span>`
+      ).join('');
+    } else if (!fromServer) {
+      $tl.innerHTML = `<span style="font-size:.73rem;color:var(--muted)">
+        Patrol data updates each night when the sweep runs.</span>`;
+    }
+
+    // Staleness warning
+    if (fromServer && data.generated) {
+      const age = (now - new Date(data.generated)) / 3600000;
+      if (age > 14) {
+        const $stale = document.getElementById('sky-stale');
+        $stale.textContent = `Data from ${Math.round(age)}h ago — updates each night.`;
+        $stale.classList.remove('hidden');
+      }
+    }
+
+    // Active showers
+    const $sa = document.getElementById('shower-active');
+    const $sn = document.getElementById('shower-next');
+    const activeSh = fromServer
+      ? (data.active_showers ?? [])
+      : (showers?.active ?? []);
+    const nextSh   = fromServer ? data.next_shower : showers?.next;
+
+    if (activeSh.length) {
+      $sa.innerHTML = activeSh.map(s =>
+        `<span class="shower-pill">
+          <span class="pulse"></span>
+          ${s.name}${s.days_to_peak === 0 ? ' · Peak tonight!' :
+            s.days_to_peak > 0 ? ` · peak in ${s.days_to_peak}d` :
+            ` · peaked ${Math.abs(s.days_to_peak ?? s.daysFromPeak)}d ago`}
+        </span>`
+      ).join('');
+    } else {
+      $sa.innerHTML = '<span class="shower-none">None active</span>';
+    }
+
+    if (nextSh) {
+      const daysAway = nextSh.days_away ?? nextSh.daysAway;
+      $sn.textContent = `Next: ${nextSh.name} — ${nextSh.peak} (${daysAway}d)`;
+    }
+  }
+
+  function moonGlyphFromServer(moonData) {
+    const i = moonData.illumination_pct;
+    const w = moonData.waxing;
+    if (i < 4)       return '🌑';
+    if (i < 45)      return w ? '🌒' : '🌘';
+    if (i < 55)      return w ? '🌓' : '🌗';
+    if (i < 96)      return w ? '🌔' : '🌖';
+    return '🌕';
+  }
+
+  // ── Meteor shower calendar ────────────────────────────────────────────────
+  function renderCalendar() {
+    const now    = new Date();
+    const { active } = activeShowers(now);
+    const activeNames = new Set(active.map(s => s.name));
+    document.getElementById('shower-calendar').innerHTML = SHOWERS.map(s => {
+      const isActive = activeNames.has(s.name);
+      const peak = new Date(now.getFullYear(), s.month-1, s.day);
+      const peakStr = peak.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+      return `<div class="cal-card${isActive ? ' active' : ''}">
+        <div class="cal-name">
+          ${s.name}
+          ${isActive ? '<span class="cal-active-badge">Active</span>' : ''}
+        </div>
+        <div class="cal-peak">Peak: ${peakStr}</div>
+        <div class="cal-zhr">ZHR ~${s.zhr}/hr</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Gallery state ─────────────────────────────────────────────────────────
+  let allEntries    = [];
+  let filtered      = [];
+  let sorted        = [];
+  let sortMode      = 'score';
+  let activeTarget  = 'all';
+  let lbIndex       = 0;
+
+  function allTargets() {
+    const s = new Set(['all']);
+    allEntries.forEach(e => { if (e.target) s.add(e.target); });
+    return [...s];
+  }
+
+  function matchesFilter(e) {
+    return activeTarget === 'all' || e.target === activeTarget;
+  }
+
+  // ── Load & render ─────────────────────────────────────────────────────────
+  async function loadManifest() {
+    try {
+      const r = await fetch(STARS_MANIFEST_URL + '?_=' + Date.now());
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const d = await r.json();
+      allEntries = d.entries ?? [];
+      renderStats();
+      renderTabs();
+      renderGrid();
+    } catch (_) {
+      document.getElementById('star-grid').innerHTML =
+        `<div class="empty">No night sky captures yet. The patrol runs automatically after dark.</div>`;
+    }
+  }
+
+  async function loadTonightSky() {
+    try {
+      const r = await fetch(TONIGHT_SKY_URL + '?_=' + Date.now());
+      if (!r.ok) throw new Error();
+      renderSkyPanel(await r.json(), true);
+    } catch (_) {
+      // Fall back to client-side calculations
+      renderSkyPanel(null, false);
+    }
+  }
+
+  function renderStats() {
+    const targets = new Set(allEntries.map(e => e.target).filter(Boolean));
+    const scores  = allEntries.map(e => e.nice_shot ?? 0).filter(s => s > 0);
+    const best    = scores.length ? Math.max(...scores).toFixed(0) : '—';
+    document.getElementById('stats-bar').innerHTML = [
+      { icon:'⭐', label:'Captures', n: allEntries.length },
+      { icon:'🎯', label:'Targets',  n: targets.size      },
+      { icon:'★',  label:'Best',     n: best              },
+    ].map(s =>
+      `<div class="stat-badge">${s.icon} ${s.label} <span class="n">${s.n}</span></div>`
+    ).join('');
+  }
+
+  function renderTabs() {
+    const targets = allTargets();
+    const counts  = {};
+    for (const e of allEntries) {
+      const k = e.target ?? 'Unknown';
+      counts[k] = (counts[k] ?? 0) + 1;
+    }
+    document.getElementById('target-tabs').innerHTML = targets.map(t => {
+      const n    = t === 'all' ? allEntries.length : (counts[t] ?? 0);
+      const icon = t === 'all' ? '🌌' : targetIcon(t);
+      return `<button class="tab${t === activeTarget ? ' active' : ''}" data-target="${t}">
+        ${icon} ${t === 'all' ? 'All' : t}<span class="tab-n">${n}</span>
+      </button>`;
+    }).join('');
+    document.getElementById('target-tabs').querySelectorAll('.tab').forEach(btn =>
+      btn.addEventListener('click', () => {
+        activeTarget = btn.dataset.target;
+        renderTabs();
+        renderGrid();
+      })
+    );
+  }
+
+  function renderGrid() {
+    filtered = allEntries.filter(matchesFilter);
+    if (sortMode === 'score') {
+      sorted = [...filtered].sort((a,b) => (b.nice_shot??-1) - (a.nice_shot??-1));
+    } else {
+      sorted = [...filtered].sort((a,b) => (b.timestamp??'').localeCompare(a.timestamp??''));
+    }
+
+    const $grid = document.getElementById('star-grid');
+    if (!sorted.length) {
+      $grid.innerHTML = '<div class="empty">No captures in this category yet.</div>';
+      return;
+    }
+
+    $grid.innerHTML = sorted.map((e, i) => {
+      const icon  = targetIcon(e.target ?? '');
+      const snap  = e.snapshot ? MEDIA_BASE + e.snapshot : null;
+      const score = e.nice_shot != null
+        ? `<div class="star-score-pill">★ ${e.nice_shot.toFixed(0)}</div>` : '';
+      const preset = e.preset
+        ? `<div class="star-preset-badge">${e.preset}</div>` : '';
+      const thumb = snap
+        ? `<img class="star-thumb" src="${snap}" alt="${e.target ?? ''}" loading="lazy">`
+        : `<div class="star-thumb-ph">${icon}</div>`;
+      return `<div class="star-card" data-i="${i}">
+        ${thumb}
+        ${preset}${score}
+        <div class="star-card-body">
+          <div class="star-target">${icon} ${e.target ?? 'Unknown'}</div>
+          <div class="star-time">${timeAgo(e.timestamp)} · ${formatTs(e.timestamp)}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    $grid.querySelectorAll('.star-card').forEach(card =>
+      card.addEventListener('click', () => openLightbox(+card.dataset.i))
+    );
+  }
+
+  // ── Sort controls ─────────────────────────────────────────────────────────
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sortMode = btn.dataset.sort;
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGrid();
+    });
+  });
+
+  // ── Lightbox ──────────────────────────────────────────────────────────────
+  const $lb  = document.getElementById('nw-lb');
+  function openLightbox(i) {
+    lbIndex = i;
+    showLb();
+    $lb.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    $lb.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+  function showLb() {
+    const e = sorted[lbIndex];
+    if (!e) return;
+    const icon = targetIcon(e.target ?? '');
+    document.getElementById('nw-lb-img').src =
+      e.snapshot ? MEDIA_BASE + e.snapshot : '';
+    document.getElementById('nw-lb-title').textContent =
+      `${icon} ${e.target ?? 'Unknown'}`;
+    const score = e.nice_shot != null ? ` · ★ ${e.nice_shot.toFixed(0)}` : '';
+    const preset = e.preset ? ` · ${e.preset}` : '';
+    document.getElementById('nw-lb-time').textContent =
+      formatTs(e.timestamp) + score + preset;
+  }
+  document.getElementById('nw-lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('nw-lb-prev').addEventListener('click', () => {
+    lbIndex = (lbIndex - 1 + sorted.length) % sorted.length; showLb();
+  });
+  document.getElementById('nw-lb-next').addEventListener('click', () => {
+    lbIndex = (lbIndex + 1) % sorted.length; showLb();
+  });
+  $lb.addEventListener('click', e => { if (e.target === $lb) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if ($lb.classList.contains('hidden')) return;
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowLeft')  { lbIndex = (lbIndex-1+sorted.length)%sorted.length; showLb(); }
+    if (e.key === 'ArrowRight') { lbIndex = (lbIndex+1)%sorted.length; showLb(); }
+  });
+
+  // ── Boot ──────────────────────────────────────────────────────────────────
+  renderCalendar();
+  loadTonightSky();
+  loadManifest();
+  setInterval(() => { loadTonightSky(); loadManifest(); }, REFRESH_MS);
+  </script>
+
+</body>
+</html>

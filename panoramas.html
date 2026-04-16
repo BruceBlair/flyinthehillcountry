@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panoramas — Ground Truth Network</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ── Panorama card grid ──────────────────────────────────────────────── */
+    .pano-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 14px;
+    }
+
+    .pano-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: transform .14s, box-shadow .14s, border-color .14s;
+    }
+    .pano-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+      border-color: var(--accent);
+    }
+
+    .pano-thumb-wrap {
+      width: 100%;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: var(--surface);
+      position: relative;
+    }
+    .pano-thumb {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .pano-thumb-ph {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem; color: var(--muted);
+    }
+    .pano-wide-badge {
+      position: absolute; bottom: 7px; left: 8px;
+      background: rgba(0,0,0,.72);
+      color: var(--muted);
+      font-size: 0.62rem; font-weight: 700;
+      padding: 3px 8px; border-radius: 4px;
+      backdrop-filter: blur(4px);
+      letter-spacing: .03em;
+    }
+    .pano-score-pill {
+      position: absolute; bottom: 7px; right: 8px;
+      background: rgba(0,0,0,.72);
+      color: var(--accent);
+      font-size: 0.65rem; font-weight: 800;
+      padding: 3px 8px; border-radius: 4px;
+      backdrop-filter: blur(4px);
+    }
+    .pano-card-body {
+      padding: 9px 12px 11px;
+    }
+    .pano-card-title {
+      font-size: 0.82rem; font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .pano-card-time { font-size: 0.7rem; color: var(--muted); }
+
+    .pano-pan-hint {
+      position: absolute; top: 8px; right: 8px;
+      background: rgba(0,0,0,.55);
+      color: rgba(255,255,255,.6);
+      font-size: 0.6rem; padding: 3px 7px; border-radius: 4px;
+      backdrop-filter: blur(4px); pointer-events: none;
+    }
+
+    /* ── Weather timelapse banner (remote viewers) ───────────────────────── */
+    .tl-banner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .tl-banner-label {
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--muted); letter-spacing: .05em;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .tl-banner-video {
+      flex: 1; border-radius: 6px;
+      max-height: 220px; background: #000;
+      display: block; width: 100%;
+    }
+    @media (max-width: 640px) {
+      .tl-banner { flex-direction: column; }
+    }
+
+    /* ── Panorama viewer (fullscreen lightbox) ───────────────────────────── */
+    .pv-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.97);
+      z-index: 200;
+      display: flex; flex-direction: column;
+    }
+
+    .pv-topbar {
+      display: flex; align-items: center;
+      padding: 10px 14px;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .pv-close {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .15s; flex-shrink: 0;
+    }
+    .pv-close:hover { background: rgba(255,255,255,.18); }
+    .pv-info {
+      flex: 1; overflow: hidden;
+    }
+    .pv-title { font-size: 0.85rem; font-weight: 600; }
+    .pv-subtitle { font-size: 0.72rem; color: var(--muted); margin-top: 1px; }
+    .pv-nav {
+      display: flex; gap: 6px; flex-shrink: 0;
+    }
+    .pv-nav-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      color: #fff; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .15s;
+    }
+    .pv-nav-btn:hover { background: rgba(255,255,255,.18); }
+
+    .pv-strip-wrap {
+      flex: 1;
+      overflow-x: auto;
+      overflow-y: hidden;
+      cursor: grab;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .pv-strip-wrap.grabbing { cursor: grabbing; }
+    .pv-strip-wrap::-webkit-scrollbar { height: 5px; }
+    .pv-strip-wrap::-webkit-scrollbar-track { background: rgba(255,255,255,.04); }
+    .pv-strip-wrap::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,.18); border-radius: 99px;
+    }
+
+    .pv-img {
+      display: block;
+      height: calc(100vh - 100px);
+      max-height: 85vh;
+      width: auto;
+      flex-shrink: 0;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .pv-drag-hint {
+      position: absolute; bottom: 16px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.6); color: rgba(255,255,255,.5);
+      font-size: 0.7rem; padding: 5px 14px; border-radius: 99px;
+      pointer-events: none;
+      transition: opacity 1s;
+    }
+    .pv-drag-hint.hidden { opacity: 0; }
+
+    /* ── Back link ───────────────────────────────────────────────────────── */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: var(--muted); font-size: 0.78rem; text-decoration: none;
+      transition: color .15s;
+    }
+    .back-link:hover { color: var(--text); }
+
+    /* ── Page header extras ──────────────────────────────────────────────── */
+    .page-eyebrow {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 10px;
+      padding: 12px 20px 0;
+      max-width: 1400px; margin: 0 auto;
+    }
+    .page-heading { font-size: 1.3rem; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="site-title">
+        <div class="site-icon">◉</div>
+        <div>
+          <h1>Ground Truth Network</h1>
+          <p>Wimberley, Texas · Wildlife &amp; Weather</p>
+        </div>
+      </div>
+      <a href="index.html" class="back-link">&#8592; Gallery</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-eyebrow">
+      <div class="page-heading">Panoramas</div>
+      <div id="stats-bar" class="stats-bar"></div>
+    </div>
+
+    <div style="max-width:1400px;margin:14px auto 0;padding:0 20px">
+
+      <!-- Weather timelapse (shown to remote viewers only) -->
+      <div id="tl-section" class="tl-banner hidden">
+        <div class="tl-banner-label">Last Weather Event</div>
+        <video id="tl-video" class="tl-banner-video"
+          controls autoplay muted loop playsinline></video>
+      </div>
+
+      <div class="toolbar" style="margin-top:12px">
+        <nav id="sort-row" class="sort-controls" style="padding-bottom:0;margin-bottom:16px">
+          <button class="sort-btn active" data-sort="score">✨ Best Shot</button>
+          <button class="sort-btn" data-sort="newest">🕐 Newest</button>
+        </nav>
+      </div>
+
+      <div id="pano-grid" class="pano-grid">
+        <div class="loading"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Panorama fullscreen viewer -->
+  <div id="pv" class="pv-overlay hidden">
+    <div class="pv-topbar">
+      <button id="pv-close" class="pv-close">✕</button>
+      <div class="pv-info">
+        <div id="pv-title"   class="pv-title"></div>
+        <div id="pv-subtitle" class="pv-subtitle"></div>
+      </div>
+      <div class="pv-nav">
+        <button id="pv-prev" class="pv-nav-btn">&#8249;</button>
+        <button id="pv-next" class="pv-nav-btn">&#8250;</button>
+      </div>
+    </div>
+    <div id="pv-strip" class="pv-strip-wrap">
+      <img id="pv-img" class="pv-img" src="" alt="panorama" draggable="false">
+      <div id="pv-hint" class="pv-drag-hint">drag to pan</div>
+    </div>
+  </div>
+
+  <script>
+  // ── Config ────────────────────────────────────────────────────────────────
+  const PANO_MANIFEST_URL = './pano_manifest.json';
+  const TL_MANIFEST_URL   = './weather_timelapse_manifest.json';
+  const MEDIA_BASE        = './';
+  const LAN_STREAM        = 'http://192.168.100.202:8888/trackmix_wide/index.m3u8';
+  const REFRESH_MS        = 120_000;
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  let allEntries     = [];
+  let sorted         = [];
+  let sortMode       = 'score';
+  let pvIndex        = 0;
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function parseTs(ts) {
+    const m = ts.match(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})(\d{2})/);
+    if (!m) return new Date(0);
+    return new Date(+m[1], +m[2]-1, +m[3], +m[4], +m[5], +m[6]);
+  }
+  function formatTs(ts) {
+    return parseTs(ts).toLocaleString('en-US', {
+      month:'short', day:'numeric', year:'numeric',
+      hour:'numeric', minute:'2-digit', hour12:true,
+    });
+  }
+  function timeAgo(ts) {
+    const m = Math.floor((Date.now() - parseTs(ts)) / 60000);
+    if (m <  1) return 'just now';
+    if (m < 60) return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h ago`;
+    return `${Math.floor(h/24)}d ago`;
+  }
+  function isExternal() {
+    return !window.location.hostname.match(/^(localhost|127\.|192\.168\.|10\.|172\.)/);
+  }
+
+  // ── Load manifests ────────────────────────────────────────────────────────
+  async function loadPanoManifest() {
+    try {
+      const r = await fetch(PANO_MANIFEST_URL + '?_=' + Date.now());
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const d = await r.json();
+      allEntries = d.entries ?? [];
+      renderStats();
+      renderGrid();
+    } catch (e) {
+      document.getElementById('pano-grid').innerHTML =
+        `<div class="empty">No panoramas yet — they build automatically when skies score ≥ 60.</div>`;
+    }
+  }
+
+  async function loadTlManifest() {
+    if (!isExternal()) return;
+    try {
+      const r = await fetch(TL_MANIFEST_URL + '?_=' + Date.now());
+      if (!r.ok) return;
+      const d = await r.json();
+      const latest = d.latest;
+      if (!latest?.video) return;
+      const vid = document.getElementById('tl-video');
+      vid.src = MEDIA_BASE + latest.video;
+      const section = document.getElementById('tl-section');
+      section.classList.remove('hidden');
+      const score = latest.score ? ` · ★ ${latest.score.toFixed(0)}` : '';
+      const frames = latest.frame_count ? ` · ${latest.frame_count} frames` : '';
+      section.querySelector('.tl-banner-label').textContent =
+        `Last Weather Event${score}${frames}`;
+    } catch (_) {}
+  }
+
+  // ── Render ────────────────────────────────────────────────────────────────
+  function renderStats() {
+    const scores = allEntries.map(e => e.score ?? 0).filter(s => s > 0);
+    const best   = scores.length ? Math.max(...scores).toFixed(0) : '—';
+    const oldest = allEntries.length
+      ? parseTs(allEntries[allEntries.length - 1].timestamp)
+      : null;
+    const since = oldest
+      ? oldest.toLocaleDateString('en-US', { month:'short', day:'numeric' })
+      : '—';
+    document.getElementById('stats-bar').innerHTML = [
+      { icon:'🌅', label:'Panoramas', n: allEntries.length },
+      { icon:'★',  label:'Best',      n: best              },
+      { icon:'📅', label:'Since',     n: since             },
+    ].map(s =>
+      `<div class="stat-badge">${s.icon} ${s.label} <span class="n">${s.n}</span></div>`
+    ).join('');
+  }
+
+  function applySortAndRender() {
+    if (sortMode === 'score') {
+      sorted = [...allEntries].sort((a,b) => (b.score??-1) - (a.score??-1));
+    } else {
+      sorted = [...allEntries].sort(
+        (a,b) => (b.timestamp??'').localeCompare(a.timestamp??'')
+      );
+    }
+    renderGrid();
+  }
+
+  function renderGrid() {
+    applySortAndRender2();
+  }
+
+  // (split so applySortAndRender can call without recursion)
+  function applySortAndRender2() {
+    if (sortMode === 'score') {
+      sorted = [...allEntries].sort((a,b) => (b.score??-1) - (a.score??-1));
+    } else {
+      sorted = [...allEntries].sort(
+        (a,b) => (b.timestamp??'').localeCompare(a.timestamp??'')
+      );
+    }
+
+    const grid = document.getElementById('pano-grid');
+    if (!sorted.length) {
+      grid.innerHTML = '<div class="empty">No panoramas yet.</div>';
+      return;
+    }
+
+    grid.innerHTML = sorted.map((e, i) => {
+      const thumb  = e.thumbnail ? MEDIA_BASE + e.thumbnail : null;
+      const score  = e.score != null ? `<div class="pano-score-pill">★ ${e.score.toFixed(0)}</div>` : '';
+      const dims   = e.width ? `<div class="pano-wide-badge">${e.width.toLocaleString()}px wide</div>` : '';
+      const img    = thumb
+        ? `<img class="pano-thumb" src="${thumb}" alt="panorama" loading="lazy">`
+        : `<div class="pano-thumb-ph">🌅</div>`;
+      return `<div class="pano-card" data-i="${i}">
+        <div class="pano-thumb-wrap">
+          ${img}
+          ${dims}
+          ${score}
+          <div class="pano-pan-hint">↔ pan</div>
+        </div>
+        <div class="pano-card-body">
+          <div class="pano-card-title">Panorama</div>
+          <div class="pano-card-time">${timeAgo(e.timestamp)} · ${formatTs(e.timestamp)}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    grid.querySelectorAll('.pano-card').forEach(card =>
+      card.addEventListener('click', () => openViewer(+card.dataset.i))
+    );
+  }
+
+  // ── Sort controls ─────────────────────────────────────────────────────────
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sortMode = btn.dataset.sort;
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applySortAndRender2();
+    });
+  });
+
+  // ── Panorama viewer ───────────────────────────────────────────────────────
+  const $pv    = document.getElementById('pv');
+  const $pvImg = document.getElementById('pv-img');
+  const $strip = document.getElementById('pv-strip');
+  const $hint  = document.getElementById('pv-hint');
+
+  function openViewer(index) {
+    pvIndex = index;
+    showPano();
+    $pv.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    // Fade out hint after 2.5s
+    setTimeout(() => $hint.classList.add('hidden'), 2500);
+  }
+
+  function closeViewer() {
+    $pv.classList.add('hidden');
+    document.body.style.overflow = '';
+    $hint.classList.remove('hidden');
+  }
+
+  function showPano() {
+    const e = sorted[pvIndex];
+    if (!e) return;
+    $pvImg.src = e.panorama ? MEDIA_BASE + e.panorama : '';
+    $strip.scrollLeft = 0;
+    const score = e.score != null ? ` · ★ ${e.score.toFixed(0)}` : '';
+    const dims  = e.width ? `  ${e.width.toLocaleString()} × ${e.height} px` : '';
+    document.getElementById('pv-title').textContent =
+      `Panorama ${pvIndex + 1} / ${sorted.length}${score}`;
+    document.getElementById('pv-subtitle').textContent =
+      formatTs(e.timestamp) + dims;
+  }
+
+  document.getElementById('pv-close').addEventListener('click', closeViewer);
+  document.getElementById('pv-prev').addEventListener('click', () => {
+    pvIndex = (pvIndex - 1 + sorted.length) % sorted.length;
+    showPano();
+  });
+  document.getElementById('pv-next').addEventListener('click', () => {
+    pvIndex = (pvIndex + 1) % sorted.length;
+    showPano();
+  });
+  $pv.addEventListener('click', e => { if (e.target === $pv) closeViewer(); });
+  document.addEventListener('keydown', e => {
+    if ($pv.classList.contains('hidden')) return;
+    if (e.key === 'Escape')     closeViewer();
+    if (e.key === 'ArrowLeft')  { pvIndex = (pvIndex - 1 + sorted.length) % sorted.length; showPano(); }
+    if (e.key === 'ArrowRight') { pvIndex = (pvIndex + 1) % sorted.length; showPano(); }
+  });
+
+  // ── Drag-to-pan on panorama strip ─────────────────────────────────────────
+  let dragging = false, dragStartX = 0, scrollStart = 0;
+
+  $strip.addEventListener('mousedown', e => {
+    dragging    = true;
+    dragStartX  = e.pageX;
+    scrollStart = $strip.scrollLeft;
+    $strip.classList.add('grabbing');
+  });
+  $strip.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    $strip.scrollLeft = scrollStart - (e.pageX - dragStartX);
+  });
+  $strip.addEventListener('mouseup',    () => { dragging = false; $strip.classList.remove('grabbing'); });
+  $strip.addEventListener('mouseleave', () => { dragging = false; $strip.classList.remove('grabbing'); });
+
+  // Touch drag
+  let touchStartX = 0, touchScrollStart = 0;
+  $strip.addEventListener('touchstart', e => {
+    touchStartX    = e.touches[0].pageX;
+    touchScrollStart = $strip.scrollLeft;
+  }, { passive: true });
+  $strip.addEventListener('touchmove', e => {
+    $strip.scrollLeft = touchScrollStart - (e.touches[0].pageX - touchStartX);
+  }, { passive: true });
+
+  // ── Boot ──────────────────────────────────────────────────────────────────
+  loadPanoManifest();
+  loadTlManifest();
+  setInterval(() => { loadPanoManifest(); loadTlManifest(); }, REFRESH_MS);
+  </script>
+
+</body>
+</html>
