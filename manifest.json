@@ -1437,6 +1437,18 @@
       "nice_shot": 49.3
     },
     {
+      "timestamp": "20260419_202450",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260419_202450_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.3
+    },
+    {
       "timestamp": "20260410_072831",
       "label": "sunrise_scene",
       "categories": [
@@ -1555,6 +1567,18 @@
       "camera": "trackmix_wide",
       "event_id": null,
       "snapshot": "golden_hour/sunrise/20260414_073128_scene.jpg",
+      "clip": null,
+      "nice_shot": 48.2
+    },
+    {
+      "timestamp": "20260419_202650",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260419_202650_scene.jpg",
       "clip": null,
       "nice_shot": 48.2
     },
@@ -1705,18 +1729,6 @@
       "nice_shot": 47.2
     },
     {
-      "timestamp": "20260419_194849",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260419_194849_scene.jpg",
-      "clip": null,
-      "nice_shot": 47.2
-    },
-    {
       "timestamp": "20260404_200614",
       "label": "sunset_scene",
       "categories": [
@@ -1737,18 +1749,6 @@
       "camera": "trackmix_wide",
       "event_id": null,
       "snapshot": "golden_hour/sunset/20260404_200814_scene.jpg",
-      "clip": null,
-      "nice_shot": 47.1
-    },
-    {
-      "timestamp": "20260419_192248",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260419_192248_scene.jpg",
       "clip": null,
       "nice_shot": 47.1
     },
@@ -2263,5 +2263,5 @@
       "nice_shot": 3.7
     }
   ],
-  "updated": "2026-04-19T20:00:02.993701"
+  "updated": "2026-04-19T21:00:02.379428"
 }
