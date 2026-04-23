@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "timestamp": "20260422_195519",
+      "panorama": "panoramas/20260422_195519.jpg",
+      "thumbnail": "panoramas/20260422_195519_thumb.jpg",
+      "score": 60.5,
+      "width": 6186,
+      "height": 3612,
+      "trigger": "sky_score"
+    },
+    {
       "timestamp": "20260417_200558",
       "panorama": "panoramas/20260417_200558.jpg",
       "thumbnail": "panoramas/20260417_200558_thumb.jpg",
@@ -10,5 +19,5 @@
       "trigger": "sky_score"
     }
   ],
-  "updated": "2026-04-17T20:06:58.124424"
+  "updated": "2026-04-22T19:56:19.935389"
 }
