@@ -62,6 +62,7 @@ PANO_SHOTS           = int(os.getenv("PANO_SHOTS",       "8"))
 PANO_MOVE_SEC        = float(os.getenv("PANO_MOVE_SEC",  "2.2"))
 PANO_SPEED           = int(os.getenv("PANO_SPEED",      "20"))
 PANO_SETTLE_SEC      = float(os.getenv("PANO_SETTLE_SEC","1.5"))
+TILT_NUDGE_SEC       = float(os.getenv("TILT_NUDGE_SEC", "0.5"))
 THUMB_HEIGHT         = int(os.getenv("THUMB_HEIGHT",    "480"))
 MAX_PANO_HISTORY     = int(os.getenv("MAX_PANO_HISTORY","200"))
 MAX_TL_HISTORY       = int(os.getenv("MAX_TL_HISTORY",   "50"))
@@ -74,6 +75,8 @@ SCOUT_FOCUS_SHOTS    = int(os.getenv("SCOUT_FOCUS_SHOTS",      "5"))
 SCOUT_FOCUS_INTERVAL = int(os.getenv("SCOUT_FOCUS_INTERVAL",  "15"))
 SCOUT_FOCUS_CONTINUE = float(os.getenv("SCOUT_FOCUS_CONTINUE","50"))
 SCOUT_MAX_DWELL_MIN  = float(os.getenv("SCOUT_MAX_DWELL_MIN", "3"))
+
+_tilt_offset_sec: float = 0.0   # net tilt applied during last focus dwell; undone at next scout
 
 PANO_DIR      = HIGHLIGHTS_DIR / "panoramas"
 TL_DIR        = HIGHLIGHTS_DIR / "weather_timelapse"
@@ -180,6 +183,71 @@ def _snap_direct(rs: str) -> tuple[bytes | None, float]:
     except Exception as e:
         log.warning(f"_snap_direct failed: {e}")
     return None, 0.0
+
+# ── Sky fraction ─────────────────────────────────────────────────────────────
+def sky_fraction(img: Image.Image) -> float:
+    """Return fraction of pixels classified as sky (0.0–1.0).
+
+    Works for irregular terrain (mountains, tree canopy) because it counts
+    sky pixels independently of whether the horizon is a straight line.
+    """
+    arr = np.array(img.resize((320, 240), Image.LANCZOS).convert("RGB"), dtype=float)
+    r, g, b = arr[..., 0], arr[..., 1], arr[..., 2]
+    lum = 0.299 * r + 0.587 * g + 0.114 * b
+    hi = arr.max(axis=2)
+    lo = arr.min(axis=2)
+    sat = np.where(hi > 0, (hi - lo) / (hi + 1e-6), 0)
+    blue_sky  = (b > r * 1.10) & (lum > 50)           # blue/grey sky
+    clear_sky = (lum > 110) & (sat < 0.40)             # bright, low-saturation
+    warm_sky  = (r > 150) & (r > g * 1.20) & (lum > 110)  # golden-hour orange/pink
+    return float((blue_sky | clear_sky | warm_sky).mean())
+
+
+def _tilt_to_best_framing(ts: str, sky_score: float) -> float:
+    """Sample three tilt positions, park at the one closest to the target sky fraction.
+
+    Target scales with sky interest: 0.45 (dull) → 0.65 (dramatic golden hour).
+    Returns the net tilt offset in seconds from the reference tilt on entry
+    (positive = up), so the caller can undo it at the next scout.
+    """
+    target = 0.45 + 0.20 * (sky_score / 100.0)
+
+    def _frac(label: str) -> float:
+        data, _ = _snap_direct(f"{ts}_t{label}")
+        if data is None:
+            return -1.0
+        return sky_fraction(Image.open(io.BytesIO(data)))
+
+    frac_c = _frac("c")                                         # reference position
+
+    _ptz("Up");   time.sleep(TILT_NUDGE_SEC); _ptz("Stop"); time.sleep(0.5)
+    frac_u = _frac("u")                                         # +1 nudge up
+
+    _ptz("Down"); time.sleep(TILT_NUDGE_SEC * 2); _ptz("Stop"); time.sleep(0.5)
+    frac_d = _frac("d")                                         # −1 nudge (two down from up)
+
+    log.info(f"  tilt framing: target={target:.2f}  up={frac_u:.2f}  ctr={frac_c:.2f}  dn={frac_d:.2f}")
+
+    # Camera is now at the 'down' position (−1 nudge from reference)
+    options = [("dn", -1, frac_d), ("ctr", 0, frac_c), ("up", 1, frac_u)]
+    valid   = [(n, idx, f) for n, idx, f in options if f >= 0]
+    if not valid:
+        log.warning("  tilt framing: all snaps failed — holding current tilt")
+        _ptz("Up"); time.sleep(TILT_NUDGE_SEC); _ptz("Stop")   # restore to reference
+        return 0.0
+
+    best_name, best_idx, best_frac = min(valid, key=lambda x: abs(x[2] - target))
+
+    # Move from current (−1) to winner: need (best_idx + 1) nudges up
+    steps_up = best_idx + 1
+    if steps_up > 0:
+        _ptz("Up"); time.sleep(TILT_NUDGE_SEC * steps_up); _ptz("Stop")
+        time.sleep(PANO_SETTLE_SEC)
+
+    offset = best_idx * TILT_NUDGE_SEC
+    log.info(f"  tilt → {best_name}  sky_frac={best_frac:.2f}  target={target:.2f}  offset={offset:+.2f}s")
+    return offset
+
 
 # ── PTZ ───────────────────────────────────────────────────────────────────────
 def _ptz(op: str) -> None:
@@ -453,11 +521,17 @@ def _append_scout_stats(ts: str, stops: list[tuple[int, float]]) -> None:
 
 def horizon_scout() -> None:
     """Sweep N horizon positions, score each, then dwell on the best."""
+    global _tilt_offset_sec
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     log.info(f"=== horizon scout: {SCOUT_POSITIONS} positions ===")
 
-    # Home right
-    _ptz("Right")
+    # Undo any tilt applied during the previous focus dwell before homing pan
+    if abs(_tilt_offset_sec) > 0.05:
+        op = "Down" if _tilt_offset_sec > 0 else "Up"
+        _ptz(op); time.sleep(abs(_tilt_offset_sec)); _ptz("Stop"); time.sleep(0.5)
+        _tilt_offset_sec = 0.0
+
+    # Home right (pan)
     time.sleep(20)
     _ptz("Stop")
     time.sleep(2)
@@ -498,12 +572,16 @@ def horizon_scout() -> None:
         log.info(f"  best score {best_score:.1f} < {SCOUT_MIN_SCORE} — parked at S{best_idx+1}, skipping focus")
         return
 
+    # Optimise tilt so sky/land framing matches the current sky interest level
+    _tilt_offset_sec = _tilt_to_best_framing(ts, best_score)
+
     log.info(f"  dwelling at stop {best_idx+1} (≤{SCOUT_MAX_DWELL_MIN}m)")
     saved = _run_focus_dwell(ts)
     log.info(f"=== scout done: {saved} shots ===")
     mqtt_publish("cameras/events/scout_focus", {
         "timestamp": ts, "best_stop": best_idx,
         "best_score": best_score, "shots_saved": saved,
+        "tilt_offset_sec": _tilt_offset_sec,
     })
 
 
