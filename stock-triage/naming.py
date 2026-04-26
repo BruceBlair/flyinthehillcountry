@@ -36,6 +36,11 @@ def derive_label_and_category(source: Path, source_root: Path) -> tuple[str, str
 
     if parts:
         top = parts[0].lower()
+
+        # panorama_YYYYMMDD_HHMMSS capture directories → landscape frames
+        if top.startswith("panorama_"):
+            return "landscape", "landscapes"
+
         category = _CATEGORY_MAP.get(top)
         if category:
             if top in _LABEL_SINGLETON:

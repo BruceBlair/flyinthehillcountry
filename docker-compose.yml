@@ -261,12 +261,14 @@ services:
     volumes:
       - /volume1/highlights:/highlights:ro
       - /volume1/docker/frigate/media:/frigate-media:ro
+      - /home/HighlyReflective/weather-station:/frames:ro
       - /volume1/stock_ready:/stock_ready
     environment:
       - TRIAGE_MODE=${TRIAGE_MODE:-daemon}
       - LOCATION_LABEL=${LOCATION_LABEL:-wimberley}
       - HIGHLIGHTS_DIR=/highlights
       - FRIGATE_MEDIA_DIR=/frigate-media
+      - FRAMES_DIR=/frames
       - STOCK_READY_DIR=/stock_ready
       - MIN_RESOLUTION_MP=${MIN_RESOLUTION_MP:-4.0}
       - OCR_TOP_PCT=${OCR_TOP_PCT:-0.15}

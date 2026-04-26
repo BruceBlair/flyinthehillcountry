@@ -23,6 +23,7 @@ MODE            = os.getenv("TRIAGE_MODE",        "daemon")
 LOCATION        = os.getenv("LOCATION_LABEL",     "wimberley")
 HIGHLIGHTS_DIR  = Path(os.getenv("HIGHLIGHTS_DIR",    "/highlights"))
 FRIGATE_DIR     = Path(os.getenv("FRIGATE_MEDIA_DIR",  "/frigate-media"))
+FRAMES_DIR      = Path(os.getenv("FRAMES_DIR",         "/frames")) if os.getenv("FRAMES_DIR") else None
 STOCK_READY_DIR = Path(os.getenv("STOCK_READY_DIR",   "/stock_ready"))
 MIN_RES_MP      = float(os.getenv("MIN_RESOLUTION_MP", "4.0"))
 OCR_TOP_PCT     = float(os.getenv("OCR_TOP_PCT",       "0.15"))
@@ -34,6 +35,18 @@ def _iter_jpegs(root: Path):
         return
     for ext in ("*.jpg", "*.jpeg", "*.JPG", "*.JPEG"):
         yield from sorted(root.rglob(ext))
+
+
+def _iter_frame_jpegs(root: Path):
+    """Yield only numbered frame shots (01.jpg, 02.jpg…) from panorama_* dirs."""
+    if not root.exists():
+        return
+    for d in sorted(root.glob("panorama_*")):
+        if not d.is_dir():
+            continue
+        for f in sorted(d.glob("*.jpg")):
+            if f.stem.isdigit():
+                yield f
 
 
 def _process_one(source: Path, source_root: Path, manifest: dict) -> dict | None:
@@ -71,12 +84,16 @@ def run_batch() -> None:
     manifest = load_manifest(STOCK_READY_DIR)
     count = 0
 
-    for source_root in (HIGHLIGHTS_DIR, FRIGATE_DIR):
+    sources = [(HIGHLIGHTS_DIR, _iter_jpegs), (FRIGATE_DIR, _iter_jpegs)]
+    if FRAMES_DIR:
+        sources.append((FRAMES_DIR, _iter_frame_jpegs))
+
+    for source_root, iter_fn in sources:
         if not source_root.exists():
             log.warning("source dir not found, skipping: %s", source_root)
             continue
         log.info("scanning: %s", source_root)
-        for source in _iter_jpegs(source_root):
+        for source in iter_fn(source_root):
             if "panoramas" in source.relative_to(source_root).parts:
                 log.debug("skip panoramas: %s", source.name)
                 continue
