@@ -78,6 +78,7 @@ SCOUT_MAX_DWELL_MIN  = float(os.getenv("SCOUT_MAX_DWELL_MIN", "3"))
 PANO_DIR      = HIGHLIGHTS_DIR / "panoramas"
 TL_DIR        = HIGHLIGHTS_DIR / "weather_timelapse"
 SCOUT_DIR     = HIGHLIGHTS_DIR / "weather" / "scout"
+SCOUT_STATS   = HIGHLIGHTS_DIR / "scout_stats.json"
 PANO_MANIFEST = HIGHLIGHTS_DIR / "pano_manifest.json"
 TL_MANIFEST   = HIGHLIGHTS_DIR / "weather_timelapse_manifest.json"
 STITCH_PY     = Path("/app/stitch.py")
@@ -440,6 +441,16 @@ def _run_focus_dwell(ts: str) -> int:
     return saved
 
 
+def _append_scout_stats(ts: str, stops: list[tuple[int, float]]) -> None:
+    record = {
+        "ts": ts,
+        "hour": int(ts[9:11]),
+        "stops": [round(score, 1) for _, score in sorted(stops, key=lambda x: x[0])],
+    }
+    with open(SCOUT_STATS, "a") as f:
+        f.write(json.dumps(record) + "\n")
+
+
 def horizon_scout() -> None:
     """Sweep N horizon positions, score each, then dwell on the best."""
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -462,6 +473,8 @@ def horizon_scout() -> None:
         _, score = _snap_direct(f"{ts}_s{i:02d}")
         stops.append((i, score))
         log.info(f"  stop {i+1}/{SCOUT_POSITIONS}: score={score:.1f}")
+
+    _append_scout_stats(ts, stops)
 
     best_idx, best_score = max(stops, key=lambda x: x[1])
     log.info(f"  best: stop {best_idx+1}  score={best_score:.1f}")
