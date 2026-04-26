@@ -1,0 +1,279 @@
+# Ground Truth Network - NAS Data Hub
+# Services: MQTT · InfluxDB · Home Assistant · Grafana · Frigate · MediaMTX · FFmpeg
+
+services:
+
+  # ─── MQTT Broker ────────────────────────────────────────────────────────────
+  mosquitto:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - /volume1/docker/mosquitto/data:/mosquitto/data
+      - /volume1/docker/mosquitto/log:/mosquitto/log
+    networks:
+      - homelab
+
+  # ─── InfluxDB (time-series sensor store) ────────────────────────────────────
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    volumes:
+      - /volume1/docker/influxdb/data:/var/lib/influxdb2
+      - /volume1/docker/influxdb/config:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USER:-admin}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD:?set INFLUXDB_PASSWORD in .env}
+      - DOCKER_INFLUXDB_INIT_ORG=ground_truth
+      - DOCKER_INFLUXDB_INIT_BUCKET=sensor_data
+      - DOCKER_INFLUXDB_INIT_RETENTION=0
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN:?set INFLUXDB_TOKEN in .env}
+    networks:
+      - homelab
+
+  # ─── Home Assistant ──────────────────────────────────────────────────────────
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    volumes:
+      - ./homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /volume1/camera_raw:/media/camera_raw:ro
+      - /volume1/camera_timelapse:/media/camera_timelapse:ro
+      - /volume1/highlights/stars:/media/stars
+    environment:
+      - TZ=${TZ:-America/Chicago}
+    depends_on:
+      - mosquitto
+      - influxdb
+
+  # ─── Grafana (dashboards) ────────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - /volume1/docker/grafana:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:?set GRAFANA_PASSWORD in .env}
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-worldmap-panel,grafana-piechart-panel
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_NAME=Public
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Viewer
+      - GF_SERVER_ROOT_URL=http://${NAS_IP:-192.168.100.202}:3000
+    networks:
+      - homelab
+    depends_on:
+      - influxdb
+
+  # ─── Frigate NVR (AI detection) ─────────────────────────────────────────────
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:stable
+    container_name: frigate
+    restart: unless-stopped
+    privileged: true
+    shm_size: 512mb
+    mem_limit: 3g
+    memswap_limit: 3g     # no swap for frigate; cap total RSS at 3 GB
+    network_mode: host    # needs direct LAN access to reach camera at 192.168.100.131
+    volumes:
+      - /volume1/docker/frigate/config:/config
+      - /volume1/docker/frigate/media:/media/frigate
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - FRIGATE_RTSP_PASSWORD=${CAMERA_PASSWORD:?set CAMERA_PASSWORD in .env}
+    depends_on:
+      - mosquitto
+
+  # ─── MediaMTX (live subscriber stream server) ────────────────────────────────
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    restart: unless-stopped
+    network_mode: host   # simplest for RTSP/SRT/HLS; avoids bridge NAT issues
+    volumes:
+      - ./mediamtx/mediamtx.yml:/mediamtx.yml
+      - /volume1/web_stream:/recordings
+
+  # ─── Highlight Curator (flags wildlife, weather, golden-hour media) ─────────
+  highlight-curator:
+    build: ./highlight-curator
+    container_name: highlight-curator
+    restart: unless-stopped
+    volumes:
+      - /volume1/highlights:/highlights
+      - ./ffmpeg/scripts:/scripts:ro
+      - /volume1/docker/frigate/config:/frigate-config:ro
+    environment:
+      - MQTT_HOST=mosquitto
+      - FRIGATE_API=http://${NAS_IP:-192.168.100.202}:5000
+      - CAMERA_NAME=trackmix_wide
+      - HIGHLIGHTS_DIR=/highlights
+      - TZ=${TZ:-America/Chicago}
+      - LATITUDE=${LATITUDE:-39.8}
+      - LONGITUDE=${LONGITUDE:--98.5}
+      - GOLDEN_MINUTES=${GOLDEN_MINUTES:-45}
+      - MIN_SCORE=${MIN_SCORE:-0.60}
+      - MAX_SNAPS_PER_EVENT=10
+      - SNAP_INTERVAL_SEC=30
+    networks:
+      - homelab
+    depends_on:
+      - mosquitto
+      - frigate
+
+  # ─── Star Scanner (scores star captures, builds stars_manifest.json) ────────
+  star-scanner:
+    build: ./highlight-curator
+    container_name: star-scanner
+    restart: unless-stopped
+    command: ["python", "-u", "scan_stars.py"]
+    volumes:
+      - /volume1/highlights:/highlights
+    environment:
+      - HIGHLIGHTS_DIR=/highlights
+      - SCAN_INTERVAL_SEC=300
+    networks:
+      - homelab
+
+  # ─── Vote Server (receives viewer votes from the gallery website) ─────────────
+  vote-server:
+    build: ./highlight-curator
+    container_name: vote-server
+    restart: unless-stopped
+    command: ["python", "-u", "vote_server.py"]
+    ports:
+      - "8765:8765"
+    volumes:
+      - /volume1/highlights:/highlights
+    environment:
+      - HIGHLIGHTS_DIR=/highlights
+      - VOTE_PORT=8765
+    networks:
+      - homelab
+
+  # ─── Night Sky Patrol (astronomical PTZ sweep + snapshot daemon) ────────────
+  night-sky-patrol:
+    build: ./night-sky-patrol
+    container_name: night-sky-patrol
+    restart: unless-stopped
+    volumes:
+      - /volume1/highlights/stars:/stars
+      - /volume1/highlights:/highlights     # for tonight_sky.json
+      - ./homeassistant/config/comets.json:/config/comets.json:ro
+    environment:
+      - HA_URL=http://${NAS_IP:-192.168.100.202}:8123
+      - HA_TOKEN=${HA_TOKEN:?set HA_TOKEN in .env}
+      - MQTT_HOST=mosquitto
+      - CAMERA_IP=${CAMERA_IP:-192.168.100.131}
+      - CAMERA_USER=${CAMERA_USER:-admin}
+      - CAMERA_PASSWORD=${CAMERA_PASSWORD:?set CAMERA_PASSWORD in .env}
+      - LATITUDE=${LATITUDE:-29.9974}
+      - LONGITUDE=${LONGITUDE:--98.0986}
+      - ELEVATION=${ELEVATION:-300}
+      - STAR_MIN_ALT=${STAR_MIN_ALT:-20.0}
+      - STAR_DWELL_SEC=${STAR_DWELL_SEC:-30}
+      - STAR_SNAPS=${STAR_SNAPS:-4}
+      - STAR_SNAP_DIR=/stars
+      - HIGHLIGHTS_DIR=/highlights
+    networks:
+      - homelab
+    depends_on:
+      - mosquitto
+
+  # ─── Sky Watcher (adaptive panorama capture + weather timelapse builder) ─────
+  sky-watcher:
+    build: ./sky-watcher
+    container_name: sky-watcher
+    restart: unless-stopped
+    network_mode: host   # needs direct LAN access to camera at 192.168.100.131
+    volumes:
+      - /volume1/highlights:/highlights
+      - ./stitch.py:/app/stitch.py:ro   # shared stitcher
+    environment:
+      - FRIGATE_API=http://${NAS_IP:-192.168.100.202}:5000
+      - CAMERA_NAME=trackmix_wide
+      - CAMERA_IP=${CAMERA_IP:-192.168.100.131}
+      - CAMERA_USER=${CAMERA_USER:-admin}
+      - CAMERA_PASSWORD=${CAMERA_PASSWORD:?set CAMERA_PASSWORD in .env}
+      - MQTT_HOST=127.0.0.1   # host network; mosquitto binds on the NAS
+      - HIGHLIGHTS_DIR=/highlights
+      - TZ=${TZ:-America/Chicago}
+      - SCORE_PANO=${SCORE_PANO:-60}
+      - SCORE_BURST=${SCORE_BURST:-70}
+      - POLL_LOW_MIN=${POLL_LOW_MIN:-10}
+      - POLL_MED_MIN=${POLL_MED_MIN:-5}
+      - POLL_HIGH_MIN=${POLL_HIGH_MIN:-5}
+      - BURST_INTERVAL_SEC=${BURST_INTERVAL_SEC:-30}
+      - MAX_BURST_MIN=${MAX_BURST_MIN:-15}
+      - PANO_SHOTS=${PANO_SHOTS:-8}
+      - PANO_MOVE_SEC=${PANO_MOVE_SEC:-2.2}
+      - PANO_SPEED=${PANO_SPEED:-20}
+      - PANO_SETTLE_SEC=${PANO_SETTLE_SEC:-1.5}
+
+  # ─── Nginx TLS proxy (HTTPS for Frigate PTZ controls) ──────────────────────
+  nginx-ssl:
+    image: nginx:alpine
+    container_name: nginx-ssl
+    restart: unless-stopped
+    network_mode: host          # reaches Frigate on localhost:5000
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+
+  # ─── FFmpeg Processor (timelapse, clips, post-processing) ───────────────────
+  ffmpeg-processor:
+    image: linuxserver/ffmpeg:latest
+    container_name: ffmpeg-processor
+    restart: unless-stopped
+    entrypoint: ["tail", "-f", "/dev/null"]
+    volumes:
+      - ./ffmpeg/scripts:/scripts
+      - /volume1/docker/frigate/media:/frigate-media:ro
+      - /volume1/camera_raw:/camera-raw:ro
+      - /volume1/camera_timelapse:/output/timelapse
+      - /volume1/video_library:/output/library
+      - /volume1/web_stream:/output/stream
+      - /volume1/highlights:/highlights
+    networks:
+      - homelab
+
+  # ─── Stock Triage (OCR overlay detection + stock-ready export) ──────────────
+  stock-triage:
+    build: ./stock-triage
+    container_name: stock-triage
+    restart: unless-stopped
+    volumes:
+      - /volume1/highlights:/highlights:ro
+      - /volume1/docker/frigate/media:/frigate-media:ro
+      - /volume1/stock_ready:/stock_ready
+    environment:
+      - TRIAGE_MODE=${TRIAGE_MODE:-daemon}
+      - LOCATION_LABEL=${LOCATION_LABEL:-wimberley}
+      - HIGHLIGHTS_DIR=/highlights
+      - FRIGATE_MEDIA_DIR=/frigate-media
+      - STOCK_READY_DIR=/stock_ready
+      - MIN_RESOLUTION_MP=${MIN_RESOLUTION_MP:-4.0}
+      - OCR_TOP_PCT=${OCR_TOP_PCT:-0.15}
+      - OCR_BOTTOM_PCT=${OCR_BOTTOM_PCT:-0.10}
+    networks:
+      - homelab
+
+networks:
+  homelab:
+    driver: bridge
