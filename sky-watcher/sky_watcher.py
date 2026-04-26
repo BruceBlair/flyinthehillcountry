@@ -30,7 +30,9 @@ import io
 import json
 import logging
 import os
+import signal
 import subprocess
+import threading
 import time
 from datetime import datetime
 from pathlib import Path
@@ -77,6 +79,8 @@ SCOUT_FOCUS_CONTINUE = float(os.getenv("SCOUT_FOCUS_CONTINUE","50"))
 SCOUT_MAX_DWELL_MIN  = float(os.getenv("SCOUT_MAX_DWELL_MIN", "3"))
 
 _tilt_offset_sec: float = 0.0   # net tilt applied during last focus dwell; undone at next scout
+_force_scout: bool = False      # set by SIGUSR1 or MQTT command to skip the interval timer
+_wake_event = threading.Event() # set to interrupt the inter-poll sleep immediately
 
 PANO_DIR      = HIGHLIGHTS_DIR / "panoramas"
 TL_DIR        = HIGHLIGHTS_DIR / "weather_timelapse"
@@ -98,12 +102,22 @@ _mqtt: mqtt.Client | None = None
 
 def mqtt_connect() -> None:
     global _mqtt
+
+    def _on_message(_client, _userdata, msg):
+        global _force_scout
+        if msg.topic == "cameras/commands/scout":
+            _force_scout = True
+            _wake_event.set()
+            log.info("MQTT force-scout command received")
+
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
+    client.on_message = _on_message
     try:
         client.connect(MQTT_HOST, MQTT_PORT, keepalive=30)
+        client.subscribe("cameras/commands/scout")
         client.loop_start()
         _mqtt = client
-        log.info("MQTT connected")
+        log.info("MQTT connected  (listening on cameras/commands/scout)")
     except Exception as e:
         log.warning(f"MQTT unavailable: {e}")
 
@@ -587,21 +601,31 @@ def horizon_scout() -> None:
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
 def main() -> None:
+    global _force_scout
     PANO_DIR.mkdir(parents=True, exist_ok=True)
     TL_DIR.mkdir(parents=True,   exist_ok=True)
     SCOUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _handle_usr1(signum, frame):
+        global _force_scout
+        _force_scout = True
+        _wake_event.set()
+        log.info("SIGUSR1 — forcing scout on next loop iteration")
+
+    signal.signal(signal.SIGUSR1, _handle_usr1)
 
     log.info("Sky watcher starting")
     log.info(f"  Pano threshold: {SCORE_PANO}  |  Burst threshold: {SCORE_BURST}")
     log.info(f"  Intervals — low: {POLL_LOW_MIN}m  med: {POLL_MED_MIN}m  high: {POLL_HIGH_MIN}m")
     log.info(f"  Scout: every {SCOUT_INTERVAL_MIN}m, {SCOUT_POSITIONS} positions, focus≥{SCOUT_MIN_SCORE}")
+    log.info(f"  Force-scout: kill -USR1 1  |  mosquitto_pub -t cameras/commands/scout -m now")
 
     mqtt_connect()
 
     last_scout = time.monotonic() - SCOUT_INTERVAL_MIN * 60  # run first scout immediately
 
     while True:
-        ts        = datetime.now().strftime("%Y%m%d_%H%M%S")
+        ts          = datetime.now().strftime("%Y%m%d_%H%M%S")
         data, score = grab_sky_frame()
         log.info(f"Sky score: {score:.1f}")
         mqtt_publish("cameras/events/sky_score", {"timestamp": ts, "score": score})
@@ -612,8 +636,9 @@ def main() -> None:
             if pano:
                 finish_panorama(pano, ts, score, trigger="burst")
             run_burst_and_compile(ts, data)
-            last_scout = time.monotonic()  # panorama sweep counts as a scout
-            time.sleep(POLL_HIGH_MIN * 60)
+            last_scout = time.monotonic()
+            _wake_event.wait(timeout=POLL_HIGH_MIN * 60)
+            _wake_event.clear()
 
         elif score >= SCORE_PANO:
             log.info(f"Score {score:.1f} ≥ {SCORE_PANO} → panorama")
@@ -621,17 +646,20 @@ def main() -> None:
             if pano:
                 finish_panorama(pano, ts, score, trigger="sky_score")
             last_scout = time.monotonic()
-            time.sleep(POLL_HIGH_MIN * 60)
+            _wake_event.wait(timeout=POLL_HIGH_MIN * 60)
+            _wake_event.clear()
 
         else:
-            # Periodic scout independent of current sky score
-            if time.monotonic() - last_scout >= SCOUT_INTERVAL_MIN * 60:
+            due = _force_scout or time.monotonic() - last_scout >= SCOUT_INTERVAL_MIN * 60
+            if due:
+                _force_scout = False
                 horizon_scout()
                 last_scout = time.monotonic()
 
             sleep_min = POLL_MED_MIN if score >= 40 else POLL_LOW_MIN
             log.info(f"Score {score:.1f} → next check in {sleep_min}m")
-            time.sleep(sleep_min * 60)
+            _wake_event.wait(timeout=sleep_min * 60)
+            _wake_event.clear()
 
 
 if __name__ == "__main__":
