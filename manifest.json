@@ -2017,6 +2017,18 @@
       "nice_shot": 46.8
     },
     {
+      "timestamp": "20260425_202426",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260425_202426_scene.jpg",
+      "clip": null,
+      "nice_shot": 46.5
+    },
+    {
       "timestamp": "20260422_074210",
       "label": "sunrise_scene",
       "categories": [
@@ -2041,6 +2053,18 @@
       "nice_shot": 46.3
     },
     {
+      "timestamp": "20260425_202626",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260425_202626_scene.jpg",
+      "clip": null,
+      "nice_shot": 45.9
+    },
+    {
       "timestamp": "20260425_194625",
       "label": "sunset_scene",
       "categories": [
@@ -2053,18 +2077,6 @@
       "nice_shot": 45.1
     },
     {
-      "timestamp": "20260425_194425",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260425_194425_scene.jpg",
-      "clip": null,
-      "nice_shot": 44.9
-    },
-    {
       "timestamp": "20260423_194016",
       "label": "sunset_scene",
       "categories": [
@@ -2075,18 +2087,6 @@
       "snapshot": "golden_hour/sunset/20260423_194016_scene.jpg",
       "clip": null,
       "nice_shot": 44.5
-    },
-    {
-      "timestamp": "20260425_194225",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260425_194225_scene.jpg",
-      "clip": null,
-      "nice_shot": 44.1
     },
     {
       "timestamp": "20260423_192015",
@@ -2695,5 +2695,5 @@
       "nice_shot": 3.7
     }
   ],
-  "updated": "2026-04-25T20:00:03.862852"
+  "updated": "2026-04-25T21:00:02.862550"
 }
