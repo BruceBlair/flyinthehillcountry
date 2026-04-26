@@ -1,0 +1,4 @@
+pytesseract==0.3.13
+Pillow==10.4.0
+watchdog==4.0.1
+pytest==8.2.0
