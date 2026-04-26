@@ -483,11 +483,7 @@ def horizon_scout() -> None:
         "best_stop": best_idx, "best_score": best_score,
     })
 
-    if best_score < SCOUT_MIN_SCORE:
-        log.info(f"  best score {best_score:.1f} < {SCOUT_MIN_SCORE} — skipping focus")
-        return
-
-    # Return to best stop
+    # Always park at best stop so the next sky-score poll sees the most interesting direction
     _ptz("Right")
     time.sleep(20)
     _ptz("Stop")
@@ -497,6 +493,10 @@ def horizon_scout() -> None:
         time.sleep(PANO_MOVE_SEC)
         _ptz("Stop")
     time.sleep(PANO_SETTLE_SEC)
+
+    if best_score < SCOUT_MIN_SCORE:
+        log.info(f"  best score {best_score:.1f} < {SCOUT_MIN_SCORE} — parked at S{best_idx+1}, skipping focus")
+        return
 
     log.info(f"  dwelling at stop {best_idx+1} (≤{SCOUT_MAX_DWELL_MIN}m)")
     saved = _run_focus_dwell(ts)
