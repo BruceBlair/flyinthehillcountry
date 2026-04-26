@@ -77,6 +77,9 @@ def run_batch() -> None:
             continue
         log.info("scanning: %s", source_root)
         for source in _iter_jpegs(source_root):
+            if "panoramas" in source.relative_to(source_root).parts:
+                log.debug("skip panoramas: %s", source.name)
+                continue
             _process_one(source, source_root, manifest)
             count += 1
             if count % 100 == 0:

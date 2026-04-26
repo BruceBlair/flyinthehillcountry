@@ -4,14 +4,23 @@ import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
-from PIL import Image
+from PIL import Image, ImageEnhance, ImageOps
 
-from naming import build_output_path
+from naming import build_output_path, derive_label_and_category
 from ocr import detect_overlay_bounds
 
 log = logging.getLogger("pipeline")
 
 JPEG_QUALITY = 95
+
+_NIGHTTIME_CATEGORIES = {"stars"}
+
+
+def _enhance_nighttime(img: Image.Image) -> Image.Image:
+    img = ImageOps.autocontrast(img, cutoff=0.5)
+    img = ImageEnhance.Contrast(img).enhance(1.6)
+    img = ImageEnhance.Brightness(img).enhance(0.85)
+    return img
 
 
 def process_image(
@@ -50,6 +59,7 @@ def process_image(
         file_status = "crop" if has_overlay else "clean"
         manifest_status = "cropped" if has_overlay else "clean"
 
+        _, category = derive_label_and_category(source, source_root)
         output = build_output_path(source, source_root, stock_ready_dir, location, file_status)
         output.parent.mkdir(parents=True, exist_ok=True)
 
@@ -57,10 +67,14 @@ def process_image(
 
         if has_overlay:
             bottom_edge = h - crop_bot if crop_bot > 0 else h
-            cropped = img.crop((0, crop_top, w, bottom_edge))
-            cropped.save(output, "JPEG", quality=JPEG_QUALITY, exif=exif)
+            out_img = img.crop((0, crop_top, w, bottom_edge))
         else:
-            img.save(output, "JPEG", quality=JPEG_QUALITY, exif=exif)
+            out_img = img.copy()
+
+        if category in _NIGHTTIME_CATEGORIES:
+            out_img = _enhance_nighttime(out_img)
+
+        out_img.save(output, "JPEG", quality=JPEG_QUALITY, exif=exif)
 
     return {
         "source": str(source),
