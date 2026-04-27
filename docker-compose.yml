@@ -235,6 +235,10 @@ services:
       - SCOUT_MAX_DWELL_MIN=${SCOUT_MAX_DWELL_MIN:-3}
       - TILT_NUDGE_SEC=${TILT_NUDGE_SEC:-0.5}
       - SCAN_FLIP_HOUR=${SCAN_FLIP_HOUR:-13}
+      - TILT_DOWN_HOME_SEC=${TILT_DOWN_HOME_SEC:-5.0}
+      - TILT_CALIB_STEP_SEC=${TILT_CALIB_STEP_SEC:-0.4}
+      - TILT_CALIB_STEPS=${TILT_CALIB_STEPS:-12}
+      - TILT_CALIB_TARGET=${TILT_CALIB_TARGET:-0.60}
 
   # ─── Nginx TLS proxy (HTTPS for Frigate PTZ controls) ──────────────────────
   nginx-ssl:

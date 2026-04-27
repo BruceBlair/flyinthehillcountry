@@ -79,15 +79,21 @@ SCOUT_FOCUS_INTERVAL = int(os.getenv("SCOUT_FOCUS_INTERVAL",  "15"))
 SCOUT_FOCUS_CONTINUE = float(os.getenv("SCOUT_FOCUS_CONTINUE","50"))
 SCOUT_MAX_DWELL_MIN  = float(os.getenv("SCOUT_MAX_DWELL_MIN", "3"))
 SCAN_FLIP_HOUR       = int(os.getenv("SCAN_FLIP_HOUR",       "13"))  # local hour after which scan leads west
+TILT_DOWN_HOME_SEC   = float(os.getenv("TILT_DOWN_HOME_SEC",  "5.0"))  # tilt down this long to reach hard stop
+TILT_CALIB_STEP_SEC  = float(os.getenv("TILT_CALIB_STEP_SEC", "0.4"))  # granularity of calibration sweep
+TILT_CALIB_STEPS     = int(os.getenv("TILT_CALIB_STEPS",      "12"))   # max steps up during calibration
+TILT_CALIB_TARGET    = float(os.getenv("TILT_CALIB_TARGET",   "0.60")) # target sky fraction (≈ 2/3 sky)
 
 _tilt_offset_sec: float = 0.0   # net tilt applied during last focus dwell; undone at next scout
 _force_scout: bool = False      # set by SIGUSR1 or MQTT command to skip the interval timer
+_force_calibrate: bool = False  # set by SIGUSR2 or MQTT command to run tilt calibration
 _wake_event = threading.Event() # set to interrupt the inter-poll sleep immediately
 
-PANO_DIR      = HIGHLIGHTS_DIR / "panoramas"
-TL_DIR        = HIGHLIGHTS_DIR / "weather_timelapse"
-SCOUT_DIR     = HIGHLIGHTS_DIR / "weather" / "scout"
-SCOUT_STATS   = HIGHLIGHTS_DIR / "scout_stats.json"
+PANO_DIR          = HIGHLIGHTS_DIR / "panoramas"
+TL_DIR            = HIGHLIGHTS_DIR / "weather_timelapse"
+SCOUT_DIR         = HIGHLIGHTS_DIR / "weather" / "scout"
+SCOUT_STATS       = HIGHLIGHTS_DIR / "scout_stats.json"
+SCOUT_CALIBRATION = HIGHLIGHTS_DIR / "scout_tilt_calibration.json"
 PANO_MANIFEST = HIGHLIGHTS_DIR / "pano_manifest.json"
 TL_MANIFEST   = HIGHLIGHTS_DIR / "weather_timelapse_manifest.json"
 STITCH_PY     = Path("/app/stitch.py")
@@ -106,20 +112,25 @@ def mqtt_connect() -> None:
     global _mqtt
 
     def _on_message(_client, _userdata, msg):
-        global _force_scout
+        global _force_scout, _force_calibrate
         if msg.topic == "cameras/commands/scout":
             _force_scout = True
             _wake_event.set()
             log.info("MQTT force-scout command received")
+        elif msg.topic == "cameras/commands/calibrate":
+            _force_calibrate = True
+            _wake_event.set()
+            log.info("MQTT calibrate command received")
 
     client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.on_message = _on_message
     try:
         client.connect(MQTT_HOST, MQTT_PORT, keepalive=30)
         client.subscribe("cameras/commands/scout")
+        client.subscribe("cameras/commands/calibrate")
         client.loop_start()
         _mqtt = client
-        log.info("MQTT connected  (listening on cameras/commands/scout)")
+        log.info("MQTT connected  (listening on cameras/commands/scout, cameras/commands/calibrate)")
     except Exception as e:
         log.warning(f"MQTT unavailable: {e}")
 
@@ -535,6 +546,85 @@ def _append_scout_stats(ts: str, stops: list[tuple[int, float]]) -> None:
         f.write(json.dumps(record) + "\n")
 
 
+def _load_tilt_calibration() -> dict:
+    if not SCOUT_CALIBRATION.exists():
+        return {}
+    try:
+        return json.loads(SCOUT_CALIBRATION.read_text())
+    except Exception:
+        return {}
+
+
+def _apply_stop_tilt(stop_idx: int, calib: dict) -> None:
+    """Tilt to the calibrated position for this stop via the hard-down reference."""
+    data = calib.get("stops", {}).get(str(stop_idx))
+    if not data:
+        return
+    up_sec = data.get("tilt_up_sec", 0.0)
+    _ptz("Down"); time.sleep(TILT_DOWN_HOME_SEC); _ptz("Stop"); time.sleep(0.5)
+    if up_sec > 0.0:
+        _ptz("Up"); time.sleep(up_sec); _ptz("Stop")
+    time.sleep(0.5)
+
+
+def calibrate_scout_tilt() -> None:
+    """One-time setup: find the tilt at each scout stop that achieves TILT_CALIB_TARGET sky fraction.
+
+    Tilts to the hard-down stop as a known reference, then sweeps up in TILT_CALIB_STEP_SEC
+    increments, measuring sky_fraction at each step. Saves results to SCOUT_CALIBRATION so
+    every subsequent scout scores each stop at a consistent, correct framing.
+
+    Trigger:  docker kill --signal=USR2 sky-watcher
+              mosquitto_pub -t cameras/commands/calibrate -m now
+    """
+    log.info(f"=== tilt calibration: {SCOUT_POSITIONS} stops, target sky_frac={TILT_CALIB_TARGET:.2f} ===")
+    calib: dict = {"calibrated_at": datetime.now().isoformat(), "stops": {}}
+
+    home_op = "Left" if datetime.now().hour >= SCAN_FLIP_HOUR else "Right"
+    scan_op = "Right" if home_op == "Left" else "Left"
+
+    _ptz(home_op); time.sleep(20); _ptz("Stop"); time.sleep(2)
+
+    for i in range(SCOUT_POSITIONS):
+        if i > 0:
+            _ptz(scan_op); time.sleep(SCOUT_MOVE_SEC); _ptz("Stop")
+        time.sleep(PANO_SETTLE_SEC)
+        log.info(f"  calibrating stop {i + 1}/{SCOUT_POSITIONS}")
+
+        _ptz("Down"); time.sleep(TILT_DOWN_HOME_SEC); _ptz("Stop"); time.sleep(0.5)
+
+        best_up_sec = 0.0
+        best_frac   = 0.0
+        best_delta  = float("inf")
+
+        for step in range(TILT_CALIB_STEPS + 1):
+            if step > 0:
+                _ptz("Up"); time.sleep(TILT_CALIB_STEP_SEC); _ptz("Stop"); time.sleep(0.3)
+            data, _ = _snap_direct(f"calib_s{i}_t{step}")
+            if data:
+                frac  = sky_fraction(Image.open(io.BytesIO(data)))
+                delta = abs(frac - TILT_CALIB_TARGET)
+                log.info(f"    +{step * TILT_CALIB_STEP_SEC:.1f}s  sky={frac:.2f}  Δ={delta:.3f}")
+                if delta < best_delta:
+                    best_delta  = delta
+                    best_up_sec = step * TILT_CALIB_STEP_SEC
+                    best_frac   = frac
+                if frac > TILT_CALIB_TARGET + 0.10:
+                    break  # overshot — no benefit going higher
+
+        calib["stops"][str(i)] = {
+            "tilt_up_sec":       round(best_up_sec, 2),
+            "measured_fraction": round(best_frac, 3),
+        }
+        log.info(f"  → stop {i + 1}: tilt_up={best_up_sec:.1f}s  sky={best_frac:.2f}")
+
+    SCOUT_CALIBRATION.write_text(json.dumps(calib, indent=2))
+    log.info(f"=== calibration complete → {SCOUT_CALIBRATION} ===")
+    mqtt_publish("cameras/events/calibration_done", {
+        "stops": SCOUT_POSITIONS, "target": TILT_CALIB_TARGET,
+    })
+
+
 def horizon_scout() -> None:
     """Sweep N horizon positions, score each, then dwell on the best.
 
@@ -560,11 +650,16 @@ def horizon_scout() -> None:
 
     _ptz(home_op); time.sleep(20); _ptz("Stop"); time.sleep(2)
 
+    calib = _load_tilt_calibration()
+    if not calib:
+        log.warning("  no tilt calibration — run calibrate_scout_tilt() first for accurate scores")
+
     stops: list[tuple[int, float]] = []
     for i in range(SCOUT_POSITIONS):
         if i > 0:
             _ptz(scan_op); time.sleep(SCOUT_MOVE_SEC); _ptz("Stop")
         time.sleep(PANO_SETTLE_SEC)
+        _apply_stop_tilt(i, calib)
         _, score = _snap_direct(f"{ts}_s{i:02d}")
         stops.append((i, score))
         log.info(f"  stop {i+1}/{SCOUT_POSITIONS}: score={score:.1f}")
@@ -608,7 +703,7 @@ def horizon_scout() -> None:
 
 # ── Main loop ─────────────────────────────────────────────────────────────────
 def main() -> None:
-    global _force_scout
+    global _force_scout, _force_calibrate
     PANO_DIR.mkdir(parents=True, exist_ok=True)
     TL_DIR.mkdir(parents=True,   exist_ok=True)
     SCOUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -619,19 +714,36 @@ def main() -> None:
         _wake_event.set()
         log.info("SIGUSR1 — forcing scout on next loop iteration")
 
+    def _handle_usr2(signum, frame):
+        global _force_calibrate
+        _force_calibrate = True
+        _wake_event.set()
+        log.info("SIGUSR2 — tilt calibration queued")
+
     signal.signal(signal.SIGUSR1, _handle_usr1)
+    signal.signal(signal.SIGUSR2, _handle_usr2)
 
     log.info("Sky watcher starting")
     log.info(f"  Pano threshold: {SCORE_PANO}  |  Burst threshold: {SCORE_BURST}")
     log.info(f"  Intervals — low: {POLL_LOW_MIN}m  med: {POLL_MED_MIN}m  high: {POLL_HIGH_MIN}m")
     log.info(f"  Scout: every {SCOUT_INTERVAL_MIN}m, {SCOUT_POSITIONS} positions, focus≥{SCOUT_MIN_SCORE}")
-    log.info(f"  Force-scout: kill -USR1 1  |  mosquitto_pub -t cameras/commands/scout -m now")
+    log.info(f"  Force-scout:     docker kill --signal=USR1 sky-watcher  |  mosquitto_pub -t cameras/commands/scout -m now")
+    log.info(f"  Force-calibrate: docker kill --signal=USR2 sky-watcher  |  mosquitto_pub -t cameras/commands/calibrate -m now")
 
     mqtt_connect()
+
+    if not SCOUT_CALIBRATION.exists():
+        log.info("No tilt calibration found — running initial calibration now")
+        calibrate_scout_tilt()
 
     last_scout = time.monotonic() - SCOUT_INTERVAL_MIN * 60  # run first scout immediately
 
     while True:
+        if _force_calibrate:
+            _force_calibrate = False
+            calibrate_scout_tilt()
+            last_scout = time.monotonic()
+
         ts          = datetime.now().strftime("%Y%m%d_%H%M%S")
         data, score = grab_sky_frame()
         log.info(f"Sky score: {score:.1f}")
