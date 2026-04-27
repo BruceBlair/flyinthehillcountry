@@ -71,7 +71,8 @@ MAX_TL_HISTORY       = int(os.getenv("MAX_TL_HISTORY",   "50"))
 
 # ── Horizon scout ─────────────────────────────────────────────────────────────
 SCOUT_INTERVAL_MIN   = int(os.getenv("SCOUT_INTERVAL_MIN",   "30"))
-SCOUT_POSITIONS      = int(os.getenv("SCOUT_POSITIONS",        "8"))
+SCOUT_POSITIONS      = int(os.getenv("SCOUT_POSITIONS",        "5"))
+SCOUT_MOVE_SEC       = float(os.getenv("SCOUT_MOVE_SEC",      "6.0"))  # longer than PANO_MOVE_SEC for real differentiation
 SCOUT_MIN_SCORE      = float(os.getenv("SCOUT_MIN_SCORE",    "45"))
 SCOUT_FOCUS_SHOTS    = int(os.getenv("SCOUT_FOCUS_SHOTS",      "5"))
 SCOUT_FOCUS_INTERVAL = int(os.getenv("SCOUT_FOCUS_INTERVAL",  "15"))
@@ -562,7 +563,7 @@ def horizon_scout() -> None:
     stops: list[tuple[int, float]] = []
     for i in range(SCOUT_POSITIONS):
         if i > 0:
-            _ptz(scan_op); time.sleep(PANO_MOVE_SEC); _ptz("Stop")
+            _ptz(scan_op); time.sleep(SCOUT_MOVE_SEC); _ptz("Stop")
         time.sleep(PANO_SETTLE_SEC)
         _, score = _snap_direct(f"{ts}_s{i:02d}")
         stops.append((i, score))
@@ -586,7 +587,7 @@ def horizon_scout() -> None:
     # Park at best stop (home again then step scan_op best_idx times)
     _ptz(home_op); time.sleep(20); _ptz("Stop"); time.sleep(2)
     for _ in range(best_idx):
-        _ptz(scan_op); time.sleep(PANO_MOVE_SEC); _ptz("Stop")
+        _ptz(scan_op); time.sleep(SCOUT_MOVE_SEC); _ptz("Stop")
     time.sleep(PANO_SETTLE_SEC)
 
     if best_score < SCOUT_MIN_SCORE:
