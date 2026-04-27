@@ -1,0 +1,25 @@
+{
+  "calibrated_at": "2026-04-27T16:35:14.621102",
+  "stops": {
+    "0": {
+      "tilt_up_sec": 1.2,
+      "measured_fraction": 0.524
+    },
+    "1": {
+      "tilt_up_sec": 0.8,
+      "measured_fraction": 0.619
+    },
+    "2": {
+      "tilt_up_sec": 1.2,
+      "measured_fraction": 0.611
+    },
+    "3": {
+      "tilt_up_sec": 0.8,
+      "measured_fraction": 0.568
+    },
+    "4": {
+      "tilt_up_sec": 0.8,
+      "measured_fraction": 0.579
+    }
+  }
+}
