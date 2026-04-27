@@ -77,6 +77,7 @@ SCOUT_FOCUS_SHOTS    = int(os.getenv("SCOUT_FOCUS_SHOTS",      "5"))
 SCOUT_FOCUS_INTERVAL = int(os.getenv("SCOUT_FOCUS_INTERVAL",  "15"))
 SCOUT_FOCUS_CONTINUE = float(os.getenv("SCOUT_FOCUS_CONTINUE","50"))
 SCOUT_MAX_DWELL_MIN  = float(os.getenv("SCOUT_MAX_DWELL_MIN", "3"))
+SCAN_FLIP_HOUR       = int(os.getenv("SCAN_FLIP_HOUR",       "13"))  # local hour after which scan leads west
 
 _tilt_offset_sec: float = 0.0   # net tilt applied during last focus dwell; undone at next scout
 _force_scout: bool = False      # set by SIGUSR1 or MQTT command to skip the interval timer
@@ -534,10 +535,21 @@ def _append_scout_stats(ts: str, stops: list[tuple[int, float]]) -> None:
 
 
 def horizon_scout() -> None:
-    """Sweep N horizon positions, score each, then dwell on the best."""
+    """Sweep N horizon positions, score each, then dwell on the best.
+
+    Before SCAN_FLIP_HOUR the scan leads east (home right → step left).
+    From SCAN_FLIP_HOUR onward it leads west (home left → step right)
+    so the sunset side is evaluated first. Stats are recorded in physical
+    pan-position space regardless of scan direction.
+    """
     global _tilt_offset_sec
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
-    log.info(f"=== horizon scout: {SCOUT_POSITIONS} positions ===")
+
+    if datetime.now().hour >= SCAN_FLIP_HOUR:
+        home_op, scan_op, direction = "Left", "Right", "west→east"
+    else:
+        home_op, scan_op, direction = "Right", "Left", "east→west"
+    log.info(f"=== horizon scout: {SCOUT_POSITIONS} positions ({direction}) ===")
 
     # Undo any tilt applied during the previous focus dwell before homing pan
     if abs(_tilt_offset_sec) > 0.05:
@@ -545,55 +557,49 @@ def horizon_scout() -> None:
         _ptz(op); time.sleep(abs(_tilt_offset_sec)); _ptz("Stop"); time.sleep(0.5)
         _tilt_offset_sec = 0.0
 
-    # Home right (pan)
-    time.sleep(20)
-    _ptz("Stop")
-    time.sleep(2)
+    _ptz(home_op); time.sleep(20); _ptz("Stop"); time.sleep(2)
 
-    # Scan — step left, snap and score at each stop
     stops: list[tuple[int, float]] = []
     for i in range(SCOUT_POSITIONS):
         if i > 0:
-            _ptz("Left")
-            time.sleep(PANO_MOVE_SEC)
-            _ptz("Stop")
+            _ptz(scan_op); time.sleep(PANO_MOVE_SEC); _ptz("Stop")
         time.sleep(PANO_SETTLE_SEC)
         _, score = _snap_direct(f"{ts}_s{i:02d}")
         stops.append((i, score))
         log.info(f"  stop {i+1}/{SCOUT_POSITIONS}: score={score:.1f}")
 
-    _append_scout_stats(ts, stops)
+    # Normalise to physical pan positions before recording stats
+    if home_op == "Left":
+        phys_stops = [(SCOUT_POSITIONS - 1 - i, s) for i, s in stops]
+    else:
+        phys_stops = stops
+    _append_scout_stats(ts, phys_stops)
 
     best_idx, best_score = max(stops, key=lambda x: x[1])
-    log.info(f"  best: stop {best_idx+1}  score={best_score:.1f}")
+    best_phys = SCOUT_POSITIONS - 1 - best_idx if home_op == "Left" else best_idx
+    log.info(f"  best: scan stop {best_idx+1} = pan pos {best_phys+1}  score={best_score:.1f}")
     mqtt_publish("cameras/events/scout_scan", {
-        "timestamp": ts, "positions": SCOUT_POSITIONS,
-        "best_stop": best_idx, "best_score": best_score,
+        "timestamp": ts, "positions": SCOUT_POSITIONS, "direction": direction,
+        "best_pan_pos": best_phys, "best_score": best_score,
     })
 
-    # Always park at best stop so the next sky-score poll sees the most interesting direction
-    _ptz("Right")
-    time.sleep(20)
-    _ptz("Stop")
-    time.sleep(2)
+    # Park at best stop (home again then step scan_op best_idx times)
+    _ptz(home_op); time.sleep(20); _ptz("Stop"); time.sleep(2)
     for _ in range(best_idx):
-        _ptz("Left")
-        time.sleep(PANO_MOVE_SEC)
-        _ptz("Stop")
+        _ptz(scan_op); time.sleep(PANO_MOVE_SEC); _ptz("Stop")
     time.sleep(PANO_SETTLE_SEC)
 
     if best_score < SCOUT_MIN_SCORE:
-        log.info(f"  best score {best_score:.1f} < {SCOUT_MIN_SCORE} — parked at S{best_idx+1}, skipping focus")
+        log.info(f"  best score {best_score:.1f} < {SCOUT_MIN_SCORE} — parked at pan pos {best_phys+1}, skipping focus")
         return
 
-    # Optimise tilt so sky/land framing matches the current sky interest level
     _tilt_offset_sec = _tilt_to_best_framing(ts, best_score)
 
-    log.info(f"  dwelling at stop {best_idx+1} (≤{SCOUT_MAX_DWELL_MIN}m)")
+    log.info(f"  dwelling at pan pos {best_phys+1} (≤{SCOUT_MAX_DWELL_MIN}m)")
     saved = _run_focus_dwell(ts)
     log.info(f"=== scout done: {saved} shots ===")
     mqtt_publish("cameras/events/scout_focus", {
-        "timestamp": ts, "best_stop": best_idx,
+        "timestamp": ts, "best_pan_pos": best_phys,
         "best_score": best_score, "shots_saved": saved,
         "tilt_offset_sec": _tilt_offset_sec,
     })

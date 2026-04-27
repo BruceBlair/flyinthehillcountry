@@ -233,6 +233,7 @@ services:
       - SCOUT_FOCUS_CONTINUE=${SCOUT_FOCUS_CONTINUE:-50}
       - SCOUT_MAX_DWELL_MIN=${SCOUT_MAX_DWELL_MIN:-3}
       - TILT_NUDGE_SEC=${TILT_NUDGE_SEC:-0.5}
+      - SCAN_FLIP_HOUR=${SCAN_FLIP_HOUR:-13}
 
   # ─── Nginx TLS proxy (HTTPS for Frigate PTZ controls) ──────────────────────
   nginx-ssl:
