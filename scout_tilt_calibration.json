@@ -2,38 +2,24 @@
   "calibrated_at": "2026-04-30T19:00:57.553822",
   "stops": {
     "0": {
-      "pan": 0.0,
       "tilt_up_sec": 0.8,
       "measured_fraction": 0.611
     },
     "1": {
-      "pan": 0.0,
       "tilt_up_sec": 0.8,
       "measured_fraction": 0.612
     },
     "2": {
-      "pan": 0.0,
       "tilt_up_sec": 0.8,
       "measured_fraction": 0.608
     },
     "3": {
-      "pan": 0.0,
       "tilt_up_sec": 0.8,
       "measured_fraction": 0.608
     },
     "4": {
-      "pan": 0.0,
       "tilt_up_sec": 0.8,
       "measured_fraction": 0.604
     }
-  },
-  "pan_left": 0.0,
-  "pan_right": 0.0,
-  "pan_stops": [
-    0.0,
-    0.0,
-    0.0,
-    0.0,
-    0.0
-  ]
+  }
 }

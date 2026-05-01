@@ -3015,6 +3015,24 @@
       "nice_shot": 36.2
     },
     {
+      "timestamp": "20260319_090720",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260319_090720_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "votes": {
+        "up": 2,
+        "down": 0
+      },
+      "nice_shot": 35.0
+    },
+    {
       "timestamp": "20260326_041330",
       "label": "scene",
       "score": null,
@@ -3055,24 +3073,6 @@
       "clip": null,
       "source": "backfill_scene",
       "nice_shot": 34.2
-    },
-    {
-      "timestamp": "20260319_090720",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260319_090720_scene_camera_raw.jpg",
-      "clip": null,
-      "source": "backfill_scene",
-      "votes": {
-        "up": 2,
-        "down": 0
-      },
-      "nice_shot": 34.0
     },
     {
       "timestamp": "20260318_090710",
@@ -3391,5 +3391,5 @@
       "nice_shot": 3.7
     }
   ],
-  "updated": "2026-04-30T21:00:04.195754"
+  "updated": "2026-04-30T22:00:04.389957"
 }
