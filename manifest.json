@@ -555,6 +555,24 @@
       "nice_shot": 58.0
     },
     {
+      "timestamp": "20260319_090720",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260319_090720_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "votes": {
+        "up": 2,
+        "down": 0
+      },
+      "nice_shot": 58.0
+    },
+    {
       "timestamp": "20260408_072230",
       "label": "sunrise_scene",
       "categories": [
@@ -601,24 +619,6 @@
       "snapshot": "golden_hour/sunset/20260428_192841_scene.jpg",
       "clip": null,
       "nice_shot": 57.2
-    },
-    {
-      "timestamp": "20260319_090720",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260319_090720_scene_camera_raw.jpg",
-      "clip": null,
-      "source": "backfill_scene",
-      "votes": {
-        "up": 2,
-        "down": 0
-      },
-      "nice_shot": 57.0
     },
     {
       "timestamp": "20260322_192405",
@@ -2259,6 +2259,18 @@
       "nice_shot": 49.1
     },
     {
+      "timestamp": "20260501_203753",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260501_203753_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.1
+    },
+    {
       "timestamp": "20260501_192551",
       "label": "sunset_scene",
       "categories": [
@@ -2269,18 +2281,6 @@
       "snapshot": "golden_hour/sunset/20260501_192551_scene.jpg",
       "clip": null,
       "nice_shot": 49.0
-    },
-    {
-      "timestamp": "20260501_193751",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260501_193751_scene.jpg",
-      "clip": null,
-      "nice_shot": 48.9
     },
     {
       "timestamp": "20260409_075227",
@@ -3631,5 +3631,5 @@
       "nice_shot": 3.7
     }
   ],
-  "updated": "2026-05-01T20:00:04.159090"
+  "updated": "2026-05-01T21:00:03.799236"
 }
