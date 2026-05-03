@@ -16,7 +16,7 @@
         "up": 2,
         "down": 0
       },
-      "nice_shot": 91.0
+      "nice_shot": 92.0
     },
     {
       "timestamp": "20260415_065935",
@@ -2099,6 +2099,42 @@
       "nice_shot": 50.1
     },
     {
+      "timestamp": "20260503_064359",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_064359_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.0
+    },
+    {
+      "timestamp": "20260503_064959",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_064959_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.0
+    },
+    {
+      "timestamp": "20260503_065359",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_065359_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.0
+    },
+    {
       "timestamp": "20260429_203636",
       "label": "sunset_scene",
       "categories": [
@@ -2159,6 +2195,30 @@
       "nice_shot": 49.9
     },
     {
+      "timestamp": "20260503_065559",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_065559_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.9
+    },
+    {
+      "timestamp": "20260503_065759",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_065759_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.9
+    },
+    {
       "timestamp": "20260418_194003",
       "label": "sunset_scene",
       "categories": [
@@ -2169,6 +2229,30 @@
       "snapshot": "golden_hour/sunset/20260418_194003_scene.jpg",
       "clip": null,
       "nice_shot": 49.9
+    },
+    {
+      "timestamp": "20260503_065159",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_065159_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.8
+    },
+    {
+      "timestamp": "20260503_065959",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_065959_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.8
     },
     {
       "timestamp": "20260411_191636",
@@ -2205,6 +2289,18 @@
       "camera": "trackmix_wide",
       "event_id": null,
       "snapshot": "golden_hour/sunrise/20260411_073836_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.7
+    },
+    {
+      "timestamp": "20260503_064159",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_064159_scene.jpg",
       "clip": null,
       "nice_shot": 49.7
     },
@@ -2283,6 +2379,18 @@
       "nice_shot": 49.4
     },
     {
+      "timestamp": "20260503_064559",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_064559_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.4
+    },
+    {
       "timestamp": "20260412_201919",
       "label": "sunset_scene",
       "categories": [
@@ -2351,6 +2459,18 @@
       "camera": "trackmix_wide",
       "event_id": null,
       "snapshot": "golden_hour/sunrise/20260429_062432_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.3
+    },
+    {
+      "timestamp": "20260503_064759",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260503_064759_scene.jpg",
       "clip": null,
       "nice_shot": 49.3
     },
@@ -3871,5 +3991,5 @@
       "nice_shot": 3.7
     }
   ],
-  "updated": "2026-05-03T06:00:03.166398"
+  "updated": "2026-05-03T07:00:03.833080"
 }
