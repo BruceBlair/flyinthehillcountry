@@ -1269,18 +1269,6 @@
       "nice_shot": 53.8
     },
     {
-      "timestamp": "20260430_072438",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260430_072438_scene.jpg",
-      "clip": null,
-      "nice_shot": 53.7
-    },
-    {
       "timestamp": "20260503_195802",
       "label": "sunset_scene",
       "categories": [
@@ -1759,18 +1747,6 @@
       "nice_shot": 51.6
     },
     {
-      "timestamp": "20260421_072601",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260421_072601_scene.jpg",
-      "clip": null,
-      "nice_shot": 51.4
-    },
-    {
       "timestamp": "20260503_072000",
       "label": "sunrise_scene",
       "categories": [
@@ -2037,18 +2013,6 @@
       "nice_shot": 50.9
     },
     {
-      "timestamp": "20260421_072401",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260421_072401_scene.jpg",
-      "clip": null,
-      "nice_shot": 50.8
-    },
-    {
       "timestamp": "20260411_191436",
       "label": "sunset_scene",
       "categories": [
@@ -2081,18 +2045,6 @@
       "camera": "trackmix_wide",
       "event_id": null,
       "snapshot": "golden_hour/sunrise/20260405_080017_scene.jpg",
-      "clip": null,
-      "nice_shot": 50.7
-    },
-    {
-      "timestamp": "20260421_072001",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260421_072001_scene.jpg",
       "clip": null,
       "nice_shot": 50.7
     },
@@ -4111,5 +4063,5 @@
       "nice_shot": 3.7
     }
   ],
-  "updated": "2026-05-03T22:00:02.559822"
+  "updated": "2026-05-03T23:00:03.679547"
 }
