@@ -1,6 +1,42 @@
 {
   "entries": [
     {
+      "timestamp": "20260504_114403",
+      "panorama": "panoramas/20260504_114403.jpg",
+      "thumbnail": "panoramas/20260504_114403_thumb.jpg",
+      "score": 62.8,
+      "width": 15786,
+      "height": 2280,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260504_094741",
+      "panorama": "panoramas/20260504_094741.jpg",
+      "thumbnail": "panoramas/20260504_094741_thumb.jpg",
+      "score": 60.5,
+      "width": 15234,
+      "height": 2312,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260504_084014",
+      "panorama": "panoramas/20260504_084014.jpg",
+      "thumbnail": "panoramas/20260504_084014_thumb.jpg",
+      "score": 60.0,
+      "width": 14473,
+      "height": 2326,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260504_063956",
+      "panorama": "panoramas/20260504_063956.jpg",
+      "thumbnail": "panoramas/20260504_063956_thumb.jpg",
+      "score": 64.0,
+      "width": 15442,
+      "height": 2409,
+      "trigger": "sky_score"
+    },
+    {
       "timestamp": "20260422_195519",
       "panorama": "panoramas/20260422_195519.jpg",
       "thumbnail": "panoramas/20260422_195519_thumb.jpg",
@@ -19,5 +55,5 @@
       "trigger": "sky_score"
     }
   ],
-  "updated": "2026-04-22T19:56:19.935389"
+  "updated": "2026-05-04T11:45:05.945225"
 }
