@@ -1,19 +1,6 @@
 {
   "entries": [
     {
-      "timestamp": "20260506_152644",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260506_152644_High Res In The Hill Country-High Res In The Hill Country-20260506_152644.jpg",
-      "clip": null,
-      "source": "backfill_raw"
-    },
-    {
       "timestamp": "20260319_090720",
       "label": "scene",
       "score": null,
@@ -6720,5 +6707,5 @@
       "nice_shot": null
     }
   ],
-  "updated": "2026-05-07T05:00:03.316168"
+  "updated": "2026-05-07T05:27:20.164072"
 }
