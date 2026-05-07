@@ -1,0 +1,90 @@
+{
+  "unreviewed_count": 4,
+  "updated": "2026-05-07T10:14:15",
+  "species_summary": {
+    "week": {
+      "Chuck-will's-widow": 4
+    },
+    "month": {
+      "Chuck-will's-widow": 4
+    },
+    "season": {
+      "Chuck-will's-widow": 4
+    }
+  },
+  "analyzed_sources": [],
+  "detections": [
+    {
+      "id": "audio_20260507_101336_birdnet_000",
+      "timestamp": "20260507_101336",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9274,
+      "clip": "audio/20260507_101336_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260507_101415_birdnet_001",
+      "timestamp": "20260507_101415",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9988,
+      "clip": "audio/20260507_101415_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260507_101415_birdnet_002",
+      "timestamp": "20260507_101415",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.983,
+      "clip": "audio/20260507_101415_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260507_101415_birdnet_003",
+      "timestamp": "20260507_101415",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9825,
+      "clip": "audio/20260507_101415_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    }
+  ]
+}
