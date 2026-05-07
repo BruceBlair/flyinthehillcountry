@@ -30,3 +30,7 @@ def test_filter_detections_empty():
 def test_yamnet_detection_has_no_scientific_name():
     d = Detection("yamnet", "frog", None, 0.80, b"")
     assert d.scientific_name is None
+
+def test_filter_detections_keeps_at_threshold():
+    d = Detection("birdnet", "X", None, 0.70, b"")
+    assert filter_detections([d], min_confidence=0.70) == [d]

@@ -12,6 +12,9 @@ YAMNET_CONFIDENCE   = float(os.getenv("YAMNET_CONFIDENCE",  "0.75"))
 LATITUDE            = float(os.getenv("LATITUDE",  "29.9974"))
 LONGITUDE           = float(os.getenv("LONGITUDE", "-98.0986"))
 
+_yamnet_model = None
+_birdnet_analyzer = None
+
 
 @dataclass
 class Detection:
@@ -45,20 +48,22 @@ def _pcm_to_wav(pcm_bytes: bytes, sample_rate: int, channels: int = 1) -> bytes:
 
 
 def _run_birdnet(pcm_bytes: bytes, sample_rate: int) -> list[Detection]:
+    global _birdnet_analyzer
     from birdnetlib import Recording
     from birdnetlib.analyzer import Analyzer
     import tempfile, pathlib
 
-    analyzer = Analyzer()
-    wav_bytes = _pcm_to_wav(pcm_bytes, sample_rate)
+    if _birdnet_analyzer is None:
+        _birdnet_analyzer = Analyzer()
 
     with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
-        tmp.write(wav_bytes)
         tmp_path = tmp.name
 
     try:
+        wav_bytes = _pcm_to_wav(pcm_bytes, sample_rate)
+        pathlib.Path(tmp_path).write_bytes(wav_bytes)
         rec = Recording(
-            analyzer,
+            _birdnet_analyzer,
             tmp_path,
             lat=LATITUDE,
             lon=LONGITUDE,
@@ -89,11 +94,13 @@ _YAMNET_KEEP = {
 
 
 def _run_yamnet(pcm_bytes: bytes, sample_rate: int) -> list[Detection]:
+    global _yamnet_model
     import tensorflow_hub as hub
     import tensorflow as tf
     import csv, urllib.request
 
-    model = hub.load("https://tfhub.dev/google/yamnet/1")
+    if _yamnet_model is None:
+        _yamnet_model = hub.load("https://tfhub.dev/google/yamnet/1")
 
     audio_float = (
         np.frombuffer(pcm_bytes, dtype=np.int16).astype(np.float32) / 32768.0
@@ -103,10 +110,12 @@ def _run_yamnet(pcm_bytes: bytes, sample_rate: int) -> list[Detection]:
         import librosa
         audio_float = librosa.resample(audio_float, orig_sr=sample_rate, target_sr=16000)
 
-    scores, _, _ = model(audio_float)
+    scores, _, _ = _yamnet_model(audio_float)
     mean_scores = tf.reduce_mean(scores, axis=0).numpy()
 
     labels = _yamnet_labels()
+    if len(labels) != len(mean_scores):
+        raise RuntimeError(f"YAMNet label count mismatch: {len(labels)} labels vs {len(mean_scores)} scores")
     detections = []
     for idx, score in enumerate(mean_scores):
         label = labels[idx]
@@ -132,4 +141,6 @@ def _yamnet_labels() -> list[str]:
     with urllib.request.urlopen(url) as r:
         reader = csv.DictReader(r.read().decode().splitlines())
         _yamnet_label_cache = [row["display_name"] for row in reader]
+        if len(_yamnet_label_cache) == 0:
+            raise RuntimeError("YAMNet label CSV was empty or failed to parse")
     return _yamnet_label_cache
