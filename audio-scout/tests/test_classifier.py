@@ -13,6 +13,7 @@ def test_detection_fields():
     assert d.detector == "birdnet"
     assert d.confidence == 0.87
     assert d.scientific_name == "Mimus polyglottos"
+    assert d.raw_audio == b""
 
 def test_filter_detections_removes_below_threshold():
     detections = [
