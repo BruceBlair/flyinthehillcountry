@@ -50,7 +50,7 @@ services:
       - ./homeassistant/config:/config
       - /etc/localtime:/etc/localtime:ro
       - /volume1/camera_raw:/media/camera_raw:ro
-      - /volume1/camera_timelapse:/media/camera_timelapse:ro
+      - /volume1/camera_timelapse:/media/camera_timelapse
       - /volume1/highlights/stars:/media/stars
     environment:
       - TZ=${TZ:-America/Chicago}
@@ -115,10 +115,12 @@ services:
     build: ./highlight-curator
     container_name: highlight-curator
     restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c", "umask 0022 && exec python -u curator.py"]
     volumes:
       - /volume1/highlights:/highlights
       - ./ffmpeg/scripts:/scripts:ro
       - /volume1/docker/frigate/config:/frigate-config:ro
+      - /volume1/camera_raw:/camera-raw:ro
     environment:
       - MQTT_HOST=mosquitto
       - FRIGATE_API=http://${NAS_IP:-192.168.100.202}:5000
@@ -142,7 +144,7 @@ services:
     build: ./highlight-curator
     container_name: star-scanner
     restart: unless-stopped
-    command: ["python", "-u", "scan_stars.py"]
+    entrypoint: ["/bin/sh", "-c", "umask 0022 && exec python -u scan_stars.py"]
     volumes:
       - /volume1/highlights:/highlights
     environment:
@@ -156,7 +158,7 @@ services:
     build: ./highlight-curator
     container_name: vote-server
     restart: unless-stopped
-    command: ["python", "-u", "vote_server.py"]
+    entrypoint: ["/bin/sh", "-c", "umask 0022 && exec python -u vote_server.py"]
     ports:
       - "8765:8765"
     volumes:
@@ -172,6 +174,7 @@ services:
     build: ./night-sky-patrol
     container_name: night-sky-patrol
     restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c", "umask 0022 && exec python -u patrol.py"]
     volumes:
       - /volume1/highlights/stars:/stars
       - /volume1/highlights:/highlights     # for tonight_sky.json
@@ -202,6 +205,7 @@ services:
     container_name: sky-watcher
     restart: unless-stopped
     network_mode: host   # needs direct LAN access to camera at 192.168.100.131
+    entrypoint: ["/bin/sh", "-c", "umask 0022 && exec python -u sky_watcher.py"]
     volumes:
       - /volume1/highlights:/highlights
       - ./stitch.py:/app/stitch.py:ro   # shared stitcher
@@ -240,6 +244,31 @@ services:
       - TILT_CALIB_STEPS=${TILT_CALIB_STEPS:-12}
       - TILT_CALIB_TARGET=${TILT_CALIB_TARGET:-0.60}
 
+  # ─── Audio Scout (bird/wildlife audio detection + recording) ─────────────────
+  audio-scout:
+    build: ./audio-scout
+    container_name: audio-scout
+    restart: unless-stopped
+    network_mode: host
+    entrypoint: ["/bin/sh", "-c", "umask 0022 && exec python -u scout.py"]
+    volumes:
+      - /volume1/highlights:/highlights
+    environment:
+      - CAMERA_IP=${CAMERA_IP:-192.168.100.131}
+      - CAMERA_USER=${CAMERA_USER:-admin}
+      - CAMERA_PASSWORD=${CAMERA_PASSWORD:?set CAMERA_PASSWORD in .env}
+      - MQTT_HOST=localhost
+      - HA_URL=http://localhost:8123
+      - HA_TOKEN=${HA_TOKEN:?set HA_TOKEN in .env}
+      - HIGHLIGHTS_DIR=/highlights
+      - LATITUDE=${LATITUDE:-29.9974}
+      - LONGITUDE=${LONGITUDE:--98.0986}
+      - BIRDNET_CONFIDENCE=${BIRDNET_CONFIDENCE:-0.70}
+      - YAMNET_CONFIDENCE=${YAMNET_CONFIDENCE:-0.75}
+      - AUDIO_SUBMIT_MODE=${AUDIO_SUBMIT_MODE:-off}
+      - EBIRD_API_KEY=${EBIRD_API_KEY:-}
+      - RARE_SPECIES_PUSH=${RARE_SPECIES_PUSH:-false}
+
   # ─── Nginx TLS proxy (HTTPS for Frigate PTZ controls) ──────────────────────
   nginx-ssl:
     image: nginx:alpine
@@ -256,6 +285,8 @@ services:
     container_name: ffmpeg-processor
     restart: unless-stopped
     entrypoint: ["tail", "-f", "/dev/null"]
+    environment:
+      - UMASK=022
     volumes:
       - ./ffmpeg/scripts:/scripts
       - /volume1/docker/frigate/media:/frigate-media:ro
