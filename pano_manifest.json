@@ -1,6 +1,204 @@
 {
   "entries": [
     {
+      "timestamp": "20260510_080340",
+      "panorama": "panoramas/20260510_080340.jpg",
+      "thumbnail": "panoramas/20260510_080340_thumb.jpg",
+      "score": 63.5,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260510_075817",
+      "panorama": "panoramas/20260510_075817.jpg",
+      "thumbnail": "panoramas/20260510_075817_thumb.jpg",
+      "score": 63.6,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260510_075254",
+      "panorama": "panoramas/20260510_075254.jpg",
+      "thumbnail": "panoramas/20260510_075254_thumb.jpg",
+      "score": 63.3,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260510_074730",
+      "panorama": "panoramas/20260510_074730.jpg",
+      "thumbnail": "panoramas/20260510_074730_thumb.jpg",
+      "score": 63.1,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260510_074207",
+      "panorama": "panoramas/20260510_074207.jpg",
+      "thumbnail": "panoramas/20260510_074207_thumb.jpg",
+      "score": 62.4,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260510_071647",
+      "panorama": "panoramas/20260510_071647.jpg",
+      "thumbnail": "panoramas/20260510_071647_thumb.jpg",
+      "score": 60.2,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260510_071126",
+      "panorama": "panoramas/20260510_071126.jpg",
+      "thumbnail": "panoramas/20260510_071126_thumb.jpg",
+      "score": 61.2,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_200718",
+      "panorama": "panoramas/20260509_200718.jpg",
+      "thumbnail": "panoramas/20260509_200718_thumb.jpg",
+      "score": 61.5,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_200158",
+      "panorama": "panoramas/20260509_200158.jpg",
+      "thumbnail": "panoramas/20260509_200158_thumb.jpg",
+      "score": 64.1,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_195636",
+      "panorama": "panoramas/20260509_195636.jpg",
+      "thumbnail": "panoramas/20260509_195636_thumb.jpg",
+      "score": 60.8,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_180522",
+      "panorama": "panoramas/20260509_180522.jpg",
+      "thumbnail": "panoramas/20260509_180522_thumb.jpg",
+      "score": 60.0,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_175958",
+      "panorama": "panoramas/20260509_175958.jpg",
+      "thumbnail": "panoramas/20260509_175958_thumb.jpg",
+      "score": 60.2,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_130312",
+      "panorama": "panoramas/20260509_130312.jpg",
+      "thumbnail": "panoramas/20260509_130312_thumb.jpg",
+      "score": 60.5,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_124750",
+      "panorama": "panoramas/20260509_124750.jpg",
+      "thumbnail": "panoramas/20260509_124750_thumb.jpg",
+      "score": 62.3,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_124226",
+      "panorama": "panoramas/20260509_124226.jpg",
+      "thumbnail": "panoramas/20260509_124226_thumb.jpg",
+      "score": 63.7,
+      "width": 3837,
+      "height": 2163,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_123703",
+      "panorama": "panoramas/20260509_123703.jpg",
+      "thumbnail": "panoramas/20260509_123703_thumb.jpg",
+      "score": 63.2,
+      "width": 3837,
+      "height": 2162,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_123141",
+      "panorama": "panoramas/20260509_123141.jpg",
+      "thumbnail": "panoramas/20260509_123141_thumb.jpg",
+      "score": 62.8,
+      "width": 3838,
+      "height": 2161,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_122117",
+      "panorama": "panoramas/20260509_122117.jpg",
+      "thumbnail": "panoramas/20260509_122117_thumb.jpg",
+      "score": 61.7,
+      "width": 3838,
+      "height": 2160,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_121054",
+      "panorama": "panoramas/20260509_121054.jpg",
+      "thumbnail": "panoramas/20260509_121054_thumb.jpg",
+      "score": 62.2,
+      "width": 3837,
+      "height": 2162,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_120530",
+      "panorama": "panoramas/20260509_120530.jpg",
+      "thumbnail": "panoramas/20260509_120530_thumb.jpg",
+      "score": 61.8,
+      "width": 3837,
+      "height": 2162,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_120007",
+      "panorama": "panoramas/20260509_120007.jpg",
+      "thumbnail": "panoramas/20260509_120007_thumb.jpg",
+      "score": 62.6,
+      "width": 3838,
+      "height": 2161,
+      "trigger": "sky_score"
+    },
+    {
+      "timestamp": "20260509_114944",
+      "panorama": "panoramas/20260509_114944.jpg",
+      "thumbnail": "panoramas/20260509_114944_thumb.jpg",
+      "score": 60.9,
+      "width": 3836,
+      "height": 2168,
+      "trigger": "sky_score"
+    },
+    {
       "timestamp": "20260504_114403",
       "panorama": "panoramas/20260504_114403.jpg",
       "thumbnail": "panoramas/20260504_114403_thumb.jpg",
@@ -55,5 +253,5 @@
       "trigger": "sky_score"
     }
   ],
-  "updated": "2026-05-04T11:45:05.945225"
+  "updated": "2026-05-10T08:04:07.759366"
 }

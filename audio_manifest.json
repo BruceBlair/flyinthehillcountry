@@ -1,15 +1,21 @@
 {
-  "unreviewed_count": 4,
-  "updated": "2026-05-07T10:14:15",
+  "unreviewed_count": 6,
+  "updated": "2026-05-10T12:24:47",
   "species_summary": {
     "week": {
-      "Chuck-will's-widow": 4
+      "Chuck-will's-widow": 4,
+      "House Finch": 1,
+      "Animal": 1
     },
     "month": {
-      "Chuck-will's-widow": 4
+      "Chuck-will's-widow": 4,
+      "House Finch": 1,
+      "Animal": 1
     },
     "season": {
-      "Chuck-will's-widow": 4
+      "Chuck-will's-widow": 4,
+      "House Finch": 1,
+      "Animal": 1
     }
   },
   "analyzed_sources": [],
@@ -82,6 +88,38 @@
         "conservation_status": "nt",
         "description": ""
       },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260510_121939_birdnet_000",
+      "timestamp": "20260510_121939",
+      "detector": "birdnet",
+      "species": "House Finch",
+      "scientific_name": "Haemorhous mexicanus",
+      "confidence": 0.4165,
+      "clip": "audio/20260510_121939_house_finch.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260510_122447_yamnet_000",
+      "timestamp": "20260510_122447",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.588,
+      "clip": "audio/20260510_122447_animal.wav",
+      "linked_photo": null,
+      "species_info": {},
       "reviewed": false,
       "submitted_to": null,
       "source": "realtime"
