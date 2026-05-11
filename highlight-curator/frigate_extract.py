@@ -36,3 +36,27 @@ def _parse_segment_time(path: Path) -> datetime | None:
         return datetime.fromtimestamp(path.stat().st_mtime)
     except OSError:
         return None
+
+
+def find_segments(start_dt: datetime, end_dt: datetime,
+                  frigate_dir: Path, camera: str = "trackmix_wide") -> list[Path]:
+    """
+    Return MP4 segments under frigate_dir/camera that overlap [start_dt, end_dt],
+    sorted chronologically. Includes segments starting up to 2h before start_dt
+    to catch recordings that began before the window but extend into it.
+    """
+    cam_dir = frigate_dir / camera
+    if not cam_dir.exists():
+        return []
+
+    cutoff_early = start_dt - timedelta(hours=2)
+    results: list[tuple[datetime, Path]] = []
+
+    for mp4 in cam_dir.rglob("*.mp4"):
+        seg_start = _parse_segment_time(mp4)
+        if seg_start is None:
+            continue
+        if cutoff_early <= seg_start <= end_dt:
+            results.append((seg_start, mp4))
+
+    return [p for _, p in sorted(results)]
