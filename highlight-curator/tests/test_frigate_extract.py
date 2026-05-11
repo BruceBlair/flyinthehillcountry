@@ -68,3 +68,74 @@ def test_find_segments_sorted_chronologically(tmp_path):
                             tmp_path, camera="trackmix_wide")
     times = [fe._parse_segment_time(s) for s in segs]
     assert times == sorted(times)
+
+
+from unittest.mock import patch, MagicMock
+
+
+def _make_fake_seg(tmp_path: Path, date_str: str, hour: str, minute: str) -> Path:
+    d = tmp_path / "trackmix_wide" / date_str / hour
+    d.mkdir(parents=True, exist_ok=True)
+    p = d / f"{minute}.mp4"
+    p.write_bytes(b"fake")
+    return p
+
+
+def test_extract_frames_calls_ffmpeg_per_segment(tmp_path):
+    seg = _make_fake_seg(tmp_path, "2026-05-11", "19", "00")
+    out_dir = tmp_path / "frames"
+
+    with patch("frigate_extract.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0, stderr="")
+        fe.extract_frames(
+            segments=[seg],
+            start_dt=datetime(2026, 5, 11, 19, 0),
+            end_dt=datetime(2026, 5, 11, 20, 0),
+            interval_secs=10,
+            out_dir=out_dir,
+        )
+        assert mock_run.called
+        cmd = mock_run.call_args[0][0]
+        assert "ffmpeg" in cmd
+        assert "fps=1/10" in " ".join(cmd)
+
+
+def test_extract_frames_skips_segment_after_window(tmp_path):
+    seg = _make_fake_seg(tmp_path, "2026-05-11", "21", "00")  # after end_dt
+    out_dir = tmp_path / "frames"
+
+    with patch("frigate_extract.subprocess.run") as mock_run:
+        mock_run.return_value = MagicMock(returncode=0, stderr="")
+        fe.extract_frames(
+            segments=[seg],
+            start_dt=datetime(2026, 5, 11, 19, 0),
+            end_dt=datetime(2026, 5, 11, 20, 0),
+            interval_secs=10,
+            out_dir=out_dir,
+        )
+        assert not mock_run.called  # segment is entirely after window
+
+
+def test_extract_frames_returns_sorted_jpgs(tmp_path):
+    seg = _make_fake_seg(tmp_path, "2026-05-11", "19", "00")
+    out_dir = tmp_path / "frames"
+
+    def fake_run(cmd, **kwargs):
+        seg_out = Path(cmd[-1]).parent
+        seg_out.mkdir(parents=True, exist_ok=True)
+        for i in range(3):
+            (seg_out / f"frame_{i:06d}.jpg").write_bytes(b"")
+        return MagicMock(returncode=0, stderr="")
+
+    with patch("frigate_extract.subprocess.run", side_effect=fake_run):
+        frames = fe.extract_frames(
+            segments=[seg],
+            start_dt=datetime(2026, 5, 11, 19, 0),
+            end_dt=datetime(2026, 5, 11, 20, 0),
+            interval_secs=10,
+            out_dir=out_dir,
+        )
+
+    assert len(frames) == 3
+    assert all(f.suffix == ".jpg" for f in frames)
+    assert frames == sorted(frames)
