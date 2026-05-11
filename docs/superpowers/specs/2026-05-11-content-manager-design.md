@@ -102,13 +102,13 @@ Python `http.server.BaseHTTPRequestHandler`, same pattern as `cull_ui.py`.
 ```
 Date:  [2026-05-11]   Type: [sunset ▼]
 ```
-Auto-calculates window as ±45 min around calculated sunrise/sunset for the NAS lat/lon (from `LATITUDE`/`LONGITUDE` env vars, same as curator.py).
+Auto-calculates window as ±30 min around calculated sunrise/sunset for the NAS lat/lon (from `LATITUDE`/`LONGITUDE` env vars, same as curator.py). Default chosen to capture pre/post glow; overridable via interval/duration controls.
 
 ### Full Day mode
 ```
 Date:  [2026-05-11]
 ```
-Window = calculated sunrise to sunset. Typically ~14 hours → ~5,040 frames at 10s interval → ~10 min video.
+Window = (sunrise − 30 min) to (sunset + 30 min), capturing pre-dawn and afterglow. Typically ~15 hours → ~5,400 frames at 10s interval → ~10 min 48 sec video.
 
 ### Custom Range mode
 ```
