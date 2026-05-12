@@ -8571,6 +8571,20 @@
       "nice_shot": 38.3
     },
     {
+      "timestamp": "20260428_103054",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "weather/20260428_103054_scene_trackmix_wide.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 38.3
+    },
+    {
       "timestamp": "20260505_192734",
       "label": "sunset_scene",
       "categories": [
@@ -9737,5 +9751,5 @@
       "nice_shot": null
     }
   ],
-  "updated": "2026-05-12T03:20:38.484604"
+  "updated": "2026-05-12T04:20:39.938902"
 }
