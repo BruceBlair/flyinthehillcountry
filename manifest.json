@@ -2791,6 +2791,20 @@
       "nice_shot": 55.2
     },
     {
+      "timestamp": "20260512_103033",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_103033_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 55.2
+    },
+    {
       "timestamp": "20260503_071200",
       "label": "sunrise_scene",
       "categories": [
@@ -9895,5 +9909,5 @@
       "nice_shot": null
     }
   ],
-  "updated": "2026-05-12T10:35:15.392177"
+  "updated": "2026-05-12T11:33:08.345601"
 }
