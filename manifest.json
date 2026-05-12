@@ -439,6 +439,20 @@
       "nice_shot": 62.5
     },
     {
+      "timestamp": "20260512_015959",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_015959_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 61.8
+    },
+    {
       "timestamp": "20260417_200547",
       "label": "sunset_scene",
       "categories": [
@@ -727,6 +741,34 @@
       "nice_shot": 60.3
     },
     {
+      "timestamp": "20260512_020025",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020025_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.3
+    },
+    {
+      "timestamp": "20260512_020027",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020027_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.3
+    },
+    {
       "timestamp": "20260422_194612",
       "label": "sunset_scene",
       "categories": [
@@ -739,6 +781,20 @@
       "nice_shot": 60.2
     },
     {
+      "timestamp": "20260512_020011",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020011_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.2
+    },
+    {
       "timestamp": "20260510_071704",
       "label": "sunrise_scene",
       "categories": [
@@ -748,6 +804,34 @@
       "event_id": null,
       "snapshot": "golden_hour/sunrise/20260510_071704_scene.jpg",
       "clip": null,
+      "nice_shot": 60.1
+    },
+    {
+      "timestamp": "20260512_020031",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020031_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.1
+    },
+    {
+      "timestamp": "20260512_020033",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020033_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
       "nice_shot": 60.1
     },
     {
@@ -800,6 +884,20 @@
       "camera": "trackmix_wide",
       "event_id": null,
       "snapshot": "weather/20260510_100009_scene_trackmix_wide.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 59.9
+    },
+    {
+      "timestamp": "20260512_020029",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020029_scene_camera_raw.jpg",
       "clip": null,
       "source": "backfill_scene",
       "nice_shot": 59.9
@@ -905,6 +1003,20 @@
       "nice_shot": 59.5
     },
     {
+      "timestamp": "20260512_020023",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020023_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 59.5
+    },
+    {
       "timestamp": "20260509_193658",
       "label": "sunset_scene",
       "categories": [
@@ -938,6 +1050,20 @@
       "camera": "trackmix_wide",
       "event_id": null,
       "snapshot": "weather/20260506_210004_scene_trackmix_wide.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 59.4
+    },
+    {
+      "timestamp": "20260512_020013",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020013_scene_camera_raw.jpg",
       "clip": null,
       "source": "backfill_scene",
       "nice_shot": 59.4
@@ -1065,6 +1191,20 @@
       "snapshot": "golden_hour/sunset/20260511_195110_scene.jpg",
       "clip": null,
       "nice_shot": 59.1
+    },
+    {
+      "timestamp": "20260512_020049",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_020049_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 59.0
     },
     {
       "timestamp": "20260511_191826",
@@ -6605,20 +6745,6 @@
       "nice_shot": 48.9
     },
     {
-      "timestamp": "20260512_015109",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260512_015109_TimeLapse00_20260510_174026_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 48.9
-    },
-    {
       "timestamp": "20260409_075227",
       "label": "sunrise_scene",
       "categories": [
@@ -9525,20 +9651,6 @@
       "nice_shot": 19.5
     },
     {
-      "timestamp": "20260512_015110",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260512_015110_TimeLapse00_20260319_205114_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 17.8
-    },
-    {
       "timestamp": "20260506_060744",
       "label": "sunrise_scene",
       "categories": [
@@ -9765,5 +9877,5 @@
       "nice_shot": null
     }
   ],
-  "updated": "2026-05-12T02:10:55.384706"
+  "updated": "2026-05-12T02:23:15.052075"
 }
