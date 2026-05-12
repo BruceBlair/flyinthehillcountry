@@ -6605,6 +6605,20 @@
       "nice_shot": 48.9
     },
     {
+      "timestamp": "20260512_015109",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_015109_TimeLapse00_20260510_174026_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 48.9
+    },
+    {
       "timestamp": "20260409_075227",
       "label": "sunrise_scene",
       "categories": [
@@ -9511,6 +9525,20 @@
       "nice_shot": 19.5
     },
     {
+      "timestamp": "20260512_015110",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260512_015110_TimeLapse00_20260319_205114_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 17.8
+    },
+    {
       "timestamp": "20260506_060744",
       "label": "sunrise_scene",
       "categories": [
@@ -9737,5 +9765,5 @@
       "nice_shot": null
     }
   ],
-  "updated": "2026-05-12T01:18:48.481157"
+  "updated": "2026-05-12T02:10:55.384706"
 }
