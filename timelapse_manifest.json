@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "session_key": "20260509_custom",
+      "date": "2026-05-09",
+      "type": "custom",
+      "label": "20260509_custom",
+      "frame_count": 3408,
+      "video": "20260509_custom_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-05-09T21:16:00",
+      "end": "2026-05-10T08:00:00",
+      "created": "2026-05-13T01:40:02.328124"
+    },
+    {
       "session_key": "20260509_sunset",
       "date": "2026-05-09",
       "type": "sunset",
@@ -752,5 +765,5 @@
       "created": "2026-05-10T08:31:15.224261"
     }
   ],
-  "updated": "2026-05-12T04:29:17.802988"
+  "updated": "2026-05-13T01:40:02.329033"
 }
