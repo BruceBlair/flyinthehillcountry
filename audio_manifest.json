@@ -1,13 +1,13 @@
 {
-  "unreviewed_count": 7796,
-  "updated": "2026-05-17T10:00:24",
+  "unreviewed_count": 7877,
+  "updated": "2026-05-17T11:00:48",
   "species_summary": {
     "week": {
-      "Chuck-will's-widow": 1685,
+      "Chuck-will's-widow": 1743,
       "House Finch": 738,
-      "Animal": 2597,
+      "Animal": 2603,
       "Cat": 2,
-      "Wild animals": 1939,
+      "Wild animals": 1950,
       "Purple Martin": 49,
       "Horned Lark": 15,
       "Canyon Wren": 5,
@@ -32,7 +32,7 @@
       "Bell's Vireo": 10,
       "Carolina Wren": 9,
       "Couch's Kingbird": 1,
-      "Northern Cardinal": 78,
+      "Northern Cardinal": 80,
       "Orchard Oriole": 3,
       "Insect": 8,
       "Song Sparrow": 32,
@@ -67,7 +67,7 @@
       "Loggerhead Shrike": 4,
       "American Golden-Plover": 1,
       "Brown Thrasher": 2,
-      "Vehicle": 43,
+      "Vehicle": 45,
       "Black-throated Sparrow": 22,
       "Grasshopper Sparrow": 1,
       "White-winged Dove": 2,
@@ -82,15 +82,16 @@
       "Eastern Screech-Owl": 1,
       "Wind": 2,
       "Verdin": 1,
-      "Brown-crested Flycatcher": 1,
-      "Eastern Bluebird": 1
+      "Brown-crested Flycatcher": 2,
+      "Eastern Bluebird": 1,
+      "Red-headed Woodpecker": 1
     },
     "month": {
-      "Chuck-will's-widow": 1685,
+      "Chuck-will's-widow": 1743,
       "House Finch": 738,
-      "Animal": 2597,
+      "Animal": 2603,
       "Cat": 2,
-      "Wild animals": 1939,
+      "Wild animals": 1950,
       "Purple Martin": 49,
       "Horned Lark": 15,
       "Canyon Wren": 5,
@@ -115,7 +116,7 @@
       "Bell's Vireo": 10,
       "Carolina Wren": 9,
       "Couch's Kingbird": 1,
-      "Northern Cardinal": 78,
+      "Northern Cardinal": 80,
       "Orchard Oriole": 3,
       "Insect": 8,
       "Song Sparrow": 32,
@@ -150,7 +151,7 @@
       "Loggerhead Shrike": 4,
       "American Golden-Plover": 1,
       "Brown Thrasher": 2,
-      "Vehicle": 43,
+      "Vehicle": 45,
       "Black-throated Sparrow": 22,
       "Grasshopper Sparrow": 1,
       "White-winged Dove": 2,
@@ -165,15 +166,16 @@
       "Eastern Screech-Owl": 1,
       "Wind": 2,
       "Verdin": 1,
-      "Brown-crested Flycatcher": 1,
-      "Eastern Bluebird": 1
+      "Brown-crested Flycatcher": 2,
+      "Eastern Bluebird": 1,
+      "Red-headed Woodpecker": 1
     },
     "season": {
-      "Chuck-will's-widow": 1685,
+      "Chuck-will's-widow": 1743,
       "House Finch": 738,
-      "Animal": 2597,
+      "Animal": 2603,
       "Cat": 2,
-      "Wild animals": 1939,
+      "Wild animals": 1950,
       "Purple Martin": 49,
       "Horned Lark": 15,
       "Canyon Wren": 5,
@@ -198,7 +200,7 @@
       "Bell's Vireo": 10,
       "Carolina Wren": 9,
       "Couch's Kingbird": 1,
-      "Northern Cardinal": 78,
+      "Northern Cardinal": 80,
       "Orchard Oriole": 3,
       "Insect": 8,
       "Song Sparrow": 32,
@@ -233,7 +235,7 @@
       "Loggerhead Shrike": 4,
       "American Golden-Plover": 1,
       "Brown Thrasher": 2,
-      "Vehicle": 43,
+      "Vehicle": 45,
       "Black-throated Sparrow": 22,
       "Grasshopper Sparrow": 1,
       "White-winged Dove": 2,
@@ -248,8 +250,9 @@
       "Eastern Screech-Owl": 1,
       "Wind": 2,
       "Verdin": 1,
-      "Brown-crested Flycatcher": 1,
-      "Eastern Bluebird": 1
+      "Brown-crested Flycatcher": 2,
+      "Eastern Bluebird": 1,
+      "Red-headed Woodpecker": 1
     }
   },
   "analyzed_sources": [],
@@ -122198,6 +122201,1388 @@
       "clip": "audio/20260517_100024_wild_animals.wav",
       "linked_photo": null,
       "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_100057_yamnet_265",
+      "timestamp": "20260517_100057",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.4032,
+      "clip": "audio/20260517_100057_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_100100_yamnet_266",
+      "timestamp": "20260517_100100",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.5188,
+      "clip": "audio/20260517_100100_animal.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_100100_yamnet_267",
+      "timestamp": "20260517_100100",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.5591,
+      "clip": "audio/20260517_100100_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_101021_yamnet_268",
+      "timestamp": "20260517_101021",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.4719,
+      "clip": "audio/20260517_101021_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_101024_yamnet_269",
+      "timestamp": "20260517_101024",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.447,
+      "clip": "audio/20260517_101024_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_102236_yamnet_270",
+      "timestamp": "20260517_102236",
+      "detector": "yamnet",
+      "species": "Vehicle",
+      "scientific_name": null,
+      "confidence": 0.5201,
+      "clip": "audio/20260517_102236_vehicle.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_102448_yamnet_271",
+      "timestamp": "20260517_102448",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.5599,
+      "clip": "audio/20260517_102448_animal.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_102448_yamnet_272",
+      "timestamp": "20260517_102448",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.6133,
+      "clip": "audio/20260517_102448_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_103200_yamnet_273",
+      "timestamp": "20260517_103200",
+      "detector": "yamnet",
+      "species": "Vehicle",
+      "scientific_name": null,
+      "confidence": 0.4241,
+      "clip": "audio/20260517_103200_vehicle.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_103354_yamnet_274",
+      "timestamp": "20260517_103354",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.4379,
+      "clip": "audio/20260517_103354_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_103727_yamnet_275",
+      "timestamp": "20260517_103727",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.4376,
+      "clip": "audio/20260517_103727_animal.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_103727_yamnet_276",
+      "timestamp": "20260517_103727",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.5229,
+      "clip": "audio/20260517_103727_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104118_yamnet_277",
+      "timestamp": "20260517_104118",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.4372,
+      "clip": "audio/20260517_104118_animal.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104118_yamnet_278",
+      "timestamp": "20260517_104118",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.4601,
+      "clip": "audio/20260517_104118_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104148_yamnet_279",
+      "timestamp": "20260517_104148",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.4234,
+      "clip": "audio/20260517_104148_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104157_yamnet_280",
+      "timestamp": "20260517_104157",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.4791,
+      "clip": "audio/20260517_104157_animal.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104157_yamnet_281",
+      "timestamp": "20260517_104157",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.4098,
+      "clip": "audio/20260517_104157_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104406_birdnet_011",
+      "timestamp": "20260517_104406",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9944,
+      "clip": "audio/20260517_104406_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104518_birdnet_012",
+      "timestamp": "20260517_104518",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.5086,
+      "clip": "audio/20260517_104518_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104527_birdnet_013",
+      "timestamp": "20260517_104527",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9792,
+      "clip": "audio/20260517_104527_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104833_birdnet_014",
+      "timestamp": "20260517_104833",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9594,
+      "clip": "audio/20260517_104833_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104845_birdnet_015",
+      "timestamp": "20260517_104845",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.8514,
+      "clip": "audio/20260517_104845_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104848_birdnet_016",
+      "timestamp": "20260517_104848",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9523,
+      "clip": "audio/20260517_104848_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104924_birdnet_017",
+      "timestamp": "20260517_104924",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.8496,
+      "clip": "audio/20260517_104924_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104942_birdnet_018",
+      "timestamp": "20260517_104942",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.6632,
+      "clip": "audio/20260517_104942_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104945_birdnet_019",
+      "timestamp": "20260517_104945",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.372,
+      "clip": "audio/20260517_104945_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_104951_birdnet_020",
+      "timestamp": "20260517_104951",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9679,
+      "clip": "audio/20260517_104951_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105030_yamnet_282",
+      "timestamp": "20260517_105030",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.6814,
+      "clip": "audio/20260517_105030_animal.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105030_yamnet_283",
+      "timestamp": "20260517_105030",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.6943,
+      "clip": "audio/20260517_105030_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105045_birdnet_021",
+      "timestamp": "20260517_105045",
+      "detector": "birdnet",
+      "species": "Red-headed Woodpecker",
+      "scientific_name": "Melanerpes erythrocephalus",
+      "confidence": 0.3717,
+      "clip": "audio/20260517_105045_red-headed_woodpecker.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105106_birdnet_022",
+      "timestamp": "20260517_105106",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.5192,
+      "clip": "audio/20260517_105106_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105248_birdnet_023",
+      "timestamp": "20260517_105248",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.413,
+      "clip": "audio/20260517_105248_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105303_birdnet_024",
+      "timestamp": "20260517_105303",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.758,
+      "clip": "audio/20260517_105303_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105354_birdnet_025",
+      "timestamp": "20260517_105354",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9951,
+      "clip": "audio/20260517_105354_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105451_birdnet_026",
+      "timestamp": "20260517_105451",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.3264,
+      "clip": "audio/20260517_105451_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105533_birdnet_027",
+      "timestamp": "20260517_105533",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.8925,
+      "clip": "audio/20260517_105533_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105542_birdnet_028",
+      "timestamp": "20260517_105542",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9967,
+      "clip": "audio/20260517_105542_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105548_birdnet_029",
+      "timestamp": "20260517_105548",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9903,
+      "clip": "audio/20260517_105548_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105554_birdnet_030",
+      "timestamp": "20260517_105554",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.798,
+      "clip": "audio/20260517_105554_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105600_birdnet_031",
+      "timestamp": "20260517_105600",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9514,
+      "clip": "audio/20260517_105600_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105603_birdnet_032",
+      "timestamp": "20260517_105603",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9531,
+      "clip": "audio/20260517_105603_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105606_birdnet_033",
+      "timestamp": "20260517_105606",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9884,
+      "clip": "audio/20260517_105606_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105609_birdnet_034",
+      "timestamp": "20260517_105609",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9672,
+      "clip": "audio/20260517_105609_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105615_birdnet_035",
+      "timestamp": "20260517_105615",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9959,
+      "clip": "audio/20260517_105615_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105618_birdnet_036",
+      "timestamp": "20260517_105618",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9994,
+      "clip": "audio/20260517_105618_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105621_birdnet_037",
+      "timestamp": "20260517_105621",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9922,
+      "clip": "audio/20260517_105621_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105630_birdnet_038",
+      "timestamp": "20260517_105630",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.8953,
+      "clip": "audio/20260517_105630_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105639_birdnet_039",
+      "timestamp": "20260517_105639",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9585,
+      "clip": "audio/20260517_105639_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105648_birdnet_040",
+      "timestamp": "20260517_105648",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.6142,
+      "clip": "audio/20260517_105648_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105700_birdnet_041",
+      "timestamp": "20260517_105700",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9458,
+      "clip": "audio/20260517_105700_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105709_birdnet_042",
+      "timestamp": "20260517_105709",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9929,
+      "clip": "audio/20260517_105709_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105715_birdnet_043",
+      "timestamp": "20260517_105715",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9973,
+      "clip": "audio/20260517_105715_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105721_birdnet_044",
+      "timestamp": "20260517_105721",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.7455,
+      "clip": "audio/20260517_105721_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105727_birdnet_045",
+      "timestamp": "20260517_105727",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9312,
+      "clip": "audio/20260517_105727_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105730_birdnet_046",
+      "timestamp": "20260517_105730",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.6281,
+      "clip": "audio/20260517_105730_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105736_birdnet_047",
+      "timestamp": "20260517_105736",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.4292,
+      "clip": "audio/20260517_105736_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105739_birdnet_048",
+      "timestamp": "20260517_105739",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.4259,
+      "clip": "audio/20260517_105739_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105742_birdnet_049",
+      "timestamp": "20260517_105742",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9677,
+      "clip": "audio/20260517_105742_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105745_birdnet_050",
+      "timestamp": "20260517_105745",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9545,
+      "clip": "audio/20260517_105745_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105800_birdnet_051",
+      "timestamp": "20260517_105800",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9459,
+      "clip": "audio/20260517_105800_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105803_birdnet_052",
+      "timestamp": "20260517_105803",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.8184,
+      "clip": "audio/20260517_105803_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105806_birdnet_053",
+      "timestamp": "20260517_105806",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.3965,
+      "clip": "audio/20260517_105806_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105827_birdnet_054",
+      "timestamp": "20260517_105827",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9938,
+      "clip": "audio/20260517_105827_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105842_birdnet_055",
+      "timestamp": "20260517_105842",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.8713,
+      "clip": "audio/20260517_105842_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105903_birdnet_056",
+      "timestamp": "20260517_105903",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9792,
+      "clip": "audio/20260517_105903_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105915_birdnet_057",
+      "timestamp": "20260517_105915",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.851,
+      "clip": "audio/20260517_105915_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105918_birdnet_058",
+      "timestamp": "20260517_105918",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.998,
+      "clip": "audio/20260517_105918_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105921_birdnet_059",
+      "timestamp": "20260517_105921",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9921,
+      "clip": "audio/20260517_105921_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105927_birdnet_060",
+      "timestamp": "20260517_105927",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9917,
+      "clip": "audio/20260517_105927_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105930_birdnet_061",
+      "timestamp": "20260517_105930",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.4007,
+      "clip": "audio/20260517_105930_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105933_birdnet_062",
+      "timestamp": "20260517_105933",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.4637,
+      "clip": "audio/20260517_105933_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105936_birdnet_063",
+      "timestamp": "20260517_105936",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.3028,
+      "clip": "audio/20260517_105936_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105939_birdnet_064",
+      "timestamp": "20260517_105939",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9737,
+      "clip": "audio/20260517_105939_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105945_birdnet_065",
+      "timestamp": "20260517_105945",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.4975,
+      "clip": "audio/20260517_105945_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105951_birdnet_066",
+      "timestamp": "20260517_105951",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.994,
+      "clip": "audio/20260517_105951_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_105954_birdnet_067",
+      "timestamp": "20260517_105954",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9983,
+      "clip": "audio/20260517_105954_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_110000_birdnet_068",
+      "timestamp": "20260517_110000",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9798,
+      "clip": "audio/20260517_110000_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_110006_birdnet_069",
+      "timestamp": "20260517_110006",
+      "detector": "birdnet",
+      "species": "Brown-crested Flycatcher",
+      "scientific_name": "Myiarchus tyrannulus",
+      "confidence": 0.4591,
+      "clip": "audio/20260517_110006_brown-crested_flycatcher.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_110018_birdnet_070",
+      "timestamp": "20260517_110018",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.9843,
+      "clip": "audio/20260517_110018_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_110036_birdnet_071",
+      "timestamp": "20260517_110036",
+      "detector": "birdnet",
+      "species": "Northern Cardinal",
+      "scientific_name": "Cardinalis cardinalis",
+      "confidence": 0.588,
+      "clip": "audio/20260517_110036_northern_cardinal.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260517_110048_birdnet_072",
+      "timestamp": "20260517_110048",
+      "detector": "birdnet",
+      "species": "Northern Cardinal",
+      "scientific_name": "Cardinalis cardinalis",
+      "confidence": 0.7799,
+      "clip": "audio/20260517_110048_northern_cardinal.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "",
+        "description": ""
+      },
       "reviewed": false,
       "submitted_to": null,
       "source": "realtime"
