@@ -1,13 +1,13 @@
 {
-  "unreviewed_count": 19834,
-  "updated": "2026-05-19T06:23:01",
+  "unreviewed_count": 19836,
+  "updated": "2026-05-19T07:54:46",
   "species_summary": {
     "week": {
       "Chuck-will's-widow": 1799,
       "House Finch": 1770,
-      "Animal": 7943,
+      "Animal": 7944,
       "Cat": 2,
-      "Wild animals": 5967,
+      "Wild animals": 5968,
       "Purple Martin": 128,
       "Horned Lark": 53,
       "Canyon Wren": 7,
@@ -122,9 +122,9 @@
     "month": {
       "Chuck-will's-widow": 1799,
       "House Finch": 1770,
-      "Animal": 7943,
+      "Animal": 7944,
       "Cat": 2,
-      "Wild animals": 5967,
+      "Wild animals": 5968,
       "Purple Martin": 128,
       "Horned Lark": 53,
       "Canyon Wren": 7,
@@ -239,9 +239,9 @@
     "season": {
       "Chuck-will's-widow": 1799,
       "House Finch": 1770,
-      "Animal": 7943,
+      "Animal": 7944,
       "Cat": 2,
-      "Wild animals": 5967,
+      "Wild animals": 5968,
       "Purple Martin": 128,
       "Horned Lark": 53,
       "Canyon Wren": 7,
@@ -301304,6 +301304,34 @@
         "conservation_status": "nt",
         "description": ""
       },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260519_075446_yamnet_1341",
+      "timestamp": "20260519_075446",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.4114,
+      "clip": "audio/20260519_075446_animal.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260519_075446_yamnet_1342",
+      "timestamp": "20260519_075446",
+      "detector": "yamnet",
+      "species": "Wild animals",
+      "scientific_name": null,
+      "confidence": 0.4475,
+      "clip": "audio/20260519_075446_wild_animals.wav",
+      "linked_photo": null,
+      "species_info": {},
       "reviewed": false,
       "submitted_to": null,
       "source": "realtime"
