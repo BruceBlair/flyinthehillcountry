@@ -11295,6 +11295,20 @@
       "nice_shot": 8.4
     },
     {
+      "timestamp": "20260519_031613",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260519_031613_High Res In The Hill Country-1-20260519_031608.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 8.1
+    },
+    {
       "timestamp": "20260505_060530",
       "label": "sunrise_scene",
       "categories": [
@@ -11415,5 +11429,5 @@
       "nice_shot": null
     }
   ],
-  "updated": "2026-05-19T03:07:08.145382"
+  "updated": "2026-05-19T04:07:02.258457"
 }
