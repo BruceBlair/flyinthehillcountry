@@ -1,11 +1,11 @@
 {
-  "unreviewed_count": 33171,
-  "updated": "2026-05-20T06:50:43",
+  "unreviewed_count": 33175,
+  "updated": "2026-05-20T08:03:25",
   "species_summary": {
     "week": {
       "Chuck-will's-widow": 2239,
       "House Finch": 2942,
-      "Animal": 13625,
+      "Animal": 13626,
       "Cat": 2,
       "Wild animals": 10850,
       "Purple Martin": 199,
@@ -113,7 +113,7 @@
       "Ruby-crowned Kinglet": 5,
       "Carolina Chickadee": 2,
       "Eastern Wood-Pewee": 2,
-      "Thunder": 28,
+      "Thunder": 30,
       "White-crowned Sparrow": 1,
       "Eared Grebe": 1,
       "Curve-billed Thrasher": 1,
@@ -131,12 +131,13 @@
       "Red-tailed Hawk": 1,
       "Winter Wren": 1,
       "Eastern Phoebe": 1,
-      "Ring-necked Duck": 1
+      "Ring-necked Duck": 1,
+      "American Coot": 1
     },
     "month": {
       "Chuck-will's-widow": 2239,
       "House Finch": 2942,
-      "Animal": 13625,
+      "Animal": 13626,
       "Cat": 2,
       "Wild animals": 10850,
       "Purple Martin": 199,
@@ -244,7 +245,7 @@
       "Ruby-crowned Kinglet": 5,
       "Carolina Chickadee": 2,
       "Eastern Wood-Pewee": 2,
-      "Thunder": 28,
+      "Thunder": 30,
       "White-crowned Sparrow": 1,
       "Eared Grebe": 1,
       "Curve-billed Thrasher": 1,
@@ -262,12 +263,13 @@
       "Red-tailed Hawk": 1,
       "Winter Wren": 1,
       "Eastern Phoebe": 1,
-      "Ring-necked Duck": 1
+      "Ring-necked Duck": 1,
+      "American Coot": 1
     },
     "season": {
       "Chuck-will's-widow": 2239,
       "House Finch": 2942,
-      "Animal": 13625,
+      "Animal": 13626,
       "Cat": 2,
       "Wild animals": 10850,
       "Purple Martin": 199,
@@ -375,7 +377,7 @@
       "Ruby-crowned Kinglet": 5,
       "Carolina Chickadee": 2,
       "Eastern Wood-Pewee": 2,
-      "Thunder": 28,
+      "Thunder": 30,
       "White-crowned Sparrow": 1,
       "Eared Grebe": 1,
       "Curve-billed Thrasher": 1,
@@ -393,7 +395,8 @@
       "Red-tailed Hawk": 1,
       "Winter Wren": 1,
       "Eastern Phoebe": 1,
-      "Ring-necked Duck": 1
+      "Ring-necked Duck": 1,
+      "American Coot": 1
     }
   },
   "analyzed_sources": [],
@@ -498726,6 +498729,66 @@
       "scientific_name": null,
       "confidence": 0.4275,
       "clip": "audio/20260520_065043_wind.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260520_065916_yamnet_2180",
+      "timestamp": "20260520_065916",
+      "detector": "yamnet",
+      "species": "Thunder",
+      "scientific_name": null,
+      "confidence": 0.7972,
+      "clip": "audio/20260520_065916_thunder.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260520_070619_yamnet_2181",
+      "timestamp": "20260520_070619",
+      "detector": "yamnet",
+      "species": "Thunder",
+      "scientific_name": null,
+      "confidence": 0.7224,
+      "clip": "audio/20260520_070619_thunder.wav",
+      "linked_photo": null,
+      "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260520_080307_birdnet_779",
+      "timestamp": "20260520_080307",
+      "detector": "birdnet",
+      "species": "American Coot",
+      "scientific_name": "Fulica americana",
+      "confidence": 0.4086,
+      "clip": "audio/20260520_080307_american_coot.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260520_080325_yamnet_2182",
+      "timestamp": "20260520_080325",
+      "detector": "yamnet",
+      "species": "Animal",
+      "scientific_name": null,
+      "confidence": 0.4215,
+      "clip": "audio/20260520_080325_animal.wav",
       "linked_photo": null,
       "species_info": {},
       "reviewed": false,
