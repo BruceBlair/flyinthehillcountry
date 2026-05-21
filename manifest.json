@@ -1,6 +1,201 @@
 {
   "entries": [
     {
+      "timestamp": "20260520_032409",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032409_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032407",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032407_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032405",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032405_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032401",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032401_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032359",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032359_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032357",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032357_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032355",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032355_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032353",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032353_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032351",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032351_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032349",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032349_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032343",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032343_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032341",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032341_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032339",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032339_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032337",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032337_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
+      "timestamp": "20260520_032335",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_032335_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene"
+    },
+    {
       "timestamp": "20260520_204038",
       "label": "sunset_scene",
       "categories": [
@@ -273,6 +468,20 @@
       "nice_shot": 40.7
     },
     {
+      "timestamp": "20260520_030352",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260520_030352_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 37.6
+    },
+    {
       "timestamp": "20260520_030858",
       "label": "scene",
       "score": null,
@@ -397,21 +606,7 @@
       "clip": null,
       "source": "backfill_scene",
       "nice_shot": 37.3
-    },
-    {
-      "timestamp": "20260520_003031",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260520_003031_scene_camera_raw.jpg",
-      "clip": null,
-      "source": "backfill_scene",
-      "nice_shot": 37.2
     }
   ],
-  "updated": "2026-05-21T00:41:16.575408"
+  "updated": "2026-05-21T02:32:27.685588"
 }
