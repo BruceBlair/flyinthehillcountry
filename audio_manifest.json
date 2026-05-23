@@ -1,6 +1,6 @@
 {
-  "unreviewed_count": 44638,
-  "updated": "2026-05-23T05:59:44",
+  "unreviewed_count": 44639,
+  "updated": "2026-05-23T06:00:47",
   "species_summary": {
     "week": {
       "Chuck-will's-widow": 2747,
@@ -85,7 +85,7 @@
       "Brown-crested Flycatcher": 6,
       "Eastern Bluebird": 7,
       "Red-headed Woodpecker": 3,
-      "Wilson's Snipe": 7,
+      "Wilson's Snipe": 8,
       "American Wigeon": 1,
       "Mourning Dove": 19,
       "Spotted Sandpiper": 2,
@@ -228,7 +228,7 @@
       "Brown-crested Flycatcher": 6,
       "Eastern Bluebird": 7,
       "Red-headed Woodpecker": 3,
-      "Wilson's Snipe": 7,
+      "Wilson's Snipe": 8,
       "American Wigeon": 1,
       "Mourning Dove": 19,
       "Spotted Sandpiper": 2,
@@ -371,7 +371,7 @@
       "Brown-crested Flycatcher": 6,
       "Eastern Bluebird": 7,
       "Red-headed Woodpecker": 3,
-      "Wilson's Snipe": 7,
+      "Wilson's Snipe": 8,
       "American Wigeon": 1,
       "Mourning Dove": 19,
       "Spotted Sandpiper": 2,
@@ -668342,6 +668342,24 @@
       "clip": "audio/20260523_055944_wild_animals.wav",
       "linked_photo": null,
       "species_info": {},
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260523_060047_birdnet_671",
+      "timestamp": "20260523_060047",
+      "detector": "birdnet",
+      "species": "Wilson's Snipe",
+      "scientific_name": "Gallinago delicata",
+      "confidence": 0.4139,
+      "clip": "audio/20260523_060047_wilson's_snipe.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "",
+        "description": ""
+      },
       "reviewed": false,
       "submitted_to": null,
       "source": "realtime"
