@@ -37,6 +37,7 @@ SYNC_SCRIPT: Path | None = None
 FRAME_DURATION  = 0.12   # seconds per frame in timelapse (~8 fps)
 GOLDEN_PAD_MIN  = 30     # minutes padding before/after sunrise or sunset
 STATIC_DIR = Path(__file__).parent / "static"
+CREDS_PATH = Path.home() / ".gtn" / "platform_creds.json"
 
 _thumb_cache: dict[str, bytes] = {}
 _manifest_lock = threading.Lock()
@@ -81,6 +82,30 @@ def load_queue() -> dict:
 def save_queue(q: dict) -> None:
     with _queue_lock:
         atomic_write_json(HIGHLIGHTS_DIR / "upload_queue.json", q)
+
+
+def load_creds() -> dict:
+    if CREDS_PATH.exists():
+        return json.loads(CREDS_PATH.read_text())
+    return {"shutterstock": {}, "adobe_stock": {}, "anthropic": {}}
+
+
+def save_creds(creds: dict) -> None:
+    CREDS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    atomic_write_json(CREDS_PATH, creds)
+    CREDS_PATH.chmod(0o600)
+
+
+def platform_status() -> dict:
+    creds = load_creds()
+    result = {}
+    for platform in ("shutterstock", "adobe_stock"):
+        pc = creds.get(platform, {})
+        result[platform] = {
+            "configured": bool(pc.get("client_id") or pc.get("api_key")),
+            "has_token":  bool(pc.get("access_token")),
+        }
+    return result
 
 
 _DEFAULT_FLAGS = {"crop": False, "enhance": False, "auth_hold": False}
@@ -868,6 +893,8 @@ class ContentHandler(BaseHTTPRequestHandler):
                        json.dumps({"entries": entries_with_defaults(m)}).encode())
         elif p == "/api/upload/queue":
             self._send(200, "application/json", json.dumps(load_queue()).encode())
+        elif p == "/api/platforms/status":
+            self._send(200, "application/json", json.dumps(platform_status()).encode())
         elif p.startswith("/static/"):
             rel = unquote(p[len("/static/"):])
             try:
@@ -936,6 +963,16 @@ class ContentHandler(BaseHTTPRequestHandler):
             q = load_queue()
             q["mode"] = mode
             save_queue(q)
+            self._send(200, "application/json", b'{"ok":true}')
+        elif p == "/api/platforms/credentials":
+            platform = payload.get("platform")
+            if platform not in ("shutterstock", "adobe_stock", "anthropic"):
+                self._send(400, "application/json", b'{"error":"unknown platform"}'); return
+            creds = load_creds()
+            creds.setdefault(platform, {}).update(
+                {k: v for k, v in payload.items() if k != "platform"}
+            )
+            save_creds(creds)
             self._send(200, "application/json", b'{"ok":true}')
         else:
             self._send(404, "text/plain", b"Not found")

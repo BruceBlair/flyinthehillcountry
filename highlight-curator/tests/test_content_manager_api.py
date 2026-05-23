@@ -213,3 +213,27 @@ def test_queue_mode_switch(server):
     assert status == 200
     _, body = get(server + "/api/upload/queue")
     assert json.loads(body)["mode"] == "auto"
+
+
+def test_platforms_status_returns_structure(server, monkeypatch, tmp_path):
+    import content_manager as cm
+    monkeypatch.setattr(cm, "CREDS_PATH", tmp_path / "creds.json")
+    status, body = get(server + "/api/platforms/status")
+    data = json.loads(body)
+    assert status == 200
+    assert "shutterstock" in data
+    assert "adobe_stock" in data
+    assert "access_token" not in json.dumps(data)
+
+
+def test_platforms_credentials_save(server, monkeypatch, tmp_path):
+    import content_manager as cm
+    monkeypatch.setattr(cm, "CREDS_PATH", tmp_path / "creds.json")
+    status, data = post(server + "/api/platforms/credentials", {
+        "platform": "shutterstock",
+        "client_id": "test_id",
+        "client_secret": "test_secret"
+    })
+    assert status == 200
+    assert data["ok"] is True
+    assert (tmp_path / "creds.json").exists()
