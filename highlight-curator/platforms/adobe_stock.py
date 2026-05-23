@@ -49,14 +49,14 @@ class AdobeStockClient:
             return {"asset_id": str(json.loads(r.read()).get("id", ""))}
 
     def get_status(self, asset_id: str) -> str:
-        if not self.access_token:
-            self.refresh_token()
-        req = urlreq.Request(
-            f"{STOCK_BASE}/{asset_id}",
-            headers={"Authorization": f"Bearer {self.access_token}",
-                     "x-api-key": self.api_key},
-        )
         try:
+            if not self.access_token:
+                self.refresh_token()
+            req = urlreq.Request(
+                f"{STOCK_BASE}/{asset_id}",
+                headers={"Authorization": f"Bearer {self.access_token}",
+                         "x-api-key": self.api_key},
+            )
             with urlreq.urlopen(req) as r:
                 return json.loads(r.read()).get("status", "unknown")
         except Exception:

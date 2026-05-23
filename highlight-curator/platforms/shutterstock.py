@@ -44,13 +44,13 @@ class ShutterstockClient:
             return {"asset_id": str(json.loads(r.read()).get("id", ""))}
 
     def get_status(self, asset_id: str) -> str:
-        if not self.access_token:
-            self.refresh_token()
-        req = urlreq.Request(
-            f"{BASE}/images/{asset_id}",
-            headers={"Authorization": f"Bearer {self.access_token}"},
-        )
         try:
+            if not self.access_token:
+                self.refresh_token()
+            req = urlreq.Request(
+                f"{BASE}/images/{asset_id}",
+                headers={"Authorization": f"Bearer {self.access_token}"},
+            )
             with urlreq.urlopen(req) as r:
                 return json.loads(r.read()).get("status", "unknown")
         except Exception:

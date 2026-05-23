@@ -47,3 +47,29 @@ def test_adobe_upload_returns_asset_id(tmp_path):
     with patch("urllib.request.urlopen", return_value=_mock_urlopen({"id": "adobe_5678"})):
         result = client.upload(img, {"title": "Test", "keywords": "nature"})
     assert result["asset_id"] == "adobe_5678"
+
+
+def test_shutterstock_get_status_returns_status(tmp_path):
+    client = ShutterstockClient("cid", "csec", access_token="tok")
+    with patch("urllib.request.urlopen", return_value=_mock_urlopen({"status": "approved"})):
+        assert client.get_status("9876") == "approved"
+
+
+def test_shutterstock_get_status_returns_unknown_on_error():
+    from urllib.error import URLError
+    client = ShutterstockClient("cid", "csec", access_token="tok")
+    with patch("urllib.request.urlopen", side_effect=URLError("network error")):
+        assert client.get_status("9876") == "unknown"
+
+
+def test_adobe_get_status_returns_status(tmp_path):
+    client = AdobeStockClient("apikey", "csec", access_token="tok")
+    with patch("urllib.request.urlopen", return_value=_mock_urlopen({"status": "pending"})):
+        assert client.get_status("adobe_5678") == "pending"
+
+
+def test_adobe_get_status_returns_unknown_on_error():
+    from urllib.error import URLError
+    client = AdobeStockClient("apikey", "csec", access_token="tok")
+    with patch("urllib.request.urlopen", side_effect=URLError("network error")):
+        assert client.get_status("adobe_5678") == "unknown"
