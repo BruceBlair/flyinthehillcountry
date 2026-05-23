@@ -101,3 +101,30 @@ def test_timelapses_returns_entries(server, tmp_path):
     data = json.loads(body)
     assert status == 200
     assert len(data["entries"]) == 1
+
+
+def test_root_serves_command_center(server):
+    status, body = get(server + "/")
+    assert status == 200
+    assert b"command_center" in body.lower()
+
+
+def test_static_css_served(server):
+    status, body = get(server + "/static/css/command_center.css")
+    assert status == 200
+
+
+def test_static_404_for_missing(server):
+    try:
+        get(server + "/static/does_not_exist.xyz")
+        assert False, "expected 404"
+    except urllib.error.HTTPError as e:
+        assert e.code == 404
+
+
+def test_static_traversal_blocked(server):
+    try:
+        get(server + "/static/../content_manager.py")
+        assert False, "expected 403 or 404"
+    except urllib.error.HTTPError as e:
+        assert e.code in (403, 404)

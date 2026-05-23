@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GTN Command Center</title>
+<link rel="stylesheet" href="/static/css/command_center.css">
+</head>
+<body>
+<div id="app">
+  <nav id="sidebar">
+    <div id="sidebar-title">GTN</div>
+    <a class="nav-item active" data-tab="photos">Photos</a>
+    <a class="nav-item" data-tab="timelapse">Timelapse</a>
+    <a class="nav-item" data-tab="upload">Upload</a>
+    <a class="nav-item" data-tab="platforms">Platforms</a>
+    <a class="nav-item" data-tab="status">Status</a>
+    <div id="sidebar-footer">
+      <a class="nav-item" id="claude-toggle">Claude</a>
+    </div>
+  </nav>
+  <main id="content">
+    <div id="tab-photos" class="tab active"></div>
+    <div id="tab-timelapse" class="tab"></div>
+    <div id="tab-upload" class="tab"></div>
+    <div id="tab-platforms" class="tab"></div>
+    <div id="tab-status" class="tab"></div>
+  </main>
+  <aside id="claude-panel" class="hidden">
+    <div id="claude-header">
+      <span>Claude</span>
+      <button id="claude-close">X</button>
+    </div>
+    <div id="claude-messages"></div>
+    <div id="claude-input-row">
+      <input id="claude-input" type="text" placeholder="Ask anything...">
+      <button id="claude-send">Send</button>
+    </div>
+  </aside>
+</div>
+<div id="toast"></div>
+<script src="/static/js/photos.js"></script>
+<script src="/static/js/upload.js"></script>
+<script src="/static/js/platforms.js"></script>
+<script src="/static/js/claude_panel.js"></script>
+<script>
+let currentTab = 'photos';
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-item[data-tab]').forEach(n => n.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  const navItem = document.querySelector('.nav-item[data-tab="' + name + '"]');
+  if (navItem) navItem.classList.add('active');
+  currentTab = name;
+  if (name === 'photos')    loadPhotos();
+  if (name === 'upload')    loadUploadQueue();
+  if (name === 'platforms') loadPlatforms();
+  if (name === 'status')    loadStatus();
+}
+
+function showToast(msg, ok) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = (ok === false) ? '#c33' : '#2a7';
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 3000);
+}
+
+document.querySelectorAll('.nav-item[data-tab]').forEach(el => {
+  el.addEventListener('click', () => switchTab(el.dataset.tab));
+});
+document.getElementById('claude-toggle').addEventListener('click', () => {
+  document.getElementById('claude-panel').classList.toggle('hidden');
+});
+document.getElementById('claude-close').addEventListener('click', () => {
+  document.getElementById('claude-panel').classList.add('hidden');
+});
+
+window.addEventListener('load', () => switchTab('photos'));
+</script>
+</body>
+</html>

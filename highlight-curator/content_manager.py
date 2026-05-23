@@ -14,6 +14,7 @@ import argparse
 import io
 import json
 import logging
+import mimetypes
 import os
 import shutil
 import subprocess
@@ -34,6 +35,7 @@ FRIGATE_DIR    = Path(os.getenv("FRIGATE_DIR",    "/volume1/docker/frigate/media
 SYNC_SCRIPT: Path | None = None
 FRAME_DURATION  = 0.12   # seconds per frame in timelapse (~8 fps)
 GOLDEN_PAD_MIN  = 30     # minutes padding before/after sunrise or sunset
+STATIC_DIR = Path(__file__).parent / "static"
 
 _thumb_cache: dict[str, bytes] = {}
 _manifest_lock = threading.Lock()
@@ -752,7 +754,11 @@ class ContentHandler(BaseHTTPRequestHandler):
         p = urlparse(self.path).path
 
         if p == "/":
-            self._send(200, "text/html", _HTML.encode())
+            shell = STATIC_DIR / "command_center.html"
+            if shell.exists():
+                self._send(200, "text/html", shell.read_bytes())
+            else:
+                self._send(200, "text/html", _HTML.encode())
         elif p == "/api/images":
             self._send(200, "application/json",
                        json.dumps(images_by_category()).encode())
@@ -782,6 +788,17 @@ class ContentHandler(BaseHTTPRequestHandler):
             if not full.exists():
                 self._send(404, "text/plain", b"Not found"); return
             self._send(200, "video/mp4", full.read_bytes())
+        elif p.startswith("/static/"):
+            rel = p[len("/static/"):]
+            try:
+                target = (STATIC_DIR / rel).resolve()
+                target.relative_to(STATIC_DIR.resolve())
+            except Exception:
+                self._send(403, "text/plain", b"Forbidden"); return
+            if not target.exists() or not target.is_file():
+                self._send(404, "text/plain", b"Not found"); return
+            ct, _ = mimetypes.guess_type(str(target))
+            self._send(200, ct or "application/octet-stream", target.read_bytes())
         else:
             self._send(404, "text/plain", b"Not found")
 
