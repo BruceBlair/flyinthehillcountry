@@ -1,9 +1,9 @@
 {
-  "unreviewed_count": 44608,
-  "updated": "2026-05-23T04:53:59",
+  "unreviewed_count": 44609,
+  "updated": "2026-05-23T04:58:59",
   "species_summary": {
     "week": {
-      "Chuck-will's-widow": 2745,
+      "Chuck-will's-widow": 2746,
       "House Finch": 4188,
       "Animal": 18228,
       "Cat": 2,
@@ -146,7 +146,7 @@
       "House Sparrow": 1
     },
     "month": {
-      "Chuck-will's-widow": 2745,
+      "Chuck-will's-widow": 2746,
       "House Finch": 4188,
       "Animal": 18228,
       "Cat": 2,
@@ -289,7 +289,7 @@
       "House Sparrow": 1
     },
     "season": {
-      "Chuck-will's-widow": 2745,
+      "Chuck-will's-widow": 2746,
       "House Finch": 4188,
       "Animal": 18228,
       "Cat": 2,
@@ -667908,6 +667908,24 @@
       "scientific_name": "Antrostomus carolinensis",
       "confidence": 0.3183,
       "clip": "audio/20260523_045359_chuck-will's-widow.wav",
+      "linked_photo": null,
+      "species_info": {
+        "family": "",
+        "conservation_status": "nt",
+        "description": ""
+      },
+      "reviewed": false,
+      "submitted_to": null,
+      "source": "realtime"
+    },
+    {
+      "id": "audio_20260523_045859_birdnet_669",
+      "timestamp": "20260523_045859",
+      "detector": "birdnet",
+      "species": "Chuck-will's-widow",
+      "scientific_name": "Antrostomus carolinensis",
+      "confidence": 0.6916,
+      "clip": "audio/20260523_045859_chuck-will's-widow.wav",
       "linked_photo": null,
       "species_info": {
         "family": "",
