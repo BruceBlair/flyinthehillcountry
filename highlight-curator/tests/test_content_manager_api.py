@@ -106,12 +106,13 @@ def test_timelapses_returns_entries(server, tmp_path):
 def test_root_serves_command_center(server):
     status, body = get(server + "/")
     assert status == 200
-    assert b"command_center" in body.lower()
+    assert b'id="sidebar"' in body  # unique to the new shell
 
 
 def test_static_css_served(server):
     status, body = get(server + "/static/css/command_center.css")
     assert status == 200
+    assert b"nav-item" in body  # verify actual CSS content served
 
 
 def test_static_404_for_missing(server):

@@ -790,7 +790,7 @@ class ContentHandler(BaseHTTPRequestHandler):
                 self._send(404, "text/plain", b"Not found"); return
             self._send(200, "video/mp4", full.read_bytes())
         elif p.startswith("/static/"):
-            rel = p[len("/static/"):]
+            rel = unquote(p[len("/static/"):])
             try:
                 target = (STATIC_DIR / rel).resolve()
                 target.relative_to(STATIC_DIR.resolve())
