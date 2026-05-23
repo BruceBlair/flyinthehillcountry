@@ -24,11 +24,13 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from urllib.parse import urlparse, unquote
 
+from manifest_io import atomic_write_json
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(message)s", datefmt="%H:%M:%S")
 log = logging.getLogger("content-manager")
 
 HIGHLIGHTS_DIR = Path(os.getenv("HIGHLIGHTS_DIR", "/volume1/highlights"))
-FRIGATE_DIR    = Path(os.getenv("FRIGATE_DIR",    "/volume1/frigate"))
+FRIGATE_DIR    = Path(os.getenv("FRIGATE_DIR",    "/volume1/docker/frigate/media/recordings"))
 SYNC_SCRIPT: Path | None = None
 FRAME_DURATION  = 0.12   # seconds per frame in timelapse (~8 fps)
 GOLDEN_PAD_MIN  = 30     # minutes padding before/after sunrise or sunset
@@ -40,6 +42,7 @@ _manifest_lock = threading.Lock()
 
 _job_lock = threading.Lock()
 _job: dict = {"state": "idle", "stage": "", "frames_done": 0, "frames_total": 0, "error": ""}
+_build_queue: list[tuple] = []   # list of (start_dt, end_dt, label, interval_secs)
 
 
 def _job_update(**kwargs) -> None:
@@ -49,7 +52,7 @@ def _job_update(**kwargs) -> None:
 
 def _job_snapshot() -> dict:
     with _job_lock:
-        return dict(_job)
+        return {**_job, "queued": len(_build_queue)}
 
 
 # ── Manifest helpers ──────────────────────────────────────────────────────────
@@ -61,7 +64,7 @@ def load_manifest() -> dict:
 
 def save_manifest(m: dict) -> None:
     with _manifest_lock:
-        (HIGHLIGHTS_DIR / "manifest.json").write_text(json.dumps(m, indent=2))
+        atomic_write_json(HIGHLIGHTS_DIR / "manifest.json", m)
 
 
 def images_by_category() -> dict:
@@ -99,7 +102,7 @@ def delete_snapshots(paths: list[str]) -> int:
             else:
                 kept.append(e)
         m["entries"] = kept
-        (HIGHLIGHTS_DIR / "manifest.json").write_text(json.dumps(m, indent=2))
+        atomic_write_json(HIGHLIGHTS_DIR / "manifest.json", m)
     if deleted:
         _trigger_sync()
     return deleted
@@ -212,10 +215,15 @@ button.ok{background:#2a7}
 .progress-bar{height:100%;background:#0af;width:0%;transition:width .3s}
 .tl-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
           gap:10px;margin-top:16px}
-.tl-card{background:#1e1e1e;border:1px solid #333;border-radius:6px;
-          overflow:hidden;cursor:pointer}
+.tl-card{background:#1e1e1e;border:2px solid #333;border-radius:6px;
+          overflow:hidden;cursor:pointer;position:relative}
+.tl-card.tl-selected{border-color:#0af}
 .tl-card img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#222}
 .tl-card-info{padding:8px 10px;font-size:12px;color:#aaa;line-height:1.6}
+.tl-card-play{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55);
+  border:none;border-radius:50%;width:28px;height:28px;font-size:14px;
+  color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.tl-card-play:hover{background:rgba(0,170,255,.7)}
 /* status */
 .log-box{background:#0d0d0d;border:1px solid #2a2a2a;border-radius:4px;
          padding:10px;font:12px/1.6 monospace;color:#8f8;white-space:pre-wrap;
@@ -296,8 +304,10 @@ button.ok{background:#2a7}
     </div>
   </div>
 
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap">
     <button class="ok" onclick="buildTimelapse()">Build Timelapse</button>
+    <button id="tlRebuildBtn" class="ok" style="display:none" onclick="rebuildSelected()">Rebuild selected (<span id="tlSelCount">0</span>)</button>
+    <button id="tlDelBtn" class="del" style="display:none" onclick="deleteSelected()">Delete selected</button>
     <span id="build-status" style="font-size:13px;color:#aaa"></span>
   </div>
   <div class="progress-wrap" id="prog-wrap">
@@ -452,13 +462,19 @@ async function confirmDelete() {
 
 // ── Timelapse tab ───────────────────────────────────────────────
 let tlMode = 'golden';
+
+function setMode(mode) {
+  tlMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  document.getElementById('form-golden').style.display  = mode === 'golden'  ? '' : 'none';
+  document.getElementById('form-fullday').style.display = mode === 'fullday' ? '' : 'none';
+  document.getElementById('form-custom').style.display  = mode === 'custom'  ? '' : 'none';
+}
+
 document.querySelectorAll('.mode-btn').forEach(b => b.addEventListener('click', () => {
-  document.querySelectorAll('.mode-btn').forEach(x => x.classList.remove('active'));
-  b.classList.add('active');
-  tlMode = b.dataset.mode;
-  document.getElementById('form-golden').style.display  = tlMode === 'golden'  ? '' : 'none';
-  document.getElementById('form-fullday').style.display = tlMode === 'fullday' ? '' : 'none';
-  document.getElementById('form-custom').style.display  = tlMode === 'custom'  ? '' : 'none';
+  setMode(b.dataset.mode);
   recalc();
 }));
 
@@ -513,7 +529,6 @@ function recalc() {
 let _building = false;
 
 async function buildTimelapse() {
-  if (_building) return;
   const isInterval = document.querySelector('input[name=timing]:checked').value === 'interval';
   let intervalSecs;
   if (isInterval) {
@@ -542,6 +557,9 @@ async function buildTimelapse() {
   });
   const j = await r.json();
   if (j.error) { toast('Error: ' + j.error); return; }
+  if (j.position > 1) {
+    toast('Queued — position ' + j.position + ' in queue');
+  }
   _building = true;
   document.getElementById('prog-wrap').style.display = '';
   pollBuild();
@@ -553,35 +571,90 @@ function pollBuild() {
     const j = await r.json();
     const st  = document.getElementById('build-status');
     const bar = document.getElementById('prog-bar');
+    const queueSuffix = j.queued > 0 ? ' \xb7 ' + j.queued + ' queued' : '';
     if (j.state === 'running') {
       const pct = j.frames_total > 0
         ? Math.round(j.frames_done / j.frames_total * 100) : 0;
       bar.style.width = pct + '%';
-      st.textContent  = j.stage + '... ' + j.frames_done + '/' + j.frames_total + ' frames';
+      st.textContent  = j.stage + '... ' + j.frames_done + '/' + j.frames_total + ' frames' + queueSuffix;
+      pollBuild();
+    } else if (j.queued > 0) {
+      bar.style.width = '0%';
+      st.textContent  = 'Waiting to start…' + queueSuffix;
+      if (j.state === 'done') { loadTimelapses(); toast('Timelapse built!'); }
       pollBuild();
     } else {
       _building = false;
-      bar.style.width = j.state === 'done' ? '100%' : '0%';
-      st.textContent  = j.state === 'done' ? 'Done!' : 'Error: ' + j.error;
+      document.getElementById('prog-wrap').style.display = 'none';
+      bar.style.width = '0%';
+      st.textContent  = j.state === 'done' ? 'Done!' : (j.error ? 'Error: ' + j.error : '');
       if (j.state === 'done') { loadTimelapses(); toast('Timelapse built!'); }
     }
   }, 1500);
+}
+
+const _tlSelected = new Map();  // video filename -> entry
+
+function _tlUpdateButtons() {
+  const n = _tlSelected.size;
+  document.getElementById('tlSelCount').textContent = n;
+  document.getElementById('tlRebuildBtn').style.display = n > 0 ? '' : 'none';
+  document.getElementById('tlDelBtn').style.display     = n > 0 ? '' : 'none';
+  // Single selection: also populate the form
+  if (n === 1) {
+    const e = [..._tlSelected.values()][0];
+    const type = (e.type || '').toLowerCase();
+    if (type === 'sunrise' || type === 'sunset') {
+      setMode('golden');
+      document.getElementById('gh-date').value = e.date || '';
+      document.getElementById('gh-type').value = type;
+    } else if (type === 'fullday') {
+      setMode('fullday');
+      document.getElementById('fd-date').value = e.date || '';
+    } else {
+      setMode('custom');
+      if (e.start) document.getElementById('cr-start').value = e.start.slice(0,16);
+      if (e.end)   document.getElementById('cr-end').value   = e.end.slice(0,16);
+      document.getElementById('cr-label').value = e.label || '';
+    }
+    recalc();
+  }
 }
 
 async function loadTimelapses() {
   const r = await fetch('/api/timelapses');
   const j = await r.json();
   const list = document.getElementById('tl-list');
-  list.textContent = '';  // safe clear
+  list.textContent = '';
+  _tlSelected.clear();
+  _tlUpdateButtons();
+
   (j.entries || []).forEach(e => {
     const card = document.createElement('div');
     card.className = 'tl-card';
-    card.addEventListener('click', () =>
-      window.open('/timelapse/' + encodeURIComponent(e.video), '_blank'));
+    card.addEventListener('click', () => {
+      if (_tlSelected.has(e.video)) {
+        _tlSelected.delete(e.video);
+        card.classList.remove('tl-selected');
+      } else {
+        _tlSelected.set(e.video, e);
+        card.classList.add('tl-selected');
+      }
+      _tlUpdateButtons();
+    });
 
     const img = document.createElement('img');
     img.src = e.thumbnail ? '/thumb/' + encodeURIComponent(e.thumbnail) : '';
     img.alt = '';
+
+    const play = document.createElement('button');
+    play.className = 'tl-card-play';
+    play.title = 'Watch';
+    play.textContent = '▶';
+    play.addEventListener('click', ev => {
+      ev.stopPropagation();
+      window.open('/timelapse/' + encodeURIComponent(e.video), '_blank');
+    });
 
     const info = document.createElement('div');
     info.className = 'tl-card-info';
@@ -595,9 +668,49 @@ async function loadTimelapses() {
     );
 
     info.append(title, detail);
-    card.append(img, info);
+    card.append(img, play, info);
     list.appendChild(card);
   });
+}
+
+async function rebuildSelected() {
+  if (_tlSelected.size === 0) return;
+  const entries = [..._tlSelected.values()];
+  let queued = 0;
+  for (const e of entries) {
+    const body = {mode: 'custom', interval_secs: 10};
+    if (e.start) body.start = e.start.slice(0,16);
+    if (e.end)   body.end   = e.end.slice(0,16);
+    body.label = e.label || e.type || 'rebuild';
+    const r = await fetch('/api/timelapse/build', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    const j = await r.json();
+    if (!j.error) queued++;
+  }
+  toast('Queued ' + queued + ' rebuild(s).');
+  _building = true;
+  document.getElementById('prog-wrap').style.display = '';
+  pollBuild();
+}
+
+async function deleteSelected() {
+  if (_tlSelected.size === 0) return;
+  if (!confirm('Delete ' + _tlSelected.size + ' timelapse(s)?\\n\\nThis cannot be undone.')) return;
+  let deleted = 0;
+  for (const video of _tlSelected.keys()) {
+    const r = await fetch('/api/timelapse/delete', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({video}),
+    });
+    const j = await r.json();
+    if (!j.error) deleted++;
+  }
+  toast('Deleted ' + deleted + '.');
+  loadTimelapses();
 }
 
 // ── Status tab ────────────────────────────────────────────────
@@ -687,9 +800,17 @@ class ContentHandler(BaseHTTPRequestHandler):
             self._send(200, "application/json",
                        json.dumps({"deleted": deleted, "paths": safe_paths}).encode())
         elif p == "/api/timelapse/build":
-            err = _start_build(payload)
+            err, position = _start_build(payload)
             if err:
-                self._send(409, "application/json",
+                self._send(400, "application/json",
+                           json.dumps({"error": err}).encode())
+            else:
+                self._send(200, "application/json",
+                           json.dumps({"ok": True, "position": position}).encode())
+        elif p == "/api/timelapse/delete":
+            err = _delete_timelapse(payload.get("video", ""))
+            if err:
+                self._send(400, "application/json",
                            json.dumps({"error": err}).encode())
             else:
                 self._send(200, "application/json", b'{"ok":true}')
@@ -707,11 +828,37 @@ class ContentHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
 
-# ── Timelapse list ──────────────────────────────────────────────────────────────────────────────
+# ── Timelapse list / delete ───────────────────────────────────────────────────────────────────────
 
 def _timelapses_json() -> bytes:
     mf = HIGHLIGHTS_DIR / "timelapse_manifest.json"
     return mf.read_bytes() if mf.exists() else b'{"entries":[]}'
+
+
+def _delete_timelapse(video_name: str) -> str | None:
+    """Remove a timelapse video and its manifest entry. Returns error string or None."""
+    if not video_name or "/" in video_name or "\\" in video_name:
+        return "Invalid video name"
+
+    mf_path = HIGHLIGHTS_DIR / "timelapse_manifest.json"
+    if not mf_path.exists():
+        return "No manifest found"
+
+    manifest = json.loads(mf_path.read_text())
+    entries = manifest.get("entries", [])
+    entry = next((e for e in entries if e.get("video") == video_name), None)
+    if not entry:
+        return f"Entry not found: {video_name}"
+
+    video_path = HIGHLIGHTS_DIR / "timelapse" / video_name
+    if video_path.exists():
+        video_path.unlink()
+
+    manifest["entries"] = [e for e in entries if e.get("video") != video_name]
+    manifest["updated"] = datetime.now().isoformat()
+    atomic_write_json(mf_path, manifest)
+    log.info("deleted timelapse %s", video_name)
+    return None
 
 
 # ── Pipeline log ──────────────────────────────────────────────────────────────────────────────
@@ -738,27 +885,37 @@ def _run_pipeline() -> None:
 
 # ── Build dispatch ──────────────────────────────────────────────────────────────────────────────
 
-def _start_build(payload: dict) -> str | None:
-    """Validate payload and start background build. Returns error string or None."""
-    if _job_snapshot()["state"] == "running":
-        return "A build is already in progress"
-
+def _start_build(payload: dict) -> tuple[str | None, int]:
+    """Validate payload and enqueue a build. Returns (error_string_or_None, queue_position)."""
     mode = payload.get("mode")
     if mode not in ("golden", "fullday", "custom"):
-        return f"Unknown mode: {mode!r}"
+        return f"Unknown mode: {mode!r}", 0
 
     interval_secs = max(1, int(payload.get("interval_secs") or 10))
 
     try:
         start_dt, end_dt, label = _resolve_window(payload)
     except Exception as exc:
-        return str(exc)
+        return str(exc), 0
 
+    with _job_lock:
+        _build_queue.append((start_dt, end_dt, label, interval_secs))
+        position = len(_build_queue)
+        already_running = _job["state"] == "running"
+
+    if not already_running:
+        _dispatch_next()
+
+    return None, position
+
+
+def _dispatch_next() -> None:
+    with _job_lock:
+        if not _build_queue:
+            return
+        args = _build_queue.pop(0)
     _job_update(state="running", stage="starting", frames_done=0, frames_total=0, error="")
-    threading.Thread(
-        target=_build_thread, args=(start_dt, end_dt, label, interval_secs), daemon=True
-    ).start()
-    return None
+    threading.Thread(target=_build_thread, args=args, daemon=True).start()
 
 
 def _resolve_window(payload: dict) -> tuple[datetime, datetime, str]:
@@ -839,6 +996,7 @@ def _build_thread(start_dt: datetime, end_dt: datetime,
         _job_update(state="error", error=str(exc))
     finally:
         shutil.rmtree(tmp_dir, ignore_errors=True)
+        _dispatch_next()
 
 
 def _write_timelapse_manifest(label: str, out_path: Path, frames: list[Path],
@@ -870,7 +1028,7 @@ def _write_timelapse_manifest(label: str, out_path: Path, frames: list[Path],
         "created":     datetime.now().isoformat(),
     })
     manifest["updated"] = datetime.now().isoformat()
-    mf_path.write_text(json.dumps(manifest, indent=2))
+    atomic_write_json(mf_path, manifest)
 
 
 # ── CLI ────────────────────────────────────────────────────────────────────────────────────
