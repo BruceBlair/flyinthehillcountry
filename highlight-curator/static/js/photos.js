@@ -6,10 +6,16 @@ let photosData = [];
 async function loadPhotos() {
   const tab = document.getElementById('tab-photos');
   tab.textContent = 'Loading...';
-  const r = await fetch('/api/photos');
-  const data = await r.json();
-  photosData = data.entries || [];
-  renderPhotos(tab);
+  try {
+    const r = await fetch('/api/photos');
+    if (!r.ok) throw new Error(r.status);
+    const data = await r.json();
+    photosData = data.entries || [];
+    renderPhotos(tab);
+  } catch (err) {
+    tab.textContent = '';
+    showToast('Failed to load photos', false);
+  }
 }
 
 function renderPhotos(container) {
@@ -59,9 +65,9 @@ function makePhotoCard(entry) {
 
   const chips = document.createElement('div');
   chips.className = 'flag-chips';
-  if (entry.flags && entry.flags.crop)      chips.appendChild(makeChip('CROP', 'chip-crop', entry, 'crop'));
-  if (entry.flags && entry.flags.enhance)   chips.appendChild(makeChip('ENH',  'chip-enh',  entry, 'enhance'));
-  if (entry.flags && entry.flags.auth_hold) chips.appendChild(makeChip('HOLD', 'chip-hold', entry, 'auth_hold'));
+  if (entry.flags && entry.flags.crop)      chips.appendChild(makeChip('CROP', 'chip-crop', entry));
+  if (entry.flags && entry.flags.enhance)   chips.appendChild(makeChip('ENH',  'chip-enh',  entry));
+  if (entry.flags && entry.flags.auth_hold) chips.appendChild(makeChip('HOLD', 'chip-hold', entry));
   card.appendChild(chips);
 
   const meta = document.createElement('div');
@@ -75,7 +81,7 @@ function makePhotoCard(entry) {
   return card;
 }
 
-function makeChip(label, cls, entry, flagKey) {
+function makeChip(label, cls, entry) {
   const chip = document.createElement('span');
   chip.className = 'chip ' + cls;
   chip.textContent = label;
@@ -166,10 +172,11 @@ function openFlagPopover(entry, card) {
 }
 
 async function addToQueue(snapshot) {
-  await fetch('/api/upload/queue/add', {
+  const resp = await fetch('/api/upload/queue/add', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({snapshot: snapshot, title: '', keywords: '', platforms: ['shutterstock', 'adobe_stock']})
+    body: JSON.stringify({snapshot, title: '', keywords: '', platforms: ['shutterstock', 'adobe_stock']})
   });
+  if (!resp.ok) { showToast('Failed to add to queue', false); return; }
   showToast('Added to upload queue');
 }
