@@ -77,7 +77,7 @@ def entries_with_defaults(m: dict) -> list:
     result = []
     for e in m.get("entries", []):
         entry = dict(e)
-        entry.setdefault("flags", dict(_DEFAULT_FLAGS))
+        entry["flags"] = {**_DEFAULT_FLAGS, **(entry.get("flags") or {})}
         entry.setdefault("crop_region", None)
         entry.setdefault("uploads", {})
         result.append(entry)
