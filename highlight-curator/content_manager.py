@@ -70,6 +70,20 @@ def save_manifest(m: dict) -> None:
         atomic_write_json(HIGHLIGHTS_DIR / "manifest.json", m)
 
 
+_DEFAULT_FLAGS = {"crop": False, "enhance": False, "auth_hold": False}
+
+
+def entries_with_defaults(m: dict) -> list:
+    result = []
+    for e in m.get("entries", []):
+        entry = dict(e)
+        entry.setdefault("flags", dict(_DEFAULT_FLAGS))
+        entry.setdefault("crop_region", None)
+        entry.setdefault("uploads", {})
+        result.append(entry)
+    return result
+
+
 def images_by_category() -> dict:
     cats: dict[str, list] = {}
     for e in load_manifest().get("entries", []):
@@ -789,6 +803,10 @@ class ContentHandler(BaseHTTPRequestHandler):
             if not full.exists():
                 self._send(404, "text/plain", b"Not found"); return
             self._send(200, "video/mp4", full.read_bytes())
+        elif p == "/api/photos":
+            m = load_manifest()
+            self._send(200, "application/json",
+                       json.dumps({"entries": entries_with_defaults(m)}).encode())
         elif p.startswith("/static/"):
             rel = unquote(p[len("/static/"):])
             try:

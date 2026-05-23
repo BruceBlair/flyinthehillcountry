@@ -129,3 +129,15 @@ def test_static_traversal_blocked(server):
         assert False, "expected 403 or 404"
     except urllib.error.HTTPError as e:
         assert e.code in (403, 404)
+
+
+def test_api_photos_returns_entries_with_flags(server):
+    status, body = get(server + "/api/photos")
+    data = json.loads(body)
+    assert status == 200
+    assert "entries" in data
+    for e in data["entries"]:
+        assert "flags" in e
+        assert set(e["flags"]) >= {"crop", "enhance", "auth_hold"}
+        assert "crop_region" in e
+        assert "uploads" in e
