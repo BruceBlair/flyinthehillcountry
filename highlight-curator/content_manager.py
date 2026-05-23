@@ -70,6 +70,19 @@ def save_manifest(m: dict) -> None:
         atomic_write_json(HIGHLIGHTS_DIR / "manifest.json", m)
 
 
+_queue_lock = threading.Lock()
+
+
+def load_queue() -> dict:
+    qf = HIGHLIGHTS_DIR / "upload_queue.json"
+    return json.loads(qf.read_text()) if qf.exists() else {"mode": "manual", "queue": []}
+
+
+def save_queue(q: dict) -> None:
+    with _queue_lock:
+        atomic_write_json(HIGHLIGHTS_DIR / "upload_queue.json", q)
+
+
 _DEFAULT_FLAGS = {"crop": False, "enhance": False, "auth_hold": False}
 
 
@@ -853,6 +866,8 @@ class ContentHandler(BaseHTTPRequestHandler):
             m = load_manifest()
             self._send(200, "application/json",
                        json.dumps({"entries": entries_with_defaults(m)}).encode())
+        elif p == "/api/upload/queue":
+            self._send(200, "application/json", json.dumps(load_queue()).encode())
         elif p.startswith("/static/"):
             rel = unquote(p[len("/static/"):])
             try:
@@ -899,6 +914,29 @@ class ContentHandler(BaseHTTPRequestHandler):
         elif p == "/api/pipeline/run":
             _run_pipeline()
             self._send(200, "application/json", b'{"ok":true}')
+        elif p == "/api/upload/queue/add":
+            snap = safe_rel(payload.get("snapshot", ""))
+            if not snap:
+                self._send(400, "application/json", b'{"error":"invalid snapshot"}'); return
+            q = load_queue()
+            if not any(e["snapshot"] == snap for e in q["queue"]):
+                q["queue"].append({
+                    "snapshot": snap,
+                    "title":    payload.get("title", ""),
+                    "keywords": payload.get("keywords", ""),
+                    "platforms": payload.get("platforms", []),
+                })
+            save_queue(q)
+            self._send(200, "application/json", b'{"ok":true}')
+        elif p == "/api/upload/queue/mode":
+            mode = payload.get("mode")
+            if mode not in ("manual", "auto"):
+                self._send(400, "application/json",
+                           b'{"error":"mode must be manual or auto"}'); return
+            q = load_queue()
+            q["mode"] = mode
+            save_queue(q)
+            self._send(200, "application/json", b'{"ok":true}')
         else:
             self._send(404, "text/plain", b"Not found")
 
@@ -935,6 +973,20 @@ class ContentHandler(BaseHTTPRequestHandler):
             self._send(200, "application/json", json.dumps(result).encode())
             return
 
+        self._send(404, "text/plain", b"Not found")
+
+    def do_DELETE(self):
+        p = urlparse(self.path).path
+        m = re.match(r"^/api/upload/queue/(.+)$", p)
+        if m:
+            snap = safe_rel(unquote(m.group(1)))
+            if not snap:
+                self._send(403, "text/plain", b"Forbidden"); return
+            q = load_queue()
+            q["queue"] = [e for e in q["queue"] if e.get("snapshot") != snap]
+            save_queue(q)
+            self._send(200, "application/json", b'{"ok":true}')
+            return
         self._send(404, "text/plain", b"Not found")
 
     def _send(self, status: int, ct: str, body: bytes):

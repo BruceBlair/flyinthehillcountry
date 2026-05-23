@@ -173,3 +173,43 @@ def test_patch_crop_region(server):
                          region)
     assert status == 200
     assert data["crop_region"] == region
+
+
+def delete_req(url):
+    req = urllib.request.Request(url, method="DELETE")
+    with urllib.request.urlopen(req) as r:
+        return r.status, json.loads(r.read())
+
+
+def test_queue_empty_on_start(server):
+    status, body = get(server + "/api/upload/queue")
+    data = json.loads(body)
+    assert status == 200
+    assert data["mode"] == "manual"
+    assert data["queue"] == []
+
+
+def test_queue_add_and_remove(server):
+    status, data = post(server + "/api/upload/queue/add", {
+        "snapshot": "golden_hour/sunrise/20260511_070000_scene.jpg",
+        "title": "Sunrise", "keywords": "sunrise, texas", "platforms": ["shutterstock"]
+    })
+    assert status == 200 and data["ok"] is True
+
+    status, body = get(server + "/api/upload/queue")
+    items = json.loads(body)["queue"]
+    assert len(items) == 1
+    snap = items[0]["snapshot"]
+
+    status, data = delete_req(server + "/api/upload/queue/" + urllib.parse.quote(snap, safe=''))
+    assert status == 200 and data["ok"] is True
+
+    status, body = get(server + "/api/upload/queue")
+    assert json.loads(body)["queue"] == []
+
+
+def test_queue_mode_switch(server):
+    status, data = post(server + "/api/upload/queue/mode", {"mode": "auto"})
+    assert status == 200
+    _, body = get(server + "/api/upload/queue")
+    assert json.loads(body)["mode"] == "auto"
