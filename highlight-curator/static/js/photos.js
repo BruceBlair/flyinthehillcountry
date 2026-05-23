@@ -81,7 +81,7 @@ function makeChip(label, cls, entry, flagKey) {
   chip.textContent = label;
   chip.addEventListener('click', function(e) {
     e.stopPropagation();
-    toggleFlag(entry, flagKey);
+    openFlagPopover(entry, e.currentTarget.closest('.photo-card'));
   });
   return chip;
 }
