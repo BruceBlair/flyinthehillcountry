@@ -85,9 +85,14 @@ def save_queue(q: dict) -> None:
 
 
 def load_creds() -> dict:
+    _defaults = {"shutterstock": {}, "adobe_stock": {}, "anthropic": {}}
     if CREDS_PATH.exists():
-        return json.loads(CREDS_PATH.read_text())
-    return {"shutterstock": {}, "adobe_stock": {}, "anthropic": {}}
+        try:
+            return json.loads(CREDS_PATH.read_text())
+        except (json.JSONDecodeError, OSError):
+            log.warning("platform_creds.json is corrupt or unreadable; using defaults")
+            return _defaults
+    return _defaults
 
 
 def save_creds(creds: dict) -> None:
