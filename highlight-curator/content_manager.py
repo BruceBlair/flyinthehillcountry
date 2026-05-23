@@ -84,6 +84,42 @@ def entries_with_defaults(m: dict) -> list:
     return result
 
 
+def find_entry_by_snapshot(m: dict, snapshot: str):
+    for i, e in enumerate(m.get("entries", [])):
+        if e.get("snapshot") == snapshot:
+            return i, e
+    return None, None
+
+
+def patch_entry_flags(snapshot: str, flag_updates: dict) -> dict | None:
+    from manifest_io import locked_manifest_update
+    result = {}
+    def _modify(m):
+        _, entry = find_entry_by_snapshot(m, snapshot)
+        if entry is None:
+            return
+        flags = entry.setdefault("flags", {"crop": False, "enhance": False, "auth_hold": False})
+        for k, v in flag_updates.items():
+            if k in {"crop", "enhance", "auth_hold"}:
+                flags[k] = bool(v)
+        result["flags"] = dict(flags)
+    locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _modify)
+    return result if result else None
+
+
+def patch_entry_crop_region(snapshot: str, region) -> dict | None:
+    from manifest_io import locked_manifest_update
+    result = {}
+    def _modify(m):
+        _, entry = find_entry_by_snapshot(m, snapshot)
+        if entry is None:
+            return
+        entry["crop_region"] = region
+        result["crop_region"] = region
+    locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _modify)
+    return result if result else None
+
+
 def images_by_category() -> dict:
     cats: dict[str, list] = {}
     for e in load_manifest().get("entries", []):
@@ -855,6 +891,38 @@ class ContentHandler(BaseHTTPRequestHandler):
             self._send(200, "application/json", b'{"ok":true}')
         else:
             self._send(404, "text/plain", b"Not found")
+
+    def do_PATCH(self):
+        p = urlparse(self.path).path
+        length = int(self.headers.get("Content-Length", 0))
+        try:
+            payload = json.loads(self.rfile.read(length)) if length else {}
+        except Exception:
+            self._send(400, "application/json", b'{"error":"bad json"}'); return
+
+        m = re.match(r"^/api/photos/(.+)/flags$", p)
+        if m:
+            snap = safe_rel(unquote(m.group(1)))
+            if not snap:
+                self._send(403, "text/plain", b"Forbidden"); return
+            result = patch_entry_flags(snap, payload)
+            if result is None:
+                self._send(404, "application/json", b'{"error":"not found"}'); return
+            self._send(200, "application/json", json.dumps(result).encode())
+            return
+
+        m = re.match(r"^/api/photos/(.+)/crop_region$", p)
+        if m:
+            snap = safe_rel(unquote(m.group(1)))
+            if not snap:
+                self._send(403, "text/plain", b"Forbidden"); return
+            result = patch_entry_crop_region(snap, payload if payload else None)
+            if result is None:
+                self._send(404, "application/json", b'{"error":"not found"}'); return
+            self._send(200, "application/json", json.dumps(result).encode())
+            return
+
+        self._send(404, "text/plain", b"Not found")
 
     def _send(self, status: int, ct: str, body: bytes):
         self.send_response(status)

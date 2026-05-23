@@ -141,3 +141,35 @@ def test_api_photos_returns_entries_with_flags(server):
         assert set(e["flags"]) >= {"crop", "enhance", "auth_hold"}
         assert "crop_region" in e
         assert "uploads" in e
+
+
+def patch(url, body: dict):
+    data = json.dumps(body).encode()
+    req = urllib.request.Request(url, data=data,
+                                 headers={"Content-Type": "application/json"},
+                                 method="PATCH")
+    with urllib.request.urlopen(req) as r:
+        return r.status, json.loads(r.read())
+
+def test_patch_flags_sets_crop(server):
+    snap = "golden_hour/sunrise/20260511_070000_scene.jpg"
+    status, data = patch(server + "/api/photos/" + urllib.parse.quote(snap, safe='') + "/flags",
+                         {"crop": True})
+    assert status == 200
+    assert data["flags"]["crop"] is True
+
+def test_patch_flags_unknown_returns_404(server):
+    try:
+        patch(server + "/api/photos/" + urllib.parse.quote("no_such/photo.jpg", safe='') + "/flags",
+              {"crop": True})
+        assert False, "expected 404"
+    except urllib.error.HTTPError as e:
+        assert e.code == 404
+
+def test_patch_crop_region(server):
+    snap = "golden_hour/sunrise/20260511_070000_scene.jpg"
+    region = {"x": 0.1, "y": 0.1, "w": 0.8, "h": 0.8}
+    status, data = patch(server + "/api/photos/" + urllib.parse.quote(snap, safe='') + "/crop_region",
+                         region)
+    assert status == 200
+    assert data["crop_region"] == region
