@@ -98,13 +98,23 @@ def patch_entry_flags(snapshot: str, flag_updates: dict) -> dict | None:
         _, entry = find_entry_by_snapshot(m, snapshot)
         if entry is None:
             return
-        flags = entry.setdefault("flags", {"crop": False, "enhance": False, "auth_hold": False})
+        flags = entry.get("flags") or {"crop": False, "enhance": False, "auth_hold": False}
+        entry["flags"] = flags
         for k, v in flag_updates.items():
             if k in {"crop", "enhance", "auth_hold"}:
                 flags[k] = bool(v)
         result["flags"] = dict(flags)
     locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _modify)
     return result if result else None
+
+
+def _valid_crop_region(r) -> bool:
+    if r is None:
+        return True
+    if not isinstance(r, dict):
+        return False
+    return all(isinstance(r.get(k), (int, float)) and 0.0 <= r[k] <= 1.0
+               for k in ("x", "y", "w", "h"))
 
 
 def patch_entry_crop_region(snapshot: str, region) -> dict | None:
@@ -916,7 +926,10 @@ class ContentHandler(BaseHTTPRequestHandler):
             snap = safe_rel(unquote(m.group(1)))
             if not snap:
                 self._send(403, "text/plain", b"Forbidden"); return
-            result = patch_entry_crop_region(snap, payload if payload else None)
+            region = payload if payload else None
+            if not _valid_crop_region(region):
+                self._send(400, "application/json", b'{"error":"invalid crop_region"}'); return
+            result = patch_entry_crop_region(snap, region)
             if result is None:
                 self._send(404, "application/json", b'{"error":"not found"}'); return
             self._send(200, "application/json", json.dumps(result).encode())
