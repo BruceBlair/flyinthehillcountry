@@ -68,6 +68,7 @@ button.sec{background:#2a2a2a;color:#aaa}
 .platform-card h3{font-size:14px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
 .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
 .dot-green{background:#2a7}
+.dot-amber{background:#fa0}
 .dot-red{background:#c33}
 .dot-grey{background:#555}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);

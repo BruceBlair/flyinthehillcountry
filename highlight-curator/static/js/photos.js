@@ -145,6 +145,26 @@ function openFlagPopover(entry, card) {
     pop.appendChild(row);
   }
 
+  const sep = document.createElement('div');
+  sep.style.cssText = 'border-top:1px solid #333;margin:8px 0';
+  pop.appendChild(sep);
+
+  const cropBtn = document.createElement('button');
+  cropBtn.className = 'sec';
+  cropBtn.textContent = entry.crop_region ? 'Edit crop region' : 'Set crop region';
+  cropBtn.style.cssText = 'font-size:11px;padding:3px 8px;width:100%';
+  cropBtn.addEventListener('click', function() { pop.remove(); openCropPicker(entry); });
+  pop.appendChild(cropBtn);
+
+  if (entry.flags && entry.flags.crop && entry.crop_region) {
+    const applyBtn = document.createElement('button');
+    applyBtn.className = 'ok';
+    applyBtn.textContent = entry.crop_applied ? 'Re-apply crop' : 'Apply crop → stock_ready';
+    applyBtn.style.cssText = 'font-size:11px;padding:3px 8px;margin-top:4px;width:100%';
+    applyBtn.addEventListener('click', function() { pop.remove(); applyCrop(entry); });
+    pop.appendChild(applyBtn);
+  }
+
   const queueBtn = document.createElement('button');
   queueBtn.className = 'ok';
   queueBtn.textContent = '+ Queue for upload';
@@ -169,6 +189,134 @@ function openFlagPopover(entry, card) {
       document.removeEventListener('click', handler);
     });
   }, 50);
+}
+
+// ── Crop picker ───────────────────────────────────────────────────────────────
+
+function openCropPicker(entry) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;' +
+    'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
+
+  const hint = document.createElement('div');
+  hint.style.cssText = 'color:#888;font-size:12px';
+  hint.textContent = 'Drag to select crop region';
+  overlay.appendChild(hint);
+
+  const frame = document.createElement('div');
+  frame.style.cssText = 'position:relative;display:inline-block;cursor:crosshair;user-select:none';
+
+  const img = document.createElement('img');
+  img.src = '/photo/' + encodeURIComponent(entry.snapshot);
+  img.style.cssText = 'max-width:80vw;max-height:70vh;display:block';
+  frame.appendChild(img);
+
+  // Selection rectangle drawn on top of the image
+  const sel = document.createElement('div');
+  sel.style.cssText = 'position:absolute;border:2px solid #fa0;background:rgba(255,170,0,.12);' +
+    'pointer-events:none;display:none';
+  frame.appendChild(sel);
+  overlay.appendChild(frame);
+
+  const coords = document.createElement('div');
+  coords.style.cssText = 'color:#fa0;font-size:12px;font-family:monospace';
+  coords.textContent = entry.crop_region
+    ? `saved: x=${entry.crop_region.x.toFixed(3)} y=${entry.crop_region.y.toFixed(3)} ` +
+      `w=${entry.crop_region.w.toFixed(3)} h=${entry.crop_region.h.toFixed(3)}`
+    : 'no region set';
+  overlay.appendChild(coords);
+
+  const btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px';
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'ok';
+  saveBtn.textContent = 'Save region';
+  saveBtn.disabled = !entry.crop_region;
+  const cancelBtn = document.createElement('button');
+  cancelBtn.className = 'sec';
+  cancelBtn.textContent = 'Cancel';
+  btnRow.appendChild(saveBtn);
+  btnRow.appendChild(cancelBtn);
+  overlay.appendChild(btnRow);
+
+  let region = entry.crop_region ? {...entry.crop_region} : null;
+  let dragging = false, ox = 0, oy = 0;
+
+  function imgRect() { return img.getBoundingClientRect(); }
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+  function updateSel(r) {
+    const ir = imgRect();
+    sel.style.left   = (r.x * ir.width)  + 'px';
+    sel.style.top    = (r.y * ir.height) + 'px';
+    sel.style.width  = (r.w * ir.width)  + 'px';
+    sel.style.height = (r.h * ir.height) + 'px';
+    sel.style.display = 'block';
+    coords.textContent = `x=${r.x.toFixed(3)} y=${r.y.toFixed(3)} w=${r.w.toFixed(3)} h=${r.h.toFixed(3)}`;
+    saveBtn.disabled = false;
+  }
+
+  if (region) updateSel(region);
+
+  frame.addEventListener('mousedown', function(e) {
+    const ir = imgRect();
+    ox = clamp((e.clientX - ir.left) / ir.width,  0, 1);
+    oy = clamp((e.clientY - ir.top)  / ir.height, 0, 1);
+    dragging = true;
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', function(e) {
+    if (!dragging) return;
+    const ir = imgRect();
+    const cx = clamp((e.clientX - ir.left) / ir.width,  0, 1);
+    const cy = clamp((e.clientY - ir.top)  / ir.height, 0, 1);
+    region = {
+      x: Math.min(ox, cx), y: Math.min(oy, cy),
+      w: Math.abs(cx - ox), h: Math.abs(cy - oy),
+    };
+    updateSel(region);
+  });
+
+  window.addEventListener('mouseup', function() { dragging = false; });
+
+  saveBtn.addEventListener('click', async function() {
+    if (!region || region.w < 0.01 || region.h < 0.01) {
+      showToast('Selection too small', false); return;
+    }
+    const r = await fetch('/api/photos/' + encodeURIComponent(entry.snapshot) + '/crop_region', {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(region),
+    });
+    if (!r.ok) { showToast('Failed to save crop region', false); return; }
+    entry.crop_region = region;
+    showToast('Crop region saved');
+    overlay.remove();
+    loadPhotos();
+  });
+
+  cancelBtn.addEventListener('click', function() { overlay.remove(); });
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) overlay.remove();
+  });
+
+  document.body.appendChild(overlay);
+}
+
+async function applyCrop(entry) {
+  showToast('Applying crop…');
+  const r = await fetch('/api/photos/' + encodeURIComponent(entry.snapshot) + '/crop/apply',
+    {method: 'POST'});
+  const data = await r.json();
+  if (data.ok) {
+    entry.crop_applied = {path: data.path};
+    showToast('Cropped → ' + data.path.split('/').pop());
+    loadPhotos();
+  } else {
+    showToast('Crop failed: ' + (data.error || 'unknown'), false);
+  }
 }
 
 async function addToQueue(snapshot) {

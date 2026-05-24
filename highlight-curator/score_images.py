@@ -36,7 +36,7 @@ import json
 import logging
 from pathlib import Path
 
-from manifest_io import atomic_write_json
+from manifest_io import locked_manifest_update
 
 from PIL import Image
 import numpy as np
@@ -146,61 +146,59 @@ def score_and_sort(highlights: Path, rescore_all: bool, dry_run: bool):
         log.error(f"manifest.json not found in {highlights}")
         return
 
-    manifest = json.loads(mf.read_text())
-    entries  = manifest.get("entries", [])
-    votes    = load_votes(highlights)
+    votes = load_votes(highlights)
 
-    if rescore_all:
-        for e in entries:
-            e.pop("nice_shot", None)
-        log.info("Cleared existing scores (--rescore-all)")
+    # ── Phase 1: score images outside the lock (slow I/O) ────────────────────
+    snapshot = json.loads(mf.read_text())
+    scores: dict[str, float] = {}   # snapshot path → final nice_shot
+    vote_meta: dict[str, dict] = {}
 
     scored = skipped = missing = 0
-    for entry in entries:
+    for entry in snapshot.get("entries", []):
         snap = entry.get("snapshot")
         if not snap:
+            skipped += 1
+            continue
+        if "nice_shot" in entry and not rescore_all:
             skipped += 1
             continue
         img_path = highlights / snap
         if not img_path.exists():
             missing += 1
             continue
-        if "nice_shot" in entry and not rescore_all:
-            skipped += 1
-            continue
         score = score_image(img_path)
-        entry["nice_shot"] = score
-        scored += 1
-
-    # Apply vote boost: net upvotes push nice_shot up, net downvotes pull it down
-    vote_applied = 0
-    for entry in entries:
-        snap = entry.get("snapshot")
-        if snap and snap in votes:
+        if snap in votes:
             v = votes[snap]
             net = v.get("up", 0) - v.get("down", 0)
-            base = entry.get("nice_shot") or 0.0
-            entry["nice_shot"] = round(min(max(base + net * VOTE_WEIGHT, 0), 100), 1)
-            entry["votes"] = {"up": v.get("up", 0), "down": v.get("down", 0)}
-            vote_applied += 1
+            score = round(min(max(score + net * VOTE_WEIGHT, 0), 100), 1)
+            vote_meta[snap] = {"up": v.get("up", 0), "down": v.get("down", 0)}
+        scores[snap] = score
+        scored += 1
 
     log.info(
         f"Scored {scored} images  |  skipped {skipped}  |  {missing} not on disk  "
-        f"|  {vote_applied} vote adjustments applied"
+        f"|  {len(vote_meta)} vote adjustments applied"
     )
 
-    # Sort: highest nice_shot first; unscored entries sink to bottom
-    entries.sort(key=lambda e: e.get("nice_shot") or -1.0, reverse=True)
-    manifest["entries"] = entries
-
     if dry_run:
-        top10 = [(e.get("nice_shot"), e.get("snapshot", "")) for e in entries[:10]]
+        top10 = sorted(scores.items(), key=lambda x: x[1], reverse=True)[:10]
         log.info("[dry-run] top 10:")
-        for rank, (sc, path) in enumerate(top10, 1):
+        for rank, (path, sc) in enumerate(top10, 1):
             log.info(f"  #{rank:2d}  {sc:5.1f}  {path}")
-    else:
-        atomic_write_json(mf, manifest)
-        log.info("manifest.json updated and sorted by nice_shot")
+        return
+
+    # ── Phase 2: merge scores back under lock (fast, no I/O) ─────────────────
+    def _apply(m):
+        for entry in m.get("entries", []):
+            snap = entry.get("snapshot")
+            if snap and snap in scores:
+                entry["nice_shot"] = scores[snap]
+            if snap and snap in vote_meta:
+                entry["votes"] = vote_meta[snap]
+        m["entries"].sort(key=lambda e: e.get("nice_shot") or -1.0, reverse=True)
+
+    locked_manifest_update(mf, _apply)
+    log.info("manifest.json updated and sorted by nice_shot")
 
 
 def main():

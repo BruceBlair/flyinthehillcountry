@@ -32,7 +32,7 @@ import logging
 from datetime import datetime, timedelta
 from pathlib import Path
 
-from manifest_io import atomic_write_json
+from manifest_io import locked_manifest_update
 
 logging.basicConfig(
     level=logging.INFO,
@@ -161,8 +161,8 @@ def main():
         log.error(f"manifest.json not found in {highlights}")
         return
 
-    manifest = json.loads(mf_path.read_text())
-    entries  = manifest.get("entries", [])
+    # Read a snapshot outside the lock — just for the log message below.
+    entries = json.loads(mf_path.read_text()).get("entries", [])
     log.info(f"Loaded {len(entries)} entries from manifest")
 
     # Warn if many entries are unscored — culler works best after score_images.py
@@ -226,16 +226,27 @@ def main():
     # ── Preserve uncategorised entries (clips, misc) ──────────────────────────
     kept_entries.extend(other_entries)
 
-    # ── Write updated manifest ────────────────────────────────────────────────
-    kept_entries.sort(key=lambda e: e.get("nice_shot") or -1, reverse=True)
-
     if args.dry_run:
         log.info(f"[dry-run] would remove {total_removed} entries, keeping {len(kept_entries)}")
-    else:
-        manifest["entries"] = kept_entries
-        manifest["updated"] = datetime.now().isoformat()
-        atomic_write_json(mf_path, manifest)
-        log.info(f"Done — removed {total_removed} entries, {len(kept_entries)} remain in manifest")
+        return
+
+    # ── Merge under lock: remove only the culled paths, preserve any new entries
+    # that arrived after we read the snapshot above.
+    culled_snaps = (
+        {e.get("snapshot") for e in entries} -
+        {e.get("snapshot") for e in kept_entries}
+    )
+
+    def _apply_cull(m):
+        before = len(m.get("entries", []))
+        m["entries"] = [e for e in m.get("entries", [])
+                        if e.get("snapshot") not in culled_snaps]
+        m["entries"].sort(key=lambda e: e.get("nice_shot") or -1, reverse=True)
+        m["updated"] = datetime.now().isoformat()
+        log.info(f"Done — removed {before - len(m['entries'])} entries, "
+                 f"{len(m['entries'])} remain in manifest")
+
+    locked_manifest_update(mf_path, _apply_cull)
 
 
 if __name__ == "__main__":

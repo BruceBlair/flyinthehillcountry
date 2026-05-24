@@ -24,7 +24,7 @@ import threading
 from datetime import datetime, timedelta
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from urllib.parse import urlparse, unquote
+from urllib.parse import urlparse, unquote, quote as urlquote
 
 from manifest_io import atomic_write_json
 
@@ -32,6 +32,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(message)s", datef
 log = logging.getLogger("content-manager")
 
 HIGHLIGHTS_DIR = Path(os.getenv("HIGHLIGHTS_DIR", "/volume1/highlights"))
+STOCK_READY    = Path(os.getenv("STOCK_READY_DIR", "/volume1/stock_ready"))
 FRIGATE_DIR    = Path(os.getenv("FRIGATE_DIR",    "/volume1/docker/frigate/media/recordings"))
 SYNC_SCRIPT: Path | None = None
 FRAME_DURATION  = 0.12   # seconds per frame in timelapse (~8 fps)
@@ -110,6 +111,11 @@ def platform_status() -> dict:
             "configured": bool(pc.get("client_id") or pc.get("api_key")),
             "has_token":  bool(pc.get("access_token")),
         }
+    ac = creds.get("anthropic", {})
+    result["anthropic"] = {
+        "configured": bool(ac.get("api_key")),
+        "has_token":  bool(ac.get("api_key")),
+    }
     return result
 
 
@@ -243,6 +249,298 @@ def _trigger_sync() -> None:
         log.info("sync.sh triggered")
     except Exception as e:
         log.warning(f"sync trigger failed: {e}")
+
+
+# ── Platform upload ──────────────────────────────────────────────────────────
+
+import urllib.request
+import urllib.error
+
+
+def _multipart_upload(url: str, file_path: Path, fields: dict, headers: dict) -> dict:
+    """POST a multipart/form-data request. Returns parsed JSON or raises."""
+    boundary = "GTNboundary"
+    body_parts = []
+    for k, v in fields.items():
+        body_parts.append(
+            f"--{boundary}\r\nContent-Disposition: form-data; "
+            f'name="{k}"\r\n\r\n{v}\r\n'.encode()
+        )
+    img_data = file_path.read_bytes()
+    body_parts.append(
+        f'--{boundary}\r\nContent-Disposition: form-data; name="file"; '
+        f'filename="{file_path.name}"\r\n'
+        f"Content-Type: image/jpeg\r\n\r\n".encode() + img_data + b"\r\n"
+    )
+    body_parts.append(f"--{boundary}--\r\n".encode())
+    body = b"".join(body_parts)
+    req = urllib.request.Request(url, data=body, headers={
+        "Content-Type": f"multipart/form-data; boundary={boundary}",
+        "Content-Length": str(len(body)),
+        **headers,
+    })
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        return json.loads(resp.read())
+
+
+def _json_request(method: str, url: str, payload: dict, headers: dict) -> dict:
+    body = json.dumps(payload).encode()
+    req = urllib.request.Request(url, data=body, method=method, headers={
+        "Content-Type": "application/json",
+        **headers,
+    })
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return json.loads(resp.read())
+
+
+def apply_crop(snap: str) -> dict:
+    """Crop the source image using its stored crop_region, write to stock_ready/."""
+    from PIL import Image
+    m = load_manifest()
+    _, entry = find_entry_by_snapshot(m, snap)
+    if entry is None:
+        return {"error": "not found in manifest"}
+    region = entry.get("crop_region")
+    if not region:
+        return {"error": "no crop_region set — use the crop picker first"}
+    src = HIGHLIGHTS_DIR / snap
+    if not src.exists():
+        return {"error": "source file not found"}
+
+    img = Image.open(src)
+    iw, ih = img.size
+    px = int(region["x"] * iw)
+    py = int(region["y"] * ih)
+    pw = int(region["w"] * iw)
+    ph = int(region["h"] * ih)
+    px = max(0, min(px, iw - 1))
+    py = max(0, min(py, ih - 1))
+    pw = max(1, min(pw, iw - px))
+    ph = max(1, min(ph, ih - py))
+
+    cropped = img.crop((px, py, px + pw, py + ph))
+
+    cat = (entry.get("categories") or ["misc"])[0]
+    out_dir = STOCK_READY / cat
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / (Path(snap).stem + "_crop.jpg")
+    cropped.save(str(out_path), "JPEG", quality=95)
+    log.info("crop applied: %s → %s", snap, out_path)
+
+    ts = datetime.now().isoformat()
+    def _record(m):
+        _, e = find_entry_by_snapshot(m, snap)
+        if e is not None:
+            e["crop_applied"] = {"path": str(out_path), "timestamp": ts}
+    from manifest_io import locked_manifest_update as _lmu
+    _lmu(HIGHLIGHTS_DIR / "manifest.json", _record)
+
+    return {"ok": True, "path": str(out_path), "size": [pw, ph]}
+
+
+def upload_to_shutterstock(snap_path: Path, title: str, keywords: str, creds: dict) -> dict:
+    token = creds.get("access_token")
+    if not token:
+        return {"ok": False, "error": "shutterstock: no access_token"}
+    auth = {"Authorization": f"Bearer {token}"}
+    try:
+        upload = _multipart_upload(
+            "https://api.shutterstock.com/v2/images/upload",
+            snap_path, {}, auth,
+        )
+        upload_id = upload.get("upload_id") or upload.get("id")
+        if not upload_id:
+            return {"ok": False, "error": f"shutterstock: no upload_id in response"}
+
+        kw_list = [k.strip() for k in keywords.split(",") if k.strip()]
+        sub = _json_request("POST", "https://api.shutterstock.com/v2/images", {
+            "upload_id": upload_id,
+            "title": title or snap_path.stem,
+            "description": title or "",
+            "keywords": kw_list,
+            "editorial": False,
+        }, auth)
+        return {"ok": True, "id": str(sub.get("id", ""))}
+    except urllib.error.HTTPError as e:
+        body = e.read(512).decode(errors="replace")
+        return {"ok": False, "error": f"shutterstock HTTP {e.code}: {body}"}
+    except Exception as e:
+        return {"ok": False, "error": f"shutterstock: {e}"}
+
+
+def upload_to_adobe_stock(snap_path: Path, title: str, keywords: str, creds: dict) -> dict:
+    api_key = creds.get("api_key")
+    if not api_key:
+        return {"ok": False, "error": "adobe_stock: no api_key"}
+    headers = {"x-api-key": api_key}
+    fname = snap_path.name
+    try:
+        _multipart_upload(
+            f"https://contributor.stock.adobe.com/api/v1/files/{urlquote(fname)}",
+            snap_path, {}, headers,
+        )
+        kw_list = [k.strip() for k in keywords.split(",") if k.strip()]
+        sub = _json_request("POST",
+            "https://contributor.stock.adobe.com/api/v1/assets",
+            {"title": title or snap_path.stem, "keywords": kw_list,
+             "file": fname, "content_type": "image/jpeg"},
+            headers,
+        )
+        return {"ok": True, "id": str(sub.get("id", ""))}
+    except urllib.error.HTTPError as e:
+        body = e.read(512).decode(errors="replace")
+        return {"ok": False, "error": f"adobe_stock HTTP {e.code}: {body}"}
+    except Exception as e:
+        return {"ok": False, "error": f"adobe_stock: {e}"}
+
+
+_UPLOADERS = {
+    "shutterstock": upload_to_shutterstock,
+    "adobe_stock":  upload_to_adobe_stock,
+}
+
+
+def upload_item(item: dict) -> dict:
+    """Run uploads for one queue item. Returns {ok, results: {platform: result}}."""
+    snap = item.get("snapshot", "")
+    snap_path = HIGHLIGHTS_DIR / snap
+    if not snap_path.exists():
+        return {"ok": False, "error": "file not found"}
+
+    title    = item.get("title", "")
+    keywords = item.get("keywords", "")
+    creds    = load_creds()
+    results  = {}
+
+    for platform in item.get("platforms", []):
+        fn = _UPLOADERS.get(platform)
+        if not fn:
+            results[platform] = {"ok": False, "error": "unknown platform"}
+            continue
+        pc = creds.get(platform, {})
+        results[platform] = fn(snap_path, title, keywords, pc)
+
+    overall_ok = all(r.get("ok") for r in results.values()) if results else False
+
+    # Write upload results back to manifest entry
+    ts = datetime.now().isoformat()
+    def _record(m):
+        _, entry = find_entry_by_snapshot(m, snap)
+        if entry is not None:
+            uploads = entry.setdefault("uploads", {})
+            for plat, res in results.items():
+                uploads[plat] = {
+                    "status":    "uploaded" if res.get("ok") else "error",
+                    "timestamp": ts,
+                    "id":        res.get("id", ""),
+                    "error":     res.get("error", ""),
+                }
+    from manifest_io import locked_manifest_update
+    locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _record)
+
+    return {"ok": overall_ok, "results": results}
+
+
+_upload_lock = threading.Lock()
+
+
+def claude_chat(user_message: str, history: list) -> dict:
+    """Call Claude API with manifest context injected as system prompt."""
+    creds = load_creds()
+    api_key = creds.get("anthropic", {}).get("api_key")
+    if not api_key:
+        return {"error": "No Anthropic API key — add it in the Platforms tab"}
+
+    m = load_manifest()
+    entries = m.get("entries", [])
+    queue = load_queue()
+    pstatus = platform_status()
+
+    by_cat: dict[str, int] = {}
+    flagged = {"crop": 0, "enhance": 0, "auth_hold": 0}
+    for e in entries:
+        cat = (e.get("categories") or ["unknown"])[0]
+        by_cat[cat] = by_cat.get(cat, 0) + 1
+        for f in flagged:
+            if (e.get("flags") or {}).get(f):
+                flagged[f] += 1
+
+    cat_lines = "\n".join(f"  {c}: {n}" for c, n in sorted(by_cat.items()))
+    plat_lines = "\n".join(
+        f"  {p}: {'connected' if s.get('has_token') else 'not configured'}"
+        for p, s in pstatus.items() if p != "anthropic"
+    )
+    system = f"""You are a concise assistant for the Ground Truth Network — a wildlife and weather camera system on a Texas Hill Country ranch.
+
+Photo library snapshot:
+  Total entries: {len(entries)}
+{cat_lines}
+  Flagged crop: {flagged['crop']} | enhance: {flagged['enhance']} | auth hold: {flagged['auth_hold']}
+
+Upload queue: {len(queue.get('queue', []))} items, mode={queue.get('mode', 'manual')}
+Stock platforms:
+{plat_lines}
+
+Answer questions about the library, flag status, and upload workflow. Be brief."""
+
+    messages = []
+    for h in (history or [])[-10:]:
+        if h.get("role") in ("user", "assistant") and h.get("content"):
+            messages.append({"role": h["role"], "content": str(h["content"])})
+    if not messages or messages[-1]["role"] != "user":
+        messages.append({"role": "user", "content": user_message})
+
+    body = json.dumps({
+        "model": "claude-haiku-4-5-20251001",
+        "max_tokens": 512,
+        "system": system,
+        "messages": messages,
+    }).encode()
+    req = urllib.request.Request(
+        "https://api.anthropic.com/v1/messages",
+        data=body,
+        headers={
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read())
+            return {"reply": data["content"][0]["text"]}
+    except urllib.error.HTTPError as e:
+        msg = e.read(256).decode(errors="replace")
+        return {"error": f"Anthropic API {e.code}: {msg}"}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+def run_upload_queue() -> dict:
+    """Process all pending items in the queue (auto mode). Runs synchronously."""
+    if not _upload_lock.acquire(blocking=False):
+        return {"ok": False, "error": "upload already running"}
+    try:
+        q = load_queue()
+        pending = [e for e in q["queue"]
+                   if e.get("uploadStatus") not in ("uploaded", "uploading")]
+        if not pending:
+            return {"ok": True, "processed": 0}
+
+        processed = errors = 0
+        for item in pending:
+            item["uploadStatus"] = "uploading"
+            save_queue(q)
+            res = upload_item(item)
+            item["uploadStatus"] = "uploaded" if res.get("ok") else "error"
+            save_queue(q)
+            if res.get("ok"):
+                processed += 1
+            else:
+                errors += 1
+        return {"ok": True, "processed": processed, "errors": errors}
+    finally:
+        _upload_lock.release()
 
 
 # ── Path safety ───────────────────────────────────────────────────────────────
@@ -969,6 +1267,35 @@ class ContentHandler(BaseHTTPRequestHandler):
             q["mode"] = mode
             save_queue(q)
             self._send(200, "application/json", b'{"ok":true}')
+        elif p == "/api/claude":
+            result = claude_chat(payload.get("message", ""), payload.get("history", []))
+            self._send(200, "application/json", json.dumps(result).encode())
+        elif re.match(r"^/api/photos/.+/crop/apply$", p):
+            snap = safe_rel(unquote(p[len("/api/photos/"):-len("/crop/apply")]))
+            if not snap:
+                self._send(403, "application/json", b'{"error":"invalid snapshot"}'); return
+            self._send(200, "application/json", json.dumps(apply_crop(snap)).encode())
+        elif p == "/api/upload/run":
+            result = run_upload_queue()
+            self._send(200, "application/json", json.dumps(result).encode())
+        elif re.match(r"^/api/upload/.+/submit$", p):
+            snap = safe_rel(unquote(p[len("/api/upload/"):-len("/submit")]))
+            if not snap:
+                self._send(403, "application/json", b'{"error":"invalid snapshot"}'); return
+            q = load_queue()
+            item = next((e for e in q["queue"] if e.get("snapshot") == snap), None)
+            if item is None:
+                self._send(404, "application/json", b'{"error":"not in queue"}'); return
+            title    = payload.get("title",    item.get("title", ""))
+            keywords = payload.get("keywords", item.get("keywords", ""))
+            platforms = payload.get("platforms", item.get("platforms", []))
+            item.update({"title": title, "keywords": keywords, "platforms": platforms,
+                         "uploadStatus": "uploading"})
+            save_queue(q)
+            result = upload_item(item)
+            item["uploadStatus"] = "uploaded" if result.get("ok") else "error"
+            save_queue(q)
+            self._send(200, "application/json", json.dumps(result).encode())
         elif p == "/api/platforms/credentials":
             platform = payload.get("platform")
             if platform not in ("shutterstock", "adobe_stock", "anthropic"):
