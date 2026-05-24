@@ -21,10 +21,83 @@
   </nav>
   <main id="content">
     <div id="tab-photos" class="tab active"></div>
-    <div id="tab-timelapse" class="tab"></div>
+    <div id="tab-timelapse" class="tab">
+      <div class="tl-mode-btns">
+        <button class="tl-mode-btn active" data-mode="golden">Golden Hour</button>
+        <button class="tl-mode-btn" data-mode="fullday">Full Day</button>
+        <button class="tl-mode-btn" data-mode="custom">Custom Range</button>
+      </div>
+      <div class="tl-form" id="tl-form-golden">
+        <label>Date <input type="date" id="tl-gh-date"></label>
+        <label>Type
+          <select id="tl-gh-type">
+            <option value="sunrise">Sunrise</option>
+            <option value="sunset">Sunset</option>
+          </select>
+        </label>
+      </div>
+      <div class="tl-form" id="tl-form-fullday" style="display:none">
+        <label>Date <input type="date" id="tl-fd-date"></label>
+      </div>
+      <div class="tl-form" id="tl-form-custom" style="display:none">
+        <label>Start <input type="datetime-local" id="tl-cr-start"></label>
+        <label>End   <input type="datetime-local" id="tl-cr-end"></label>
+        <label>Label <input type="text" id="tl-cr-label" placeholder="storm_rollout"></label>
+      </div>
+      <div class="tl-form">
+        <div class="tl-timing-row">
+          <label><input type="radio" name="tl-timing" value="interval" checked> Interval</label>
+          <label><input type="radio" name="tl-timing" value="duration"> Target duration</label>
+        </div>
+        <div id="tl-interval-row">
+          <label>Extract 1 frame every
+            <input type="number" id="tl-interval" value="10" min="1" max="300" style="width:70px"> seconds
+          </label>
+          <div class="tl-estimate" id="tl-est-dur"></div>
+        </div>
+        <div id="tl-duration-row" style="display:none">
+          <label>Make video
+            <input type="number" id="tl-duration" value="5" min="1" step="0.5" style="width:70px"> minutes
+          </label>
+          <div class="tl-estimate" id="tl-est-iv"></div>
+        </div>
+      </div>
+      <div class="tl-actions">
+        <button class="ok" id="tl-build-btn">Build Timelapse</button>
+        <button id="tl-rebuild-btn" class="ok" style="display:none">Rebuild (<span id="tl-sel-count">0</span>)</button>
+        <button id="tl-del-btn" style="display:none">Delete selected</button>
+        <span id="tl-build-status" style="font-size:13px;color:#aaa"></span>
+      </div>
+      <div class="tl-progress-wrap" id="tl-prog-wrap" style="display:none">
+        <div class="tl-progress-bar" id="tl-prog-bar"></div>
+      </div>
+      <div class="tl-list" id="tl-list"></div>
+    </div>
     <div id="tab-upload" class="tab"></div>
     <div id="tab-platforms" class="tab"></div>
-    <div id="tab-status" class="tab"></div>
+    <div id="tab-status" class="tab">
+      <div class="st-section">
+        <div class="st-header">Services</div>
+        <div class="st-service-grid" id="st-service-grid"></div>
+      </div>
+      <div class="st-section">
+        <div class="st-header">Photo Library</div>
+        <div id="st-manifest-content"></div>
+      </div>
+      <div class="st-section">
+        <div class="st-header">Disk</div>
+        <div id="st-disk-content"></div>
+      </div>
+      <div class="st-section">
+        <div class="st-header">Pipeline</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <button class="ok" id="st-run-btn">Run pipeline now</button>
+          <button class="sec" id="st-refresh-btn">Refresh</button>
+          <span id="st-pipe-status" style="font-size:13px;color:#aaa"></span>
+        </div>
+        <div class="log-box" id="st-log-box">Loading...</div>
+      </div>
+    </div>
   </main>
   <aside id="claude-panel" class="hidden">
     <div id="claude-header">
@@ -42,11 +115,10 @@
 <script src="/static/js/photos.js"></script>
 <script src="/static/js/upload.js"></script>
 <script src="/static/js/platforms.js"></script>
+<script src="/static/js/timelapse.js"></script>
+<script src="/static/js/status.js"></script>
 <script src="/static/js/claude_panel.js"></script>
 <script>
-// No-op stub — overwritten when status tab JS is added
-function loadStatus() {}
-
 let currentTab = 'photos';
 
 function escHtml(s) {
@@ -65,6 +137,7 @@ function switchTab(name) {
   if (name === 'photos')    loadPhotos();
   if (name === 'upload')    loadUploadQueue();
   if (name === 'platforms') loadPlatforms();
+  if (name === 'timelapse') loadTimelapse();
   if (name === 'status')    loadStatus();
 }
 

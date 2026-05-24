@@ -71,5 +71,43 @@ button.sec{background:#2a2a2a;color:#aaa}
 .dot-amber{background:#fa0}
 .dot-red{background:#c33}
 .dot-grey{background:#555}
+/* ── Timelapse tab ────────────────────────────────────────────────────────── */
+.tl-mode-btns{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tl-mode-btn{padding:6px 14px;border-radius:4px;background:#2a2a2a;border:1px solid #444;
+             font-size:13px;color:#eee;cursor:pointer}
+.tl-mode-btn.active{background:#0055aa;border-color:#0055aa}
+.tl-form{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:6px;padding:14px;
+         margin-bottom:10px;display:flex;flex-direction:column;gap:10px}
+.tl-form label{font-size:13px;color:#aaa}
+.tl-form input,.tl-form select{background:#222;border:1px solid #3a3a3a;color:#eee;
+  padding:6px 8px;border-radius:4px;font-size:13px;width:100%}
+.tl-timing-row{display:flex;gap:20px;font-size:13px;color:#aaa}
+.tl-estimate{font-size:12px;color:#6cf;margin-top:4px}
+.tl-actions{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.tl-progress-wrap{height:6px;background:#1e1e1e;border-radius:3px;overflow:hidden;margin-bottom:14px}
+.tl-progress-bar{height:100%;background:#0af;width:0%;transition:width .3s}
+.tl-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:8px}
+.tl-card{background:#1a1a1a;border:2px solid #2a2a2a;border-radius:6px;overflow:hidden;
+         cursor:pointer;position:relative}
+.tl-card.tl-selected{border-color:#0af}
+.tl-card img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#111;display:block}
+.tl-card-info{padding:8px 10px;font-size:12px;color:#aaa;line-height:1.6;white-space:pre-wrap}
+.tl-card-play{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55);border:none;
+  border-radius:50%;width:28px;height:28px;font-size:14px;color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+.tl-card-play:hover{background:rgba(0,170,255,.7)}
+
+/* ── Status tab ───────────────────────────────────────────────────────────── */
+.st-section{margin-bottom:20px}
+.st-header{font-size:11px;color:#555;text-transform:uppercase;letter-spacing:.06em;
+           margin-bottom:10px;padding-bottom:4px;border-bottom:1px solid #1e1e1e}
+.st-service-grid{display:flex;gap:10px;flex-wrap:wrap}
+.st-service-card{display:flex;align-items:center;gap:8px;background:#1a1a1a;
+                 border:1px solid #2a2a2a;border-radius:6px;padding:8px 14px;font-size:13px}
+.st-cat-tag{background:#1a1a1a;border:1px solid #2a2a2a;border-radius:4px;
+            padding:2px 8px;font-size:12px;color:#777}
+.log-box{background:#0a0a0a;border:1px solid #1e1e1e;border-radius:4px;padding:10px;
+         font:12px/1.6 monospace;color:#7d7;white-space:pre-wrap;max-height:380px;overflow-y:auto}
+
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
        padding:10px 22px;border-radius:6px;display:none;font-weight:600;z-index:99;color:#fff}

@@ -102,6 +102,60 @@ def save_creds(creds: dict) -> None:
     CREDS_PATH.chmod(0o600)
 
 
+def service_status() -> dict:
+    import socket, shutil
+
+    def _tcp_ok(host: str, port: int, timeout: float = 0.8) -> bool:
+        try:
+            s = socket.create_connection((host, port), timeout=timeout)
+            s.close()
+            return True
+        except OSError:
+            return False
+
+    nas_ip = os.getenv("NAS_IP", "192.168.100.202")
+    services = {
+        "mosquitto": _tcp_ok("mosquitto", 1883),
+        "influxdb":  _tcp_ok("influxdb",  8086),
+        "grafana":   _tcp_ok("grafana",   3000),
+        "frigate":   _tcp_ok(nas_ip,      5000),
+    }
+
+    disk: dict = {}
+    for name, path in [("highlights", HIGHLIGHTS_DIR), ("stock_ready", STOCK_READY)]:
+        try:
+            u = shutil.disk_usage(path)
+            disk[name] = {
+                "used_gb":  round(u.used  / 1e9, 1),
+                "total_gb": round(u.total / 1e9, 1),
+                "pct":      round(u.used  / u.total * 100, 1),
+            }
+        except OSError:
+            disk[name] = None
+
+    m = load_manifest()
+    entries = m.get("entries", [])
+    by_cat: dict[str, int] = {}
+    flagged = {"crop": 0, "enhance": 0, "auth_hold": 0}
+    for e in entries:
+        cat = (e.get("categories") or ["unknown"])[0]
+        by_cat[cat] = by_cat.get(cat, 0) + 1
+        for f in flagged:
+            if (e.get("flags") or {}).get(f):
+                flagged[f] += 1
+
+    log_ts = None
+    if _PIPELINE_LOG.exists():
+        log_ts = datetime.fromtimestamp(_PIPELINE_LOG.stat().st_mtime).isoformat()
+
+    return {
+        "services": services,
+        "disk":     disk,
+        "manifest": {"total": len(entries), "by_category": by_cat, "flagged": flagged},
+        "pipeline_log_ts": log_ts,
+    }
+
+
 def platform_status() -> dict:
     creds = load_creds()
     result = {}
@@ -1198,6 +1252,8 @@ class ContentHandler(BaseHTTPRequestHandler):
             self._send(200, "application/json", json.dumps(load_queue()).encode())
         elif p == "/api/platforms/status":
             self._send(200, "application/json", json.dumps(platform_status()).encode())
+        elif p == "/api/status":
+            self._send(200, "application/json", json.dumps(service_status()).encode())
         elif p.startswith("/static/"):
             rel = unquote(p[len("/static/"):])
             try:
