@@ -188,6 +188,20 @@
       "nice_shot": 68.3
     },
     {
+      "timestamp": "20260524_085023",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260524_085023_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 66.8
+    },
+    {
       "timestamp": "20260509_220411",
       "label": "scene",
       "categories": [
@@ -19861,5 +19875,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-05-24T08:15:26.771108"
+  "updated": "2026-05-24T09:19:31.414589"
 }
