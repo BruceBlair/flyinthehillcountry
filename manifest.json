@@ -18858,6 +18858,20 @@
       "nice_shot": 31.8
     },
     {
+      "timestamp": "20260527_213858",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_213858_High Res In The Hill Country-1-20260527_213858.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 31.7
+    },
+    {
       "timestamp": "20260522_210242",
       "label": "scene",
       "categories": [
@@ -19083,6 +19097,20 @@
       "nice_shot": 30.7
     },
     {
+      "timestamp": "20260527_222652",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_222652_High Res In The Hill Country-1-20260527_222651.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 30.6
+    },
+    {
       "timestamp": "20260318_090507",
       "label": "scene",
       "categories": [
@@ -19143,20 +19171,6 @@
       "clip": null,
       "source": "backfill_raw",
       "nice_shot": 30.2
-    },
-    {
-      "timestamp": "20260527_145144",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260527_145144_High Res In The Hill Country-1-20260527_145144.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 30.1
     },
     {
       "timestamp": "20260522_055650",
@@ -19849,20 +19863,6 @@
       },
       "uploads": {},
       "nice_shot": 27.9
-    },
-    {
-      "timestamp": "20260527_145554",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260527_145554_High Res In The Hill Country-1-20260527_145554.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 26.9
     },
     {
       "timestamp": "20260522_195218",
@@ -21137,5 +21137,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-05-27T21:43:15.398036"
+  "updated": "2026-05-27T23:02:38.529290"
 }
