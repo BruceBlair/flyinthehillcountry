@@ -26170,6 +26170,18 @@
       "nice_shot": 17.1
     },
     {
+      "timestamp": "20260527_202255",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260527_202255_scene.jpg",
+      "clip": null,
+      "nice_shot": 16.4
+    },
+    {
       "timestamp": "20260527_144237",
       "label": "scene",
       "score": null,
@@ -26887,5 +26899,5 @@
       "nice_shot": 0.0
     }
   ],
-  "updated": "2026-05-27T20:20:55.749019"
+  "updated": "2026-05-27T20:22:55.863439"
 }
