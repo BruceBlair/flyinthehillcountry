@@ -16131,6 +16131,18 @@
       "nice_shot": 45.0
     },
     {
+      "timestamp": "20260529_192933",
+      "label": "golden_hour",
+      "categories": [
+        "golden_hour/golden_hour"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/golden_hour/20260529_192933_scene.jpg",
+      "clip": null,
+      "nice_shot": 44.9
+    },
+    {
       "timestamp": "20260506_194147",
       "label": "scene",
       "categories": [
@@ -18537,6 +18549,20 @@
       "nice_shot": 37.2
     },
     {
+      "timestamp": "20260527_205915",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260527_205915_High Res In The Hill Country-1-20260527_205914.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 37.1
+    },
+    {
       "timestamp": "20260522_204242",
       "label": "scene",
       "categories": [
@@ -19239,6 +19265,20 @@
       "nice_shot": 32.4
     },
     {
+      "timestamp": "20260527_210538",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260527_210538_High Res In The Hill Country-1-20260527_210537.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 32.3
+    },
+    {
       "timestamp": "20260527_151542",
       "label": "scene",
       "score": null,
@@ -19609,6 +19649,34 @@
       },
       "uploads": {},
       "nice_shot": 30.3
+    },
+    {
+      "timestamp": "20260527_175356",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_175356_High Res In The Hill Country-1-20260527_175355.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 30.2
+    },
+    {
+      "timestamp": "20260527_145144",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_145144_High Res In The Hill Country-1-20260527_145144.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 30.1
     },
     {
       "timestamp": "20260522_055650",
@@ -20315,6 +20383,20 @@
       "nice_shot": 27.3
     },
     {
+      "timestamp": "20260527_145554",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_145554_High Res In The Hill Country-1-20260527_145554.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 26.9
+    },
+    {
       "timestamp": "20260522_195218",
       "label": "scene",
       "categories": [
@@ -20671,6 +20753,20 @@
       "nice_shot": 23.4
     },
     {
+      "timestamp": "20260527_160940",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_160940_High Res In The Hill Country-1-20260527_160939.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 23.1
+    },
+    {
       "timestamp": "20260504_060511",
       "label": "scene",
       "categories": [
@@ -20817,6 +20913,20 @@
       },
       "uploads": {},
       "nice_shot": 20.9
+    },
+    {
+      "timestamp": "20260527_191612",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_191612_High Res In The Hill Country-1-20260527_191611.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 20.5
     },
     {
       "timestamp": "20260520_234948",
@@ -21020,6 +21130,20 @@
       "nice_shot": 17.1
     },
     {
+      "timestamp": "20260527_144237",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_144237_High Res In The Hill Country-2-20260527_144237.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 16.4
+    },
+    {
       "timestamp": "20260505_060330",
       "label": "scene",
       "categories": [
@@ -21166,6 +21290,20 @@
       },
       "uploads": {},
       "nice_shot": 12.5
+    },
+    {
+      "timestamp": "20260527_213435",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260527_213435_High Res In The Hill Country-1-20260527_213434.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 12.4
     },
     {
       "timestamp": "20260522_064446",
@@ -21627,5 +21765,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-05-29T18:42:12.434279"
+  "updated": "2026-05-29T19:29:33.827956"
 }
