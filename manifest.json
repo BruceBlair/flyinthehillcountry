@@ -662,6 +662,20 @@
       "nice_shot": 62.2
     },
     {
+      "timestamp": "20260530_154255",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154255_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 61.8
+    },
+    {
       "timestamp": "20260512_114946",
       "label": "scene",
       "categories": [
@@ -1211,6 +1225,34 @@
       "nice_shot": 60.4
     },
     {
+      "timestamp": "20260530_154323",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154323_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.3
+    },
+    {
+      "timestamp": "20260530_154321",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154321_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.3
+    },
+    {
       "timestamp": "20260526_065717",
       "label": "sunrise",
       "score": null,
@@ -1310,6 +1352,20 @@
       "nice_shot": 60.3
     },
     {
+      "timestamp": "20260530_154307",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154307_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.2
+    },
+    {
       "timestamp": "20260512_114958",
       "label": "scene",
       "categories": [
@@ -1359,6 +1415,34 @@
       },
       "uploads": {},
       "nice_shot": 60.2
+    },
+    {
+      "timestamp": "20260530_154329",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154329_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.1
+    },
+    {
+      "timestamp": "20260530_154327",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154327_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 60.1
     },
     {
       "timestamp": "20260512_194317",
@@ -1495,6 +1579,20 @@
       },
       "uploads": {},
       "nice_shot": 60.0
+    },
+    {
+      "timestamp": "20260530_154325",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154325_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 59.9
     },
     {
       "timestamp": "20260521_204042",
@@ -1715,6 +1813,20 @@
       "nice_shot": 59.6
     },
     {
+      "timestamp": "20260530_154319",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154319_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 59.5
+    },
+    {
       "timestamp": "20260512_115010",
       "label": "scene",
       "categories": [
@@ -1815,6 +1927,20 @@
       },
       "uploads": {},
       "nice_shot": 59.5
+    },
+    {
+      "timestamp": "20260530_154309",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_154309_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 59.4
     },
     {
       "timestamp": "20260530_144252",
@@ -3176,34 +3302,6 @@
       },
       "uploads": {},
       "nice_shot": 57.4
-    },
-    {
-      "timestamp": "20260530_144204",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_144204_TimeLapse00_20260526_151019_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 57.3
-    },
-    {
-      "timestamp": "20260530_115711",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_115711_TimeLapse00_20260526_151019_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 57.3
     },
     {
       "timestamp": "20260504_193127",
@@ -11246,34 +11344,6 @@
       "nice_shot": 50.1
     },
     {
-      "timestamp": "20260530_144337",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_144337_TimeLapse00_20260520_204450_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 50.0
-    },
-    {
-      "timestamp": "20260530_115811",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_115811_TimeLapse00_20260520_204450_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 50.0
-    },
-    {
       "timestamp": "20260522_201842",
       "label": "scene",
       "categories": [
@@ -12905,20 +12975,6 @@
       },
       "uploads": {},
       "nice_shot": 49.0
-    },
-    {
-      "timestamp": "20260530_144414",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_144414_TimeLapse00_20260510_174026_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 48.9
     },
     {
       "timestamp": "20260527_061451",
@@ -15430,20 +15486,6 @@
       },
       "uploads": {},
       "nice_shot": 47.1
-    },
-    {
-      "timestamp": "20260530_144402",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_144402_TimeLapse00_20260519_194944_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 47.0
     },
     {
       "timestamp": "20260522_203442",
@@ -18138,20 +18180,6 @@
       "nice_shot": 40.9
     },
     {
-      "timestamp": "20260530_144403",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_144403_TimeLapse00_20260512_204610_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 40.7
-    },
-    {
       "timestamp": "20260522_060313",
       "label": "scene",
       "categories": [
@@ -18348,20 +18376,6 @@
       "nice_shot": 39.9
     },
     {
-      "timestamp": "20260530_144401",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_144401_TimeLapse00_20260519_203115_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 39.8
-    },
-    {
       "timestamp": "20260505_193736",
       "label": "scene",
       "categories": [
@@ -18508,20 +18522,6 @@
       "snapshot": "golden_hour/sunrise/20260528_060859_scene.jpg",
       "clip": null,
       "nice_shot": 38.7
-    },
-    {
-      "timestamp": "20260530_145953",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_145953_High Res In The Hill Country-1-20260530_145952.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 38.6
     },
     {
       "timestamp": "20260316_071334",
@@ -21972,5 +21972,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-05-30T15:05:46.987808"
+  "updated": "2026-05-30T16:10:26.458145"
 }
