@@ -169,6 +169,25 @@ services:
     networks:
       - homelab
 
+  # ─── Content Manager (photo cull, flags, crop, upload UI :8766) ────────────
+  content-manager:
+    build: ./highlight-curator
+    container_name: content-manager
+    restart: unless-stopped
+    entrypoint: ["/bin/sh", "-c", "umask 0022 && exec python -u content_manager.py"]
+    ports:
+      - "8766:8766"
+    volumes:
+      - /volume1/highlights:/highlights
+      - /volume1/docker/frigate/media/recordings:/frigate-recordings:ro
+    environment:
+      - HIGHLIGHTS_DIR=/highlights
+      - FRIGATE_DIR=/frigate-recordings
+      - NAS_IP=${NAS_IP:-192.168.100.202}
+      - TZ=${TZ:-America/Chicago}
+    networks:
+      - homelab
+
   # ─── Night Sky Patrol (astronomical PTZ sweep + snapshot daemon) ────────────
   night-sky-patrol:
     build: ./night-sky-patrol

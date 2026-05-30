@@ -43,6 +43,7 @@ All services defined in `docker-compose.yml`. Three network modes are in use:
 | highlight-curator | — | ./highlight-curator |
 | star-scanner | — | ./highlight-curator (alt command) |
 | vote-server | 8765 | ./highlight-curator (alt command) |
+| content-manager | 8766 | ./highlight-curator (alt command) |
 | night-sky-patrol | — | ./night-sky-patrol |
 | sky-watcher | host | ./sky-watcher |
 | audio-scout | host | ./audio-scout |
@@ -240,7 +241,7 @@ curl -X POST http://localhost:8123/auth/token \
 - `/volume1/camera_timelapse/{sunrise,sunset}/` — raw JPEG frames captured by HA automations; also holds FFmpeg-built MP4s and `panoramas/`. Written by `ffmpeg-processor` (container path `/output/timelapse`).
 - `/volume1/highlights/timelapse/` — finished timelapse MP4s built by `timelapse_builder.py` inside highlight-curator from the best-scored highlight frames.
 
-**`content_manager.py`** lives in `highlight-curator/`, runs on port **8766**, started manually: `python3 highlight-curator/content_manager.py`
+**`content_manager.py`** lives in `highlight-curator/`, runs on port **8766** as the `content-manager` Docker service. No `--sync-script` is passed — sync is handled by the hourly cron job instead.
 
 ## Agent skills
 

@@ -7,6 +7,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY manifest_io.py curator.py score_images.py timelapse_builder.py cull_highlights.py vote_server.py scan_stars.py .
+COPY manifest_io.py curator.py score_images.py timelapse_builder.py cull_highlights.py vote_server.py scan_stars.py content_manager.py .
 
 CMD ["python", "-u", "curator.py"]
