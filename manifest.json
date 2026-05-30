@@ -1817,6 +1817,20 @@
       "nice_shot": 59.5
     },
     {
+      "timestamp": "20260530_144252",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_144252_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 59.4
+    },
+    {
       "timestamp": "20260516_194150",
       "label": "scene",
       "categories": [
@@ -3162,6 +3176,20 @@
       },
       "uploads": {},
       "nice_shot": 57.4
+    },
+    {
+      "timestamp": "20260530_144204",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_144204_TimeLapse00_20260526_151019_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 57.3
     },
     {
       "timestamp": "20260530_115711",
@@ -11218,6 +11246,20 @@
       "nice_shot": 50.1
     },
     {
+      "timestamp": "20260530_144337",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_144337_TimeLapse00_20260520_204450_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 50.0
+    },
+    {
       "timestamp": "20260530_115811",
       "label": "scene",
       "score": null,
@@ -12863,6 +12905,20 @@
       },
       "uploads": {},
       "nice_shot": 49.0
+    },
+    {
+      "timestamp": "20260530_144414",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_144414_TimeLapse00_20260510_174026_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 48.9
     },
     {
       "timestamp": "20260527_061451",
@@ -15374,6 +15430,20 @@
       },
       "uploads": {},
       "nice_shot": 47.1
+    },
+    {
+      "timestamp": "20260530_144402",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_144402_TimeLapse00_20260519_194944_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 47.0
     },
     {
       "timestamp": "20260522_203442",
@@ -18068,6 +18138,20 @@
       "nice_shot": 40.9
     },
     {
+      "timestamp": "20260530_144403",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_144403_TimeLapse00_20260512_204610_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 40.7
+    },
+    {
       "timestamp": "20260522_060313",
       "label": "scene",
       "categories": [
@@ -18264,6 +18348,20 @@
       "nice_shot": 39.9
     },
     {
+      "timestamp": "20260530_144401",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_144401_TimeLapse00_20260519_203115_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 39.8
+    },
+    {
       "timestamp": "20260505_193736",
       "label": "scene",
       "categories": [
@@ -18410,6 +18508,20 @@
       "snapshot": "golden_hour/sunrise/20260528_060859_scene.jpg",
       "clip": null,
       "nice_shot": 38.7
+    },
+    {
+      "timestamp": "20260530_145953",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260530_145953_High Res In The Hill Country-1-20260530_145952.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 38.6
     },
     {
       "timestamp": "20260316_071334",
@@ -19327,20 +19439,6 @@
       "nice_shot": 33.4
     },
     {
-      "timestamp": "20260530_115712",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_115712_TimeLapse00_20260522_214240_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 33.3
-    },
-    {
       "timestamp": "20260519_195747",
       "label": "scene",
       "categories": [
@@ -19409,20 +19507,6 @@
       "nice_shot": 33.2
     },
     {
-      "timestamp": "20260530_115709",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_115709_TimeLapse00_20260530_101710_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 33.1
-    },
-    {
       "timestamp": "20260522_210042",
       "label": "scene",
       "categories": [
@@ -19488,20 +19572,6 @@
       "nice_shot": 32.4
     },
     {
-      "timestamp": "20260530_081725",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_081725_High Res In The Hill Country-1-20260530_081725.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 32.1
-    },
-    {
       "timestamp": "20260527_151542",
       "label": "scene",
       "score": null,
@@ -19531,20 +19601,6 @@
       },
       "uploads": {},
       "nice_shot": 31.8
-    },
-    {
-      "timestamp": "20260530_081511",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_081511_High Res In The Hill Country-1-20260530_081510.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 31.7
     },
     {
       "timestamp": "20260527_213858",
@@ -20592,20 +20648,6 @@
       "nice_shot": 27.3
     },
     {
-      "timestamp": "20260530_115714",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_115714_TimeLapse00_20260520_210624_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 27.2
-    },
-    {
       "timestamp": "20260522_195218",
       "label": "scene",
       "categories": [
@@ -20655,20 +20697,6 @@
       },
       "uploads": {},
       "nice_shot": 26.7
-    },
-    {
-      "timestamp": "20260530_114747",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_114747_-timestamp-1780118300000_1780118419000-timestamp-0.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 26.3
     },
     {
       "timestamp": "20260418_202811",
@@ -20821,20 +20849,6 @@
       "nice_shot": 24.8
     },
     {
-      "timestamp": "20260530_114747",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_114747_-timestamp-1780118420000_1780118539000-timestamp-0.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 24.7
-    },
-    {
       "timestamp": "20260520_234944",
       "label": "scene",
       "categories": [
@@ -20898,20 +20912,6 @@
       },
       "uploads": {},
       "nice_shot": 24.2
-    },
-    {
-      "timestamp": "20260530_114746",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260530_114746_-timestamp-1780118180000_1780118299000-timestamp-0.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 23.8
     },
     {
       "timestamp": "20260318_191209",
@@ -21972,5 +21972,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-05-30T14:03:40.136425"
+  "updated": "2026-05-30T15:05:46.987808"
 }
