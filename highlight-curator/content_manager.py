@@ -678,6 +678,10 @@ button.ok{background:#2a7}
 .chip-crop{background:#fa0;color:#000}
 .chip-enh{background:#4af;color:#000}
 .chip-hold{background:#f44;color:#fff}
+.card-menu{position:absolute;bottom:22px;right:4px;background:rgba(0,0,0,.6);color:#ccc;
+           border:none;border-radius:3px;font-size:14px;line-height:1;padding:1px 5px;
+           cursor:pointer;opacity:0;transition:opacity .15s}
+.card:hover .card-menu{opacity:1}
 .flag-popover{position:fixed;background:#222;border:1px solid #444;border-radius:6px;
               padding:12px;z-index:50;min-width:190px;box-shadow:0 4px 16px rgba(0,0,0,.7)}
 .flag-popover .pop-title{font-size:11px;color:#666;margin-bottom:8px}
@@ -889,7 +893,16 @@ function makeCard(img) {
   badge.className = 'badge';
   badge.textContent = '\\u2715';
 
-  card.append(photo, chips, ts, badge);
+  const menu = document.createElement('button');
+  menu.className = 'card-menu';
+  menu.textContent = '\\u22ef';
+  menu.title = 'Actions';
+  menu.addEventListener('click', e => {
+    e.stopPropagation();
+    openFlagPopover(img, card);
+  });
+
+  card.append(photo, chips, ts, badge, menu);
   card.addEventListener('click', e => {
     if (!e.target.classList.contains('chip')) toggle(card, img.path);
   });
