@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "session_key": "20260602_sunrise",
+      "date": "2026-06-02",
+      "type": "sunrise",
+      "label": "20260602_sunrise",
+      "frame_count": 20,
+      "video": "20260602_sunrise_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-02T05:37:41.101561",
+      "end": "2026-06-02T06:37:41.101561",
+      "created": "2026-06-02T02:59:18.762031"
+    },
+    {
       "session_key": "20260510_sunrise",
       "date": "2026-05-10",
       "type": "sunrise",
@@ -739,5 +752,5 @@
       "created": "2026-05-10T08:31:15.224261"
     }
   ],
-  "updated": "2026-05-30T07:05:53.197425"
+  "updated": "2026-06-02T02:59:18.762062"
 }
