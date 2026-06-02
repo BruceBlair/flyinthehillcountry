@@ -233,6 +233,21 @@ def patch_entry_crop_region(snapshot: str, region) -> dict | None:
     return result if result else None
 
 
+def patch_entry_metadata(snapshot: str, title: str, keywords: str) -> dict | None:
+    from manifest_io import locked_manifest_update
+    result = {}
+    def _modify(m):
+        _, entry = find_entry_by_snapshot(m, snapshot)
+        if entry is None:
+            return
+        entry["title"]    = title
+        entry["keywords"] = keywords
+        result["title"]    = title
+        result["keywords"] = keywords
+    locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _modify)
+    return result if result else None
+
+
 def images_by_category() -> dict:
     cats: dict[str, list] = {}
     for e in load_manifest().get("entries", []):
@@ -687,6 +702,19 @@ button.ok{background:#2a7}
          padding:10px;font:12px/1.6 monospace;color:#8f8;white-space:pre-wrap;
          max-height:400px;overflow-y:auto;margin-top:10px}
 .status-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+/* edit metadata modal */
+#editModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+           z-index:50;align-items:center;justify-content:center}
+#editModal.open{display:flex}
+#editBox{background:#1e1e1e;border:1px solid #444;border-radius:8px;
+         padding:20px;width:380px;display:flex;flex-direction:column;gap:12px}
+#editBox h2{font-size:14px;font-weight:600;color:#eee;margin:0}
+#editBox label{font-size:12px;color:#aaa;display:flex;flex-direction:column;gap:4px}
+#editBox input{background:#2a2a2a;border:1px solid #555;color:#eee;
+               padding:7px 10px;border-radius:4px;font-size:13px;width:100%}
+#editBox input:focus{outline:none;border-color:#0af}
+.edit-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.edit-actions button{padding:7px 18px}
 </style>
 </head>
 <body>
@@ -701,10 +729,28 @@ button.ok{background:#2a7}
 <div id="photos" class="panel active">
   <div id="bar">
     <span id="count">0 selected</span>
+    <button id="editBtn" disabled onclick="openEdit()" class="ok">Edit metadata</button>
     <button id="delBtn" disabled onclick="confirmDelete()">Delete selected</button>
   </div>
   <div id="subtabs"></div>
   <div id="sections"></div>
+</div>
+
+<!-- EDIT METADATA MODAL -->
+<div id="editModal">
+  <div id="editBox">
+    <h2 id="editTitle">Edit metadata</h2>
+    <label>Title
+      <input type="text" id="editTitleInput" placeholder="Descriptive title">
+    </label>
+    <label>Keywords (comma-separated)
+      <input type="text" id="editKeywordsInput" placeholder="sunset, wildlife, Texas">
+    </label>
+    <div class="edit-actions">
+      <button onclick="closeEdit()">Cancel</button>
+      <button class="ok" onclick="saveEdit()">Save</button>
+    </div>
+  </div>
 </div>
 
 <!-- TIMELAPSE -->
@@ -892,7 +938,42 @@ function deselectAll(cat) {
 function updateCount() {
   document.getElementById('count').textContent = selected.size + ' selected';
   document.getElementById('delBtn').disabled = selected.size === 0;
+  document.getElementById('editBtn').disabled = selected.size !== 1;
 }
+
+function openEdit() {
+  const snap = [...selected][0];
+  const img = Object.values(allData).flat().find(i => i.path === snap);
+  document.getElementById('editTitle').textContent = img ? fmtTs(img.timestamp) : snap;
+  document.getElementById('editTitleInput').value    = img?.title    || '';
+  document.getElementById('editKeywordsInput').value = img?.keywords || '';
+  document.getElementById('editModal').classList.add('open');
+  document.getElementById('editTitleInput').focus();
+}
+
+function closeEdit() {
+  document.getElementById('editModal').classList.remove('open');
+}
+
+async function saveEdit() {
+  const snap = [...selected][0];
+  const title    = document.getElementById('editTitleInput').value.trim();
+  const keywords = document.getElementById('editKeywordsInput').value.trim();
+  const r = await fetch('/api/photos/' + encodeURIComponent(snap) + '/metadata', {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({title, keywords}),
+  });
+  if (!r.ok) { toast('Save failed'); return; }
+  const img = Object.values(allData).flat().find(i => i.path === snap);
+  if (img) { img.title = title; img.keywords = keywords; }
+  closeEdit();
+  toast('Metadata saved');
+}
+
+document.getElementById('editModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('editModal')) closeEdit();
+});
 async function confirmDelete() {
   if (!selected.size) return;
   if (!confirm('Permanently delete ' + selected.size + ' photo(s) from highlights?\\n\\nThis cannot be undone.')) return;
@@ -1136,10 +1217,16 @@ async function rebuildSelected() {
   const entries = [..._tlSelected.values()];
   let queued = 0;
   for (const e of entries) {
-    const body = {mode: 'custom', interval_secs: 10};
-    if (e.start) body.start = e.start.slice(0,16);
-    if (e.end)   body.end   = e.end.slice(0,16);
-    body.label = e.label || e.type || 'rebuild';
+    let body;
+    if (e.start && e.end) {
+      body = {mode: 'custom', interval_secs: 10,
+              start: e.start.slice(0, 16), end: e.end.slice(0, 16),
+              label: e.label || e.type || 'rebuild'};
+    } else if (e.type === 'fullday') {
+      body = {mode: 'fullday', date: e.date, interval_secs: 10};
+    } else {
+      body = {mode: 'golden', date: e.date, type: e.type || 'sunset', interval_secs: 10};
+    }
     const r = await fetch('/api/timelapse/build', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
@@ -1398,6 +1485,19 @@ class ContentHandler(BaseHTTPRequestHandler):
             self._send(200, "application/json", json.dumps(result).encode())
             return
 
+        m = re.match(r"^/api/photos/(.+)/metadata$", p)
+        if m:
+            snap = safe_rel(unquote(m.group(1)))
+            if not snap:
+                self._send(403, "text/plain", b"Forbidden"); return
+            title    = str(payload.get("title",    ""))
+            keywords = str(payload.get("keywords", ""))
+            result = patch_entry_metadata(snap, title, keywords)
+            if result is None:
+                self._send(404, "application/json", b'{"error":"not found"}'); return
+            self._send(200, "application/json", json.dumps(result).encode())
+            return
+
         self._send(404, "text/plain", b"Not found")
 
     def do_DELETE(self):
@@ -1550,11 +1650,10 @@ def _resolve_window(payload: dict) -> tuple[datetime, datetime, str]:
 
 def _build_thread(start_dt: datetime, end_dt: datetime,
                   label: str, interval_secs: int) -> None:
-    import frigate_extract as fe
-    from timelapse_builder import _build_one
-
     tmp_dir = Path(tempfile.mkdtemp(prefix="gtn_tl_"))
     try:
+        import frigate_extract as fe
+        from timelapse_builder import _build_one
         _job_update(stage="finding segments")
         segments = fe.find_segments(start_dt, end_dt, FRIGATE_DIR)
         if not segments:
