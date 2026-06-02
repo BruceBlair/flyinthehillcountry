@@ -928,6 +928,9 @@ async function initPhotos() {
     const cat = (e.categories || ['unknown'])[0];
     (cats[cat] = cats[cat] || []).push({...e, path: e.snapshot});
   }
+  for (const arr of Object.values(cats)) {
+    arr.sort((a, b) => (b.timestamp || '').localeCompare(a.timestamp || ''));
+  }
   allData = cats;
   const subtabs  = document.getElementById('subtabs');
   const sections = document.getElementById('sections');
