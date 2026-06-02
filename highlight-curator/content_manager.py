@@ -672,6 +672,19 @@ button.ok{background:#2a7}
        width:20px;height:20px;display:none;align-items:center;justify-content:center;
        font-size:13px;font-weight:bold}
 .card.selected .badge{display:flex}
+/* flag chips + popover */
+.flag-chips{position:absolute;top:4px;left:4px;display:flex;flex-direction:column;gap:2px}
+.chip{font-size:9px;padding:2px 5px;border-radius:2px;font-weight:700;cursor:pointer;user-select:none}
+.chip-crop{background:#fa0;color:#000}
+.chip-enh{background:#4af;color:#000}
+.chip-hold{background:#f44;color:#fff}
+.flag-popover{position:fixed;background:#222;border:1px solid #444;border-radius:6px;
+              padding:12px;z-index:50;min-width:190px;box-shadow:0 4px 16px rgba(0,0,0,.7)}
+.flag-popover .pop-title{font-size:11px;color:#666;margin-bottom:8px}
+.flag-popover label{display:flex;align-items:center;gap:8px;margin-bottom:6px;
+                    cursor:pointer;font-size:13px}
+.flag-popover .sep{border-top:1px solid #333;margin:8px 0}
+.flag-popover button{width:100%;font-size:11px;padding:4px 8px;margin-top:4px}
 /* timelapse */
 .tl-form{background:#1e1e1e;border:1px solid #333;border-radius:6px;padding:14px;
          margin-bottom:12px;display:flex;flex-direction:column;gap:10px}
@@ -729,7 +742,7 @@ button.ok{background:#2a7}
 <div id="photos" class="panel active">
   <div id="bar">
     <span id="count">0 selected</span>
-    <button id="editBtn" disabled onclick="openEdit()" class="ok">Edit metadata</button>
+    <button id="editBtn" onclick="openEdit()" class="ok" style="display:none">Edit metadata</button>
     <button id="delBtn" disabled onclick="confirmDelete()">Delete selected</button>
   </div>
   <div id="subtabs"></div>
@@ -856,24 +869,53 @@ function makeCard(img) {
   const card = document.createElement('div');
   card.className = 'card';
   card.dataset.path = img.path;
+
   const photo = document.createElement('img');
   photo.src = '/thumb/' + encodeURIComponent(img.path);
   photo.loading = 'lazy';
   photo.alt = img.label || '';
+
+  const chips = document.createElement('div');
+  chips.className = 'flag-chips';
+  if (img.flags && img.flags.crop)      chips.appendChild(_chip('CROP', 'chip-crop', img));
+  if (img.flags && img.flags.enhance)   chips.appendChild(_chip('ENH',  'chip-enh',  img));
+  if (img.flags && img.flags.auth_hold) chips.appendChild(_chip('HOLD', 'chip-hold', img));
+
   const ts = document.createElement('div');
   ts.className = 'ts';
   ts.textContent = fmtTs(img.timestamp);
+
   const badge = document.createElement('div');
   badge.className = 'badge';
   badge.textContent = '\\u2715';
-  card.append(photo, ts, badge);
-  card.addEventListener('click', () => toggle(card, img.path));
+
+  card.append(photo, chips, ts, badge);
+  card.addEventListener('click', e => {
+    if (!e.target.classList.contains('chip')) toggle(card, img.path);
+  });
   return card;
 }
 
+function _chip(label, cls, img) {
+  const c = document.createElement('span');
+  c.className = 'chip ' + cls;
+  c.textContent = label;
+  c.addEventListener('click', e => {
+    e.stopPropagation();
+    openFlagPopover(img, e.currentTarget.closest('.card'));
+  });
+  return c;
+}
+
 async function initPhotos() {
-  const r = await fetch('/api/images');
-  allData = await r.json();
+  const r = await fetch('/api/photos');
+  const data = await r.json();
+  const cats = {};
+  for (const e of (data.entries || [])) {
+    const cat = (e.categories || ['unknown'])[0];
+    (cats[cat] = cats[cat] || []).push({...e, path: e.snapshot});
+  }
+  allData = cats;
   const subtabs  = document.getElementById('subtabs');
   const sections = document.getElementById('sections');
   Object.keys(allData).sort().forEach((cat, i) => {
@@ -938,17 +980,226 @@ function deselectAll(cat) {
 function updateCount() {
   document.getElementById('count').textContent = selected.size + ' selected';
   document.getElementById('delBtn').disabled = selected.size === 0;
-  document.getElementById('editBtn').disabled = selected.size !== 1;
+  const editBtn = document.getElementById('editBtn');
+  editBtn.style.display = selected.size === 1 ? '' : 'none';
+}
+
+// ── Flag popover ──────────────────────────────────────────────
+function openFlagPopover(img, card) {
+  document.querySelectorAll('.flag-popover').forEach(p => p.remove());
+  const pop = document.createElement('div');
+  pop.className = 'flag-popover';
+  const rect = card.getBoundingClientRect();
+  pop.style.top  = Math.min(rect.bottom + 4, window.innerHeight - 260) + 'px';
+  pop.style.left = Math.min(rect.left, window.innerWidth - 200) + 'px';
+
+  const title = document.createElement('div');
+  title.className = 'pop-title';
+  title.textContent = fmtTs(img.timestamp);
+  pop.appendChild(title);
+
+  const flagDefs = [{key:'crop',label:'Crop'},{key:'enhance',label:'Enhance'},{key:'auth_hold',label:'Auth Hold'}];
+  for (const fd of flagDefs) {
+    const row = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!(img.flags && img.flags[fd.key]);
+    cb.addEventListener('change', () => { toggleFlag(img, fd.key); pop.remove(); });
+    const lbl = document.createElement('span');
+    lbl.textContent = fd.label;
+    row.append(cb, lbl);
+    pop.appendChild(row);
+  }
+
+  const sep = document.createElement('div');
+  sep.className = 'sep';
+  pop.appendChild(sep);
+
+  const cropBtn = document.createElement('button');
+  cropBtn.className = 'sec';
+  cropBtn.textContent = img.crop_region ? 'Edit crop region' : 'Set crop region';
+  cropBtn.addEventListener('click', () => { pop.remove(); openCropPicker(img); });
+  pop.appendChild(cropBtn);
+
+  if (img.flags && img.flags.crop && img.crop_region) {
+    const applyBtn = document.createElement('button');
+    applyBtn.className = 'ok';
+    applyBtn.textContent = img.crop_applied ? 'Re-apply crop' : 'Apply crop \\u2192 stock_ready';
+    applyBtn.addEventListener('click', () => { pop.remove(); applyCrop(img); });
+    pop.appendChild(applyBtn);
+  }
+
+  const editMeta = document.createElement('button');
+  editMeta.className = 'ok';
+  editMeta.textContent = 'Edit metadata';
+  editMeta.addEventListener('click', () => { pop.remove(); openEditForEntry(img); });
+  pop.appendChild(editMeta);
+
+  const qBtn = document.createElement('button');
+  qBtn.className = 'ok';
+  qBtn.textContent = '+ Queue for upload';
+  qBtn.addEventListener('click', () => { addToQueue(img.path); pop.remove(); });
+  pop.appendChild(qBtn);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'sec';
+  closeBtn.textContent = 'Close';
+  closeBtn.addEventListener('click', () => pop.remove());
+  pop.appendChild(closeBtn);
+
+  document.body.appendChild(pop);
+  setTimeout(() => {
+    document.addEventListener('click', function h() { pop.remove(); document.removeEventListener('click', h); });
+  }, 50);
+}
+
+async function toggleFlag(img, flagKey) {
+  const newVal = !(img.flags && img.flags[flagKey]);
+  const resp = await fetch('/api/photos/' + encodeURIComponent(img.path) + '/flags', {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({[flagKey]: newVal}),
+  });
+  if (!resp.ok) { toast('Flag update failed'); return; }
+  if (!img.flags) img.flags = {};
+  img.flags[flagKey] = newVal;
+  const card = document.querySelector('.card[data-path="' + CSS.escape(img.path) + '"]');
+  if (card) card.parentNode.replaceChild(makeCard(img), card);
+  toast(newVal ? flagKey + ' set' : flagKey + ' cleared');
+}
+
+// ── Crop picker ───────────────────────────────────────────────
+function openCropPicker(img) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;' +
+    'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
+
+  const hint = document.createElement('div');
+  hint.style.cssText = 'color:#888;font-size:12px';
+  hint.textContent = 'Drag to select crop region';
+  overlay.appendChild(hint);
+
+  const frame = document.createElement('div');
+  frame.style.cssText = 'position:relative;display:inline-block;cursor:crosshair;user-select:none';
+
+  const photo = document.createElement('img');
+  photo.src = '/photo/' + encodeURIComponent(img.path);
+  photo.style.cssText = 'max-width:80vw;max-height:70vh;display:block';
+  frame.appendChild(photo);
+
+  const sel = document.createElement('div');
+  sel.style.cssText = 'position:absolute;border:2px solid #fa0;background:rgba(255,170,0,.12);pointer-events:none;display:none';
+  frame.appendChild(sel);
+  overlay.appendChild(frame);
+
+  const coords = document.createElement('div');
+  coords.style.cssText = 'color:#fa0;font-size:12px;font-family:monospace';
+  coords.textContent = img.crop_region
+    ? 'saved: x=' + img.crop_region.x.toFixed(3) + ' y=' + img.crop_region.y.toFixed(3) +
+      ' w=' + img.crop_region.w.toFixed(3) + ' h=' + img.crop_region.h.toFixed(3)
+    : 'no region set';
+  overlay.appendChild(coords);
+
+  const btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px';
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'ok';
+  saveBtn.textContent = 'Save region';
+  saveBtn.disabled = !img.crop_region;
+  const cancelBtn = document.createElement('button');
+  cancelBtn.style.background = '#2a2a2a';
+  cancelBtn.textContent = 'Cancel';
+  btnRow.append(saveBtn, cancelBtn);
+  overlay.appendChild(btnRow);
+
+  let region = img.crop_region ? {...img.crop_region} : null;
+  let dragging = false, ox = 0, oy = 0;
+  const ir = () => photo.getBoundingClientRect();
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+  function updateSel(r) {
+    const b = ir();
+    sel.style.left = (r.x * b.width) + 'px';
+    sel.style.top  = (r.y * b.height) + 'px';
+    sel.style.width  = (r.w * b.width) + 'px';
+    sel.style.height = (r.h * b.height) + 'px';
+    sel.style.display = 'block';
+    coords.textContent = 'x=' + r.x.toFixed(3) + ' y=' + r.y.toFixed(3) +
+      ' w=' + r.w.toFixed(3) + ' h=' + r.h.toFixed(3);
+    saveBtn.disabled = false;
+  }
+  if (region) updateSel(region);
+
+  frame.addEventListener('mousedown', e => {
+    const b = ir();
+    ox = clamp((e.clientX - b.left) / b.width, 0, 1);
+    oy = clamp((e.clientY - b.top)  / b.height, 0, 1);
+    dragging = true; e.preventDefault();
+  });
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const b = ir();
+    const cx = clamp((e.clientX - b.left) / b.width, 0, 1);
+    const cy = clamp((e.clientY - b.top)  / b.height, 0, 1);
+    region = {x: Math.min(ox,cx), y: Math.min(oy,cy), w: Math.abs(cx-ox), h: Math.abs(cy-oy)};
+    updateSel(region);
+  });
+  window.addEventListener('mouseup', () => { dragging = false; });
+
+  saveBtn.addEventListener('click', async () => {
+    if (!region || region.w < 0.01 || region.h < 0.01) { toast('Selection too small'); return; }
+    const res = await fetch('/api/photos/' + encodeURIComponent(img.path) + '/crop_region', {
+      method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify(region),
+    });
+    if (!res.ok) { toast('Failed to save crop region'); return; }
+    img.crop_region = region;
+    toast('Crop region saved');
+    overlay.remove();
+    const card = document.querySelector('.card[data-path="' + CSS.escape(img.path) + '"]');
+    if (card) card.parentNode.replaceChild(makeCard(img), card);
+  });
+  cancelBtn.addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+async function applyCrop(img) {
+  toast('Applying crop…');
+  const res = await fetch('/api/photos/' + encodeURIComponent(img.path) + '/crop/apply', {method:'POST'});
+  const data = await res.json();
+  if (data.ok) {
+    img.crop_applied = {path: data.path};
+    toast('Cropped \\u2192 ' + data.path.split('/').pop());
+  } else {
+    toast('Crop failed: ' + (data.error || 'unknown'));
+  }
+}
+
+async function addToQueue(snapshot) {
+  const resp = await fetch('/api/upload/queue/add', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({snapshot, title:'', keywords:'', platforms:['shutterstock','adobe_stock']}),
+  });
+  if (!resp.ok) { toast('Failed to add to queue'); return; }
+  toast('Added to upload queue');
+}
+
+// ── Edit metadata ─────────────────────────────────────────────
+let _editSnap = null;
+
+function openEditForEntry(img) {
+  _editSnap = img.path;
+  document.getElementById('editTitle').textContent = fmtTs(img.timestamp);
+  document.getElementById('editTitleInput').value    = img.title    || '';
+  document.getElementById('editKeywordsInput').value = img.keywords || '';
+  document.getElementById('editModal').classList.add('open');
+  document.getElementById('editTitleInput').focus();
 }
 
 function openEdit() {
   const snap = [...selected][0];
   const img = Object.values(allData).flat().find(i => i.path === snap);
-  document.getElementById('editTitle').textContent = img ? fmtTs(img.timestamp) : snap;
-  document.getElementById('editTitleInput').value    = img?.title    || '';
-  document.getElementById('editKeywordsInput').value = img?.keywords || '';
-  document.getElementById('editModal').classList.add('open');
-  document.getElementById('editTitleInput').focus();
+  openEditForEntry(img || {path: snap, timestamp: snap, title: '', keywords: ''});
 }
 
 function closeEdit() {
@@ -956,7 +1207,8 @@ function closeEdit() {
 }
 
 async function saveEdit() {
-  const snap = [...selected][0];
+  const snap = _editSnap;
+  if (!snap) return;
   const title    = document.getElementById('editTitleInput').value.trim();
   const keywords = document.getElementById('editKeywordsInput').value.trim();
   const r = await fetch('/api/photos/' + encodeURIComponent(snap) + '/metadata', {
