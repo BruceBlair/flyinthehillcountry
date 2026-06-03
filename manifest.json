@@ -18771,6 +18771,20 @@
       "nice_shot": 42.5
     },
     {
+      "timestamp": "20260603_173237",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260603_173237_scene_camera_raw.jpg",
+      "clip": null,
+      "source": "backfill_scene",
+      "nice_shot": 42.4
+    },
+    {
       "timestamp": "20260526_205049",
       "label": "sunset_scene",
       "categories": [
@@ -19030,6 +19044,20 @@
       },
       "uploads": {},
       "nice_shot": 41.8
+    },
+    {
+      "timestamp": "20260603_173319",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260603_173319_TimeLapse00_20260602_061721_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 41.7
     },
     {
       "timestamp": "20260603_165051",
@@ -19437,34 +19465,6 @@
       "clip": null,
       "source": "backfill_scene",
       "nice_shot": 40.3
-    },
-    {
-      "timestamp": "20260603_150033",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260603_150033_TimeLapse00_20260603_125751_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 40.2
-    },
-    {
-      "timestamp": "20260603_125837",
-      "label": "scene",
-      "score": null,
-      "categories": [
-        "weather"
-      ],
-      "camera": "camera_raw",
-      "event_id": null,
-      "snapshot": "weather/20260603_125837_TimeLapse00_20260603_125751_668_0.mp4.jpg",
-      "clip": null,
-      "source": "backfill_raw",
-      "nice_shot": 40.2
     },
     {
       "timestamp": "20260326_112841",
@@ -23234,5 +23234,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-06-03T17:06:51.466063"
+  "updated": "2026-06-03T18:07:37.661902"
 }
