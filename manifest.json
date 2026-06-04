@@ -19515,6 +19515,20 @@
       "nice_shot": 41.3
     },
     {
+      "timestamp": "20260604_093137",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260604_093137_TimeLapse00_20260604_062646_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 41.2
+    },
+    {
       "timestamp": "20260604_084401",
       "label": "scene",
       "score": null,
@@ -19670,6 +19684,20 @@
       },
       "uploads": {},
       "nice_shot": 40.6
+    },
+    {
+      "timestamp": "20260604_093138",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260604_093138_TimeLapse00_20260604_060921_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 40.5
     },
     {
       "timestamp": "20260604_084402",
@@ -19865,6 +19893,20 @@
       "nice_shot": 39.8
     },
     {
+      "timestamp": "20260604_093139",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260604_093139_TimeLapse00_20260603_190339_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 39.5
+    },
+    {
       "timestamp": "20260604_084402",
       "label": "scene",
       "score": null,
@@ -19923,6 +19965,20 @@
       },
       "uploads": {},
       "nice_shot": 39.5
+    },
+    {
+      "timestamp": "20260604_093136",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260604_093136_TimeLapse00_20260604_084430_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 39.4
     },
     {
       "timestamp": "20260518_195430",
@@ -23610,5 +23666,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-06-04T09:12:05.055704"
+  "updated": "2026-06-04T10:11:36.532679"
 }
