@@ -21637,6 +21637,20 @@
       "nice_shot": 33.4
     },
     {
+      "timestamp": "20260605_100622",
+      "label": "scene",
+      "score": null,
+      "categories": [
+        "weather"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "weather/20260605_100622_TimeLapse00_20260605_084814_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 33.3
+    },
+    {
       "timestamp": "20260519_195747",
       "label": "scene",
       "categories": [
@@ -24258,5 +24272,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-06-05T10:57:01.400796"
+  "updated": "2026-06-05T11:57:25.193716"
 }
