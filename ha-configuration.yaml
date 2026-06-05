@@ -1,0 +1,287 @@
+# Home Assistant Configuration — Ground Truth Network
+# Location: ./homeassistant/config/configuration.yaml
+
+homeassistant:
+  name: Ground Truth Network Hub
+  latitude: !secret latitude
+  longitude: !secret longitude
+  elevation: !secret elevation
+
+  time_zone: America/Chicago
+  currency: USD
+  country: US
+
+frontend:
+  themes: !include_dir_merge_named themes
+
+config:
+system_health:
+mobile_app:
+sun:              # Required for sunrise/sunset automations
+
+automation: !include automations.yaml
+script:     !include scripts.yaml
+scene:      !include scenes.yaml
+
+# ─── HTTP ────────────────────────────────────────────────────────────────────
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.16.0.0/12
+    - 192.168.0.0/16
+
+# ─── MQTT ────────────────────────────────────────────────────────────────────
+# Broker connection is configured via Settings → Integrations → MQTT in the UI.
+# (broker: mosquitto, port: 1883)  YAML broker keys removed — invalid in HA 2022.3+.
+
+# ─── InfluxDB (long-term sensor store) ───────────────────────────────────────
+influxdb:
+  # Connection is now configured via Settings → Integrations → InfluxDB in the UI.
+  # Host: influxdb  Port: 8086  Org: ground_truth  Bucket: sensor_data  (token from .env)
+  tags:
+    source: home_assistant
+    station: hill_country
+  tags_attributes:
+    - friendly_name
+  default_measurement: state
+  include:
+    domains:
+      - sensor
+      - binary_sensor
+      - weather
+    entity_globs:
+      - sensor.weather_*
+      - sensor.pi_*
+      - sensor.outdoor_*
+      - sensor.pcm_*
+      - binary_sensor.storm_*
+      - sensor.sun_*
+  exclude:
+    entities:
+      - sensor.time
+      - sensor.date
+
+# ─── Recorder ────────────────────────────────────────────────────────────────
+recorder:
+  db_url: sqlite:////config/home-assistant_v2.db
+  purge_keep_days: 30
+  commit_interval: 30
+  exclude:
+    domains:
+      - automation
+      - updater
+    entity_globs:
+      - sensor.weather_forecast*
+
+history:
+  exclude:
+    domains:
+      - automation
+      - updater
+
+logger:
+  default: info
+  logs:
+    homeassistant.components.mqtt: warning
+    homeassistant.components.influxdb: warning
+
+# ─── PTZ REST commands (TrackMix zoom lens — channel 1) ──────────────────────
+# Presets are saved in the Reolink camera UI at http://192.168.100.131
+# Setup: drive camera with HA PTZ controls → save preset → note ID → fill in automations
+rest_command:
+  ptz_preset:
+    url: "http://192.168.100.131/api.cgi?cmd=PtzCtrl&user=flyhigh&password=!secret reolink_password"
+    method: POST
+    content_type: "application/json"
+    payload: '[{"cmd":"PtzCtrl","action":0,"param":{"channel":1,"op":"ToPos","id":{{ preset_id }},"speed":40}}]'
+
+  ptz_move:
+    url: "http://192.168.100.131/api.cgi?cmd=PtzCtrl&user=flyhigh&password=!secret reolink_password"
+    method: POST
+    content_type: "application/json"
+    payload: '[{"cmd":"PtzCtrl","action":0,"param":{"channel":1,"op":"{{ direction }}","speed":{{ speed | default(32) }},"timeout":{{ timeout | default(1) }}}}]'
+
+  ptz_stop:
+    url: "http://192.168.100.131/api.cgi?cmd=PtzCtrl&user=flyhigh&password=!secret reolink_password"
+    method: POST
+    content_type: "application/json"
+    payload: '[{"cmd":"PtzCtrl","action":0,"param":{"channel":1,"op":"Stop","speed":0,"timeout":1}}]'
+
+# ─── Shell commands (triggered by automations) ───────────────────────────────
+shell_command:
+  # Compile timelapse for a given date (YYYYMMDD passed as arg)
+  compile_daily_timelapse: >
+    docker exec ffmpeg-processor /scripts/process_media.sh timelapse {{ date }}
+
+  compile_sunset_timelapse: >
+    docker exec ffmpeg-processor /scripts/process_media.sh timelapse-subset sunset {{ date }}
+
+  compile_sunrise_timelapse: >
+    docker exec ffmpeg-processor /scripts/process_media.sh timelapse-subset sunrise {{ date }}
+
+# ─── Notifications ────────────────────────────────────────────────────────────
+notify:
+  - platform: html5
+    name: push_notifications
+    vapid_pub_key: !secret vapid_public
+    vapid_prv_key: !secret vapid_private
+    vapid_email: !secret vapid_email
+
+# ─── Template sensors / binary sensors ──────────────────────────────────────
+template:
+  - binary_sensor:
+    - name: "Storm Detected"
+      state: >
+        {{ states('sensor.weather_wind_speed') | float(0) > 25 or
+           states('sensor.weather_precipitation_rate') | float(0) > 0.5 }}
+      device_class: problem
+
+    - name: "Golden Hour Active"
+      state: >
+        {% set elev = state_attr('sun.sun','elevation') | float(0) %}
+        {{ elev >= -6 and elev <= 10 }}
+      icon: >
+        {% if state_attr('sun.sun','elevation') | float(0) < 0 %}
+          mdi:weather-sunset
+        {% else %}
+          mdi:weather-sunny
+        {% endif %}
+
+  - sensor:
+    - name: "Storm Severity"
+      state: >
+        {% set wind = states('sensor.weather_wind_speed') | float(0) %}
+        {% set rain = states('sensor.weather_precipitation_rate') | float(0) %}
+        {% if wind > 40 or rain > 1.5 %}
+          severe
+        {% elif wind > 25 or rain > 0.5 %}
+          moderate
+        {% else %}
+          none
+        {% endif %}
+
+    - name: "Sun Elevation"
+      state: "{{ state_attr('sun.sun','elevation') | round(2) }}"
+      unit_of_measurement: "°"
+
+    - name: "Sun Azimuth"
+      state: "{{ state_attr('sun.sun','azimuth') | round(1) }}"
+      unit_of_measurement: "°"
+
+    - name: "Weather Temperature"
+      unique_id: weather_temperature
+      state: "{{ states('sensor.gw3000b_outdoor_temperature') | float(0) | round(1) }}"
+      unit_of_measurement: "°F"
+      device_class: temperature
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_outdoor_temperature') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather Humidity"
+      unique_id: weather_humidity
+      state: "{{ states('sensor.gw3000b_humidity') | float(0) | round(1) }}"
+      unit_of_measurement: "%"
+      device_class: humidity
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_humidity') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather Wind Speed"
+      unique_id: weather_wind_speed
+      state: "{{ states('sensor.gw3000b_wind_speed') | float(0) | round(1) }}"
+      unit_of_measurement: "mph"
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_wind_speed') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather Wind Direction"
+      unique_id: weather_wind_direction
+      state: "{{ states('sensor.gw3000b_wind_direction') | float(0) | round(1) }}"
+      unit_of_measurement: "°"
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_wind_direction') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather Wind Gust"
+      unique_id: weather_wind_gust
+      state: "{{ states('sensor.gw3000b_wind_gust') | float(0) | round(1) }}"
+      unit_of_measurement: "mph"
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_wind_gust') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather Precipitation Rate"
+      unique_id: weather_precipitation_rate
+      state: "{{ states('sensor.gw3000b_rain_rate_piezo') | float(0) | round(2) }}"
+      unit_of_measurement: "in/h"
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_rain_rate_piezo') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather Precipitation"
+      unique_id: weather_precipitation
+      state: "{{ states('sensor.gw3000b_daily_rain_piezo') | float(0) | round(2) }}"
+      unit_of_measurement: "in"
+      state_class: total_increasing
+      availability: "{{ states('sensor.gw3000b_daily_rain_piezo') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather Pressure"
+      unique_id: weather_pressure
+      state: "{{ states('sensor.gw3000b_relative_pressure') | float(0) | round(2) }}"
+      unit_of_measurement: "inHg"
+      device_class: atmospheric_pressure
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_relative_pressure') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather UV Index"
+      unique_id: weather_uv_index
+      state: "{{ states('sensor.gw3000b_uv_index') | float(0) | round(1) }}"
+      unit_of_measurement: "UV index"
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_uv_index') not in ['unavailable', 'unknown', 'none'] }}"
+
+    - name: "Weather Solar Radiation"
+      unique_id: weather_solar_radiation
+      state: "{{ states('sensor.gw3000b_solar_radiation') | float(0) | round(1) }}"
+      unit_of_measurement: "W/m²"
+      device_class: irradiance
+      state_class: measurement
+      availability: "{{ states('sensor.gw3000b_solar_radiation') not in ['unavailable', 'unknown', 'none'] }}"
+
+# ─── Input booleans (automation switches) ────────────────────────────────────
+input_boolean:
+  storm_alerts_enabled:
+    name: Storm Alerts Enabled
+    initial: true
+
+  ptz_patrol_enabled:
+    name: PTZ Perimeter Patrol Enabled
+    icon: mdi:camera-retake
+    initial: true
+
+  night_sky_patrol_enabled:
+    name: Night Sky Patrol Enabled
+    icon: mdi:telescope
+    initial: true
+
+  golden_hour_capture:
+    name: Golden Hour Capture Active
+    initial: false
+
+  sky_event_active:
+    name: Sky Event Active
+    initial: false
+
+  camera_manual_mode:
+    name: Camera Manual Mode
+    icon: mdi:camera-control
+    initial: false
+
+  sunset_sunrise_watch:
+    name: Sunset/Sunrise Watch Active
+    icon: mdi:weather-sunset
+    initial: false
+
+# ─── Input numbers ────────────────────────────────────────────────────────────
+input_number:
+  snapshot_interval:
+    name: Golden Hour Snapshot Interval (min)
+    min: 1
+    max: 15
+    step: 1
+    initial: 5
+    unit_of_measurement: min
