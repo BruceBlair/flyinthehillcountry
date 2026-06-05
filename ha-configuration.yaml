@@ -193,7 +193,7 @@ template:
 
     - name: "Weather Wind Direction"
       unique_id: weather_wind_direction
-      state: "{{ states('sensor.gw3000b_wind_direction') | float(0) | round(1) }}"
+      state: "{{ states('sensor.gw3000b_wind_direction') | float(0) | round(0) }}"
       unit_of_measurement: "°"
       state_class: measurement
       availability: "{{ states('sensor.gw3000b_wind_direction') not in ['unavailable', 'unknown', 'none'] }}"
