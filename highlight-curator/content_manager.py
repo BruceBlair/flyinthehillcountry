@@ -1598,7 +1598,32 @@ class ContentHandler(BaseHTTPRequestHandler):
             full = HIGHLIGHTS_DIR / "timelapse" / name
             if not full.exists():
                 self._send(404, "text/plain", b"Not found"); return
-            self._send(200, "video/mp4", full.read_bytes())
+            file_size = full.stat().st_size
+            range_header = self.headers.get("Range", "")
+            if range_header.startswith("bytes="):
+                rng = range_header[6:].split("-", 1)
+                start = int(rng[0]) if rng[0] else 0
+                end   = int(rng[1]) if len(rng) > 1 and rng[1] else file_size - 1
+                end   = min(end, file_size - 1)
+                length = end - start + 1
+                with open(full, "rb") as f:
+                    f.seek(start)
+                    data = f.read(length)
+                self.send_response(206)
+                self.send_header("Content-Type", "video/mp4")
+                self.send_header("Content-Range", f"bytes {start}-{end}/{file_size}")
+                self.send_header("Content-Length", str(length))
+                self.send_header("Accept-Ranges", "bytes")
+                self.end_headers()
+                self.wfile.write(data)
+            else:
+                self.send_response(200)
+                self.send_header("Content-Type", "video/mp4")
+                self.send_header("Content-Length", str(file_size))
+                self.send_header("Accept-Ranges", "bytes")
+                self.end_headers()
+                with open(full, "rb") as f:
+                    self.wfile.write(f.read())
         elif p == "/api/photos":
             m = load_manifest()
             self._send(200, "application/json",
@@ -1975,13 +2000,16 @@ def _write_timelapse_manifest(label: str, out_path: Path, frames: list[Path],
     except (IndexError, ValueError):
         thumb_rel = ""
 
+    video_name = out_path.name
+    manifest["entries"] = [e for e in manifest["entries"]
+                           if e.get("video") != video_name]
     manifest["entries"].insert(0, {
         "session_key": label,
         "date":        date_fmt,
         "type":        tl_type,
         "label":       label,
         "frame_count": len(frames),
-        "video":       out_path.name,
+        "video":       video_name,
         "thumbnail":   thumb_rel,
         "source":      "frigate_extract",
         "start":       start_dt.isoformat(),
