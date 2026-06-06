@@ -91,21 +91,21 @@ logger:
 # Setup: drive camera with HA PTZ controls → save preset → note ID → fill in automations
 rest_command:
   ptz_preset:
-    url: "https://192.168.100.131/api.cgi?cmd=PtzCtrl&user=flyhigh&password=!secret reolink_password"
+    url: !secret reolink_ptz_url
     method: POST
     content_type: "application/json"
     verify_ssl: false
     payload: '[{"cmd":"PtzCtrl","action":0,"param":{"channel":1,"op":"ToPos","id":{{ preset_id }},"speed":40}}]'
 
   ptz_move:
-    url: "https://192.168.100.131/api.cgi?cmd=PtzCtrl&user=flyhigh&password=!secret reolink_password"
+    url: !secret reolink_ptz_url
     method: POST
     content_type: "application/json"
     verify_ssl: false
     payload: '[{"cmd":"PtzCtrl","action":0,"param":{"channel":1,"op":"{{ direction }}","speed":{{ speed | default(32) }},"timeout":{{ timeout | default(1) }}}}]'
 
   ptz_stop:
-    url: "https://192.168.100.131/api.cgi?cmd=PtzCtrl&user=flyhigh&password=!secret reolink_password"
+    url: !secret reolink_ptz_url
     method: POST
     content_type: "application/json"
     verify_ssl: false
