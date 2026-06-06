@@ -17753,6 +17753,18 @@
       "nice_shot": 45.9
     },
     {
+      "timestamp": "20260605_204421",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204421_scene.jpg",
+      "clip": null,
+      "nice_shot": 45.8
+    },
+    {
       "timestamp": "20260522_204442",
       "label": "scene",
       "categories": [
@@ -20335,6 +20347,32 @@
       "nice_shot": 41.3
     },
     {
+      "timestamp": "20260605_205915",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205915_TimeLapse00_20260605_203903_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 41.2
+    },
+    {
+      "timestamp": "20260605_205421",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205421_scene.jpg",
+      "clip": null,
+      "nice_shot": 41.2
+    },
+    {
       "timestamp": "20260604_111617",
       "label": "scene",
       "score": null,
@@ -20461,6 +20499,18 @@
       "nice_shot": 41.1
     },
     {
+      "timestamp": "20260605_201420",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_201420_scene.jpg",
+      "clip": null,
+      "nice_shot": 41.0
+    },
+    {
       "timestamp": "20260423_071615",
       "label": "scene",
       "categories": [
@@ -20526,6 +20576,18 @@
       "nice_shot": 40.9
     },
     {
+      "timestamp": "20260605_203420",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_203420_scene.jpg",
+      "clip": null,
+      "nice_shot": 40.8
+    },
+    {
       "timestamp": "20260605_195218",
       "label": "sunset_scene",
       "categories": [
@@ -20536,6 +20598,32 @@
       "snapshot": "golden_hour/sunset/20260605_195218_scene.jpg",
       "clip": null,
       "nice_shot": 40.8
+    },
+    {
+      "timestamp": "20260605_205915",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205915_TimeLapse00_20260605_203314_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 40.7
+    },
+    {
+      "timestamp": "20260605_201220",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_201220_scene.jpg",
+      "clip": null,
+      "nice_shot": 40.7
     },
     {
       "timestamp": "20260604_201236",
@@ -20596,6 +20684,20 @@
       },
       "uploads": {},
       "nice_shot": 40.6
+    },
+    {
+      "timestamp": "20260605_205916",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205916_TimeLapse00_20260605_164600_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 40.5
     },
     {
       "timestamp": "20260605_185846",
@@ -20703,6 +20805,30 @@
       "nice_shot": 40.3
     },
     {
+      "timestamp": "20260605_204021",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204021_scene.jpg",
+      "clip": null,
+      "nice_shot": 40.2
+    },
+    {
+      "timestamp": "20260605_203621",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_203621_scene.jpg",
+      "clip": null,
+      "nice_shot": 40.2
+    },
+    {
       "timestamp": "20260604_200740",
       "label": "sunset",
       "score": null,
@@ -20715,6 +20841,18 @@
       "clip": null,
       "source": "backfill_raw",
       "nice_shot": 40.2
+    },
+    {
+      "timestamp": "20260605_202020",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_202020_scene.jpg",
+      "clip": null,
+      "nice_shot": 40.1
     },
     {
       "timestamp": "20260326_112841",
@@ -20734,6 +20872,34 @@
       "nice_shot": 40.1
     },
     {
+      "timestamp": "20260605_204025",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204025_High Res In The Hill Country-1-20260605_204025.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 40.0
+    },
+    {
+      "timestamp": "20260605_204023",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204023_High Res In The Hill Country-1-20260605_204023.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 40.0
+    },
+    {
       "timestamp": "20260326_112941",
       "label": "scene",
       "categories": [
@@ -20749,6 +20915,30 @@
       },
       "uploads": {},
       "nice_shot": 40.0
+    },
+    {
+      "timestamp": "20260605_204221",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204221_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.9
+    },
+    {
+      "timestamp": "20260605_203821",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_203821_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.9
     },
     {
       "timestamp": "20260605_084810",
@@ -20873,6 +21063,30 @@
       "nice_shot": 39.8
     },
     {
+      "timestamp": "20260605_202420",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_202420_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.7
+    },
+    {
+      "timestamp": "20260605_202220",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_202220_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.7
+    },
+    {
       "timestamp": "20260604_201106",
       "label": "sunset",
       "score": null,
@@ -20925,6 +21139,32 @@
       "clip": null,
       "source": "backfill_raw",
       "nice_shot": 39.6
+    },
+    {
+      "timestamp": "20260605_204219",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204219_High Res In The Hill Country-1-20260605_204219.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 39.5
+    },
+    {
+      "timestamp": "20260605_201620",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_201620_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.5
     },
     {
       "timestamp": "20260603_193212",
@@ -21001,6 +21241,30 @@
       "nice_shot": 39.4
     },
     {
+      "timestamp": "20260605_204821",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204821_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.3
+    },
+    {
+      "timestamp": "20260605_200619",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_200619_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.3
+    },
+    {
       "timestamp": "20260518_195430",
       "label": "High Res In The Hill Country-1-20260518",
       "categories": [
@@ -21018,6 +21282,18 @@
       "nice_shot": 39.3
     },
     {
+      "timestamp": "20260605_202620",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_202620_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.2
+    },
+    {
       "timestamp": "20260605_195819",
       "label": "sunset_scene",
       "categories": [
@@ -21028,6 +21304,30 @@
       "snapshot": "golden_hour/sunset/20260605_195819_scene.jpg",
       "clip": null,
       "nice_shot": 39.2
+    },
+    {
+      "timestamp": "20260605_200419",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_200419_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.1
+    },
+    {
+      "timestamp": "20260605_200219",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_200219_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.1
     },
     {
       "timestamp": "20260603_054327",
@@ -21105,6 +21405,18 @@
       },
       "uploads": {},
       "nice_shot": 39.0
+    },
+    {
+      "timestamp": "20260605_200820",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_200820_scene.jpg",
+      "clip": null,
+      "nice_shot": 38.9
     },
     {
       "timestamp": "20260604_190431",
@@ -21247,6 +21559,18 @@
       },
       "uploads": {},
       "nice_shot": 38.6
+    },
+    {
+      "timestamp": "20260605_201020",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_201020_scene.jpg",
+      "clip": null,
+      "nice_shot": 38.5
     },
     {
       "timestamp": "20260528_060459",
@@ -21792,6 +22116,20 @@
       "nice_shot": 36.3
     },
     {
+      "timestamp": "20260605_202555",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_202555_TimeLapse00_20260605_185900_668_0.mp4.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 36.2
+    },
+    {
       "timestamp": "20260604_185131",
       "label": "scene",
       "score": null,
@@ -21880,6 +22218,18 @@
       "nice_shot": 36.2
     },
     {
+      "timestamp": "20260605_201820",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_201820_scene.jpg",
+      "clip": null,
+      "nice_shot": 36.1
+    },
+    {
       "timestamp": "20260604_185126",
       "label": "scene",
       "score": null,
@@ -21935,6 +22285,20 @@
       "snapshot": "golden_hour/golden_hour/20260605_072808_scene.jpg",
       "clip": null,
       "nice_shot": 35.8
+    },
+    {
+      "timestamp": "20260605_201830",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_201830_High Res In The Hill Country-1-20260605_201829.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 35.7
     },
     {
       "timestamp": "20260519_203051",
@@ -22036,6 +22400,20 @@
       "nice_shot": 35.3
     },
     {
+      "timestamp": "20260605_205513",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205513_High Res In The Hill Country-1-20260605_205513.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 35.2
+    },
+    {
       "timestamp": "20260530_193006",
       "label": "golden_hour",
       "categories": [
@@ -22063,6 +22441,18 @@
       },
       "uploads": {},
       "nice_shot": 35.1
+    },
+    {
+      "timestamp": "20260605_203220",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_203220_scene.jpg",
+      "clip": null,
+      "nice_shot": 35.0
     },
     {
       "timestamp": "20260604_200756",
@@ -22147,6 +22537,20 @@
       "nice_shot": 35.0
     },
     {
+      "timestamp": "20260605_205512",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205512_High Res In The Hill Country-1-20260605_205511.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 34.9
+    },
+    {
       "timestamp": "20260528_061259",
       "label": "sunrise_scene",
       "categories": [
@@ -22174,6 +22578,18 @@
       },
       "uploads": {},
       "nice_shot": 34.9
+    },
+    {
+      "timestamp": "20260605_205021",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205021_scene.jpg",
+      "clip": null,
+      "nice_shot": 34.8
     },
     {
       "timestamp": "20260527_175745",
@@ -22828,6 +23244,18 @@
       "nice_shot": 31.7
     },
     {
+      "timestamp": "20260605_204621",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204621_scene.jpg",
+      "clip": null,
+      "nice_shot": 31.6
+    },
+    {
       "timestamp": "20260519_060802",
       "label": "scene",
       "categories": [
@@ -22950,6 +23378,18 @@
       "nice_shot": 31.2
     },
     {
+      "timestamp": "20260605_205221",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205221_scene.jpg",
+      "clip": null,
+      "nice_shot": 31.1
+    },
+    {
       "timestamp": "20260518_195408",
       "label": "High Res In The Hill Country-1-20260518",
       "categories": [
@@ -22965,6 +23405,18 @@
       },
       "uploads": {},
       "nice_shot": 31.1
+    },
+    {
+      "timestamp": "20260605_202820",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_202820_scene.jpg",
+      "clip": null,
+      "nice_shot": 31.0
     },
     {
       "timestamp": "20260603_173126",
@@ -23019,6 +23471,20 @@
       }
     },
     {
+      "timestamp": "20260605_205606",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205606_High Res In The Hill Country-1-20260605_205606.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 30.9
+    },
+    {
       "timestamp": "20260604_062419",
       "label": "sunrise",
       "score": null,
@@ -23048,6 +23514,20 @@
       },
       "uploads": {},
       "nice_shot": 30.9
+    },
+    {
+      "timestamp": "20260605_205608",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205608_High Res In The Hill Country-1-20260605_205607.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 30.8
     },
     {
       "timestamp": "20260604_190429",
@@ -23430,6 +23910,18 @@
       "nice_shot": 29.7
     },
     {
+      "timestamp": "20260605_203020",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_203020_scene.jpg",
+      "clip": null,
+      "nice_shot": 29.6
+    },
+    {
       "timestamp": "20260506_061544",
       "label": "scene",
       "categories": [
@@ -23522,6 +24014,20 @@
       },
       "uploads": {},
       "nice_shot": 28.7
+    },
+    {
+      "timestamp": "20260605_205626",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205626_High Res In The Hill Country-1-20260605_205626.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 28.3
     },
     {
       "timestamp": "20260402_065153",
@@ -23830,6 +24336,18 @@
       "nice_shot": 28.3
     },
     {
+      "timestamp": "20260605_205621",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205621_scene.jpg",
+      "clip": null,
+      "nice_shot": 28.2
+    },
+    {
       "timestamp": "20260331_191101",
       "label": "scene",
       "categories": [
@@ -24014,6 +24532,48 @@
       "nice_shot": 27.2
     },
     {
+      "timestamp": "20260605_204301",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204301_High Res In The Hill Country-1-20260605_204300.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 27.0
+    },
+    {
+      "timestamp": "20260605_204258",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204258_High Res In The Hill Country-1-20260605_204258.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 27.0
+    },
+    {
+      "timestamp": "20260605_204241",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204241_High Res In The Hill Country-1-20260605_204241.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 26.9
+    },
+    {
       "timestamp": "20260522_195218",
       "label": "scene",
       "categories": [
@@ -24094,6 +24654,20 @@
       "nice_shot": 26.1
     },
     {
+      "timestamp": "20260605_204046",
+      "label": "sunset",
+      "score": null,
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "camera_raw",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_204046_High Res In The Hill Country-1-20260605_204045.jpg",
+      "clip": null,
+      "source": "backfill_raw",
+      "nice_shot": 25.9
+    },
+    {
       "timestamp": "20260531_054405",
       "label": "golden_hour",
       "categories": [
@@ -24135,6 +24709,18 @@
       },
       "uploads": {},
       "nice_shot": 25.6
+    },
+    {
+      "timestamp": "20260605_210022",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_210022_scene.jpg",
+      "clip": null,
+      "nice_shot": 25.5
     },
     {
       "timestamp": "20260604_190405",
@@ -25054,6 +25640,18 @@
       "nice_shot": 18.4
     },
     {
+      "timestamp": "20260605_210222",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_210222_scene.jpg",
+      "clip": null,
+      "nice_shot": 17.8
+    },
+    {
       "timestamp": "20260604_190421",
       "label": "scene",
       "score": null,
@@ -25131,6 +25729,18 @@
       },
       "uploads": {},
       "nice_shot": 17.1
+    },
+    {
+      "timestamp": "20260605_205822",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260605_205822_scene.jpg",
+      "clip": null,
+      "nice_shot": 16.6
     },
     {
       "timestamp": "20260604_190411",
@@ -25920,5 +26530,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-06-05T20:00:19.562738"
+  "updated": "2026-06-05T21:02:22.638648"
 }
