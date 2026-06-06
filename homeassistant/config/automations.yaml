@@ -1,0 +1,389 @@
+# ─── Golden Hour ─────────────────────────────────────────────────────────────
+
+- id: golden_hour_open
+  alias: "Golden Hour — Window Opens"
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.golden_hour_active
+      to: "on"
+  conditions: []
+  actions:
+    - action: input_boolean.turn_on
+      target:
+        entity_id:
+          - input_boolean.golden_hour_capture
+          - input_boolean.sunset_sunrise_watch
+    - action: mqtt.publish
+      data:
+        topic: cameras/events/golden_hour
+        payload: '{"state":"open"}'
+        retain: true
+  mode: single
+
+- id: golden_hour_close
+  alias: "Golden Hour — Window Closes"
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.golden_hour_active
+      to: "off"
+  conditions: []
+  actions:
+    - action: input_boolean.turn_off
+      target:
+        entity_id:
+          - input_boolean.golden_hour_capture
+          - input_boolean.sunset_sunrise_watch
+    - action: mqtt.publish
+      data:
+        topic: cameras/events/golden_hour
+        payload: '{"state":"closed"}'
+        retain: true
+    - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ state_attr('sun.sun', 'rising') }}"
+          sequence:
+            - action: shell_command.compile_sunrise_timelapse
+              data:
+                date: "{{ now().strftime('%Y%m%d') }}"
+        - conditions:
+            - condition: template
+              value_template: "{{ not state_attr('sun.sun', 'rising') }}"
+          sequence:
+            - action: shell_command.compile_sunset_timelapse
+              data:
+                date: "{{ now().strftime('%Y%m%d') }}"
+  mode: single
+
+- id: golden_hour_snapshot
+  alias: "Golden Hour — Periodic Snapshot Request"
+  triggers:
+    - trigger: time_pattern
+      minutes: /5
+  conditions:
+    - condition: state
+      entity_id: input_boolean.golden_hour_capture
+      state: "on"
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: cameras/snapshots/golden_hour
+        payload_template: >
+          {"camera":"trackmix_wide","timestamp":{{ now().timestamp() | int }}}
+  mode: single
+
+# ─── Sunrise / Sunset Watch ───────────────────────────────────────────────────
+
+- id: sunrise_watch_start
+  alias: "Sunrise Watch — Begin 2 Hours Before Sunrise"
+  triggers:
+    - trigger: sun
+      event: sunrise
+      offset: "-02:00:00"
+  conditions: []
+  actions:
+    - action: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.sunset_sunrise_watch
+    - if:
+        - condition: state
+          entity_id: input_boolean.camera_manual_mode
+          state: "off"
+      then:
+        - action: rest_command.ptz_move
+          data:
+            direction: Up
+            speed: 20
+        - delay: "00:00:03"
+        - action: rest_command.ptz_stop
+  mode: single
+
+- id: sunset_watch_start
+  alias: "Sunset Watch — Begin 2 Hours Before Sunset"
+  triggers:
+    - trigger: sun
+      event: sunset
+      offset: "-02:00:00"
+  conditions: []
+  actions:
+    - action: input_boolean.turn_on
+      target:
+        entity_id: input_boolean.sunset_sunrise_watch
+    - if:
+        - condition: state
+          entity_id: input_boolean.camera_manual_mode
+          state: "off"
+      then:
+        - action: rest_command.ptz_move
+          data:
+            direction: Left
+            speed: 20
+        - delay: "00:00:03"
+        - action: rest_command.ptz_stop
+  mode: single
+
+# ─── Wildlife Detection ───────────────────────────────────────────────────────
+
+- id: frigate_wildlife_detection
+  alias: "Frigate — Wildlife Detection Alert"
+  triggers:
+    - trigger: mqtt
+      topic: frigate/events
+  conditions:
+    - condition: template
+      value_template: "{{ trigger.payload_json.type == 'new' }}"
+    - condition: template
+      value_template: >
+        {{ trigger.payload_json.after.label in
+           ['person','car','dog','cat','bird','horse','cow','bear'] }}
+    - condition: template
+      value_template: "{{ not (trigger.payload_json.after.false_positive | default(false)) }}"
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: cameras/events/wildlife
+        payload_template: >
+          {"camera":"{{ trigger.payload_json.after.camera }}",
+           "label":"{{ trigger.payload_json.after.label }}",
+           "score":{{ trigger.payload_json.after.top_score | round(2) }},
+           "timestamp":{{ trigger.payload_json.after.start_time | int }}}
+    - action: notify.persistent_notification
+      data:
+        title: "Wildlife — {{ trigger.payload_json.after.label | capitalize }}"
+        message: >
+          {{ trigger.payload_json.after.label | capitalize }} on
+          {{ trigger.payload_json.after.camera }}
+          ({{ (trigger.payload_json.after.top_score * 100) | int }}%)
+  mode: queued
+  max: 10
+
+# ─── Storm Alerts ─────────────────────────────────────────────────────────────
+
+- id: storm_alert_start
+  alias: "Storm Alert — Detected"
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.storm_detected
+      to: "on"
+  conditions:
+    - condition: state
+      entity_id: input_boolean.storm_alerts_enabled
+      state: "on"
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: weather/alerts/storm
+        payload_template: >
+          {"state":"active",
+           "wind_speed":{{ states('sensor.weather_wind_speed') }},
+           "rain_rate":{{ states('sensor.weather_precipitation_rate') }},
+           "timestamp":{{ now().timestamp() | int }}}
+        retain: true
+    - action: mqtt.publish
+      data:
+        topic: cameras/events/weather
+        payload_template: >
+          {"event":"storm_start",
+           "wind_speed":{{ states('sensor.weather_wind_speed') }},
+           "timestamp":{{ now().timestamp() | int }}}
+    - action: notify.persistent_notification
+      data:
+        title: "Storm Alert"
+        message: >
+          Storm: wind {{ states('sensor.weather_wind_speed') }} mph,
+          rain {{ states('sensor.weather_precipitation_rate') }} in/h
+  mode: single
+
+- id: storm_alert_severe
+  alias: "Storm Alert — Severe Conditions"
+  triggers:
+    - trigger: state
+      entity_id: sensor.storm_severity
+      to: "severe"
+  conditions:
+    - condition: state
+      entity_id: input_boolean.storm_alerts_enabled
+      state: "on"
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: weather/alerts/severe_storm
+        payload_template: >
+          {"state":"active",
+           "wind_speed":{{ states('sensor.weather_wind_speed') }},
+           "wind_gust":{{ states('sensor.weather_wind_gust') }},
+           "rain_rate":{{ states('sensor.weather_precipitation_rate') }},
+           "timestamp":{{ now().timestamp() | int }}}
+        retain: true
+    - action: notify.persistent_notification
+      data:
+        title: "SEVERE STORM"
+        message: >
+          Severe: wind {{ states('sensor.weather_wind_speed') }} mph,
+          gusts {{ states('sensor.weather_wind_gust') }} mph,
+          rain {{ states('sensor.weather_precipitation_rate') }} in/h
+  mode: single
+
+- id: storm_alert_clear
+  alias: "Storm Alert — Cleared"
+  triggers:
+    - trigger: state
+      entity_id: binary_sensor.storm_detected
+      to: "off"
+  conditions:
+    - condition: state
+      entity_id: input_boolean.storm_alerts_enabled
+      state: "on"
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: weather/alerts/storm
+        payload: '{"state":"clear"}'
+        retain: true
+    - action: mqtt.publish
+      data:
+        topic: cameras/events/weather
+        payload_template: >
+          {"event":"storm_clear","timestamp":{{ now().timestamp() | int }}}
+    - action: notify.persistent_notification
+      data:
+        title: "Storm Cleared"
+        message: "Storm conditions have passed."
+  mode: single
+
+# ─── Timelapse Compilation ────────────────────────────────────────────────────
+
+- id: timelapse_daily
+  alias: "Timelapse — Daily Compile at Night"
+  triggers:
+    - trigger: time
+      at: "23:45:00"
+  conditions: []
+  actions:
+    - action: shell_command.compile_daily_timelapse
+      data:
+        date: "{{ now().strftime('%Y%m%d') }}"
+  mode: single
+
+# ─── PTZ Patrol ───────────────────────────────────────────────────────────────
+
+- id: ptz_perimeter_patrol
+  alias: "PTZ — Daytime Perimeter Sweep"
+  triggers:
+    - trigger: time_pattern
+      minutes: /10
+  conditions:
+    - condition: state
+      entity_id: sun.sun
+      state: above_horizon
+    - condition: state
+      entity_id: input_boolean.ptz_patrol_enabled
+      state: "on"
+    - condition: state
+      entity_id: input_boolean.camera_manual_mode
+      state: "off"
+  actions:
+    - action: rest_command.ptz_move
+      data:
+        direction: Right
+        speed: 20
+    - delay: "00:00:04"
+    - action: rest_command.ptz_stop
+    - delay: "00:00:05"
+    - action: rest_command.ptz_move
+      data:
+        direction: Left
+        speed: 20
+    - delay: "00:00:08"
+    - action: rest_command.ptz_stop
+    - delay: "00:00:02"
+    - action: rest_command.ptz_move
+      data:
+        direction: Right
+        speed: 20
+    - delay: "00:00:04"
+    - action: rest_command.ptz_stop
+  mode: single
+
+# ─── Night Operations ─────────────────────────────────────────────────────────
+
+- id: night_sky_patrol_trigger
+  alias: "Night Sky Patrol — Every 2 Hours"
+  triggers:
+    - trigger: time_pattern
+      hours: /2
+  conditions:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+    - condition: state
+      entity_id: input_boolean.night_sky_patrol_enabled
+      state: "on"
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: cameras/control/night_sky_patrol
+        payload: '{"trigger":"scheduled"}'
+  mode: single
+
+- id: moon_track_periodic
+  alias: "Moon Track — Every 30 Minutes at Night"
+  triggers:
+    - trigger: time_pattern
+      minutes: /30
+  conditions:
+    - condition: state
+      entity_id: sun.sun
+      state: below_horizon
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: cameras/control/moon_track
+        payload: '{"trigger":"periodic"}'
+  mode: single
+
+# ─── Sensor MQTT Republish ────────────────────────────────────────────────────
+
+- id: weather_sensor_mqtt_republish
+  alias: "Weather — Republish Sensors to MQTT Every 5 Minutes"
+  triggers:
+    - trigger: time_pattern
+      minutes: /5
+  conditions: []
+  actions:
+    - action: mqtt.publish
+      data:
+        topic: sensors/outdoor/temperature
+        payload_template: "{{ states('sensor.weather_temperature') }}"
+        retain: true
+    - action: mqtt.publish
+      data:
+        topic: sensors/outdoor/humidity
+        payload_template: "{{ states('sensor.weather_humidity') }}"
+        retain: true
+    - action: mqtt.publish
+      data:
+        topic: sensors/outdoor/pressure
+        payload_template: "{{ states('sensor.weather_pressure') }}"
+        retain: true
+    - action: mqtt.publish
+      data:
+        topic: sensors/outdoor/wind_speed
+        payload_template: "{{ states('sensor.weather_wind_speed') }}"
+        retain: true
+    - action: mqtt.publish
+      data:
+        topic: sensors/outdoor/wind_direction
+        payload_template: "{{ states('sensor.weather_wind_direction') }}"
+        retain: true
+    - action: mqtt.publish
+      data:
+        topic: sensors/outdoor/rainfall
+        payload_template: "{{ states('sensor.weather_precipitation_rate') }}"
+        retain: true
+    - action: mqtt.publish
+      data:
+        topic: sensors/outdoor/light_level
+        payload_template: "{{ states('sensor.weather_solar_radiation') }}"
+        retain: true
+  mode: single

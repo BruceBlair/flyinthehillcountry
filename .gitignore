@@ -24,3 +24,16 @@ Thumbs.db
 
 # Environment variables
 .env
+
+# Home Assistant runtime files
+homeassistant/config/secrets.yaml
+homeassistant/config/*.db
+homeassistant/config/*.db-shm
+homeassistant/config/*.db-wal
+homeassistant/config/*.log
+homeassistant/config/*.log.*
+homeassistant/config/.storage/
+homeassistant/config/deps/
+homeassistant/config/tts/
+homeassistant/config/comets.json
+homeassistant/config/blueprints/
