@@ -106,7 +106,7 @@ rest_command:
     url: !secret reolink_ptz_url
     method: POST
     content_type: "application/json"
-    payload: '[{"cmd":"PtzCtrl","action":0,"param":{"channel":1,"op":"Stop","speed":0,"timeout":1}}]'
+    payload: '[{"cmd":"PtzCtrl","action":0,"param":{"channel":1,"op":"Stop"}}]'
 
 # ─── Shell commands (triggered by automations) ───────────────────────────────
 shell_command:
