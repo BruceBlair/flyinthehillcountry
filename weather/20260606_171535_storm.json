@@ -1,0 +1,8 @@
+{
+  "timestamp": "20260606_171535",
+  "event_type": "storm",
+  "topic": "weather/alerts/storm",
+  "payload": {
+    "state": "clear"
+  }
+}

@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "session_key": "20260509_sunrise",
+      "date": "2026-05-09",
+      "type": "sunrise",
+      "label": "20260509_sunrise",
+      "frame_count": 360,
+      "video": "20260509_sunrise_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-05-09T05:55:19.270525",
+      "end": "2026-05-09T06:55:19.270525",
+      "created": "2026-06-05T22:20:07.664016"
+    },
+    {
+      "session_key": "20260602_sunrise",
+      "date": "2026-06-02",
+      "type": "sunrise",
+      "label": "20260602_sunrise",
+      "frame_count": 20,
+      "video": "20260602_sunrise_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-02T05:37:41.101561",
+      "end": "2026-06-02T06:37:41.101561",
+      "created": "2026-06-05T21:50:16.160079"
+    },
+    {
       "session_key": "20260509_sunset",
       "date": "2026-05-09",
       "type": "sunset",
@@ -40,19 +66,6 @@
       "created": "2026-06-02T16:01:26.594898"
     },
     {
-      "session_key": "20260602_sunrise",
-      "date": "2026-06-02",
-      "type": "sunrise",
-      "label": "20260602_sunrise",
-      "frame_count": 20,
-      "video": "20260602_sunrise_timelapse.mp4",
-      "thumbnail": "",
-      "source": "frigate_extract",
-      "start": "2026-06-02T05:37:41.101561",
-      "end": "2026-06-02T06:37:41.101561",
-      "created": "2026-06-02T02:59:18.762031"
-    },
-    {
       "session_key": "20260510_sunrise",
       "date": "2026-05-10",
       "type": "sunrise",
@@ -60,15 +73,6 @@
       "video": "20260510_sunrise_timelapse.mp4",
       "thumbnail": "golden_hour/sunrise/20260510_071504_scene.jpg",
       "created": "2026-05-10T08:31:46.902614"
-    },
-    {
-      "session_key": "20260509_sunrise",
-      "date": "2026-05-09",
-      "type": "sunrise",
-      "frame_count": 10,
-      "video": "20260509_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260509_070257_scene.jpg",
-      "created": "2026-05-10T08:31:45.549915"
     },
     {
       "session_key": "20260508_sunset",
@@ -782,5 +786,5 @@
       "created": "2026-05-10T08:31:15.224261"
     }
   ],
-  "updated": "2026-06-03T19:35:33.621950"
+  "updated": "2026-06-05T22:20:07.664095"
 }
