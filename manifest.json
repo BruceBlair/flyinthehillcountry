@@ -17093,6 +17093,20 @@
       "nice_shot": 46.8
     },
     {
+      "timestamp": "20260607_155222",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1780865542.446925-iludg7",
+      "snapshot": "wildlife/20260607_155222_bird.jpg",
+      "clip": "wildlife/20260607_155222_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 46.7
+    },
+    {
       "timestamp": "20260430_073038",
       "label": "scene",
       "categories": [
@@ -22174,6 +22188,20 @@
       "nice_shot": 36.2
     },
     {
+      "timestamp": "20260607_154043",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1780864843.23854-7oevyb",
+      "snapshot": "wildlife/20260607_154043_bear.jpg",
+      "clip": "wildlife/20260607_154043_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 36.1
+    },
+    {
       "timestamp": "20260518_195459",
       "label": "High Res In The Hill Country-1-20260518",
       "categories": [
@@ -22745,6 +22773,20 @@
       "nice_shot": 33.4
     },
     {
+      "timestamp": "20260607_150520",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1780862720.470277-8uprs6",
+      "snapshot": "wildlife/20260607_150520_bird.jpg",
+      "clip": "wildlife/20260607_150520_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 33.3
+    },
+    {
       "timestamp": "20260607_063804",
       "label": "sunrise_scene",
       "categories": [
@@ -22984,6 +23026,20 @@
       "nice_shot": 31.9
     },
     {
+      "timestamp": "20260607_151928",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1780863568.397995-zwro5h",
+      "snapshot": "wildlife/20260607_151928_bird.jpg",
+      "clip": "wildlife/20260607_151928_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 31.8
+    },
+    {
       "timestamp": "20260606_180051",
       "label": "golden_hour",
       "categories": [
@@ -23088,6 +23144,20 @@
       },
       "uploads": {},
       "nice_shot": 31.7
+    },
+    {
+      "timestamp": "20260607_151836",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1780863516.206107-90l5l3",
+      "snapshot": "wildlife/20260607_151836_bird.jpg",
+      "clip": "wildlife/20260607_151836_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 31.6
     },
     {
       "timestamp": "20260607_141611",
@@ -23322,20 +23392,6 @@
       "nice_shot": 30.9
     },
     {
-      "timestamp": "20260607_145240",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_zoom",
-      "event_id": "1780861960.508052-h5c91y",
-      "snapshot": "wildlife/20260607_145240_bird.jpg",
-      "clip": "wildlife/20260607_145240_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 30.8
-    },
-    {
       "timestamp": "20260520_234940",
       "label": "scene",
       "categories": [
@@ -23439,20 +23495,6 @@
       "clip": "wildlife/20260607_055501_cat.mp4",
       "source": "backfill",
       "nice_shot": 30.4
-    },
-    {
-      "timestamp": "20260607_145314",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_zoom",
-      "event_id": "1780861994.644842-l1ih5d",
-      "snapshot": "wildlife/20260607_145314_bird.jpg",
-      "clip": "wildlife/20260607_145314_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 30.3
     },
     {
       "timestamp": "20260527_145106",
@@ -23879,20 +23921,6 @@
       },
       "uploads": {},
       "nice_shot": 27.9
-    },
-    {
-      "timestamp": "20260607_142857",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_zoom",
-      "event_id": "1780860537.403876-3z80wf",
-      "snapshot": "wildlife/20260607_142857_bird.jpg",
-      "clip": "wildlife/20260607_142857_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 27.8
     },
     {
       "timestamp": "20260529_054438",
@@ -24653,5 +24681,5 @@
       "nice_shot": 0.2
     }
   ],
-  "updated": "2026-06-07T15:01:05.505236"
+  "updated": "2026-06-07T16:00:59.986803"
 }
