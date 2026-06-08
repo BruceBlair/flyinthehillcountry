@@ -1,0 +1,50 @@
+{
+  "updated": "2026-06-08T05:33:53Z",
+  "nodes": [
+    {
+      "id": "HITHC-RIDGE-N",
+      "label": "North Ridge",
+      "status": "active",
+      "lat": null,
+      "lon": null,
+      "elevation_ft": null,
+      "has_camera": true,
+      "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
+      "current": {
+        "timestamp": "2026-06-08T05:33:53Z",
+        "temp_f": 77.36,
+        "humidity_pct": 92.0,
+        "pressure_msl_inhg": 29.88,
+        "wind_speed_mph": 9.84,
+        "wind_dir_deg": 101.0,
+        "wind_gust_mph": 11.86,
+        "rain_rate_in_hr": null,
+        "rain_daily_in": null,
+        "battery_pct": 100.0,
+        "rssi_dbm": null
+      }
+    },
+    {
+      "id": "HITHC-RIDGE-W",
+      "label": "West Ridge",
+      "status": "planned",
+      "lat": null,
+      "lon": null,
+      "elevation_ft": null,
+      "has_camera": false,
+      "current": null,
+      "notes": "Node placement target \u2014 weather only"
+    },
+    {
+      "id": "HITHC-RIDGE-NW",
+      "label": "Northwest Ridge",
+      "status": "planned",
+      "lat": null,
+      "lon": null,
+      "elevation_ft": null,
+      "has_camera": false,
+      "current": null,
+      "notes": "Node placement target \u2014 weather only"
+    }
+  ]
+}
