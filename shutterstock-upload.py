@@ -16,13 +16,12 @@ Usage:
   python3 shutterstock-upload.py --enrich-only # only populate weather_at_capture, no upload
 
 Credentials required in .env:
-  SHUTTERSTOCK_CLIENT_ID      — from shutterstock.com/account/developers/apps
-  SHUTTERSTOCK_CLIENT_SECRET  — same
-  SHUTTERSTOCK_REFRESH_TOKEN  — run shutterstock-auth-setup.py once to obtain
-  SHUTTERSTOCK_AUTO_PUBLISH   — set "true" to actually submit (default: false = dry-run safe)
+  SHUTTERSTOCK_CLIENT_ID     — from shutterstock.com/account/developers/apps
+  SHUTTERSTOCK_CLIENT_SECRET — same
+  SHUTTERSTOCK_AUTO_PUBLISH  — set "true" to actually submit (default: false = dry-run safe)
 """
 
-import argparse, json, os, sys, time, urllib.request, urllib.error, urllib.parse
+import argparse, base64, json, os, sys, urllib.request, urllib.error, urllib.parse
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -45,26 +44,13 @@ def load_env(path):
         env[k.strip()] = v.strip()
     return env
 
-ENV_FILE = SCRIPT_DIR / ".env"
-cfg = load_env(ENV_FILE)
+cfg = load_env(SCRIPT_DIR / ".env")
 
 INFLUX_URL       = f"http://{cfg['NAS_IP']}:8086"
 INFLUX_TOKEN     = cfg["INFLUXDB_TOKEN"]
 SS_CLIENT_ID     = cfg.get("SHUTTERSTOCK_CLIENT_ID", "")
 SS_CLIENT_SECRET = cfg.get("SHUTTERSTOCK_CLIENT_SECRET", "")
-SS_REFRESH_TOKEN = cfg.get("SHUTTERSTOCK_REFRESH_TOKEN", "")
 AUTO_PUBLISH     = cfg.get("SHUTTERSTOCK_AUTO_PUBLISH", "false").lower() == "true"
-
-def update_env(key: str, value: str):
-    """Write or replace a key=value line in .env (preserves all other lines)."""
-    lines = ENV_FILE.read_text().splitlines()
-    for i, line in enumerate(lines):
-        if line.strip().startswith(f"{key}="):
-            lines[i] = f"{key}={value}"
-            ENV_FILE.write_text("\n".join(lines) + "\n")
-            return
-    lines.append(f"{key}={value}")
-    ENV_FILE.write_text("\n".join(lines) + "\n")
 
 SS_API_BASE   = "https://api.shutterstock.com/v2"
 
@@ -227,66 +213,17 @@ def build_keywords(entry: dict, weather: dict | None) -> list[str]:
 class ShutterstockClient:
     """
     Shutterstock Contributor Upload API v2.
-
-    Docs: https://api-reference.shutterstock.com/
-    Credentials: https://www.shutterstock.com/account/developers/apps
-
-    Required scopes: contributors.list, collections.edit.add (contributor context)
+    Auth: HTTP Basic (client_id:client_secret, base64-encoded).
+    Endpoint: /v2/contributor/images
     """
 
-    def __init__(self, client_id: str, client_secret: str, refresh_token: str = ""):
-        self.client_id     = client_id
-        self.client_secret = client_secret
-        self.refresh_token = refresh_token
-        self._token        = None
-        self._token_expiry = 0.0
-
-    def _get_token(self) -> str:
-        if self._token and time.time() < self._token_expiry - 60:
-            return self._token
-
-        if self.refresh_token:
-            # User-bound token via refresh_token grant (required for contributor uploads)
-            fields = {
-                "grant_type":    "refresh_token",
-                "client_id":     self.client_id,
-                "client_secret": self.client_secret,
-                "refresh_token": self.refresh_token,
-            }
-        else:
-            # App-level token (read-only; contributor uploads will fail with 403)
-            fields = {
-                "grant_type":    "client_credentials",
-                "client_id":     self.client_id,
-                "client_secret": self.client_secret,
-                "scope":         "contributors.list",
-            }
-
-        body = urllib.parse.urlencode(fields).encode()
-        req = urllib.request.Request(
-            f"{SS_API_BASE}/oauth/access_token",
-            data=body,
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=15) as resp:
-            data = json.loads(resp.read())
-
-        self._token        = data["access_token"]
-        self._token_expiry = time.time() + data.get("expires_in", 3600)
-
-        # Shutterstock rotates refresh tokens on each use — save the new one immediately
-        new_refresh = data.get("refresh_token")
-        if new_refresh and new_refresh != self.refresh_token:
-            self.refresh_token = new_refresh
-            update_env("SHUTTERSTOCK_REFRESH_TOKEN", new_refresh)
-
-        return self._token
+    def __init__(self, client_id: str, client_secret: str):
+        creds = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+        self._auth = f"Basic {creds}"
 
     def _request(self, method: str, path: str, **kwargs) -> dict:
-        token = self._get_token()
-        url   = f"{SS_API_BASE}{path}"
-        headers = {"Authorization": f"Bearer {token}", **kwargs.pop("headers", {})}
+        url     = f"{SS_API_BASE}{path}"
+        headers = {"Authorization": self._auth, **kwargs.pop("headers", {})}
         body    = kwargs.pop("body", None)
         if isinstance(body, dict):
             body = json.dumps(body).encode()
@@ -300,60 +237,43 @@ class ShutterstockClient:
             raise RuntimeError(f"Shutterstock {method} {path} → HTTP {e.code}: {detail}") from e
 
     def upload_image(self, image_path: Path) -> str:
-        """
-        Upload image bytes to Shutterstock.
-        Returns upload_id to reference in the submission.
-
-        API: POST /v2/contributor_images/upload?filename=<name>
-             Content-Type: image/jpeg
-             Body: raw image bytes
-        Returns: {"upload_id": "..."}
-        """
-        data    = image_path.read_bytes()
-        token   = self._get_token()
-        url     = f"{SS_API_BASE}/contributor_images/upload?filename={urllib.parse.quote(image_path.name)}"
-        req     = urllib.request.Request(
+        """Upload raw image bytes. Returns upload_id."""
+        data = image_path.read_bytes()
+        url  = f"{SS_API_BASE}/contributor/images?filename={urllib.parse.quote(image_path.name)}"
+        req  = urllib.request.Request(
             url, data=data,
             headers={
-                "Authorization": f"Bearer {token}",
-                "Content-Type":  "image/jpeg",
+                "Authorization":  self._auth,
+                "Content-Type":   "image/jpeg",
                 "Content-Length": str(len(data)),
             },
             method="POST",
         )
-        with urllib.request.urlopen(req, timeout=120) as resp:
-            result = json.loads(resp.read())
+        try:
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                result = json.loads(resp.read())
+        except urllib.error.HTTPError as e:
+            detail = e.read().decode()
+            raise RuntimeError(f"Shutterstock upload → HTTP {e.code}: {detail}") from e
         return result["upload_id"]
 
     def submit_image(self, upload_id: str, description: str,
                      keywords: list[str], categories: list[dict],
                      editorial: bool = False) -> str:
-        """
-        Create an image submission with metadata.
-        Returns the Shutterstock image ID.
-
-        API: POST /v2/contributor_images
-             Body: JSON with upload_id, description, keywords, categories
-        Returns: {"id": "..."}
-        """
+        """Submit metadata for a previously uploaded image. Returns image ID."""
         payload = {
             "upload_id":   upload_id,
-            "description": description[:200],   # Shutterstock max 200 chars
+            "description": description[:200],
             "keywords":    keywords,
             "categories":  categories,
             "editorial":   editorial,
         }
-        result = self._request("POST", "/contributor_images", body=payload)
+        result = self._request("POST", "/contributor/images", body=payload)
         return result["id"]
 
     def get_image_status(self, image_id: str) -> str:
-        """
-        Poll image submission review status.
-        Returns one of: pending_review, approved, rejected
-
-        API: GET /v2/contributor_images/{id}
-        """
-        result = self._request("GET", f"/contributor_images/{image_id}")
+        """Returns one of: pending_review, approved, rejected."""
+        result = self._request("GET", f"/contributor/images/{image_id}")
         return result.get("status", "unknown")
 
 # ── Per-entry pipeline ────────────────────────────────────────────────────────
@@ -467,11 +387,7 @@ def main():
 
     client = None
     if not args.dry_run and not args.enrich_only and AUTO_PUBLISH:
-        if not SS_REFRESH_TOKEN:
-            print("ERROR: SHUTTERSTOCK_REFRESH_TOKEN is not set in .env")
-            print("       Run: python3 shutterstock-auth-setup.py")
-            sys.exit(1)
-        client = ShutterstockClient(SS_CLIENT_ID, SS_CLIENT_SECRET, SS_REFRESH_TOKEN)
+        client = ShutterstockClient(SS_CLIENT_ID, SS_CLIENT_SECRET)
 
     ts_to_entry = {e["timestamp"]: e for e in entries}
     changed = 0
