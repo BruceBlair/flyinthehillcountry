@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-08T15:30:03Z",
+  "updated": "2026-06-08T16:00:07Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Today",
-      "start": "2026-06-08T08:00:00-05:00",
+      "start": "2026-06-08T11:00:00-05:00",
       "end": "2026-06-08T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 88,
-      "wind_speed": "5 to 10 mph",
+      "temp_f": 87,
+      "wind_speed": "10 to 15 mph",
       "wind_dir": "S",
-      "precip_pct": 26,
+      "precip_pct": 51,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms between 10am and 1pm, then a slight chance of showers and thunderstorms between 1pm and 4pm. Partly sunny, with a high near 88. South wind 5 to 10 mph, with gusts as high as 25 mph. Chance of precipitation is 30%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/tsra_hi,30?size=medium"
+      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a high near 87. South wind 10 to 15 mph. Chance of precipitation is 50%. New rainfall amounts between a tenth and quarter of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_sct,30/tsra_sct,50?size=medium"
     },
     {
       "number": 2,
@@ -26,13 +26,13 @@
       "start": "2026-06-08T18:00:00-05:00",
       "end": "2026-06-09T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 74,
+      "temp_f": 75,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 5,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 74. South southeast wind 5 to 10 mph, with gusts as high as 25 mph. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "precip_pct": 21,
+      "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
+      "detail": "A slight chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 75. South southeast wind 5 to 10 mph, with gusts as high as 25 mph. Chance of precipitation is 20%. New rainfall amounts between a tenth and quarter of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
     },
     {
       "number": 3,
@@ -42,10 +42,10 @@
       "is_daytime": true,
       "temp_f": 91,
       "wind_speed": "5 to 10 mph",
-      "wind_dir": "SE",
-      "precip_pct": 4,
+      "wind_dir": "SSE",
+      "precip_pct": 3,
       "short": "Partly Sunny",
-      "detail": "Partly sunny, with a high near 91. Heat index values as high as 100. Southeast wind 5 to 10 mph, with gusts as high as 20 mph.",
+      "detail": "Partly sunny, with a high near 91. Heat index values as high as 100. South southeast wind 5 to 10 mph, with gusts as high as 20 mph.",
       "icon": "https://api.weather.gov/icons/land/day/bkn?size=medium"
     },
     {
