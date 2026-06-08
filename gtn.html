@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GTN Live — Ground Truth Network</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+        integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw=="
+        crossorigin="anonymous">
+  <style>
+    /* ── GTN Live page styles ─────────────────────────────────────────────── */
+
+    /* Ticker strip */
+    .ticker {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 9px 20px;
+    }
+    .ticker-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .ticker-node {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .node-badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .badge-live {
+      background: rgba(92, 184, 92, 0.15);
+      color: #5cb85c;
+      border: 1px solid rgba(92, 184, 92, 0.3);
+    }
+    .badge-offline {
+      background: rgba(110, 130, 133, 0.15);
+      color: var(--muted);
+      border: 1px solid rgba(110, 130, 133, 0.3);
+    }
+    .ticker-ts {
+      font-size: 0.68rem;
+      color: var(--muted);
+    }
+    .ticker-readings {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .t-reading {
+      font-size: 0.8rem;
+      padding: 3px 10px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .t-reading.stale { border-color: rgba(231,76,60,.4); color: #e74c3c; }
+
+    /* Main two-column layout */
+    .gtn-layout {
+      max-width: 1400px;
+      margin: 18px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 14px;
+      align-items: start;
+    }
+
+    /* Map */
+    .map-wrap { position: relative; }
+    #map {
+      height: 520px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .fc-toggle-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 500;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 7px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: background .15s, border-color .15s, color .15s;
+    }
+    .fc-toggle-btn:hover  { background: var(--card); }
+    .fc-toggle-btn.active {
+      background: rgba(200,164,106,.18);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Forecast panel */
+    .fc-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      display: flex;
+      flex-direction: column;
+      max-height: 522px;
+    }
+    .fc-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .fc-panel-head h2 {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .fc-updated {
+      font-size: 0.65rem;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .fc-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 2px 5px;
+      display: none;
+    }
+    .fc-scroll {
+      overflow-y: auto;
+      flex: 1;
+    }
+    .fc-card {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .fc-card:last-child { border-bottom: none; }
+    .fc-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 5px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--card);
+    }
+    .fc-body { flex: 1; min-width: 0; }
+    .fc-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+    }
+    .fc-period-name {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .fc-temp {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .fc-short {
+      font-size: 0.71rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+    .fc-meta {
+      font-size: 0.68rem;
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .fc-precip-hi { color: var(--c-weather); }
+
+    /* Leaflet dark-mode overrides */
+    .leaflet-popup-content-wrapper {
+      background: var(--card) !important;
+      color: var(--text) !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius) !important;
+      box-shadow: var(--shadow) !important;
+    }
+    .leaflet-popup-tip { background: var(--card) !important; }
+    .leaflet-popup-content { font-size: 0.8rem !important; line-height: 1.5; }
+    .leaflet-container a { color: var(--accent); }
+    .pop-temp { font-size: 1.25rem; font-weight: 700; color: var(--accent); }
+    .pop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 14px; margin-top: 6px; font-size: 0.72rem; }
+    .pop-label { color: var(--muted); }
+    .pop-snap { width: 100%; max-width: 220px; border-radius: 5px; margin-top: 9px; display: block; }
+    .pop-planned { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+    /* Calendar */
+    .cal-section {
+      max-width: 1400px;
+      margin: 0 auto 50px;
+      padding: 0 20px;
+    }
+    .cal-section h2 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 11px;
+      color: var(--text);
+    }
+    .cal-legend {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .leg-item { display: flex; align-items: center; gap: 5px; }
+    .leg-dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .leg-founding   { background: var(--accent); }
+    .leg-continuous { background: #5cb85c; }
+    .leg-events     { background: var(--c-weather); }
+    .leg-photos     { background: var(--muted); opacity: .6; }
+
+    .cal-months {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 14px;
+    }
+    .cal-month {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .cal-month-title {
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      padding: 8px 12px;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      padding: 7px;
+    }
+    .cal-dow {
+      font-size: 0.55rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      padding-bottom: 4px;
+      letter-spacing: 0.04em;
+    }
+    .cal-cell {
+      aspect-ratio: 1;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.62rem;
+      position: relative;
+      cursor: default;
+    }
+    .cal-empty  { background: transparent; }
+    .cal-none   { background: var(--card); color: var(--muted); }
+    .cal-found  { background: rgba(200,164,106,.72); color: #1a0f00; font-weight: 700; }
+    .cal-cont   { background: rgba(92,184,92,.72);  color: #0d1a0d; font-weight: 600; }
+    .cal-evt    { background: rgba(91,192,222,.68); color: #0d1a1e; }
+    .cal-photo  { background: rgba(110,130,133,.38); color: var(--text); }
+    .cal-wx::after {
+      content: '';
+      position: absolute;
+      bottom: 2px; right: 2px;
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--c-weather);
+    }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .gtn-layout { grid-template-columns: 1fr; }
+      .fc-panel { max-height: none; order: 2; }
+      .fc-close { display: block; }
+    }
+    @media (max-width: 640px) {
+      .gtn-layout { padding: 0 12px; }
+      .cal-section { padding: 0 12px; }
+      #map { height: 380px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header (matches site nav) -->
+  <header>
+    <div class="header-inner">
+      <div class="site-title">
+        <div class="site-icon">◉</div>
+        <div>
+          <h1>Ground Truth Network</h1>
+          <p>Wimberley, Texas · Wildlife &amp; Weather</p>
+        </div>
+      </div>
+      <nav style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <a href="index.html"     class="btn-pano">📷 Gallery</a>
+        <a href="panoramas.html" class="btn-pano">🌅 Panoramas</a>
+        <a href="nightwatch.html" class="btn-pano">🌌 Night Watch</a>
+        <span class="btn-pano" style="border-color:var(--accent);color:var(--accent);cursor:default;">📡 GTN Live</span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Live weather ticker -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <div class="ticker-node">
+        <span class="node-badge badge-live" id="tk-badge">● LIVE</span>
+        <span id="tk-label" style="font-size:0.8rem;font-weight:600;">HITHC-RIDGE-N</span>
+        <span class="ticker-ts" id="tk-ts"></span>
+      </div>
+      <div class="ticker-readings" id="tk-readings">
+        <span class="t-reading" id="tk-temp">—</span>
+        <span class="t-reading" id="tk-hum">—</span>
+        <span class="t-reading" id="tk-pres">—</span>
+        <span class="t-reading" id="tk-wind">—</span>
+        <span class="t-reading" id="tk-rain">—</span>
+        <span class="t-reading" id="tk-batt">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Map + Forecast -->
+  <div class="gtn-layout">
+    <div class="map-wrap">
+      <div id="map"></div>
+      <button class="fc-toggle-btn active" id="fc-toggle">📅 Forecast</button>
+    </div>
+
+    <aside class="fc-panel" id="fc-panel">
+      <div class="fc-panel-head">
+        <div>
+          <h2>NWS Forecast · Wimberley TX</h2>
+          <div class="fc-updated" id="fc-updated"></div>
+        </div>
+        <button class="fc-close" id="fc-close">✕</button>
+      </div>
+      <div class="fc-scroll" id="fc-list"></div>
+    </aside>
+  </div>
+
+  <!-- Archive coverage calendar -->
+  <section class="cal-section">
+    <h2>Archive Coverage</h2>
+    <div class="cal-legend">
+      <span class="leg-item"><span class="leg-dot leg-founding"></span>Founding footage</span>
+      <span class="leg-item"><span class="leg-dot leg-continuous"></span>Continuous recording</span>
+      <span class="leg-item"><span class="leg-dot leg-events"></span>Motion / events</span>
+      <span class="leg-item"><span class="leg-dot leg-photos"></span>Photos only</span>
+      <span class="leg-item" style="color:var(--c-weather);">● dot = weather data</span>
+    </div>
+    <div class="cal-months" id="cal-months"></div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"
+          integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g=="
+          crossorigin="anonymous"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    // Fall-back coords for HITHC-RIDGE-N until GPS survey populates nodes.json
+    const DEFAULT_LAT = 29.9974;
+    const DEFAULT_LON = -98.0986;
+    // Approximate offsets for planned nodes (pending field survey)
+    const PLANNED_OFFSETS = {
+      'HITHC-RIDGE-W':  [0,      -0.009],
+      'HITHC-RIDGE-NW': [0.006,  -0.009],
+    };
+
+    let leafletMap = null;
+    const markerMap = {};
+    const gData = { nodes: null, forecast: null, avail: null };
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
+
+    function compassDir(deg) {
+      const d = ['N','NNE','NE','ENE','E','ESE','SE','SSE',
+                 'S','SSW','SW','WSW','W','WNW','NW','NNW'];
+      return d[Math.round((deg || 0) / 22.5) % 16];
+    }
+
+    function timeSince(isoStr) {
+      const m = Math.round((Date.now() - new Date(isoStr).getTime()) / 60000);
+      if (m < 1)  return 'just now';
+      if (m < 60) return m + 'm ago';
+      return Math.floor(m / 60) + 'h ' + (m % 60) + 'm ago';
+    }
+
+    function fv(v, sfx, dec) {
+      return v != null ? Number(v).toFixed(dec != null ? dec : 1) + sfx : '—';
+    }
+
+    function el(tag, cls, text) {
+      const e = document.createElement(tag);
+      if (cls)  e.className = cls;
+      if (text !== undefined) e.textContent = text;
+      return e;
+    }
+
+    function setText(id, text) {
+      const e = document.getElementById(id);
+      if (e) e.textContent = text;
+    }
+
+    // ── Data loading ─────────────────────────────────────────────────────────
+
+    async function loadData() {
+      const t = Date.now();
+      const [nr, fr, ar] = await Promise.all([
+        fetch('data/nodes.json?t=' + t),
+        fetch('data/forecast.json?t=' + t),
+        fetch('data/availability.json?t=' + t),
+      ]);
+      gData.nodes    = await nr.json();
+      gData.forecast = await fr.json();
+      gData.avail    = await ar.json();
+    }
+
+    // ── Ticker ────────────────────────────────────────────────────────────────
+
+    function renderTicker() {
+      if (!gData.nodes) return;
+      const active = gData.nodes.nodes.find(n => n.status === 'active');
+      const c = active && active.current;
+      const stale = c && (Date.now() - new Date(c.timestamp).getTime()) > 15 * 60 * 1000;
+
+      setText('tk-label', active ? active.label : 'HITHC-RIDGE-N');
+      setText('tk-ts',    c ? 'Updated ' + timeSince(c.timestamp) + (stale ? ' ⚠' : '') : '');
+
+      const badge = document.getElementById('tk-badge');
+      if (badge) {
+        badge.className = 'node-badge ' + (stale ? 'badge-offline' : 'badge-live');
+        badge.textContent = stale ? '◌ STALE' : '● LIVE';
+      }
+
+      const ids = ['tk-temp','tk-hum','tk-pres','tk-wind','tk-rain','tk-batt'];
+      ids.forEach(id => {
+        const e = document.getElementById(id);
+        if (e) e.className = 't-reading' + (stale ? ' stale' : '');
+      });
+
+      if (c) {
+        setText('tk-temp', fv(c.temp_f, '°F'));
+        setText('tk-hum',  fv(c.humidity_pct, '%', 0) + ' RH');
+        setText('tk-pres', fv(c.pressure_msl_inhg, ' inHg', 2));
+        setText('tk-wind', compassDir(c.wind_dir_deg) + ' ' + fv(c.wind_speed_mph, ' mph'));
+        setText('tk-rain', fv(c.rain_daily_in, '"', 2) + ' today');
+        setText('tk-batt', fv(c.battery_pct, '%', 0) + ' batt');
+      }
+    }
+
+    // ── Map ───────────────────────────────────────────────────────────────────
+
+    function windSvg(deg) {
+      // Amber arrow pointing from wind origin direction; rotated by wind_dir_deg
+      return '<svg width="16" height="16" viewBox="0 0 16 16" style="transform:rotate(' + deg + 'deg);display:block">' +
+        '<path d="M8 1 L4.5 12 L8 9 L11.5 12 Z" fill="#c8a46a" opacity="0.95"/>' +
+        '</svg>';
+    }
+
+    function nodeCoords(node) {
+      if (node.lat != null && node.lon != null) return [node.lat, node.lon];
+      const off = PLANNED_OFFSETS[node.id] || [0, 0];
+      return [DEFAULT_LAT + off[0], DEFAULT_LON + off[1]];
+    }
+
+    function buildIcon(node) {
+      const isActive = node.status === 'active';
+      const c = node.current;
+      const wdeg = (c && c.wind_dir_deg) != null ? c.wind_dir_deg : 0;
+
+      if (isActive) {
+        const html =
+          '<div style="display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none">' +
+          windSvg(wdeg) +
+          '<div style="width:13px;height:13px;border-radius:50%;background:#5cb85c;border:2px solid #0d1112;box-shadow:0 0 7px rgba(92,184,92,.7)"></div>' +
+          '</div>';
+        return L.divIcon({ html: html, className: '', iconSize: [16, 32], iconAnchor: [8, 32] });
+      } else {
+        const html =
+          '<div style="width:14px;height:14px;border-radius:50%;border:2px dashed #6e8285;pointer-events:none"></div>';
+        return L.divIcon({ html: html, className: '', iconSize: [14, 14], iconAnchor: [7, 7] });
+      }
+    }
+
+    function buildPopupContent(node) {
+      const c = node.current;
+
+      const wrap = el('div');
+      const title = el('div');
+      title.style.cssText = 'font-weight:700;font-size:0.85rem;margin-bottom:4px';
+      title.textContent = node.label + (node.id !== node.label ? ' (' + node.id + ')' : '');
+      wrap.appendChild(title);
+
+      if (!c) {
+        const note = el('div', 'pop-planned');
+        note.textContent = node.notes || ('Status: ' + node.status);
+        wrap.appendChild(note);
+        return wrap;
+      }
+
+      const tempEl = el('div', 'pop-temp');
+      tempEl.textContent = fv(c.temp_f, '°F');
+      wrap.appendChild(tempEl);
+
+      const grid = el('div', 'pop-grid');
+      const rows = [
+        ['Humidity',  fv(c.humidity_pct, '%', 0)],
+        ['Pressure',  fv(c.pressure_msl_inhg, ' inHg', 2)],
+        ['Wind from', compassDir(c.wind_dir_deg) + ' at ' + fv(c.wind_speed_mph, ' mph')],
+        ['Gust',      fv(c.wind_gust_mph, ' mph')],
+        ['Rain today',fv(c.rain_daily_in, '"', 2)],
+        ['Rain rate', fv(c.rain_rate_in_hr, '"/hr')],
+        ['Battery',   fv(c.battery_pct, '%', 0)],
+        ['Updated',   timeSince(c.timestamp)],
+      ];
+      rows.forEach(function (r) {
+        const lbl = el('span', 'pop-label', r[0]);
+        const val = el('span', null, r[1]);
+        grid.appendChild(lbl);
+        grid.appendChild(val);
+      });
+      wrap.appendChild(grid);
+
+      if (node.camera_snapshot_url) {
+        const img = document.createElement('img');
+        img.className = 'pop-snap';
+        img.alt = 'Camera snapshot';
+        img.src = node.camera_snapshot_url;
+        img.onerror = function () { this.style.display = 'none'; };
+        wrap.appendChild(img);
+      }
+
+      return wrap;
+    }
+
+    function initMap() {
+      if (leafletMap) { refreshMarkers(); return; }
+
+      leafletMap = L.map('map', {
+        center: [DEFAULT_LAT, DEFAULT_LON],
+        zoom: 13,
+      });
+
+      L.tileLayer(
+        'https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}',
+        { attribution: 'USGS National Map', maxZoom: 16, opacity: 0.88 }
+      ).addTo(leafletMap);
+
+      refreshMarkers();
+    }
+
+    function refreshMarkers() {
+      if (!leafletMap || !gData.nodes) return;
+      gData.nodes.nodes.forEach(function (node) {
+        const latlng = nodeCoords(node);
+        const icon   = buildIcon(node);
+        const popup  = buildPopupContent(node);
+
+        if (markerMap[node.id]) {
+          markerMap[node.id].setLatLng(latlng).setIcon(icon);
+          markerMap[node.id].getPopup().setContent(popup);
+        } else {
+          markerMap[node.id] = L.marker(latlng, { icon: icon })
+            .addTo(leafletMap)
+            .bindPopup(popup, { maxWidth: 250 });
+        }
+      });
+
+      // Open active node popup
+      const active = gData.nodes.nodes.find(function (n) { return n.status === 'active'; });
+      if (active && markerMap[active.id] && !markerMap[active.id].isPopupOpen()) {
+        markerMap[active.id].openPopup();
+      }
+    }
+
+    // ── Forecast ──────────────────────────────────────────────────────────────
+
+    function renderForecast() {
+      const list = document.getElementById('fc-list');
+      if (!list || !gData.forecast) return;
+
+      while (list.firstChild) list.removeChild(list.firstChild);
+
+      const updEl = document.getElementById('fc-updated');
+      if (updEl) updEl.textContent = 'Updated ' + timeSince(gData.forecast.updated);
+
+      gData.forecast.periods.slice(0, 7).forEach(function (p) {
+        const card = el('div', 'fc-card');
+
+        const img = document.createElement('img');
+        img.className = 'fc-icon';
+        img.alt = p.short || '';
+        img.src = p.icon || '';
+        img.onerror = function () { this.style.display = 'none'; };
+        card.appendChild(img);
+
+        const body = el('div', 'fc-body');
+
+        const headRow = el('div', 'fc-head-row');
+        headRow.appendChild(el('span', 'fc-period-name', p.name));
+        headRow.appendChild(el('span', 'fc-temp', p.temp_f + '°F'));
+        body.appendChild(headRow);
+
+        body.appendChild(el('div', 'fc-short', p.short || ''));
+
+        const meta = el('div', 'fc-meta');
+        meta.appendChild(el('span', null, '💨 ' + (p.wind_dir || '') + ' ' + (p.wind_speed || '')));
+        if (p.precip_pct != null) {
+          const precip = el('span', p.precip_pct >= 40 ? 'fc-precip-hi' : null, '🌧 ' + p.precip_pct + '%');
+          meta.appendChild(precip);
+        }
+        body.appendChild(meta);
+
+        card.appendChild(body);
+        list.appendChild(card);
+      });
+    }
+
+    // ── Forecast toggle ───────────────────────────────────────────────────────
+
+    function initForecastToggle() {
+      const btn   = document.getElementById('fc-toggle');
+      const panel = document.getElementById('fc-panel');
+      const close = document.getElementById('fc-close');
+      if (!btn || !panel) return;
+
+      function isMobile() { return window.innerWidth < 960; }
+
+      btn.addEventListener('click', function () {
+        if (isMobile()) {
+          panel.style.display = panel.style.display === 'none' ? 'flex' : 'none';
+        } else {
+          const hidden = panel.style.display === 'none';
+          panel.style.display = hidden ? 'flex' : 'none';
+        }
+        btn.classList.toggle('active');
+      });
+
+      if (close) {
+        close.addEventListener('click', function () {
+          panel.style.display = 'none';
+          btn.classList.remove('active');
+        });
+      }
+    }
+
+    // ── Calendar ──────────────────────────────────────────────────────────────
+
+    function cellCls(d) {
+      if (!d) return 'cal-cell cal-none';
+      if (d.video_continuous) return 'cal-cell cal-cont';
+      if (d.video_founding)   return 'cal-cell cal-found';
+      if (d.video_events || d.timelapse) return 'cal-cell cal-evt';
+      if (d.photos)           return 'cal-cell cal-photo';
+      return 'cal-cell cal-none';
+    }
+
+    function cellTitle(iso, d) {
+      if (!d) return iso + ': no data';
+      const tags = [];
+      if (d.video_founding)   tags.push('founding footage');
+      if (d.video_continuous) tags.push('continuous recording');
+      if (d.video_events)     tags.push('motion events');
+      if (d.timelapse)        tags.push('timelapse');
+      if (d.photos)           tags.push('photos');
+      if (d.weather)          tags.push('weather data');
+      return iso + (tags.length ? ': ' + tags.join(', ') : ': no coverage');
+    }
+
+    function renderCalendar() {
+      const container = document.getElementById('cal-months');
+      if (!container || !gData.avail) return;
+
+      const dates = gData.avail.dates;
+      const keys = Object.keys(dates).sort();
+      if (!keys.length) return;
+
+      while (container.firstChild) container.removeChild(container.firstChild);
+
+      // Group by YYYY-MM
+      const byMonth = new Map();
+      keys.forEach(function (k) {
+        const ym = k.slice(0, 7);
+        if (!byMonth.has(ym)) byMonth.set(ym, []);
+        byMonth.get(ym).push(k);
+      });
+
+      const DOW = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+      const MNAMES = ['January','February','March','April','May','June',
+                      'July','August','September','October','November','December'];
+
+      byMonth.forEach(function (_, ym) {
+        const parts = ym.split('-');
+        const yr  = parseInt(parts[0], 10);
+        const mo  = parseInt(parts[1], 10);
+        const firstDow = new Date(yr, mo - 1, 1).getDay();
+        const daysInMonth = new Date(yr, mo, 0).getDate();
+
+        const block = el('div', 'cal-month');
+        const title = el('div', 'cal-month-title', MNAMES[mo - 1] + ' ' + yr);
+        block.appendChild(title);
+
+        const grid = el('div', 'cal-grid');
+
+        // Day-of-week headers
+        DOW.forEach(function (d) {
+          grid.appendChild(el('div', 'cal-dow', d));
+        });
+
+        // Empty slots before month start
+        for (let i = 0; i < firstDow; i++) {
+          grid.appendChild(el('div', 'cal-cell cal-empty'));
+        }
+
+        // Day cells
+        for (let d = 1; d <= daysInMonth; d++) {
+          const iso = yr + '-' + String(mo).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+          const dayData = dates[iso] || null;
+          const cls  = cellCls(dayData) + (dayData && dayData.weather ? ' cal-wx' : '');
+          const cell = el('div', cls, String(d));
+          cell.title = cellTitle(iso, dayData);
+          grid.appendChild(cell);
+        }
+
+        block.appendChild(grid);
+        container.appendChild(block);
+      });
+    }
+
+    // ── Init & refresh ────────────────────────────────────────────────────────
+
+    async function init() {
+      try {
+        await loadData();
+      } catch (e) {
+        console.error('GTN: initial data load failed:', e);
+      }
+      renderTicker();
+      initMap();
+      renderForecast();
+      renderCalendar();
+      initForecastToggle();
+
+      // Refresh ticker + map every 5 minutes (matching NAS cron push interval)
+      setInterval(async function () {
+        try {
+          await loadData();
+          renderTicker();
+          refreshMarkers();
+        } catch (e) {
+          console.warn('GTN refresh error:', e);
+        }
+      }, 5 * 60 * 1000);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+  })();
+  </script>
+</body>
+</html>
