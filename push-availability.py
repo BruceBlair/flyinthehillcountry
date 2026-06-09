@@ -237,7 +237,7 @@ def git_push(file_path):
          f"data: availability.json {ts} UTC"],
         check=True,
     )
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--quiet"], check=False)
+    subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--autostash", "--quiet"], check=False)
     subprocess.run(["git", "-C", str(SCRIPT_DIR), "push"], check=True)
     print(f"Pushed availability.json ({ts} UTC)")
 

@@ -159,7 +159,7 @@ def git_push(file_path):
         ["git", "-C", str(SCRIPT_DIR), "commit", "-m", f"data: nodes.json {ts} UTC"],
         check=True,
     )
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--quiet"], check=False)
+    subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--autostash", "--quiet"], check=False)
     subprocess.run(["git", "-C", str(SCRIPT_DIR), "push"], check=True)
     print(f"Pushed nodes.json ({ts} UTC)")
 
