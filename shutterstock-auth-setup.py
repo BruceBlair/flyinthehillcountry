@@ -2,29 +2,34 @@
 """
 shutterstock-auth-setup.py — One-time OAuth2 authorization for contributor uploads.
 
-Run this ONCE on any machine that can reach the NAS (192.168.100.202) in a browser.
-A local server on port 8754 captures the OAuth callback automatically — no URL pasting.
+Uses Postman's public OAuth callback (https://oauth.pstmn.io/v1/callback) as the
+redirect URI — no local server needed, no port number issues.
 
 Before running, register this redirect URI in the Shutterstock app:
-  http://192.168.100.202:8754/callback
+  https://oauth.pstmn.io/v1/callback
   (shutterstock.com/account/developers/apps → your app → Callback URL)
 
 Usage:
   python3 shutterstock-auth-setup.py
 
+Steps:
+  1. Script prints an authorization URL — open it in your browser
+  2. Log in and click Authorize
+  3. Postman's page confirms success and shows the redirect URL
+  4. Copy the full URL from your browser address bar and paste it here
+
 Saves SHUTTERSTOCK_REFRESH_TOKEN to .env when done.
 """
 
-import http.server, json, secrets, sys, threading, urllib.error, urllib.request, urllib.parse, webbrowser
+import json, secrets, sys, urllib.error, urllib.request, urllib.parse
 from pathlib import Path
 
 SCRIPT_DIR   = Path(__file__).parent
 ENV_FILE     = SCRIPT_DIR / ".env"
 SS_AUTH_URL  = "https://www.shutterstock.com/oauth/authorize"
 SS_TOKEN_URL = "https://api.shutterstock.com/v2/oauth/access_token"
-CALLBACK_PORT = 8754
-REDIRECT_URI  = f"http://localhost:{CALLBACK_PORT}/callback"
-SCOPES        = "user.view contributors.list collections.edit.add"
+REDIRECT_URI = "https://oauth.pstmn.io/v1/callback"
+SCOPES       = "user.view contributors.list collections.edit.add"
 
 
 def load_env(path):
@@ -60,35 +65,7 @@ def main():
         print("ERROR: Set SHUTTERSTOCK_CLIENT_ID and SHUTTERSTOCK_CLIENT_SECRET in .env first.")
         sys.exit(1)
 
-    state    = secrets.token_urlsafe(16)
-    captured = {}  # shared between server thread and main thread
-
-    class CallbackHandler(http.server.BaseHTTPRequestHandler):
-        def log_message(self, fmt, *args):  # type: ignore[override]
-            pass  # silence access log
-
-        def do_GET(self):
-            parsed = urllib.parse.urlparse(self.path)
-            if parsed.path != "/callback":
-                self.send_response(404)
-                self.end_headers()
-                return
-            qs = urllib.parse.parse_qs(parsed.query)
-            captured["code"]  = (qs.get("code")  or [""])[0]
-            captured["state"] = (qs.get("state") or [""])[0]
-            captured["error"] = (qs.get("error") or [""])[0]
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html")
-            self.end_headers()
-            if captured["code"]:
-                self.wfile.write(b"<h2>Authorization successful! You can close this tab.</h2>")
-            else:
-                err = captured["error"].encode()
-                self.wfile.write(b"<h2>Authorization failed: " + err + b"</h2>")
-            threading.Thread(target=server.shutdown, daemon=True).start()
-
-    server = http.server.HTTPServer(("0.0.0.0", CALLBACK_PORT), CallbackHandler)
-
+    state  = secrets.token_urlsafe(16)
     params = urllib.parse.urlencode({
         "response_type": "code",
         "client_id":     client_id,
@@ -98,51 +75,31 @@ def main():
     })
     auth_url = f"{SS_AUTH_URL}?{params}"
 
-    print("Redirect URI to register in Shutterstock portal:")
+    print("Redirect URI (must be registered in your Shutterstock app):")
     print(f"  {REDIRECT_URI}")
     print()
-    print("Two ways to run this:")
-    print("  A) SSH tunnel: ssh -L 8754:localhost:8754 <user>@192.168.100.202")
-    print("     Then open the URL in your browser — code is captured automatically.")
+    print("1. Open this URL in your browser:")
+    print(f"   {auth_url}")
     print()
-    print("  B) Manual paste: open the URL, authorize, browser will fail to load")
-    print("     localhost:8754 — copy the full URL from the address bar and paste below.")
-    print()
-    print(f"Open this URL in your browser:")
-    print(f"  {auth_url}")
+    print("2. Log in and click Authorize.")
+    print("3. You'll land on a Postman page — copy the full URL from the address bar.")
     print()
 
-    try:
-        webbrowser.open(auth_url)
-    except Exception:
-        pass
+    redirect_url = input("Paste the full redirect URL here: ").strip()
 
-    # Wait up to 90 s for automatic capture; then fall back to manual paste
-    server_thread = threading.Thread(target=server.serve_forever, daemon=True)
-    server_thread.start()
-    server_thread.join(timeout=90)
-
-    code  = captured.get("code", "")
-    error = captured.get("error", "")
-
-    if not code and not error:
-        print()
-        print("Automatic capture timed out (browser redirect didn't reach this server).")
-        print("Paste the full redirect URL from your browser address bar:")
-        redirect_url = input("  URL: ").strip()
-        parsed_manual = urllib.parse.urlparse(redirect_url)
-        qs_manual     = urllib.parse.parse_qs(parsed_manual.query)
-        code  = (qs_manual.get("code")  or [""])[0]
-        error = (qs_manual.get("error") or [""])[0]
-        captured["state"] = (qs_manual.get("state") or [""])[0]
+    parsed = urllib.parse.urlparse(redirect_url)
+    qs     = urllib.parse.parse_qs(parsed.query)
+    code          = (qs.get("code")  or [""])[0]
+    returned_state = (qs.get("state") or [""])[0]
+    error         = (qs.get("error") or [""])[0]
 
     if error:
         print(f"ERROR from Shutterstock: {error}")
         sys.exit(1)
     if not code:
-        print("ERROR: No authorization code received.")
+        print("ERROR: No 'code' found in redirect URL.")
         sys.exit(1)
-    if captured.get("state") != state:
+    if returned_state != state:
         print("WARNING: State mismatch — possible CSRF. Aborting.")
         sys.exit(1)
 
