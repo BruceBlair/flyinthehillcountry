@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-09T17:00:03Z",
+  "updated": "2026-06-09T17:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,17 +8,17 @@
   "periods": [
     {
       "number": 1,
-      "name": "Today",
-      "start": "2026-06-09T07:00:00-05:00",
+      "name": "This Afternoon",
+      "start": "2026-06-09T12:00:00-05:00",
       "end": "2026-06-09T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 90,
-      "wind_speed": "5 to 10 mph",
+      "wind_speed": "10 mph",
       "wind_dir": "SSE",
       "precip_pct": 16,
-      "short": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of rain showers between 1pm and 4pm, then a slight chance of showers and thunderstorms. Mostly sunny, with a high near 90. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,20?size=medium"
+      "short": "Slight Chance Showers And Thunderstorms",
+      "detail": "A slight chance of rain showers between 1pm and 4pm, then a slight chance of showers and thunderstorms. Sunny, with a high near 90. South southeast wind around 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_hi,20?size=medium"
     },
     {
       "number": 2,
