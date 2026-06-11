@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-11T04:30:02Z",
+  "updated": "2026-06-11T05:00:06Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,17 +8,17 @@
   "periods": [
     {
       "number": 1,
-      "name": "Tonight",
-      "start": "2026-06-10T19:00:00-05:00",
+      "name": "Overnight",
+      "start": "2026-06-11T00:00:00-05:00",
       "end": "2026-06-11T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 76,
       "wind_speed": "5 to 10 mph",
-      "wind_dir": "SSE",
+      "wind_dir": "S",
       "precip_pct": 16,
-      "short": "Mostly Cloudy then Slight Chance Rain Showers",
-      "detail": "A slight chance of rain showers after 4am. Mostly cloudy, with a low around 76. South southeast wind 5 to 10 mph, with gusts as high as 25 mph. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/night/bkn/rain_showers,20?size=medium"
+      "short": "Slight Chance Rain Showers",
+      "detail": "A slight chance of rain showers after 4am. Mostly cloudy, with a low around 76. South wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/rain_showers,20?size=medium"
     },
     {
       "number": 2,
