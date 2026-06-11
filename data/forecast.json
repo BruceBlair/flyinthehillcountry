@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-11T18:00:02Z",
+  "updated": "2026-06-11T18:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-06-11T12:00:00-05:00",
+      "start": "2026-06-11T13:00:00-05:00",
       "end": "2026-06-11T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 92,
       "wind_speed": "10 mph",
       "wind_dir": "SSE",
       "precip_pct": 9,
-      "short": "Partly Sunny",
-      "detail": "Partly sunny, with a high near 92. Heat index values as high as 105. South southeast wind around 10 mph, with gusts as high as 25 mph. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/bkn?size=medium"
+      "short": "Mostly Sunny",
+      "detail": "Mostly sunny, with a high near 92. Heat index values as high as 105. South southeast wind around 10 mph, with gusts as high as 25 mph. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
       "number": 2,
