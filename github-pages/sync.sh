@@ -83,6 +83,7 @@ log "Syncing highlights from $HIGHLIGHTS_SRC..."
 rsync -av --delete \
   --exclude=".git"             \
   --exclude="manifest.json"    \
+  --exclude="data/"            \
   --exclude-from="$EXCLUDE_FILE" \
   --include="*/"               \
   --include="*.jpg"            \
@@ -99,15 +100,36 @@ log "Manifest written ($(wc -c < "$FILTERED_MF") bytes, held entries excluded)"
 # ── Commit and push ───────────────────────────────────────────────────────────
 GIT=$(command -v git || echo /usr/bin/git)
 cd "$PAGES_REPO"
+
+# Abort any rebase left by a previous failed run before touching the repo.
+if [ -d ".git/rebase-merge" ] || [ -d ".git/rebase-apply" ]; then
+  log "WARNING: aborting stuck rebase from previous run"
+  "$GIT" rebase --abort
+fi
+
+# Bail out if not on a named branch (should never happen after the guard above).
+BRANCH=$("$GIT" symbolic-ref --short HEAD 2>/dev/null || true)
+if [ -z "$BRANCH" ]; then
+  log "ERROR: repo is in detached HEAD state — manual fix required"
+  exit 1
+fi
+
+_pull_rebase() {
+  if ! "$GIT" pull --rebase --quiet; then
+    "$GIT" rebase --abort 2>/dev/null || true
+    log "ERROR: pull --rebase failed; aborting. Remote and local may have diverged."
+    return 1
+  fi
+}
+
 "$GIT" add -A
 if "$GIT" diff --cached --quiet; then
   log "Nothing new to commit."
-  # Still pull so local stays in sync with remote
-  "$GIT" pull --rebase --quiet || true
+  _pull_rebase || true   # no local commit to lose; non-fatal
 else
   COUNT=$("$GIT" diff --cached --name-only | grep -c '\.\(jpg\|mp4\)' || true)
   "$GIT" commit -m "highlights: $(date '+%Y-%m-%d %H:%M') (+${COUNT} media files)"
-  "$GIT" pull --rebase --quiet || true
+  _pull_rebase || exit 1  # commit exists locally; surface the error so the next run retries
   "$GIT" push
   log "Pushed to GitHub Pages."
 fi
