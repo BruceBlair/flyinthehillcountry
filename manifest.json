@@ -17079,6 +17079,20 @@
       "nice_shot": 43.3
     },
     {
+      "timestamp": "20260611_183926",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1781221166.047568-m8f964",
+      "snapshot": "wildlife/20260611_183926_bird.jpg",
+      "clip": "wildlife/20260611_183926_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 43.2
+    },
+    {
       "timestamp": "20260610_210135",
       "label": "sunset",
       "categories": [
@@ -17281,20 +17295,6 @@
       "clip": null,
       "source": "backfill",
       "nice_shot": 42.4
-    },
-    {
-      "timestamp": "20260611_123738",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_zoom",
-      "event_id": "1781199458.176009-v8tbev",
-      "snapshot": "wildlife/20260611_123738_bird.jpg",
-      "clip": "wildlife/20260611_123738_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 42.1
     },
     {
       "timestamp": "20260609_195021",
@@ -17571,6 +17571,20 @@
       "clip": "wildlife/20260609_133458_cat.mp4",
       "source": "backfill",
       "nice_shot": 40.7
+    },
+    {
+      "timestamp": "20260611_183917",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1781221157.098696-252yn2",
+      "snapshot": "wildlife/20260611_183917_dog.jpg",
+      "clip": "wildlife/20260611_183917_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 40.6
     },
     {
       "timestamp": "20260609_141046",
@@ -18355,6 +18369,20 @@
       "clip": null,
       "source": "backfill",
       "nice_shot": 35.4
+    },
+    {
+      "timestamp": "20260611_185358",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781222038.932396-ygcgcz",
+      "snapshot": "wildlife/20260611_185358_bear.jpg",
+      "clip": "wildlife/20260611_185358_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 35.3
     },
     {
       "timestamp": "20260609_070220",
@@ -19287,5 +19315,5 @@
       "nice_shot": 5.7
     }
   ],
-  "updated": "2026-06-11T18:00:31.005249"
+  "updated": "2026-06-11T19:00:34.089910"
 }
