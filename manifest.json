@@ -17775,6 +17775,20 @@
       "nice_shot": 40.6
     },
     {
+      "timestamp": "20260612_084954",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1781272194.543144-4y72r3",
+      "snapshot": "wildlife/20260612_084954_bird.jpg",
+      "clip": "wildlife/20260612_084954_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 40.5
+    },
+    {
       "timestamp": "20260611_060630",
       "label": "sunrise_scene",
       "categories": [
@@ -19789,5 +19803,5 @@
       "nice_shot": 5.7
     }
   ],
-  "updated": "2026-06-12T08:00:41.581651"
+  "updated": "2026-06-12T09:00:39.958291"
 }
