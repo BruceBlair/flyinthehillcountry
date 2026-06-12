@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-12T13:30:02Z",
+  "updated": "2026-06-12T14:00:10Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Today",
-      "start": "2026-06-12T07:00:00-05:00",
+      "start": "2026-06-12T09:00:00-05:00",
       "end": "2026-06-12T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 91,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SE",
-      "precip_pct": 21,
-      "short": "Slight Chance Rain Showers then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of rain showers before 1pm, then a slight chance of showers and thunderstorms. Partly sunny, with a high near 91. Heat index values as high as 101. Southeast wind 5 to 10 mph. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/day/rain_showers,20/tsra_hi,20?size=medium"
+      "precip_pct": 25,
+      "short": "Slight Chance Showers And Thunderstorms",
+      "detail": "A slight chance of rain showers before 10am, then a slight chance of showers and thunderstorms between 10am and 1pm, then a chance of showers and thunderstorms between 1pm and 4pm, then a chance of showers and thunderstorms. Partly sunny, with a high near 91. Heat index values as high as 101. Southeast wind 5 to 10 mph. Chance of precipitation is 30%.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_hi,20/tsra_hi,30?size=medium"
     },
     {
       "number": 2,
@@ -29,10 +29,10 @@
       "temp_f": 74,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 21,
-      "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
-      "detail": "A slight chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 74. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
+      "precip_pct": 25,
+      "short": "Chance Showers And Thunderstorms then Partly Cloudy",
+      "detail": "A chance of showers and thunderstorms before 10pm. Partly cloudy, with a low around 74. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 30%.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/sct?size=medium"
     },
     {
       "number": 3,
