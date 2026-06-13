@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-13T17:00:02Z",
+  "updated": "2026-06-13T17:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,8 +8,8 @@
   "periods": [
     {
       "number": 1,
-      "name": "Today",
-      "start": "2026-06-13T11:00:00-05:00",
+      "name": "This Afternoon",
+      "start": "2026-06-13T12:00:00-05:00",
       "end": "2026-06-13T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 92,
