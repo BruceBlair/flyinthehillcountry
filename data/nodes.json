@@ -1,22 +1,22 @@
 {
-  "updated": "2026-06-13T02:20:01Z",
+  "updated": "2026-06-13T02:25:02Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
       "label": "North Ridge",
       "status": "active",
-      "lat": null,
-      "lon": null,
+      "lat": 30.0102,
+      "lon": -98.03183,
       "elevation_ft": null,
       "has_camera": true,
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "current": {
-        "timestamp": "2026-06-13T02:20:01Z",
-        "temp_f": 77.18,
+        "timestamp": "2026-06-13T02:25:02Z",
+        "temp_f": 76.64,
         "humidity_pct": 37.0,
         "pressure_msl_inhg": 29.97,
         "wind_speed_mph": 0.0,
-        "wind_dir_deg": 62.0,
+        "wind_dir_deg": 217.0,
         "wind_gust_mph": 0.0,
         "rain_rate_in_hr": 0.0,
         "rain_daily_in": 0.03,
