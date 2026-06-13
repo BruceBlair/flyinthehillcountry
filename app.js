@@ -287,13 +287,13 @@ function renderTimelapseGrid() {
     const icon  = tl.type === 'sunrise' ? '🌅' : '🌇';
     const label = tl.type === 'sunrise' ? 'Sunrise' : 'Sunset';
     const thumb = tl.thumbnail ? CONFIG.mediaBase + tl.thumbnail : null;
-    const video = CONFIG.mediaBase + tl.video;
+    const video = CONFIG.mediaBase + 'timelapse/' + tl.video;
     const d     = new Date(tl.date + 'T12:00:00');
     const dateStr = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
 
     return `<div class="tl-card">
       <video class="tl-video" src="${video}"
-        poster="${thumb || ''}"
+        ${thumb ? `poster="${thumb}"` : ''}
         controls preload="metadata" playsinline>
       </video>
       <div class="tl-body">

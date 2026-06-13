@@ -28,6 +28,8 @@ def load_env(path):
 cfg           = load_env(SCRIPT_DIR / ".env")
 INFLUX_URL    = f"http://{cfg['NAS_IP']}:8086"
 INFLUX_TOKEN  = cfg["INFLUXDB_TOKEN"]
+NODE_LAT      = float(cfg.get("LATITUDE", "0"))
+NODE_LON      = float(cfg.get("LONGITUDE", "0"))
 
 # ── Sensor entity → nodes.json field mapping ──────────────────────────────────
 ENTITY_MAP = {
@@ -112,8 +114,8 @@ def build_nodes(raw):
                 "id":                  "HITHC-RIDGE-N",
                 "label":               "North Ridge",
                 "status":              "active",
-                "lat":                 None,
-                "lon":                 None,
+                "lat":                 NODE_LAT,
+                "lon":                 NODE_LON,
                 "elevation_ft":        None,
                 "has_camera":          True,
                 "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",

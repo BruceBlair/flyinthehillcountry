@@ -399,9 +399,9 @@
   (function () {
     'use strict';
 
-    // Fall-back coords for HITHC-RIDGE-N until GPS survey populates nodes.json
-    const DEFAULT_LAT = 29.9974;
-    const DEFAULT_LON = -98.0986;
+    // Fall-back coords for HITHC-RIDGE-N (matches .env LATITUDE/LONGITUDE)
+    const DEFAULT_LAT = 30.0102;
+    const DEFAULT_LON = -98.03183;
     // Approximate offsets for planned nodes (pending field survey)
     const PLANNED_OFFSETS = {
       'HITHC-RIDGE-W':  [0,      -0.009],
