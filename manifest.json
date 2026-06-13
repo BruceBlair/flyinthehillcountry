@@ -20023,6 +20023,18 @@
       "nice_shot": 30.4
     },
     {
+      "timestamp": "20260613_072601",
+      "label": "golden_hour",
+      "categories": [
+        "golden_hour/golden_hour"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/golden_hour/20260613_072601_scene.jpg",
+      "clip": null,
+      "nice_shot": 30.3
+    },
+    {
       "timestamp": "20260612_064218",
       "label": "bird",
       "score": 0.0,
@@ -20587,5 +20599,5 @@
       "nice_shot": 5.7
     }
   ],
-  "updated": "2026-06-13T07:00:56.640160"
+  "updated": "2026-06-13T08:00:53.229819"
 }
