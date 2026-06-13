@@ -1,19 +1,6 @@
 {
   "entries": [
     {
-      "session_key": "20260609_custom",
-      "date": "2026-06-09",
-      "type": "custom",
-      "label": "20260609_custom",
-      "frame_count": 23328,
-      "video": "20260609_custom_timelapse.mp4",
-      "thumbnail": "",
-      "source": "frigate_extract",
-      "start": "2026-06-09T06:00:00",
-      "end": "2026-06-09T19:00:00",
-      "created": "2026-06-12T14:41:01.255304"
-    },
-    {
       "session_key": "20260611_sunrise",
       "date": "2026-06-11",
       "type": "sunrise",
@@ -25,6 +12,36 @@
       "start": "2026-06-11T05:35:36.293298",
       "end": "2026-06-11T06:35:36.293298",
       "created": "2026-06-12T10:15:35.771542"
+    },
+    {
+      "session_key": "20260609_sunset",
+      "date": "2026-06-09",
+      "type": "sunset",
+      "frame_count": 4870,
+      "video": "20260609_sunset_timelapse.mp4",
+      "thumbnail": "",
+      "source": "manual_split",
+      "created": "2026-06-13T00:00:00"
+    },
+    {
+      "session_key": "20260609_sunrise",
+      "date": "2026-06-09",
+      "type": "sunrise",
+      "frame_count": 4874,
+      "video": "20260609_sunrise_timelapse.mp4",
+      "thumbnail": "",
+      "source": "manual_split",
+      "created": "2026-06-13T00:00:00"
+    },
+    {
+      "session_key": "20260609_day",
+      "date": "2026-06-09",
+      "type": "day",
+      "frame_count": 4874,
+      "video": "20260609_day_timelapse.mp4",
+      "thumbnail": "",
+      "source": "manual_split",
+      "created": "2026-06-13T00:00:00"
     },
     {
       "session_key": "20260607_sunrise",
@@ -53,6 +70,15 @@
       "created": "2026-06-05T21:50:16.160079"
     },
     {
+      "session_key": "20260510_sunrise",
+      "date": "2026-05-10",
+      "type": "sunrise",
+      "frame_count": 10,
+      "video": "20260510_sunrise_timelapse.mp4",
+      "thumbnail": "golden_hour/sunrise/20260510_071504_scene.jpg",
+      "created": "2026-05-10T08:31:46.902614"
+    },
+    {
       "session_key": "20260509_sunset",
       "date": "2026-05-09",
       "type": "sunset",
@@ -64,41 +90,6 @@
       "start": "2026-05-09T20:06:10.106304",
       "end": "2026-05-09T21:06:10.106304",
       "created": "2026-06-03T19:35:33.621833"
-    },
-    {
-      "session_key": "20260602_stormy_time",
-      "date": "2026-06-02",
-      "type": "stormy_time",
-      "label": "20260602_stormy_time",
-      "frame_count": 1422,
-      "video": "20260602_stormy_time_timelapse.mp4",
-      "thumbnail": "",
-      "source": "frigate_extract",
-      "start": "2026-06-02T17:00:00",
-      "end": "2026-06-02T21:00:00",
-      "created": "2026-06-03T14:35:52.662819"
-    },
-    {
-      "session_key": "20260509_20260509_sunset",
-      "date": "2026-05-09",
-      "type": "20260509_sunset",
-      "label": "20260509_20260509_sunset",
-      "frame_count": 360,
-      "video": "20260509_20260509_sunset_timelapse.mp4",
-      "thumbnail": "",
-      "source": "frigate_extract",
-      "start": "2026-05-09T20:06:00",
-      "end": "2026-05-09T21:06:00",
-      "created": "2026-06-02T16:01:26.594898"
-    },
-    {
-      "session_key": "20260510_sunrise",
-      "date": "2026-05-10",
-      "type": "sunrise",
-      "frame_count": 10,
-      "video": "20260510_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260510_071504_scene.jpg",
-      "created": "2026-05-10T08:31:46.902614"
     },
     {
       "session_key": "20260508_sunset",
@@ -115,7 +106,7 @@
       "type": "sunrise",
       "frame_count": 10,
       "video": "20260508_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260508_070651_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:44.481850"
     },
     {
@@ -169,7 +160,7 @@
       "type": "sunrise",
       "frame_count": 10,
       "video": "20260505_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260505_061130_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:41.460588"
     },
     {
@@ -295,7 +286,7 @@
       "type": "sunrise",
       "frame_count": 3,
       "video": "20260428_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260428_063039_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:34.678585"
     },
     {
@@ -403,7 +394,7 @@
       "type": "sunrise",
       "frame_count": 3,
       "video": "20260422_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260422_063409_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:31.957981"
     },
     {
@@ -412,7 +403,7 @@
       "type": "sunset",
       "frame_count": 3,
       "video": "20260421_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260421_202404_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:31.714601"
     },
     {
@@ -421,7 +412,7 @@
       "type": "sunset",
       "frame_count": 3,
       "video": "20260420_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260420_194357_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:31.495790"
     },
     {
@@ -430,7 +421,7 @@
       "type": "sunrise",
       "frame_count": 3,
       "video": "20260420_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260420_072852_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:31.266400"
     },
     {
@@ -439,7 +430,7 @@
       "type": "sunset",
       "frame_count": 3,
       "video": "20260419_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260419_202450_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:31.012630"
     },
     {
@@ -610,7 +601,7 @@
       "type": "sunset",
       "frame_count": 4,
       "video": "20260409_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260409_202629_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:26.203298"
     },
     {
@@ -727,7 +718,7 @@
       "type": "sunset",
       "frame_count": 10,
       "video": "20260331_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260331_190859_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:22.429269"
     },
     {
@@ -736,7 +727,7 @@
       "type": "sunset",
       "frame_count": 3,
       "video": "20260320_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260320_195040_TimeLapse00_20260316_073631_668_0.mp4.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:22.072753"
     },
     {
@@ -763,7 +754,7 @@
       "type": "sunset",
       "frame_count": 16,
       "video": "20260318_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260318_191209_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:18.824538"
     },
     {
@@ -772,7 +763,7 @@
       "type": "sunrise",
       "frame_count": 4,
       "video": "20260318_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260318_081727_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:17.235070"
     },
     {
@@ -781,7 +772,7 @@
       "type": "sunset",
       "frame_count": 3,
       "video": "20260317_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260317_202632_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:16.742872"
     },
     {
@@ -790,7 +781,7 @@
       "type": "sunrise",
       "frame_count": 3,
       "video": "20260317_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260317_072402_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:16.334028"
     },
     {
@@ -799,7 +790,7 @@
       "type": "sunset",
       "frame_count": 3,
       "video": "20260316_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260316_202522_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:15.868386"
     },
     {
@@ -808,9 +799,8 @@
       "type": "sunrise",
       "frame_count": 10,
       "video": "20260316_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260316_070827_scene.jpg",
+      "thumbnail": "",
       "created": "2026-05-10T08:31:15.224261"
     }
-  ],
-  "updated": "2026-06-12T14:41:01.255737"
+  ]
 }
