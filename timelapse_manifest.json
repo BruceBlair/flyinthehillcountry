@@ -1,6 +1,45 @@
 {
   "entries": [
     {
+      "session_key": "20260609_sunrise",
+      "date": "2026-06-09",
+      "type": "sunrise",
+      "label": "20260609_sunrise",
+      "frame_count": 4874,
+      "video": "20260609_sunrise_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-09T06:00:00",
+      "end": "2026-06-09T08:15:00",
+      "created": "2026-06-13T09:23:09.509421"
+    },
+    {
+      "session_key": "20260609_day",
+      "date": "2026-06-09",
+      "type": "day",
+      "label": "20260609_day",
+      "frame_count": 4874,
+      "video": "20260609_day_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-09T08:15:00",
+      "end": "2026-06-09T10:30:00",
+      "created": "2026-06-13T09:23:09.509450"
+    },
+    {
+      "session_key": "20260609_sunset",
+      "date": "2026-06-09",
+      "type": "sunset",
+      "label": "20260609_sunset",
+      "frame_count": 4870,
+      "video": "20260609_sunset_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-09T10:30:00",
+      "end": "2026-06-09T14:00:00",
+      "created": "2026-06-13T09:23:09.509454"
+    },
+    {
       "session_key": "20260609_custom",
       "date": "2026-06-09",
       "type": "custom",

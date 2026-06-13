@@ -284,8 +284,8 @@ function renderTimelapseGrid() {
   }
 
   $tlGrid.innerHTML = timelapseEntries.map(tl => {
-    const icon  = tl.type === 'sunrise' ? '🌅' : '🌇';
-    const label = tl.type === 'sunrise' ? 'Sunrise' : 'Sunset';
+    const icon  = tl.type === 'sunrise' ? '🌅' : tl.type === 'day' ? '☀️' : '🌇';
+    const label = tl.type === 'sunrise' ? 'Sunrise' : tl.type === 'day' ? 'Daytime' : 'Sunset';
     const thumb = tl.thumbnail ? CONFIG.mediaBase + tl.thumbnail : null;
     const video = CONFIG.mediaBase + 'timelapse/' + tl.video;
     const d     = new Date(tl.date + 'T12:00:00');
