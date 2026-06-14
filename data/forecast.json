@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-14T12:00:03Z",
+  "updated": "2026-06-14T12:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -15,10 +15,10 @@
       "temp_f": 91,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SE",
-      "precip_pct": 60,
-      "short": "Partly Sunny then Showers And Thunderstorms Likely",
-      "detail": "Showers and thunderstorms likely after 1pm. Partly sunny, with a high near 91. Heat index values as high as 103. Southeast wind 0 to 5 mph. Chance of precipitation is 60%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/bkn,30/tsra_hi,60?size=medium"
+      "precip_pct": 36,
+      "short": "Chance Showers And Thunderstorms",
+      "detail": "A slight chance of rain showers before 10am, then a chance of showers and thunderstorms. Partly sunny, with a high near 91. Heat index values as high as 103. Southeast wind 0 to 5 mph. Chance of precipitation is 40%. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_hi,20/tsra_hi,40?size=medium"
     },
     {
       "number": 2,
@@ -29,10 +29,10 @@
       "temp_f": 75,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 60,
-      "short": "Showers And Thunderstorms Likely",
-      "detail": "Showers and thunderstorms likely before 10pm, then showers and thunderstorms likely. Mostly cloudy, with a low around 75. South southeast wind 0 to 5 mph. Chance of precipitation is 60%. New rainfall amounts between a tenth and quarter of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,60?size=medium"
+      "precip_pct": 65,
+      "short": "Chance Showers And Thunderstorms",
+      "detail": "A chance of showers and thunderstorms before 7pm, then showers and thunderstorms likely between 7pm and 10pm, then a chance of showers and thunderstorms between 10pm and 1am, then showers and thunderstorms likely. Mostly cloudy, with a low around 75. South southeast wind 0 to 5 mph. Chance of precipitation is 70%. New rainfall amounts between a tenth and quarter of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,60/tsra_hi,70?size=medium"
     },
     {
       "number": 3,
@@ -43,10 +43,10 @@
       "temp_f": 85,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SE",
-      "precip_pct": 89,
+      "precip_pct": 85,
       "short": "Showers And Thunderstorms",
-      "detail": "Showers and thunderstorms before 4pm, then showers and thunderstorms likely. Mostly cloudy, with a high near 85. Southeast wind 0 to 5 mph. Chance of precipitation is 90%. New rainfall amounts between a half and three quarters of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/tsra_sct,70/tsra_sct,90?size=medium"
+      "detail": "Showers and thunderstorms. Mostly cloudy, with a high near 85. Southeast wind 0 to 5 mph. Chance of precipitation is 90%. New rainfall amounts between a half and three quarters of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_sct,80/tsra_sct,90?size=medium"
     },
     {
       "number": 4,
@@ -57,9 +57,9 @@
       "temp_f": 73,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "E",
-      "precip_pct": 75,
-      "short": "Showers And Thunderstorms Likely",
-      "detail": "Showers and thunderstorms likely before 1am, then showers and thunderstorms likely. Mostly cloudy, with a low around 73. East wind 0 to 5 mph. Chance of precipitation is 80%.",
+      "precip_pct": 81,
+      "short": "Showers And Thunderstorms then Chance Showers And Thunderstorms",
+      "detail": "Showers and thunderstorms before 7pm, then a chance of showers and thunderstorms between 7pm and 1am, then showers and thunderstorms likely. Mostly cloudy, with a low around 73. East wind 0 to 5 mph. Chance of precipitation is 80%.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_sct,80/tsra_sct,70?size=medium"
     },
     {
