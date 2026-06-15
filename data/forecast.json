@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-15T12:00:03Z",
+  "updated": "2026-06-15T12:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Today",
-      "start": "2026-06-15T06:00:00-05:00",
+      "start": "2026-06-15T07:00:00-05:00",
       "end": "2026-06-15T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 81,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "ENE",
-      "precip_pct": 85,
+      "precip_pct": 82,
       "short": "Showers And Thunderstorms",
-      "detail": "Showers and thunderstorms before 1pm, then a chance of showers and thunderstorms. Some of the storms could produce heavy rain. Mostly cloudy, with a high near 81. East northeast wind 0 to 5 mph. Chance of precipitation is 90%. New rainfall amounts between 3 and 4 inches possible.",
-      "icon": "https://api.weather.gov/icons/land/day/tsra,90/tsra,70?size=medium"
+      "detail": "Showers and thunderstorms before 1pm, then a chance of showers and thunderstorms. Mostly cloudy, with a high near 81. East northeast wind 0 to 5 mph. Chance of precipitation is 80%. New rainfall amounts between three quarters and one inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra,80/tsra,70?size=medium"
     },
     {
       "number": 2,
