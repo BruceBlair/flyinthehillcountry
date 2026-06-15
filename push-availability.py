@@ -23,6 +23,7 @@ from pathlib import Path
 
 SCRIPT_DIR        = Path(__file__).parent
 AVAILABILITY_FILE = SCRIPT_DIR / "data" / "availability.json"
+MANIFEST_FILE     = SCRIPT_DIR / "manifest.json"
 
 # ── Load .env ─────────────────────────────────────────────────────────────────
 def load_env(path):
@@ -44,7 +45,8 @@ INFLUX_TOKEN = cfg["INFLUXDB_TOKEN"]
 CAMERA_RAW     = Path("/volume1/camera_raw")
 EASYNVR_SPARSE = CAMERA_RAW
 EASYNVR_DENSE  = CAMERA_RAW / "easynvr_rec" / "PnyGeSySOTRTW" / "01"
-TIMELAPSE_ROOT = CAMERA_RAW / "timelapse"
+TIMELAPSE_ROOT       = CAMERA_RAW / "timelapse"
+DAILY_TIMELAPSE_ROOT = CAMERA_RAW / "timelapse"  # YYYYMMDD subdirs from daily pipeline
 CELL_FOOTAGE   = CAMERA_RAW / "cell footage"
 MANIFEST_FILE  = SCRIPT_DIR / "manifest.json"
 
@@ -149,6 +151,8 @@ def scan_manifest(dates: defaultdict):
     m = json.loads(MANIFEST_FILE.read_text())
     entries = m if isinstance(m, list) else m.get("entries", [])
     for e in entries:
+        if "timelapse" in e.get("categories", []):
+            continue  # timelapse entries are handled by scan_daily_timelapse
         ts = e.get("timestamp", "")
         if len(ts) >= 8:
             raw = ts[:8]
@@ -173,7 +177,49 @@ def scan_cell_footage(dates: defaultdict):
         except ValueError:
             continue
 
-# ── Source 7: Weather (InfluxDB Ecowitt, known start date) ────────────────────
+# ── Source 7: Daily timelapse (YYYYMMDD dirs from daily_timelapse.sh) ─────────
+def scan_daily_timelapse(dates: defaultdict):
+    if not DAILY_TIMELAPSE_ROOT.exists():
+        return
+    for d_dir in DAILY_TIMELAPSE_ROOT.iterdir():
+        name = d_dir.name
+        if not re.fullmatch(r"\d{8}", name) or not d_dir.is_dir():
+            continue
+        try:
+            d = iso(date(int(name[0:4]), int(name[4:6]), int(name[6:8])))
+            if any(d_dir.glob("*.mp4")):
+                dates[d]["timelapse"] = True
+        except ValueError:
+            continue
+
+
+# ── timelapse_sections from manifest timelapse entries ─────────────────────────
+def load_timelapse_sections() -> dict:
+    """Returns { date_iso: { section: clip_path } } from manifest timelapse entries."""
+    if not MANIFEST_FILE.exists():
+        return {}
+    m = json.loads(MANIFEST_FILE.read_text())
+    entries = m if isinstance(m, list) else m.get("entries", [])
+    by_date: dict = {}
+    for e in entries:
+        if "timelapse" not in e.get("categories", []):
+            continue
+        ts = e.get("timestamp", "")
+        if len(ts) < 8:
+            continue
+        raw = ts[:8]
+        try:
+            d = iso(date(int(raw[0:4]), int(raw[4:6]), int(raw[6:8])))
+        except ValueError:
+            continue
+        section = e.get("section")
+        clip    = e.get("clip")
+        if section and clip:
+            by_date.setdefault(d, {})[section] = clip
+    return by_date
+
+
+# ── Source 8: Weather (InfluxDB Ecowitt, known start date) ────────────────────
 def scan_weather(dates: defaultdict):
     today = date.today()
     d = WEATHER_START
@@ -182,7 +228,7 @@ def scan_weather(dates: defaultdict):
         d += timedelta(days=1)
 
 # ── Build full date spine ─────────────────────────────────────────────────────
-def build_dates_spine(dates: defaultdict) -> dict:
+def build_dates_spine(dates: defaultdict, timelapse_sections: dict) -> dict:
     today = date.today()
     spine = {}
     d = ARCHIVE_START
@@ -190,12 +236,14 @@ def build_dates_spine(dates: defaultdict) -> dict:
         key = iso(d)
         flags = empty_flags()
         flags.update(dates.get(key, {}))
+        if key in timelapse_sections:
+            flags["timelapse_sections"] = timelapse_sections[key]
         spine[key] = flags
         d += timedelta(days=1)
     return spine
 
 # ── Assemble availability.json ────────────────────────────────────────────────
-def build_availability(dates: defaultdict) -> dict:
+def build_availability(dates: defaultdict, timelapse_sections: dict) -> dict:
     return {
         "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "coverage_phases": [
@@ -218,7 +266,7 @@ def build_availability(dates: defaultdict) -> dict:
                 "description": "Full continuous recording",
             },
         ],
-        "dates": build_dates_spine(dates),
+        "dates": build_dates_spine(dates, timelapse_sections),
     }
 
 # ── Git commit + push ─────────────────────────────────────────────────────────
@@ -248,15 +296,19 @@ if __name__ == "__main__":
     dates: defaultdict = defaultdict(empty_flags)
 
     print("Scanning sources...")
-    scan_easynvr_sparse(dates);  print(f"  EasyNVR sparse:  {sum(1 for v in dates.values() if v['video_events'])} event dates")
-    scan_easynvr_dense(dates);   print(f"  EasyNVR dense:   (cumulative) {sum(1 for v in dates.values() if v['video_events'])} event dates")
-    scan_frigate(dates);         print(f"  Frigate:         {sum(1 for v in dates.values() if v['video_continuous'])} continuous, {sum(1 for v in dates.values() if v['video_events'])} event dates total")
-    scan_timelapse(dates);       print(f"  Timelapse:       {sum(1 for v in dates.values() if v['timelapse'])} dates")
-    scan_manifest(dates);        print(f"  Manifest photos: {sum(1 for v in dates.values() if v['photos'])} dates")
-    scan_cell_footage(dates);    print(f"  Cell footage:    {sum(1 for v in dates.values() if v['video_founding'])} dates")
-    scan_weather(dates);         print(f"  Weather:         {sum(1 for v in dates.values() if v['weather'])} dates")
+    scan_easynvr_sparse(dates);   print(f"  EasyNVR sparse:   {sum(1 for v in dates.values() if v['video_events'])} event dates")
+    scan_easynvr_dense(dates);    print(f"  EasyNVR dense:    (cumulative) {sum(1 for v in dates.values() if v['video_events'])} event dates")
+    scan_frigate(dates);          print(f"  Frigate:          {sum(1 for v in dates.values() if v['video_continuous'])} continuous, {sum(1 for v in dates.values() if v['video_events'])} event dates total")
+    scan_timelapse(dates);        print(f"  Reolink TL:       {sum(1 for v in dates.values() if v['timelapse'])} dates")
+    scan_daily_timelapse(dates);  print(f"  Daily TL:         {sum(1 for v in dates.values() if v['timelapse'])} dates (cumulative)")
+    scan_manifest(dates);         print(f"  Manifest photos:  {sum(1 for v in dates.values() if v['photos'])} dates")
+    scan_cell_footage(dates);     print(f"  Cell footage:     {sum(1 for v in dates.values() if v['video_founding'])} dates")
+    scan_weather(dates);          print(f"  Weather:          {sum(1 for v in dates.values() if v['weather'])} dates")
 
-    availability = build_availability(dates)
+    tl_sections  = load_timelapse_sections()
+    print(f"  TL sections:      {len(tl_sections)} dates with per-section data")
+
+    availability = build_availability(dates, tl_sections)
     total_dates  = len(availability["dates"])
     covered      = sum(1 for v in availability["dates"].values() if any(v.values()))
 
