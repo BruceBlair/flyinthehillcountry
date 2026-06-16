@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-15T05:05:03Z",
+  "updated": "2026-06-16T10:43:14Z",
   "coverage_phases": [
     {
       "start": "2026-03-10",
@@ -803,7 +803,12 @@
       "video_continuous": true,
       "video_events": false,
       "video_founding": false,
-      "timelapse": false
+      "timelapse": true,
+      "timelapse_sections": {
+        "sunrise": "timelapse/20260615/20260615_sunrise.mp4",
+        "day_1": "timelapse/20260615/20260615_day_1.mp4",
+        "day_2": "timelapse/20260615/20260615_day_2.mp4"
+      }
     }
   }
 }
