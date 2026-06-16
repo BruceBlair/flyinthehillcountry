@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "session_key": "20260506_sunset",
+      "date": "2026-05-06",
+      "type": "sunset",
+      "label": "20260506_sunset",
+      "frame_count": 17,
+      "video": "20260506_sunset_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-05-06T20:03:13.820176",
+      "end": "2026-05-06T21:03:13.820176",
+      "created": "2026-06-13T14:15:36.799161"
+    },
+    {
+      "session_key": "20260609_custom",
+      "date": "2026-06-09",
+      "type": "custom",
+      "label": "20260609_custom",
+      "frame_count": 23328,
+      "video": "20260609_custom_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-09T06:00:00",
+      "end": "2026-06-09T19:00:00",
+      "created": "2026-06-12T14:41:01.255304"
+    },
+    {
       "session_key": "20260611_sunrise",
       "date": "2026-06-11",
       "type": "sunrise",
@@ -12,36 +38,6 @@
       "start": "2026-06-11T05:35:36.293298",
       "end": "2026-06-11T06:35:36.293298",
       "created": "2026-06-12T10:15:35.771542"
-    },
-    {
-      "session_key": "20260609_sunset",
-      "date": "2026-06-09",
-      "type": "sunset",
-      "frame_count": 4870,
-      "video": "20260609_sunset_timelapse.mp4",
-      "thumbnail": "",
-      "source": "manual_split",
-      "created": "2026-06-13T00:00:00"
-    },
-    {
-      "session_key": "20260609_sunrise",
-      "date": "2026-06-09",
-      "type": "sunrise",
-      "frame_count": 4874,
-      "video": "20260609_sunrise_timelapse.mp4",
-      "thumbnail": "",
-      "source": "manual_split",
-      "created": "2026-06-13T00:00:00"
-    },
-    {
-      "session_key": "20260609_day",
-      "date": "2026-06-09",
-      "type": "day",
-      "frame_count": 4874,
-      "video": "20260609_day_timelapse.mp4",
-      "thumbnail": "",
-      "source": "manual_split",
-      "created": "2026-06-13T00:00:00"
     },
     {
       "session_key": "20260607_sunrise",
@@ -70,15 +66,6 @@
       "created": "2026-06-05T21:50:16.160079"
     },
     {
-      "session_key": "20260510_sunrise",
-      "date": "2026-05-10",
-      "type": "sunrise",
-      "frame_count": 10,
-      "video": "20260510_sunrise_timelapse.mp4",
-      "thumbnail": "golden_hour/sunrise/20260510_071504_scene.jpg",
-      "created": "2026-05-10T08:31:46.902614"
-    },
-    {
       "session_key": "20260509_sunset",
       "date": "2026-05-09",
       "type": "sunset",
@@ -90,6 +77,41 @@
       "start": "2026-05-09T20:06:10.106304",
       "end": "2026-05-09T21:06:10.106304",
       "created": "2026-06-03T19:35:33.621833"
+    },
+    {
+      "session_key": "20260602_stormy_time",
+      "date": "2026-06-02",
+      "type": "stormy_time",
+      "label": "20260602_stormy_time",
+      "frame_count": 1422,
+      "video": "20260602_stormy_time_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-02T17:00:00",
+      "end": "2026-06-02T21:00:00",
+      "created": "2026-06-03T14:35:52.662819"
+    },
+    {
+      "session_key": "20260509_20260509_sunset",
+      "date": "2026-05-09",
+      "type": "20260509_sunset",
+      "label": "20260509_20260509_sunset",
+      "frame_count": 360,
+      "video": "20260509_20260509_sunset_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-05-09T20:06:00",
+      "end": "2026-05-09T21:06:00",
+      "created": "2026-06-02T16:01:26.594898"
+    },
+    {
+      "session_key": "20260510_sunrise",
+      "date": "2026-05-10",
+      "type": "sunrise",
+      "frame_count": 10,
+      "video": "20260510_sunrise_timelapse.mp4",
+      "thumbnail": "golden_hour/sunrise/20260510_071504_scene.jpg",
+      "created": "2026-05-10T08:31:46.902614"
     },
     {
       "session_key": "20260508_sunset",
@@ -126,15 +148,6 @@
       "video": "20260507_sunrise_timelapse.mp4",
       "thumbnail": "golden_hour/sunrise/20260507_071646_scene.jpg",
       "created": "2026-05-10T08:31:43.434325"
-    },
-    {
-      "session_key": "20260506_sunset",
-      "date": "2026-05-06",
-      "type": "sunset",
-      "frame_count": 10,
-      "video": "20260506_sunset_timelapse.mp4",
-      "thumbnail": "golden_hour/sunset/20260506_193947_scene.jpg",
-      "created": "2026-05-10T08:31:42.912179"
     },
     {
       "session_key": "20260506_sunrise",
@@ -802,5 +815,6 @@
       "thumbnail": "",
       "created": "2026-05-10T08:31:15.224261"
     }
-  ]
+  ],
+  "updated": "2026-06-13T14:15:36.799170"
 }

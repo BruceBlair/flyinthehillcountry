@@ -97,32 +97,39 @@ rsync -av --delete \
 cp "$FILTERED_MF" "$PAGES_REPO/manifest.json"
 log "Manifest written ($(wc -c < "$FILTERED_MF") bytes, held entries excluded)"
 
-# ── Commit and push (serialized via shared lock) ──────────────────────────────
-# All scripts that push to flyinthehillcountry acquire /tmp/gtn-git-push.lock
-# so concurrent cron runs never race on the same remote.
+# ── Commit and push ───────────────────────────────────────────────────────────
 GIT=$(command -v git || echo /usr/bin/git)
 cd "$PAGES_REPO"
 
-GIT_LOCK=/tmp/gtn-git-push.lock
+# Abort any rebase left by a previous failed run before touching the repo.
+if [ -d ".git/rebase-merge" ] || [ -d ".git/rebase-apply" ]; then
+  log "WARNING: aborting stuck rebase from previous run"
+  "$GIT" rebase --abort
+fi
 
-(
-  flock -x -w 120 9 || { log "ERROR: could not acquire git push lock (timed out after 120s)"; exit 1; }
+# Bail out if not on a named branch (should never happen after the guard above).
+BRANCH=$("$GIT" symbolic-ref --short HEAD 2>/dev/null || true)
+if [ -z "$BRANCH" ]; then
+  log "ERROR: repo is in detached HEAD state — manual fix required"
+  exit 1
+fi
 
-  # Start from the latest remote state on every run — eliminates rebasing and
-  # prevents divergence from accumulating when a previous push failed.
-  "$GIT" fetch origin --quiet
-  "$GIT" reset --mixed origin/main --quiet
-
-  # Re-stage manifest after reset cleared the index.
-  cp "$FILTERED_MF" "$PAGES_REPO/manifest.json"
-
-  "$GIT" add -A
-  if "$GIT" diff --cached --quiet; then
-    log "Nothing new to commit."
-    exit 0
+_pull_rebase() {
+  if ! "$GIT" pull --rebase --quiet; then
+    "$GIT" rebase --abort 2>/dev/null || true
+    log "ERROR: pull --rebase failed; aborting. Remote and local may have diverged."
+    return 1
   fi
+}
+
+"$GIT" add -A
+if "$GIT" diff --cached --quiet; then
+  log "Nothing new to commit."
+  _pull_rebase || true   # no local commit to lose; non-fatal
+else
   COUNT=$("$GIT" diff --cached --name-only | grep -c '\.\(jpg\|mp4\)' || true)
   "$GIT" commit -m "highlights: $(date '+%Y-%m-%d %H:%M') (+${COUNT} media files)"
+  _pull_rebase || exit 1  # commit exists locally; surface the error so the next run retries
   "$GIT" push
   log "Pushed to GitHub Pages."
-) 9>"$GIT_LOCK"
+fi
