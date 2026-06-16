@@ -7,9 +7,11 @@ Cron (every 5 min):
   */5 * * * * /usr/bin/python3 /home/HighlyReflective/weather-station/push-nodes.py >> /home/HighlyReflective/push-nodes.log 2>&1
 """
 
-import json, subprocess, sys, urllib.request
+import fcntl, json, subprocess, sys, urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+
+GIT_LOCK = "/tmp/gtn-git-push.lock"
 
 SCRIPT_DIR  = Path(__file__).parent
 NODES_FILE  = SCRIPT_DIR / "data" / "nodes.json"
@@ -149,20 +151,22 @@ def build_nodes(raw):
 # ── Git commit + push ─────────────────────────────────────────────────────────
 def git_push(file_path):
     rel = str(file_path.relative_to(SCRIPT_DIR))
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "add", rel], check=True)
-    diff = subprocess.run(
-        ["git", "-C", str(SCRIPT_DIR), "diff", "--cached", "--quiet"], check=False
-    )
-    if diff.returncode == 0:
-        print("nodes.json unchanged — no commit.")
-        return
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
-    subprocess.run(
-        ["git", "-C", str(SCRIPT_DIR), "commit", "-m", f"data: nodes.json {ts} UTC"],
-        check=True,
-    )
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--autostash", "--quiet"], check=False)
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "push"], check=True)
+    with open(GIT_LOCK, "w") as _lock:
+        fcntl.flock(_lock, fcntl.LOCK_EX)
+        subprocess.run(["git", "-C", str(SCRIPT_DIR), "add", rel], check=True)
+        diff = subprocess.run(
+            ["git", "-C", str(SCRIPT_DIR), "diff", "--cached", "--quiet"], check=False
+        )
+        if diff.returncode == 0:
+            print("nodes.json unchanged — no commit.")
+            return
+        ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+        subprocess.run(
+            ["git", "-C", str(SCRIPT_DIR), "commit", "-m", f"data: nodes.json {ts} UTC"],
+            check=True,
+        )
+        subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--autostash", "--quiet"], check=False)
+        subprocess.run(["git", "-C", str(SCRIPT_DIR), "push"], check=True)
     print(f"Pushed nodes.json ({ts} UTC)")
 
 # ── Main ──────────────────────────────────────────────────────────────────────

@@ -16,14 +16,17 @@ Cron (daily at 00:05):
   5 0 * * * /usr/bin/python3 /home/HighlyReflective/weather-station/push-availability.py >> /home/HighlyReflective/push-availability.log 2>&1
 """
 
-import json, re, subprocess, sys, urllib.request
+import fcntl, json, re, subprocess, sys, urllib.request
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
+GIT_LOCK = "/tmp/gtn-git-push.lock"
+
 SCRIPT_DIR        = Path(__file__).parent
 AVAILABILITY_FILE = SCRIPT_DIR / "data" / "availability.json"
-MANIFEST_FILE     = SCRIPT_DIR / "manifest.json"
+# Authoritative highlights manifest maintained by the highlight-curator service
+MANIFEST_FILE     = Path("/volume1/highlights/manifest.json")
 
 # ── Load .env ─────────────────────────────────────────────────────────────────
 def load_env(path):
@@ -48,7 +51,6 @@ EASYNVR_DENSE  = CAMERA_RAW / "easynvr_rec" / "PnyGeSySOTRTW" / "01"
 TIMELAPSE_ROOT       = CAMERA_RAW / "timelapse"
 DAILY_TIMELAPSE_ROOT = CAMERA_RAW / "timelapse"  # YYYYMMDD subdirs from daily pipeline
 CELL_FOOTAGE   = CAMERA_RAW / "cell footage"
-MANIFEST_FILE  = SCRIPT_DIR / "manifest.json"
 
 # Continuous recording started 2026-06-06
 CONTINUOUS_START = date(2026, 6, 6)
@@ -272,21 +274,23 @@ def build_availability(dates: defaultdict, timelapse_sections: dict) -> dict:
 # ── Git commit + push ─────────────────────────────────────────────────────────
 def git_push(file_path):
     rel = str(file_path.relative_to(SCRIPT_DIR))
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "add", rel], check=True)
-    diff = subprocess.run(
-        ["git", "-C", str(SCRIPT_DIR), "diff", "--cached", "--quiet"], check=False
-    )
-    if diff.returncode == 0:
-        print("availability.json unchanged — no commit.")
-        return
-    ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
-    subprocess.run(
-        ["git", "-C", str(SCRIPT_DIR), "commit", "-m",
-         f"data: availability.json {ts} UTC"],
-        check=True,
-    )
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--autostash", "--quiet"], check=False)
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "push"], check=True)
+    with open(GIT_LOCK, "w") as _lock:
+        fcntl.flock(_lock, fcntl.LOCK_EX)
+        subprocess.run(["git", "-C", str(SCRIPT_DIR), "add", rel], check=True)
+        diff = subprocess.run(
+            ["git", "-C", str(SCRIPT_DIR), "diff", "--cached", "--quiet"], check=False
+        )
+        if diff.returncode == 0:
+            print("availability.json unchanged — no commit.")
+            return
+        ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+        subprocess.run(
+            ["git", "-C", str(SCRIPT_DIR), "commit", "-m",
+             f"data: availability.json {ts} UTC"],
+            check=True,
+        )
+        subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--autostash", "--quiet"], check=False)
+        subprocess.run(["git", "-C", str(SCRIPT_DIR), "push"], check=True)
     print(f"Pushed availability.json ({ts} UTC)")
 
 # ── Main ──────────────────────────────────────────────────────────────────────
