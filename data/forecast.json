@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-16T11:00:02Z",
+  "updated": "2026-06-16T11:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,21 +8,7 @@
   "periods": [
     {
       "number": 1,
-      "name": "Overnight",
-      "start": "2026-06-16T05:00:00-05:00",
-      "end": "2026-06-16T06:00:00-05:00",
-      "is_daytime": false,
-      "temp_f": 73,
-      "wind_speed": "0 mph",
-      "wind_dir": "",
-      "precip_pct": 24,
-      "short": "Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms. Mostly cloudy, with a low around 73. Wind around 0 mph. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_sct,20?size=medium"
-    },
-    {
-      "number": 2,
-      "name": "Tuesday",
+      "name": "Today",
       "start": "2026-06-16T06:00:00-05:00",
       "end": "2026-06-16T18:00:00-05:00",
       "is_daytime": true,
@@ -35,8 +21,8 @@
       "icon": "https://api.weather.gov/icons/land/day/tsra_sct,30/tsra_sct,40?size=medium"
     },
     {
-      "number": 3,
-      "name": "Tuesday Night",
+      "number": 2,
+      "name": "Tonight",
       "start": "2026-06-16T18:00:00-05:00",
       "end": "2026-06-17T06:00:00-05:00",
       "is_daytime": false,
@@ -49,7 +35,7 @@
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/sct?size=medium"
     },
     {
-      "number": 4,
+      "number": 3,
       "name": "Wednesday",
       "start": "2026-06-17T06:00:00-05:00",
       "end": "2026-06-17T18:00:00-05:00",
@@ -63,7 +49,7 @@
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
-      "number": 5,
+      "number": 4,
       "name": "Wednesday Night",
       "start": "2026-06-17T18:00:00-05:00",
       "end": "2026-06-18T06:00:00-05:00",
@@ -73,11 +59,11 @@
       "wind_dir": "SSE",
       "precip_pct": 0,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76. South southeast wind 5 to 10 mph.",
+      "detail": "Mostly clear, with a low around 76. Heat index values as high as 101. South southeast wind 5 to 10 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 6,
+      "number": 5,
       "name": "Thursday",
       "start": "2026-06-18T06:00:00-05:00",
       "end": "2026-06-18T18:00:00-05:00",
@@ -91,7 +77,7 @@
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
-      "number": 7,
+      "number": 6,
       "name": "Thursday Night",
       "start": "2026-06-18T18:00:00-05:00",
       "end": "2026-06-19T06:00:00-05:00",
@@ -105,7 +91,7 @@
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20?size=medium"
     },
     {
-      "number": 8,
+      "number": 7,
       "name": "Juneteenth",
       "start": "2026-06-19T06:00:00-05:00",
       "end": "2026-06-19T18:00:00-05:00",
@@ -119,7 +105,7 @@
       "icon": "https://api.weather.gov/icons/land/day/tsra_sct,20/tsra_sct,30?size=medium"
     },
     {
-      "number": 9,
+      "number": 8,
       "name": "Friday Night",
       "start": "2026-06-19T18:00:00-05:00",
       "end": "2026-06-20T06:00:00-05:00",
@@ -133,7 +119,7 @@
       "icon": "https://api.weather.gov/icons/land/night/tsra_sct,40?size=medium"
     },
     {
-      "number": 10,
+      "number": 9,
       "name": "Saturday",
       "start": "2026-06-20T06:00:00-05:00",
       "end": "2026-06-20T18:00:00-05:00",
@@ -143,11 +129,11 @@
       "wind_dir": "SSE",
       "precip_pct": 44,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a high near 91. Chance of precipitation is 40%.",
+      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a high near 91. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 40%.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_sct,40?size=medium"
     },
     {
-      "number": 11,
+      "number": 10,
       "name": "Saturday Night",
       "start": "2026-06-20T18:00:00-05:00",
       "end": "2026-06-21T06:00:00-05:00",
@@ -161,7 +147,7 @@
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,40/tsra_hi,20?size=medium"
     },
     {
-      "number": 12,
+      "number": 11,
       "name": "Sunday",
       "start": "2026-06-21T06:00:00-05:00",
       "end": "2026-06-21T18:00:00-05:00",
@@ -175,7 +161,7 @@
       "icon": "https://api.weather.gov/icons/land/day/rain_showers,20/bkn?size=medium"
     },
     {
-      "number": 13,
+      "number": 12,
       "name": "Sunday Night",
       "start": "2026-06-21T18:00:00-05:00",
       "end": "2026-06-22T06:00:00-05:00",
@@ -189,7 +175,7 @@
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
-      "number": 14,
+      "number": 13,
       "name": "Monday",
       "start": "2026-06-22T06:00:00-05:00",
       "end": "2026-06-22T18:00:00-05:00",
@@ -201,6 +187,20 @@
       "short": "Mostly Sunny",
       "detail": "Mostly sunny, with a high near 95.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+    },
+    {
+      "number": 14,
+      "name": "Monday Night",
+      "start": "2026-06-22T18:00:00-05:00",
+      "end": "2026-06-23T06:00:00-05:00",
+      "is_daytime": false,
+      "temp_f": 77,
+      "wind_speed": "5 to 15 mph",
+      "wind_dir": "SSE",
+      "precip_pct": 4,
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 77.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     }
   ]
 }
