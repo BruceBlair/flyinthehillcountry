@@ -18302,6 +18302,20 @@
       "nice_shot": 35.7
     },
     {
+      "timestamp": "20260616_084911",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781617751.06284-7jajri",
+      "snapshot": "wildlife/20260616_084911_bird.jpg",
+      "clip": "wildlife/20260616_084911_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 34.9
+    },
+    {
       "timestamp": "20260614_152141",
       "label": "bird",
       "score": 0.0,
@@ -18372,6 +18386,62 @@
       "nice_shot": 33.8
     },
     {
+      "timestamp": "20260616_083246",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781616766.71941-9s9fqg",
+      "snapshot": "wildlife/20260616_083246_bear.jpg",
+      "clip": "wildlife/20260616_083246_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 32.8
+    },
+    {
+      "timestamp": "20260616_083308",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781616788.90431-13zt07",
+      "snapshot": "wildlife/20260616_083308_bear.jpg",
+      "clip": "wildlife/20260616_083308_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 32.8
+    },
+    {
+      "timestamp": "20260616_080625",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781615185.722388-tus4ob",
+      "snapshot": "wildlife/20260616_080625_bird.jpg",
+      "clip": "wildlife/20260616_080625_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 32.3
+    },
+    {
+      "timestamp": "20260616_080604",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781615164.319209-memxrz",
+      "snapshot": "wildlife/20260616_080604_bird.jpg",
+      "clip": "wildlife/20260616_080604_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 32.2
+    },
+    {
       "timestamp": "20260614_152059",
       "label": "bird",
       "score": 0.0,
@@ -18384,6 +18454,62 @@
       "clip": "wildlife/20260614_152059_bird.mp4",
       "source": "backfill",
       "nice_shot": 32.1
+    },
+    {
+      "timestamp": "20260616_083723",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781617043.256366-wof9qx",
+      "snapshot": "wildlife/20260616_083723_bird.jpg",
+      "clip": "wildlife/20260616_083723_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 31.7
+    },
+    {
+      "timestamp": "20260616_081130",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781615490.748057-s21l6o",
+      "snapshot": "wildlife/20260616_081130_bird.jpg",
+      "clip": "wildlife/20260616_081130_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 31.0
+    },
+    {
+      "timestamp": "20260616_085701",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781618221.004775-34nhzv",
+      "snapshot": "wildlife/20260616_085701_bird.jpg",
+      "clip": "wildlife/20260616_085701_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 30.6
+    },
+    {
+      "timestamp": "20260616_085622",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1781618182.347511-v3zhj8",
+      "snapshot": "wildlife/20260616_085622_bird.jpg",
+      "clip": "wildlife/20260616_085622_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 30.3
     },
     {
       "timestamp": "20260615_061257",
@@ -18616,5 +18742,5 @@
       "nice_shot": 19.1
     }
   ],
-  "updated": "2026-06-16T08:01:23.695248"
+  "updated": "2026-06-16T09:01:19.519037"
 }
