@@ -8278,6 +8278,18 @@
       "nice_shot": 52.1
     },
     {
+      "timestamp": "20260617_065124",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_065124_scene.jpg",
+      "clip": null,
+      "nice_shot": 52.0
+    },
+    {
       "timestamp": "20260616_070510",
       "label": "sunrise_scene",
       "categories": [
@@ -9293,6 +9305,18 @@
       "nice_shot": 51.4
     },
     {
+      "timestamp": "20260617_062922",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_062922_scene.jpg",
+      "clip": null,
+      "nice_shot": 51.3
+    },
+    {
       "timestamp": "20260616_071110",
       "label": "sunrise_scene",
       "categories": [
@@ -10037,6 +10061,18 @@
       },
       "uploads": {},
       "nice_shot": 51.0
+    },
+    {
+      "timestamp": "20260617_063122",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_063122_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.9
     },
     {
       "timestamp": "20260616_145120",
@@ -10869,6 +10905,42 @@
       "nice_shot": 50.5
     },
     {
+      "timestamp": "20260617_065324",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_065324_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.4
+    },
+    {
+      "timestamp": "20260617_063322",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_063322_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.4
+    },
+    {
+      "timestamp": "20260617_062722",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_062722_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.4
+    },
+    {
       "timestamp": "20260616_152412",
       "label": "bird",
       "score": 0.0,
@@ -11006,6 +11078,18 @@
       "nice_shot": 50.4
     },
     {
+      "timestamp": "20260617_065924",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_065924_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.3
+    },
+    {
       "timestamp": "20260616_153914",
       "label": "bird",
       "score": 0.0,
@@ -11134,6 +11218,30 @@
       },
       "uploads": {},
       "nice_shot": 50.3
+    },
+    {
+      "timestamp": "20260617_064923",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_064923_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.2
+    },
+    {
+      "timestamp": "20260617_064523",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_064523_scene.jpg",
+      "clip": null,
+      "nice_shot": 50.2
     },
     {
       "timestamp": "20260616_205113",
@@ -11536,6 +11644,18 @@
       },
       "uploads": {},
       "nice_shot": 49.9
+    },
+    {
+      "timestamp": "20260617_062121",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260617_062121_scene.jpg",
+      "clip": null,
+      "nice_shot": 49.8
     },
     {
       "timestamp": "20260606_200400",
@@ -18688,18 +18808,6 @@
       "nice_shot": 42.7
     },
     {
-      "timestamp": "20260617_055919",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260617_055919_scene.jpg",
-      "clip": null,
-      "nice_shot": 42.4
-    },
-    {
       "timestamp": "20260616_110304",
       "label": "bird",
       "score": 0.0,
@@ -19088,18 +19196,6 @@
       "clip": "wildlife/20260614_133145_bird.mp4",
       "source": "backfill",
       "nice_shot": 39.2
-    },
-    {
-      "timestamp": "20260617_055718",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260617_055718_scene.jpg",
-      "clip": null,
-      "nice_shot": 38.1
     },
     {
       "timestamp": "20260616_091803",
@@ -19582,67 +19678,7 @@
       "clip": "wildlife/20260614_074811_bird.mp4",
       "source": "backfill",
       "nice_shot": 19.1
-    },
-    {
-      "timestamp": "20260617_055518",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260617_055518_scene.jpg",
-      "clip": null,
-      "nice_shot": 19.0
-    },
-    {
-      "timestamp": "20260617_054717",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260617_054717_scene.jpg",
-      "clip": null,
-      "nice_shot": 16.7
-    },
-    {
-      "timestamp": "20260617_055318",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260617_055318_scene.jpg",
-      "clip": null,
-      "nice_shot": 4.7
-    },
-    {
-      "timestamp": "20260617_055118",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260617_055118_scene.jpg",
-      "clip": null,
-      "nice_shot": 2.2
-    },
-    {
-      "timestamp": "20260617_054917",
-      "label": "sunrise_scene",
-      "categories": [
-        "golden_hour/sunrise"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunrise/20260617_054917_scene.jpg",
-      "clip": null,
-      "nice_shot": 0.0
     }
   ],
-  "updated": "2026-06-17T06:00:26.018780"
+  "updated": "2026-06-17T07:00:18.699453"
 }
