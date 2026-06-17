@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-17T05:30:01Z",
+  "updated": "2026-06-17T06:00:11Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Overnight",
-      "start": "2026-06-17T00:00:00-05:00",
+      "start": "2026-06-17T01:00:00-05:00",
       "end": "2026-06-17T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 72,
       "wind_speed": "0 mph",
       "wind_dir": "",
-      "precip_pct": 0,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 72. Southeast wind around 0 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "precip_pct": 1,
+      "short": "Mostly Cloudy",
+      "detail": "Mostly cloudy, with a low around 72. Wind around 0 mph.",
+      "icon": "https://api.weather.gov/icons/land/night/bkn?size=medium"
     },
     {
       "number": 2,
@@ -29,7 +29,7 @@
       "temp_f": 92,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "E",
-      "precip_pct": 1,
+      "precip_pct": 0,
       "short": "Mostly Sunny",
       "detail": "Mostly sunny, with a high near 92. Heat index values as high as 103. East wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
