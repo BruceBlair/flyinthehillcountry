@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-17T03:30:01Z",
+  "updated": "2026-06-17T04:00:06Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-06-16T22:00:00-05:00",
+      "start": "2026-06-16T23:00:00-05:00",
       "end": "2026-06-17T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 72,
@@ -17,7 +17,7 @@
       "wind_dir": "",
       "precip_pct": 0,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 72. East southeast wind around 0 mph.",
+      "detail": "Partly cloudy, with a low around 72. Southeast wind around 0 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
