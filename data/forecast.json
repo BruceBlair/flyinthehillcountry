@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-17T07:30:03Z",
+  "updated": "2026-06-17T08:00:07Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Overnight",
-      "start": "2026-06-17T01:00:00-05:00",
+      "start": "2026-06-17T03:00:00-05:00",
       "end": "2026-06-17T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 72,
@@ -28,10 +28,10 @@
       "is_daytime": true,
       "temp_f": 93,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "E",
+      "wind_dir": "ENE",
       "precip_pct": 0,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 93. Heat index values as high as 105. East wind 0 to 5 mph.",
+      "detail": "Mostly sunny, with a high near 93. Heat index values as high as 105. East northeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
@@ -84,10 +84,10 @@
       "is_daytime": true,
       "temp_f": 93,
       "wind_speed": "5 to 10 mph",
-      "wind_dir": "ESE",
+      "wind_dir": "SE",
       "precip_pct": 20,
       "short": "Mostly Cloudy then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 1pm. Mostly cloudy, with a high near 93. East southeast wind 5 to 10 mph. Chance of precipitation is 20%.",
+      "detail": "A slight chance of showers and thunderstorms after 1pm. Mostly cloudy, with a high near 93. Southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/day/bkn/tsra_sct,20?size=medium"
     },
     {
@@ -101,7 +101,7 @@
       "wind_dir": "SE",
       "precip_pct": 36,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 77. Southeast wind 5 to 10 mph. Chance of precipitation is 40%.",
+      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 77. Southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 40%.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_sct,40?size=medium"
     },
     {
@@ -115,7 +115,7 @@
       "wind_dir": "SSE",
       "precip_pct": 50,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms. Partly sunny, with a high near 91. South southeast wind 5 to 10 mph. Chance of precipitation is 50%.",
+      "detail": "A chance of showers and thunderstorms. Partly sunny, with a high near 91. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 50%.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_sct,40/tsra_sct,50?size=medium"
     },
     {
@@ -129,7 +129,7 @@
       "wind_dir": "SSE",
       "precip_pct": 50,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 76. South southeast wind 5 to 10 mph. Chance of precipitation is 50%.",
+      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 76. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 50%.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_sct,50/tsra_sct,30?size=medium"
     },
     {
@@ -139,7 +139,7 @@
       "end": "2026-06-21T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 93,
-      "wind_speed": "5 to 15 mph",
+      "wind_speed": "10 to 15 mph",
       "wind_dir": "S",
       "precip_pct": 19,
       "short": "Slight Chance Showers And Thunderstorms then Mostly Sunny",
@@ -167,7 +167,7 @@
       "end": "2026-06-22T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 95,
-      "wind_speed": "10 to 15 mph",
+      "wind_speed": "10 mph",
       "wind_dir": "S",
       "precip_pct": 1,
       "short": "Mostly Sunny",
@@ -181,7 +181,7 @@
       "end": "2026-06-23T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 76,
-      "wind_speed": "5 to 15 mph",
+      "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
       "precip_pct": 1,
       "short": "Partly Cloudy",
