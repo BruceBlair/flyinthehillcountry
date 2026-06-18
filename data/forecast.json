@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-18T18:30:02Z",
+  "updated": "2026-06-18T19:00:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-06-18T12:00:00-05:00",
+      "start": "2026-06-18T14:00:00-05:00",
       "end": "2026-06-18T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 98,
@@ -17,7 +17,7 @@
       "wind_dir": "SSE",
       "precip_pct": 1,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 98. Heat index values as high as 114. South southeast wind around 10 mph, with gusts as high as 25 mph.",
+      "detail": "Sunny, with a high near 98. Heat index values as high as 117. South southeast wind around 10 mph, with gusts as high as 25 mph.",
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
@@ -29,10 +29,10 @@
       "temp_f": 79,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SE",
-      "precip_pct": 9,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 79. Heat index values as high as 114. Southeast wind 5 to 10 mph, with gusts as high as 25 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "precip_pct": 12,
+      "short": "Mostly Cloudy",
+      "detail": "Mostly cloudy, with a low around 79. Heat index values as high as 116. Southeast wind 5 to 10 mph, with gusts as high as 25 mph.",
+      "icon": "https://api.weather.gov/icons/land/night/bkn?size=medium"
     },
     {
       "number": 3,
@@ -40,13 +40,13 @@
       "start": "2026-06-19T06:00:00-05:00",
       "end": "2026-06-19T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 93,
+      "temp_f": 92,
       "wind_speed": "5 to 10 mph",
-      "wind_dir": "SE",
-      "precip_pct": 19,
-      "short": "Partly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 1pm. Partly sunny, with a high near 93. Heat index values as high as 107. Southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/bkn/tsra_sct,20?size=medium"
+      "wind_dir": "ESE",
+      "precip_pct": 30,
+      "short": "Chance Showers And Thunderstorms",
+      "detail": "A chance of showers and thunderstorms after 10am. Mostly cloudy, with a high near 92. Heat index values as high as 106. East southeast wind 5 to 10 mph. Chance of precipitation is 30%. New rainfall amounts between a tenth and quarter of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_sct,20/tsra_sct,30?size=medium"
     },
     {
       "number": 4,
@@ -57,10 +57,10 @@
       "temp_f": 77,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SE",
-      "precip_pct": 42,
+      "precip_pct": 39,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms before 1am, then a chance of showers and thunderstorms between 1am and 4am, then a chance of showers and thunderstorms. Mostly cloudy, with a low around 77. Heat index values as high as 105. Southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 40%.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_sct,40?size=medium"
+      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 77. Heat index values as high as 103. Southeast wind 5 to 10 mph. Chance of precipitation is 40%.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,40?size=medium"
     },
     {
       "number": 5,
@@ -71,9 +71,9 @@
       "temp_f": 91,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 53,
+      "precip_pct": 48,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms before 7am, then a chance of showers and thunderstorms between 7am and 1pm, then a chance of showers and thunderstorms. Partly sunny, with a high near 91. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 50%.",
+      "detail": "A chance of showers and thunderstorms. Partly sunny, with a high near 91. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 50%.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_sct,40/tsra_sct,50?size=medium"
     },
     {
@@ -85,10 +85,10 @@
       "temp_f": 76,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 53,
+      "precip_pct": 48,
       "short": "Chance Showers And Thunderstorms",
       "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 76. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 50%.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,50/tsra_hi,40?size=medium"
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,50/tsra_hi,20?size=medium"
     },
     {
       "number": 7,
@@ -99,7 +99,7 @@
       "temp_f": 94,
       "wind_speed": "10 to 15 mph",
       "wind_dir": "S",
-      "precip_pct": 16,
+      "precip_pct": 17,
       "short": "Slight Chance Showers And Thunderstorms then Mostly Sunny",
       "detail": "A slight chance of showers and thunderstorms before 7am. Mostly sunny, with a high near 94. South wind 10 to 15 mph, with gusts as high as 30 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_hi,20/sct?size=medium"
@@ -110,12 +110,12 @@
       "start": "2026-06-21T18:00:00-05:00",
       "end": "2026-06-22T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 76,
+      "temp_f": 77,
       "wind_speed": "10 to 15 mph",
       "wind_dir": "S",
-      "precip_pct": 6,
+      "precip_pct": 5,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76. South wind 10 to 15 mph, with gusts as high as 30 mph.",
+      "detail": "Mostly clear, with a low around 77. South wind 10 to 15 mph, with gusts as high as 30 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -124,12 +124,12 @@
       "start": "2026-06-22T06:00:00-05:00",
       "end": "2026-06-22T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 94,
-      "wind_speed": "10 mph",
+      "temp_f": 96,
+      "wind_speed": "10 to 15 mph",
       "wind_dir": "S",
-      "precip_pct": 1,
+      "precip_pct": 0,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 94. South wind around 10 mph, with gusts as high as 25 mph.",
+      "detail": "Mostly sunny, with a high near 96. South wind 10 to 15 mph, with gusts as high as 25 mph.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
@@ -138,12 +138,12 @@
       "start": "2026-06-22T18:00:00-05:00",
       "end": "2026-06-23T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 75,
-      "wind_speed": "5 to 10 mph",
+      "temp_f": 76,
+      "wind_speed": "5 to 15 mph",
       "wind_dir": "SSE",
-      "precip_pct": 2,
+      "precip_pct": 1,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75.",
+      "detail": "Mostly clear, with a low around 76.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -152,13 +152,13 @@
       "start": "2026-06-23T06:00:00-05:00",
       "end": "2026-06-23T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 93,
-      "wind_speed": "5 mph",
+      "temp_f": 95,
+      "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
-      "precip_pct": 15,
-      "short": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 1pm. Mostly sunny, with a high near 93. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,20?size=medium"
+      "precip_pct": 3,
+      "short": "Partly Sunny",
+      "detail": "Partly sunny, with a high near 95.",
+      "icon": "https://api.weather.gov/icons/land/day/bkn?size=medium"
     },
     {
       "number": 12,
@@ -166,13 +166,13 @@
       "start": "2026-06-23T18:00:00-05:00",
       "end": "2026-06-24T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 74,
-      "wind_speed": "5 mph",
-      "wind_dir": "S",
-      "precip_pct": 15,
-      "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
-      "detail": "A slight chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 74. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
+      "temp_f": 75,
+      "wind_speed": "5 to 10 mph",
+      "wind_dir": "SSE",
+      "precip_pct": 3,
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 75.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
       "number": 13,
@@ -180,12 +180,12 @@
       "start": "2026-06-24T06:00:00-05:00",
       "end": "2026-06-24T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 93,
+      "temp_f": 95,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
-      "precip_pct": 4,
+      "precip_pct": 1,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 93.",
+      "detail": "Mostly sunny, with a high near 95.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
@@ -197,10 +197,10 @@
       "temp_f": 73,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
-      "precip_pct": 4,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 73.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "precip_pct": 1,
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 73.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     }
   ]
 }
