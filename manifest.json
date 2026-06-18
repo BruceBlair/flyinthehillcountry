@@ -19896,7 +19896,40 @@
       "snapshot": null,
       "clip": "timelapse/20260616/20260616_day_2.mp4",
       "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260617_000000",
+      "label": "timelapse",
+      "section": "sunrise",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260617/20260617_sunrise.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260617_000000",
+      "label": "timelapse",
+      "section": "day_1",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260617/20260617_day_1.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260617_000000",
+      "label": "timelapse",
+      "section": "day_2",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260617/20260617_day_2.mp4",
+      "source": "daily-timelapse"
     }
   ],
-  "updated": "2026-06-17T11:36:27Z"
+  "updated": "2026-06-18T11:53:35Z"
 }
