@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-19T12:00:04Z",
+  "updated": "2026-06-19T12:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,15 +9,15 @@
     {
       "number": 1,
       "name": "Juneteenth",
-      "start": "2026-06-19T06:00:00-05:00",
+      "start": "2026-06-19T07:00:00-05:00",
       "end": "2026-06-19T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 92,
       "wind_speed": "5 to 10 mph",
-      "wind_dir": "ESE",
+      "wind_dir": "E",
       "precip_pct": 24,
       "short": "Partly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 1pm. Partly sunny, with a high near 92. Heat index values as high as 105. East southeast wind 5 to 10 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "detail": "A slight chance of showers and thunderstorms after 1pm. Partly sunny, with a high near 92. Heat index values as high as 105. East wind 5 to 10 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/day/bkn/tsra_sct,20?size=medium"
     },
     {
