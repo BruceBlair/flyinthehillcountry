@@ -1,18 +1,63 @@
 #!/usr/bin/env python3
 """
-push-nodes.py — Query InfluxDB for latest Ecowitt sensor readings,
-build data/nodes.json, and git-push to GitHub.
+push-nodes.py — Query InfluxDB for latest Ecowitt sensor readings across
+all 3 GTN stations, build data/nodes.json, and git-push to GitHub.
 
 Cron (every 5 min):
   */5 * * * * /usr/bin/python3 /home/HighlyReflective/weather-station/push-nodes.py >> /home/HighlyReflective/push-nodes.log 2>&1
 """
 
 import json, subprocess, sys, urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
-SCRIPT_DIR  = Path(__file__).parent
-NODES_FILE  = SCRIPT_DIR / "data" / "nodes.json"
+SCRIPT_DIR = Path(__file__).parent
+NODES_FILE = SCRIPT_DIR / "data" / "nodes.json"
+
+# ── Station config (surveyed coordinates; do not round or re-derive) ──────────
+STATIONS = [
+    {
+        "id":                  "HITHC-RIDGE-N",
+        "label":               "North Ridge",
+        "lat":                 30.017359,
+        "lon":                 -98.055174,
+        "elevation_ft":        1115,
+        "has_camera":          True,
+        "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
+        "prefix":              "gw3000b",
+    },
+    {
+        "id":           "HITHC-VALLEY-E",
+        "label":        "Valley East",
+        "lat":          30.017136,
+        "lon":          -98.053929,
+        "elevation_ft": 1065,
+        "has_camera":   False,
+        "prefix":       "ecowitt_station_2",
+    },
+    {
+        "id":           "HITHC-RIDGE-S",
+        "label":        "South Ridge",
+        "lat":          30.013861,
+        "lon":          -98.056806,
+        "elevation_ft": 1148,
+        "has_camera":   False,
+        "prefix":       None,  # gateway not yet ingesting
+    },
+]
+
+# Sensor entity suffix → nodes.json field (same for every station prefix)
+FIELD_SUFFIXES = {
+    "outdoor_temperature": "temp_f",
+    "humidity":            "humidity_pct",
+    "relative_pressure":   "pressure_msl_inhg",
+    "wind_speed":          "wind_speed_mph",
+    "wind_direction":      "wind_dir_deg",
+    "wind_gust":           "wind_gust_mph",
+    "rain_rate_piezo":     "rain_rate_in_hr",
+    "daily_rain_piezo":    "rain_daily_in",
+    "wh90_capacitor":      "_batt_v",
+}
 
 # ── Load .env ─────────────────────────────────────────────────────────────────
 def load_env(path):
@@ -25,34 +70,39 @@ def load_env(path):
         env[k.strip()] = v.strip()
     return env
 
-cfg           = load_env(SCRIPT_DIR / ".env")
-INFLUX_URL    = f"http://{cfg['NAS_IP']}:8086"
-INFLUX_TOKEN  = cfg["INFLUXDB_TOKEN"]
-NODE_LAT      = float(cfg.get("LATITUDE", "0"))
-NODE_LON      = float(cfg.get("LONGITUDE", "0"))
+cfg          = load_env(SCRIPT_DIR / ".env")
+INFLUX_URL   = f"http://{cfg['NAS_IP']}:8086"
+INFLUX_TOKEN = cfg["INFLUXDB_TOKEN"]
 
-# ── Sensor entity → nodes.json field mapping ──────────────────────────────────
-ENTITY_MAP = {
-    "gw3000b_outdoor_temperature": "temp_f",
-    "gw3000b_humidity":            "humidity_pct",
-    "gw3000b_relative_pressure":   "pressure_msl_inhg",
-    "gw3000b_wind_speed":          "wind_speed_mph",
-    "gw3000b_wind_direction":      "wind_dir_deg",
-    "gw3000b_wind_gust":           "wind_gust_mph",
-    "gw3000b_rain_rate_piezo":     "rain_rate_in_hr",
-    "gw3000b_daily_rain_piezo":    "rain_daily_in",
-    "gw3000b_wh90_capacitor":      "_batt_v",
-}
-
-# WH90 supercapacitor voltage → battery % (2.5 V = 0%, 5.0 V = 100%)
+# ── Helpers ───────────────────────────────────────────────────────────────────
 def batt_pct(v):
+    """WH90 supercapacitor voltage → battery % (2.5 V = 0%, 5.0 V = 100%)"""
     if v is None:
         return None
     return round(max(0.0, min(100.0, (v - 2.5) / (5.0 - 2.5) * 100)), 1)
 
+def station_status(last_seen_dt):
+    """Derive status string from last reading timestamp."""
+    if last_seen_dt is None:
+        return "offline"
+    age = datetime.now(timezone.utc) - last_seen_dt
+    if age < timedelta(minutes=10):
+        return "active"
+    if age < timedelta(hours=1):
+        return "stale"
+    return "offline"
+
 # ── InfluxDB query ────────────────────────────────────────────────────────────
 def fetch_latest():
-    entity_filter = "|".join(ENTITY_MAP.keys())
+    """Return {entity_id: (value, last_seen_datetime)} for all known entities."""
+    all_prefixes = [s["prefix"] for s in STATIONS if s["prefix"]]
+    entity_ids = [
+        f"{prefix}_{suffix}"
+        for prefix in all_prefixes
+        for suffix in FIELD_SUFFIXES
+    ]
+    entity_filter = "|".join(entity_ids)
+
     flux = f"""from(bucket: "sensor_data")
   |> range(start: -48h)
   |> filter(fn: (r) => r._field == "value")
@@ -70,83 +120,97 @@ def fetch_latest():
         method="POST",
     )
     with urllib.request.urlopen(req, timeout=10) as resp:
-        csv = resp.read().decode()
+        csv_text = resp.read().decode()
 
-    # Annotated CSV: data lines start with ",_result"
-    # Columns: ,result,table,_time,_value,entity_id
+    # Annotated CSV columns (after keep): ,result,table,_time,_value,entity_id
     results = {}
-    for line in csv.splitlines():
+    for line in csv_text.splitlines():
         if not line.startswith(",_result"):
             continue
         parts = line.split(",")
         try:
-            results[parts[5]] = float(parts[4])  # entity_id → value
+            entity_id = parts[5]
+            value     = float(parts[4])
+            ts_str    = parts[3].rstrip("Z")
+            last_seen = datetime.fromisoformat(ts_str).replace(tzinfo=timezone.utc)
         except (ValueError, IndexError):
             continue
+        # Keep the most recent reading if entity_id appears in multiple tables.
+        if entity_id not in results or last_seen > results[entity_id][1]:
+            results[entity_id] = (value, last_seen)
     return results
+
+# ── Build per-station current readings ───────────────────────────────────────
+def build_current(raw, prefix):
+    """Build the `current` block for one station; returns (block_dict, last_seen)."""
+    last_seen = None
+    values = {}
+    for suffix, field in FIELD_SUFFIXES.items():
+        entity_id = f"{prefix}_{suffix}"
+        if entity_id in raw:
+            v, ts = raw[entity_id]
+            values[field] = v
+            if last_seen is None or ts > last_seen:
+                last_seen = ts
+        else:
+            values[field] = None
+
+    current = {
+        "timestamp":         last_seen.strftime("%Y-%m-%dT%H:%M:%SZ") if last_seen else None,
+        "temp_f":            round(values["temp_f"], 2) if values["temp_f"] is not None else None,
+        "humidity_pct":      round(values["humidity_pct"], 2) if values["humidity_pct"] is not None else None,
+        "pressure_msl_inhg": round(values["pressure_msl_inhg"], 2) if values["pressure_msl_inhg"] is not None else None,
+        "wind_speed_mph":    round(values["wind_speed_mph"], 2) if values["wind_speed_mph"] is not None else None,
+        "wind_dir_deg":      round(values["wind_dir_deg"], 2) if values["wind_dir_deg"] is not None else None,
+        "wind_gust_mph":     round(values["wind_gust_mph"], 2) if values["wind_gust_mph"] is not None else None,
+        "rain_rate_in_hr":   round(values["rain_rate_in_hr"], 2) if values["rain_rate_in_hr"] is not None else None,
+        "rain_daily_in":     round(values["rain_daily_in"], 2) if values["rain_daily_in"] is not None else None,
+        "battery_pct":       batt_pct(values["_batt_v"]),
+        "rssi_dbm":          None,
+    }
+    return current, last_seen
 
 # ── Build nodes.json ──────────────────────────────────────────────────────────
 def build_nodes(raw):
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    nodes = []
+    for s in STATIONS:
+        node = {
+            "id":           s["id"],
+            "label":        s["label"],
+            "lat":          s["lat"],
+            "lon":          s["lon"],
+            "elevation_ft": s["elevation_ft"],
+            "has_camera":   s["has_camera"],
+        }
+        if s.get("camera_snapshot_url"):
+            node["camera_snapshot_url"] = s["camera_snapshot_url"]
 
-    def get(entity_id):
-        v = raw.get(entity_id)
-        return round(v, 2) if v is not None else None
+        if s["prefix"] is None:
+            node["status"]  = "offline"
+            node["current"] = None
+        else:
+            current, last_seen = build_current(raw, s["prefix"])
+            node["status"]  = station_status(last_seen)
+            node["current"] = current
 
-    current = {
-        "timestamp":         now,
-        "temp_f":            get("gw3000b_outdoor_temperature"),
-        "humidity_pct":      get("gw3000b_humidity"),
-        "pressure_msl_inhg": get("gw3000b_relative_pressure"),
-        "wind_speed_mph":    get("gw3000b_wind_speed"),
-        "wind_dir_deg":      get("gw3000b_wind_direction"),
-        "wind_gust_mph":     get("gw3000b_wind_gust"),
-        "rain_rate_in_hr":   get("gw3000b_rain_rate_piezo"),
-        "rain_daily_in":     get("gw3000b_daily_rain_piezo"),
-        "battery_pct":       batt_pct(raw.get("gw3000b_wh90_capacitor")),
-        "rssi_dbm":          None,
-    }
+        nodes.append(node)
 
-    return {
-        "updated": now,
-        "nodes": [
-            {
-                "id":                  "HITHC-RIDGE-N",
-                "label":               "North Ridge",
-                "status":              "active",
-                "lat":                 NODE_LAT,
-                "lon":                 NODE_LON,
-                "elevation_ft":        None,
-                "has_camera":          True,
-                "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
-                "current":             current,
-            },
-            {
-                "id":           "HITHC-RIDGE-W",
-                "label":        "West Ridge",
-                "status":       "planned",
-                "lat":          None,
-                "lon":          None,
-                "elevation_ft": None,
-                "has_camera":   False,
-                "current":      None,
-                "notes":        "Node placement target — weather only",
-            },
-            {
-                "id":           "HITHC-RIDGE-NW",
-                "label":        "Northwest Ridge",
-                "status":       "planned",
-                "lat":          None,
-                "lon":          None,
-                "elevation_ft": None,
-                "has_camera":   False,
-                "current":      None,
-                "notes":        "Node placement target — weather only",
-            },
-        ],
-    }
+    return {"updated": now, "nodes": nodes}
 
 # ── Git commit + push ─────────────────────────────────────────────────────────
+def _git_push_with_retry(repo, branch="main", attempts=3):
+    for _ in range(attempts):
+        r = subprocess.run(["git", "-C", repo, "push", "origin", branch],
+                           capture_output=True, check=False)
+        if r.returncode == 0:
+            return
+        subprocess.run(["git", "-C", repo, "fetch", "origin", "--quiet"], check=False)
+        subprocess.run(["git", "-C", repo, "merge", f"origin/{branch}", "-X", "ours",
+                        "--no-edit", "-q", "-m", "merge: sync remote data commits"],
+                       check=False)
+    raise subprocess.CalledProcessError(1, "git push", b"Push failed after retries")
+
 def git_push(file_path):
     rel = str(file_path.relative_to(SCRIPT_DIR))
     subprocess.run(["git", "-C", str(SCRIPT_DIR), "add", rel], check=True)
@@ -161,8 +225,7 @@ def git_push(file_path):
         ["git", "-C", str(SCRIPT_DIR), "commit", "-m", f"data: nodes.json {ts} UTC"],
         check=True,
     )
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--autostash", "--quiet"], check=False)
-    subprocess.run(["git", "-C", str(SCRIPT_DIR), "push"], check=True)
+    _git_push_with_retry(str(SCRIPT_DIR))
     print(f"Pushed nodes.json ({ts} UTC)")
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -172,8 +235,8 @@ if __name__ == "__main__":
         raw   = fetch_latest()
         nodes = build_nodes(raw)
         NODES_FILE.write_text(json.dumps(nodes, indent=2))
-        non_null = sum(1 for v in nodes["nodes"][0]["current"].values() if v is not None)
-        print(f"Wrote nodes.json ({len(raw)} sensors, {non_null}/10 fields populated)")
+        statuses = {n["id"]: n["status"] for n in nodes["nodes"]}
+        print(f"Wrote nodes.json ({len(raw)} entities) — {statuses}")
         git_push(NODES_FILE)
     except Exception as e:
         print(f"ERROR: {e}", file=sys.stderr)

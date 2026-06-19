@@ -477,14 +477,9 @@
   (function () {
     'use strict';
 
-    // Fall-back coords for HITHC-RIDGE-N (matches .env LATITUDE/LONGITUDE)
-    const DEFAULT_LAT = 30.0102;
-    const DEFAULT_LON = -98.03183;
-    // Approximate offsets for planned nodes (pending field survey)
-    const PLANNED_OFFSETS = {
-      'HITHC-RIDGE-W':  [0,      -0.009],
-      'HITHC-RIDGE-NW': [0.006,  -0.009],
-    };
+    // Fall-back coords (used only if a node arrives without lat/lon)
+    const DEFAULT_LAT = 30.017359;
+    const DEFAULT_LON = -98.055174;
 
     let leafletMap = null;
     const markerMap = {};
@@ -579,8 +574,7 @@
 
     function nodeCoords(node) {
       if (node.lat != null && node.lon != null) return [node.lat, node.lon];
-      const off = PLANNED_OFFSETS[node.id] || [0, 0];
-      return [DEFAULT_LAT + off[0], DEFAULT_LON + off[1]];
+      return [DEFAULT_LAT, DEFAULT_LON];
     }
 
     function buildIcon(node) {
