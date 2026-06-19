@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-19T21:30:02Z",
+  "updated": "2026-06-19T22:00:07Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Juneteenth",
-      "start": "2026-06-19T15:00:00-05:00",
+      "start": "2026-06-19T17:00:00-05:00",
       "end": "2026-06-19T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 90,
-      "wind_speed": "5 to 10 mph",
+      "temp_f": 87,
+      "wind_speed": "10 mph",
       "wind_dir": "ENE",
-      "precip_pct": 48,
-      "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms before 4pm, then a chance of showers and thunderstorms. Mostly cloudy, with a high near 90. Heat index values as high as 103. East northeast wind 5 to 10 mph. Chance of precipitation is 50%.",
-      "icon": "https://api.weather.gov/icons/land/day/tsra_sct,50?size=medium"
+      "precip_pct": 14,
+      "short": "Partly Sunny",
+      "detail": "Partly sunny, with a high near 87. East northeast wind around 10 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/bkn?size=medium"
     },
     {
       "number": 2,
@@ -26,13 +26,13 @@
       "start": "2026-06-19T18:00:00-05:00",
       "end": "2026-06-20T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 77,
+      "temp_f": 75,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SE",
-      "precip_pct": 48,
+      "precip_pct": 39,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms before 10pm, then a chance of showers and thunderstorms between 10pm and 1am, then a slight chance of showers and thunderstorms. Mostly cloudy, with a low around 77. Heat index values as high as 102. Southeast wind 5 to 10 mph. Chance of precipitation is 50%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_sct,50/tsra_sct,40?size=medium"
+      "detail": "A chance of showers and thunderstorms after 7pm. Mostly cloudy, with a low around 75. Southeast wind 5 to 10 mph. Chance of precipitation is 40%. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_sct,30/tsra_sct,40?size=medium"
     },
     {
       "number": 3,
@@ -40,12 +40,12 @@
       "start": "2026-06-20T06:00:00-05:00",
       "end": "2026-06-20T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 92,
+      "temp_f": 90,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SE",
-      "precip_pct": 30,
+      "precip_pct": 29,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms. Mostly sunny, with a high near 92. Heat index values as high as 103. Southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 30%. New rainfall amounts less than a tenth of an inch possible.",
+      "detail": "A chance of showers and thunderstorms. Mostly sunny, with a high near 90. Heat index values as high as 101. Southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 30%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_hi,30?size=medium"
     },
     {
@@ -57,9 +57,9 @@
       "temp_f": 77,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 30,
+      "precip_pct": 29,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms. Partly cloudy, with a low around 77. Heat index values as high as 100. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 30%.",
+      "detail": "A chance of showers and thunderstorms. Partly cloudy, with a low around 77. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 30%.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/tsra_hi,20?size=medium"
     },
     {
