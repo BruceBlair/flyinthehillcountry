@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-19T12:30:03Z",
+  "updated": "2026-06-19T13:00:09Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Juneteenth",
-      "start": "2026-06-19T07:00:00-05:00",
+      "start": "2026-06-19T08:00:00-05:00",
       "end": "2026-06-19T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 92,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "E",
-      "precip_pct": 24,
-      "short": "Partly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 1pm. Partly sunny, with a high near 92. Heat index values as high as 105. East wind 5 to 10 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/bkn/tsra_sct,20?size=medium"
+      "precip_pct": 46,
+      "short": "Chance Showers And Thunderstorms",
+      "detail": "A chance of showers and thunderstorms after 10am. Partly sunny, with a high near 92. Heat index values as high as 105. East wind 5 to 10 mph. Chance of precipitation is 50%. New rainfall amounts between a quarter and half of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_sct,20/tsra_sct,50?size=medium"
     },
     {
       "number": 2,
@@ -31,7 +31,7 @@
       "wind_dir": "SE",
       "precip_pct": 30,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 77. Heat index values as high as 102. Southeast wind 5 to 10 mph. Chance of precipitation is 30%. New rainfall amounts between a tenth and quarter of an inch possible.",
+      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 77. Heat index values as high as 102. Southeast wind 5 to 10 mph. Chance of precipitation is 30%. New rainfall amounts between a half and three quarters of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_sct,30?size=medium"
     },
     {
