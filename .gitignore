@@ -25,15 +25,6 @@ Thumbs.db
 # Environment variables
 .env
 
-# Media directories — managed by github-pages-repo sync.sh, not tracked here
-weather/
-wildlife/
-golden_hour/
-stars/
-timelapse/
-panoramas/
-snapshots/
-
 # Home Assistant runtime files
 homeassistant/config/secrets.yaml
 homeassistant/config/*.db
