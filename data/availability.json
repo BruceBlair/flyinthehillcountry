@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-19T05:05:02Z",
+  "updated": "2026-06-20T05:05:01Z",
   "coverage_phases": [
     {
       "start": "2026-03-10",
@@ -803,12 +803,7 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260615/20260615_sunrise.mp4",
-        "day_1": "timelapse/20260615/20260615_day_1.mp4",
-        "day_2": "timelapse/20260615/20260615_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-06-16": {
       "photos": true,
@@ -816,12 +811,7 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260616/20260616_sunrise.mp4",
-        "day_1": "timelapse/20260616/20260616_day_1.mp4",
-        "day_2": "timelapse/20260616/20260616_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-06-17": {
       "photos": true,
@@ -829,26 +819,29 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260617/20260617_sunrise.mp4",
-        "day_1": "timelapse/20260617/20260617_day_1.mp4",
-        "day_2": "timelapse/20260617/20260617_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-06-18": {
-      "photos": false,
+      "photos": true,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": true
+    },
+    "2026-06-19": {
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
       "timelapse": false
     },
-    "2026-06-19": {
+    "2026-06-20": {
       "photos": false,
       "weather": true,
       "video_continuous": true,
-      "video_events": false,
+      "video_events": true,
       "video_founding": false,
       "timelapse": false
     }
