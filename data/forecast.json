@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-20T05:00:04Z",
+  "updated": "2026-06-20T05:30:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -15,10 +15,10 @@
       "temp_f": 76,
       "wind_speed": "5 mph",
       "wind_dir": "SE",
-      "precip_pct": 39,
+      "precip_pct": 45,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 76. Southeast wind around 5 mph. Chance of precipitation is 40%. New rainfall amounts between a quarter and half of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra,40?size=medium"
+      "detail": "A chance of showers and thunderstorms. Mostly cloudy, with a low around 76. Southeast wind around 5 mph. Chance of precipitation is 50%. New rainfall amounts between a quarter and half of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra,50?size=medium"
     },
     {
       "number": 2,
