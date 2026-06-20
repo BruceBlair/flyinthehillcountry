@@ -20724,6 +20724,20 @@
       "nice_shot": 42.3
     },
     {
+      "timestamp": "20260620_145756",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1781985476.487139-nesd5g",
+      "snapshot": "wildlife/20260620_145756_bear.jpg",
+      "clip": "wildlife/20260620_145756_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 42.2
+    },
+    {
       "timestamp": "20260616_121055",
       "label": "bear",
       "score": 0.0,
@@ -22262,5 +22276,5 @@
       "nice_shot": 19.1
     }
   ],
-  "updated": "2026-06-20T14:00:21.355980"
+  "updated": "2026-06-20T15:00:21.765502"
 }
