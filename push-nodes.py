@@ -29,9 +29,9 @@ STATIONS = [
     {
         "id":           "HITHC-VALLEY-E",
         "label":        "Valley East",
-        "lat":          30.017136,
-        "lon":          -98.053929,
-        "elevation_ft": 1065,
+        "lat":          30.017007,
+        "lon":          -98.053447,
+        "elevation_ft": 1000,
         "has_camera":   False,
         "prefix":       "ecowitt_station_2",
     },
