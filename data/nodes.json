@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-21T14:15:02Z",
+  "updated": "2026-06-21T14:20:01Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -11,13 +11,13 @@
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "status": "active",
       "current": {
-        "timestamp": "2026-06-21T14:14:58Z",
-        "temp_f": 74.66,
+        "timestamp": "2026-06-21T14:19:58Z",
+        "temp_f": 75.2,
         "humidity_pct": 99.0,
-        "pressure_msl_inhg": 29.9,
-        "wind_speed_mph": 5.37,
-        "wind_dir_deg": 225.0,
-        "wind_gust_mph": 8.5,
+        "pressure_msl_inhg": 29.91,
+        "wind_speed_mph": 4.92,
+        "wind_dir_deg": 229.0,
+        "wind_gust_mph": 6.93,
         "rain_rate_in_hr": 0.0,
         "rain_daily_in": 0.08,
         "battery_pct": 80.0,
@@ -33,13 +33,13 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-06-21T14:14:15Z",
-        "temp_f": 74.84,
+        "timestamp": "2026-06-21T14:19:15Z",
+        "temp_f": 75.56,
         "humidity_pct": 99.0,
-        "pressure_msl_inhg": 29.78,
+        "pressure_msl_inhg": 29.77,
         "wind_speed_mph": 0.0,
-        "wind_dir_deg": 135.0,
-        "wind_gust_mph": 1.34,
+        "wind_dir_deg": 128.0,
+        "wind_gust_mph": 2.01,
         "rain_rate_in_hr": 0.0,
         "rain_daily_in": 0.79,
         "battery_pct": 80.0,
@@ -55,16 +55,16 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-06-21T14:14:20Z",
-        "temp_f": 74.3,
+        "timestamp": "2026-06-21T14:19:20Z",
+        "temp_f": 75.38,
         "humidity_pct": 99.0,
-        "pressure_msl_inhg": 29.63,
+        "pressure_msl_inhg": 29.64,
         "wind_speed_mph": 0.0,
-        "wind_dir_deg": 256.0,
-        "wind_gust_mph": 0.0,
+        "wind_dir_deg": 309.0,
+        "wind_gust_mph": 1.34,
         "rain_rate_in_hr": 0.0,
         "rain_daily_in": 0.0,
-        "battery_pct": 72.0,
+        "battery_pct": 76.0,
         "rssi_dbm": null
       }
     }
