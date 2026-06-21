@@ -205,10 +205,19 @@ def _git_push_with_retry(repo, branch="main", attempts=3):
                            capture_output=True, check=False)
         if r.returncode == 0:
             return
+        # Sync index to remote without touching the working tree, then re-apply
+        # nodes.json only.  Avoids merge conflicts from dirty tracked files
+        # (automations.yaml) and untracked files that are tracked on remote.
         subprocess.run(["git", "-C", repo, "fetch", "origin", "--quiet"], check=False)
-        subprocess.run(["git", "-C", repo, "merge", f"origin/{branch}", "-X", "ours",
-                        "--no-edit", "-q", "-m", "merge: sync remote data commits"],
+        subprocess.run(["git", "-C", repo, "reset", "--mixed", f"origin/{branch}"],
                        check=False)
+        subprocess.run(["git", "-C", repo, "add", "data/nodes.json"], check=False)
+        diff = subprocess.run(["git", "-C", repo, "diff", "--cached", "--quiet"],
+                              check=False)
+        if diff.returncode != 0:
+            ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
+            subprocess.run(["git", "-C", repo, "commit", "-m",
+                            f"data: nodes.json {ts} UTC"], check=False)
     raise subprocess.CalledProcessError(1, "git push", b"Push failed after retries")
 
 def git_push(file_path):
