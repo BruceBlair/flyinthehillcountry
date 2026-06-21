@@ -42,7 +42,7 @@ STATIONS = [
         "lon":          -98.056806,
         "elevation_ft": 1148,
         "has_camera":   False,
-        "prefix":       None,  # gateway not yet ingesting
+        "prefix":       "southside1",
     },
 ]
 
