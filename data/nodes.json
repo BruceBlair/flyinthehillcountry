@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-22T10:10:05Z",
+  "updated": "2026-06-22T10:15:03Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -11,13 +11,13 @@
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "status": "active",
       "current": {
-        "timestamp": "2026-06-22T10:09:56Z",
+        "timestamp": "2026-06-22T10:14:56Z",
         "temp_f": 77.9,
         "humidity_pct": 91.0,
-        "pressure_msl_inhg": 29.87,
-        "wind_speed_mph": 13.42,
-        "wind_dir_deg": 221.0,
-        "wind_gust_mph": 15.88,
+        "pressure_msl_inhg": 29.88,
+        "wind_speed_mph": 6.49,
+        "wind_dir_deg": 200.0,
+        "wind_gust_mph": 11.63,
         "rain_rate_in_hr": 0.0,
         "rain_daily_in": 0.0,
         "battery_pct": 84.0,
