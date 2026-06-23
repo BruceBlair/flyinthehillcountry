@@ -33,16 +33,16 @@ STATIONS = [
         "lon":          -98.053447,
         "elevation_ft": 1000,
         "has_camera":   False,
-        "prefix":       "ecowitt_station_2",
+        "prefix":       "southside1",
     },
     {
         "id":           "HITHC-RIDGE-S",
         "label":        "South Ridge",
-        "lat":          30.013861,
-        "lon":          -98.056806,
+        "lat":          30.013502,
+        "lon":          -98.056737,
         "elevation_ft": 1148,
         "has_camera":   False,
-        "prefix":       "southside1",
+        "prefix":       "ecowitt_station_2",
     },
 ]
 
