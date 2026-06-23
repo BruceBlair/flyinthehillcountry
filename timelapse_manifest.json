@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "session_key": "20260615_sunrise",
+      "date": "2026-06-15",
+      "type": "sunrise",
+      "label": "20260615_sunrise",
+      "frame_count": 360,
+      "video": "20260615_sunrise_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-15T05:35:30.669094",
+      "end": "2026-06-15T06:35:30.669094",
+      "created": "2026-06-22T14:14:43.601344"
+    },
+    {
+      "session_key": "20260614_sunrise",
+      "date": "2026-06-14",
+      "type": "sunrise",
+      "label": "20260614_sunrise",
+      "frame_count": 360,
+      "video": "20260614_sunrise_timelapse.mp4",
+      "thumbnail": "",
+      "source": "frigate_extract",
+      "start": "2026-06-14T05:35:29.240230",
+      "end": "2026-06-14T06:35:29.240230",
+      "created": "2026-06-22T13:48:02.863235"
+    },
+    {
       "session_key": "20260506_sunset",
       "date": "2026-05-06",
       "type": "sunset",
@@ -816,5 +842,5 @@
       "created": "2026-05-10T08:31:15.224261"
     }
   ],
-  "updated": "2026-06-13T14:15:36.799170"
+  "updated": "2026-06-22T14:14:43.601402"
 }
