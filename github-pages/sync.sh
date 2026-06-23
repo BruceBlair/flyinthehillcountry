@@ -78,19 +78,18 @@ if held:
     print(f"Auth-held: {len(held)} entries excluded from sync", flush=True)
 PYEOF
 
-# ── Sync highlights (images + JSON; clips capped at 100 MB) ──────────────────
+# ── Sync highlights (images + JSON only; mp4s excluded to stay under 1GB Pages limit) ──
 log "Syncing highlights from $HIGHLIGHTS_SRC..."
 rsync -av --delete \
   --exclude=".git"             \
   --exclude="manifest.json"    \
   --exclude="data/"            \
+  --exclude="*.mp4"            \
   --exclude-from="$EXCLUDE_FILE" \
   --include="*/"               \
   --include="*.jpg"            \
   --include="*.json"           \
-  --include="*.mp4"            \
   --exclude="*"                \
-  --max-size=100m              \
   "$HIGHLIGHTS_SRC/" "$PAGES_REPO/"
 
 # Write the filtered manifest (auth-held entries stripped)
@@ -115,7 +114,9 @@ if [ -z "$BRANCH" ]; then
 fi
 
 _pull_rebase() {
-  if ! "$GIT" pull --rebase --quiet; then
+  # -X theirs: when replaying our local commits, keep our manifest.json on conflict.
+  # (In rebase, "theirs" = the commit being replayed, i.e. our local work.)
+  if ! "$GIT" pull --rebase -X theirs --quiet; then
     "$GIT" rebase --abort 2>/dev/null || true
     log "ERROR: pull --rebase failed; aborting. Remote and local may have diverged."
     return 1
