@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-24T20:00:03Z",
+  "updated": "2026-06-24T20:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-06-24T14:00:00-05:00",
+      "start": "2026-06-24T15:00:00-05:00",
       "end": "2026-06-24T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 94,
@@ -18,7 +18,7 @@
       "precip_pct": 0,
       "short": "Sunny",
       "detail": "Sunny, with a high near 94. South wind around 10 mph, with gusts as high as 25 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
+      "icon": "https://api.weather.gov/icons/land/day/skc?size=medium"
     },
     {
       "number": 2,
