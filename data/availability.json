@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-23T05:05:02Z",
+  "updated": "2026-06-24T12:38:48Z",
   "coverage_phases": [
     {
       "start": "2026-03-10",
@@ -874,9 +874,22 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": false
+      "timelapse": true
     },
     "2026-06-23": {
+      "photos": false,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": true,
+      "timelapse_sections": {
+        "sunrise": "timelapse/20260623/20260623_sunrise.mp4",
+        "day_1": "timelapse/20260623/20260623_day_1.mp4",
+        "day_2": "timelapse/20260623/20260623_day_2.mp4"
+      }
+    },
+    "2026-06-24": {
       "photos": false,
       "weather": true,
       "video_continuous": true,
