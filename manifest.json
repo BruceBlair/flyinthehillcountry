@@ -23528,6 +23528,30 @@
       "nice_shot": 43.2
     },
     {
+      "timestamp": "20260624_210205",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260624_210205_scene.jpg",
+      "clip": null,
+      "nice_shot": 38.6
+    },
+    {
+      "timestamp": "20260624_210405",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260624_210405_scene.jpg",
+      "clip": null,
+      "nice_shot": 38.5
+    },
+    {
       "timestamp": "20260624_210005",
       "label": "sunset_scene",
       "categories": [
@@ -23540,6 +23564,18 @@
       "nice_shot": 38.3
     },
     {
+      "timestamp": "20260624_210529",
+      "label": "sunset",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260624_210529_scene.jpg",
+      "clip": null,
+      "nice_shot": 38.0
+    },
+    {
       "timestamp": "20260624_205605",
       "label": "sunset_scene",
       "categories": [
@@ -23550,6 +23586,18 @@
       "snapshot": "golden_hour/sunset/20260624_205605_scene.jpg",
       "clip": null,
       "nice_shot": 37.9
+    },
+    {
+      "timestamp": "20260624_210605",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260624_210605_scene.jpg",
+      "clip": null,
+      "nice_shot": 37.7
     },
     {
       "timestamp": "20260624_205805",
@@ -23576,6 +23624,18 @@
       "nice_shot": 37.5
     },
     {
+      "timestamp": "20260624_210805",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260624_210805_scene.jpg",
+      "clip": null,
+      "nice_shot": 37.3
+    },
+    {
       "timestamp": "20260624_202203",
       "label": "sunset_scene",
       "categories": [
@@ -23586,18 +23646,6 @@
       "snapshot": "golden_hour/sunset/20260624_202203_scene.jpg",
       "clip": null,
       "nice_shot": 36.8
-    },
-    {
-      "timestamp": "20260624_202403",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260624_202403_scene.jpg",
-      "clip": null,
-      "nice_shot": 36.7
     },
     {
       "timestamp": "20260624_153209",
@@ -23670,30 +23718,6 @@
       "nice_shot": 36.4
     },
     {
-      "timestamp": "20260624_202603",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260624_202603_scene.jpg",
-      "clip": null,
-      "nice_shot": 36.4
-    },
-    {
-      "timestamp": "20260624_202003",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260624_202003_scene.jpg",
-      "clip": null,
-      "nice_shot": 36.4
-    },
-    {
       "timestamp": "20260624_153326",
       "label": "bird",
       "score": 0.0,
@@ -23708,18 +23732,6 @@
       "nice_shot": 36.3
     },
     {
-      "timestamp": "20260624_205204",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260624_205204_scene.jpg",
-      "clip": null,
-      "nice_shot": 36.3
-    },
-    {
       "timestamp": "20260624_153229",
       "label": "bird",
       "score": 0.0,
@@ -23731,18 +23743,6 @@
       "snapshot": "wildlife/20260624_153229_bird.jpg",
       "clip": "wildlife/20260624_153229_bird.mp4",
       "source": "backfill",
-      "nice_shot": 36.2
-    },
-    {
-      "timestamp": "20260624_203003",
-      "label": "sunset_scene",
-      "categories": [
-        "golden_hour/sunset"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/sunset/20260624_203003_scene.jpg",
-      "clip": null,
       "nice_shot": 36.2
     },
     {
@@ -23858,5 +23858,5 @@
       "nice_shot": 35.4
     }
   ],
-  "updated": "2026-06-24T21:01:30.877019"
+  "updated": "2026-06-24T22:01:48.970645"
 }
