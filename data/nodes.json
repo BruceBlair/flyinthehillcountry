@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-26T09:40:01Z",
+  "updated": "2026-06-26T09:45:01Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -11,16 +11,16 @@
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "status": "active",
       "current": {
-        "timestamp": "2026-06-26T09:39:47Z",
+        "timestamp": "2026-06-26T09:44:47Z",
         "temp_f": 74.48,
         "humidity_pct": 91.0,
-        "pressure_msl_inhg": 30.0,
-        "wind_speed_mph": 3.36,
-        "wind_dir_deg": 252.0,
-        "wind_gust_mph": 9.84,
+        "pressure_msl_inhg": 29.99,
+        "wind_speed_mph": 6.93,
+        "wind_dir_deg": 235.0,
+        "wind_gust_mph": 8.72,
         "rain_rate_in_hr": null,
         "rain_daily_in": null,
-        "battery_pct": 88.0,
+        "battery_pct": 84.0,
         "rssi_dbm": null
       }
     },
@@ -33,13 +33,13 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-06-26T09:39:34Z",
-        "temp_f": 74.3,
+        "timestamp": "2026-06-26T09:44:34Z",
+        "temp_f": 74.48,
         "humidity_pct": 91.0,
-        "pressure_msl_inhg": 29.72,
+        "pressure_msl_inhg": 29.73,
         "wind_speed_mph": 0.0,
-        "wind_dir_deg": 4.0,
-        "wind_gust_mph": 4.47,
+        "wind_dir_deg": 26.0,
+        "wind_gust_mph": 2.24,
         "rain_rate_in_hr": 0.0,
         "rain_daily_in": 0.0,
         "battery_pct": 84.0,
@@ -55,16 +55,16 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-06-26T09:39:51Z",
+        "timestamp": "2026-06-26T09:44:51Z",
         "temp_f": 74.12,
         "humidity_pct": 93.0,
-        "pressure_msl_inhg": 29.86,
+        "pressure_msl_inhg": 29.85,
         "wind_speed_mph": 0.0,
-        "wind_dir_deg": 352.0,
-        "wind_gust_mph": 2.24,
+        "wind_dir_deg": 324.0,
+        "wind_gust_mph": 2.01,
         "rain_rate_in_hr": null,
         "rain_daily_in": null,
-        "battery_pct": 88.0,
+        "battery_pct": 84.0,
         "rssi_dbm": null
       }
     }
