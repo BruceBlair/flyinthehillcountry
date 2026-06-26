@@ -22539,6 +22539,20 @@
       "nice_shot": 45.4
     },
     {
+      "timestamp": "20260626_153106",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782505866.42255-wuggi2",
+      "snapshot": "wildlife/20260626_153106_dog.jpg",
+      "clip": "wildlife/20260626_153106_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 45.3
+    },
+    {
       "timestamp": "20260623_145915",
       "label": "dog",
       "score": 0.0,
@@ -23215,5 +23229,5 @@
       "nice_shot": 37.5
     }
   ],
-  "updated": "2026-06-26T15:00:35.807736"
+  "updated": "2026-06-26T16:00:35.854135"
 }
