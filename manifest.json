@@ -24027,6 +24027,20 @@
       "nice_shot": 43.3
     },
     {
+      "timestamp": "20260627_140551",
+      "label": "cat",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782587151.773452-81fgdm",
+      "snapshot": "wildlife/20260627_140551_cat.jpg",
+      "clip": "wildlife/20260627_140551_cat.mp4",
+      "source": "backfill",
+      "nice_shot": 42.9
+    },
+    {
       "timestamp": "20260626_172408",
       "label": "bear",
       "score": 0.0,
@@ -24349,6 +24363,20 @@
       "nice_shot": 32.7
     },
     {
+      "timestamp": "20260627_145047",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782589847.634073-dpuk3d",
+      "snapshot": "wildlife/20260627_145047_dog.jpg",
+      "clip": "wildlife/20260627_145047_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 32.2
+    },
+    {
       "timestamp": "20260626_172638",
       "label": "bear",
       "score": 0.0,
@@ -24363,5 +24391,5 @@
       "nice_shot": 31.6
     }
   ],
-  "updated": "2026-06-27T14:01:00.595251"
+  "updated": "2026-06-27T15:01:02.829367"
 }
