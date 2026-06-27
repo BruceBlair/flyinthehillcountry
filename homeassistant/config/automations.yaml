@@ -68,7 +68,7 @@
     - action: mqtt.publish
       data:
         topic: cameras/snapshots/golden_hour
-        payload_template: >
+        payload: >
           {"camera":"trackmix_wide","timestamp":{{ now().timestamp() | int }}}
   mode: single
 
@@ -142,7 +142,7 @@
     - action: mqtt.publish
       data:
         topic: cameras/events/wildlife
-        payload_template: >
+        payload: >
           {"camera":"{{ trigger.payload_json.after.camera }}",
            "label":"{{ trigger.payload_json.after.label }}",
            "score":{{ trigger.payload_json.after.top_score | round(2) }},
@@ -173,7 +173,7 @@
     - action: mqtt.publish
       data:
         topic: weather/alerts/storm
-        payload_template: >
+        payload: >
           {"state":"active",
            "wind_speed":{{ states('sensor.weather_wind_speed') }},
            "rain_rate":{{ states('sensor.weather_precipitation_rate') }},
@@ -182,7 +182,7 @@
     - action: mqtt.publish
       data:
         topic: cameras/events/weather
-        payload_template: >
+        payload: >
           {"event":"storm_start",
            "wind_speed":{{ states('sensor.weather_wind_speed') }},
            "timestamp":{{ now().timestamp() | int }}}
@@ -208,7 +208,7 @@
     - action: mqtt.publish
       data:
         topic: weather/alerts/severe_storm
-        payload_template: >
+        payload: >
           {"state":"active",
            "wind_speed":{{ states('sensor.weather_wind_speed') }},
            "wind_gust":{{ states('sensor.weather_wind_gust') }},
@@ -243,7 +243,7 @@
     - action: mqtt.publish
       data:
         topic: cameras/events/weather
-        payload_template: >
+        payload: >
           {"event":"storm_clear","timestamp":{{ now().timestamp() | int }}}
     - action: notify.persistent_notification
       data:
@@ -319,6 +319,9 @@
     - condition: state
       entity_id: input_boolean.night_sky_patrol_enabled
       state: "on"
+    - condition: state
+      entity_id: input_boolean.camera_manual_mode
+      state: "off"
   actions:
     - action: mqtt.publish
       data:
@@ -335,6 +338,9 @@
     - condition: state
       entity_id: sun.sun
       state: below_horizon
+    - condition: state
+      entity_id: input_boolean.camera_manual_mode
+      state: "off"
   actions:
     - action: mqtt.publish
       data:
@@ -354,36 +360,36 @@
     - action: mqtt.publish
       data:
         topic: sensors/outdoor/temperature
-        payload_template: "{{ states('sensor.weather_temperature') }}"
+        payload: "{{ states('sensor.weather_temperature') }}"
         retain: true
     - action: mqtt.publish
       data:
         topic: sensors/outdoor/humidity
-        payload_template: "{{ states('sensor.weather_humidity') }}"
+        payload: "{{ states('sensor.weather_humidity') }}"
         retain: true
     - action: mqtt.publish
       data:
         topic: sensors/outdoor/pressure
-        payload_template: "{{ states('sensor.weather_pressure') }}"
+        payload: "{{ states('sensor.weather_pressure') }}"
         retain: true
     - action: mqtt.publish
       data:
         topic: sensors/outdoor/wind_speed
-        payload_template: "{{ states('sensor.weather_wind_speed') }}"
+        payload: "{{ states('sensor.weather_wind_speed') }}"
         retain: true
     - action: mqtt.publish
       data:
         topic: sensors/outdoor/wind_direction
-        payload_template: "{{ states('sensor.weather_wind_direction') }}"
+        payload: "{{ states('sensor.weather_wind_direction') }}"
         retain: true
     - action: mqtt.publish
       data:
         topic: sensors/outdoor/rainfall
-        payload_template: "{{ states('sensor.weather_precipitation_rate') }}"
+        payload: "{{ states('sensor.weather_precipitation_rate') }}"
         retain: true
     - action: mqtt.publish
       data:
         topic: sensors/outdoor/light_level
-        payload_template: "{{ states('sensor.weather_solar_radiation') }}"
+        payload: "{{ states('sensor.weather_solar_radiation') }}"
         retain: true
   mode: single
