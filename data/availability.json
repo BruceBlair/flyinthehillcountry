@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-24T12:38:48Z",
+  "updated": "2026-06-28T11:48:47Z",
   "coverage_phases": [
     {
       "start": "2026-03-10",
@@ -633,7 +633,7 @@
       "photos": true,
       "weather": false,
       "video_continuous": false,
-      "video_events": true,
+      "video_events": false,
       "video_founding": false,
       "timelapse": false
     },
@@ -835,41 +835,26 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260619/20260619_sunrise.mp4",
-        "day_1": "timelapse/20260619/20260619_day_1.mp4",
-        "day_2": "timelapse/20260619/20260619_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-06-20": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260620/20260620_sunrise.mp4",
-        "day_1": "timelapse/20260620/20260620_day_1.mp4",
-        "day_2": "timelapse/20260620/20260620_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-06-21": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260621/20260621_sunrise.mp4",
-        "day_1": "timelapse/20260621/20260621_day_1.mp4",
-        "day_2": "timelapse/20260621/20260621_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-06-22": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -877,6 +862,38 @@
       "timelapse": true
     },
     "2026-06-23": {
+      "photos": true,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": true
+    },
+    "2026-06-24": {
+      "photos": true,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": true
+    },
+    "2026-06-25": {
+      "photos": true,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": true
+    },
+    "2026-06-26": {
+      "photos": true,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": true
+    },
+    "2026-06-27": {
       "photos": false,
       "weather": true,
       "video_continuous": true,
@@ -884,12 +901,12 @@
       "video_founding": false,
       "timelapse": true,
       "timelapse_sections": {
-        "sunrise": "timelapse/20260623/20260623_sunrise.mp4",
-        "day_1": "timelapse/20260623/20260623_day_1.mp4",
-        "day_2": "timelapse/20260623/20260623_day_2.mp4"
+        "sunrise": "timelapse/20260627/20260627_sunrise.mp4",
+        "day_1": "timelapse/20260627/20260627_day_1.mp4",
+        "day_2": "timelapse/20260627/20260627_day_2.mp4"
       }
     },
-    "2026-06-24": {
+    "2026-06-28": {
       "photos": false,
       "weather": true,
       "video_continuous": true,
