@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-28T18:00:03Z",
+  "updated": "2026-06-28T18:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -17,7 +17,7 @@
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 95. Heat index values as high as 104. South wind around 15 mph, with gusts as high as 30 mph.",
+      "detail": "Sunny, with a high near 95. Heat index values as high as 105. South wind around 15 mph, with gusts as high as 30 mph.",
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
@@ -31,7 +31,7 @@
       "wind_dir": "SSE",
       "precip_pct": 0,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 76. Heat index values as high as 103. South southeast wind 10 to 15 mph, with gusts as high as 30 mph.",
+      "detail": "Partly cloudy, with a low around 76. Heat index values as high as 102. South southeast wind 10 to 15 mph, with gusts as high as 30 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
@@ -194,12 +194,12 @@
       "start": "2026-07-04T18:00:00-05:00",
       "end": "2026-07-05T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 75,
+      "temp_f": 74,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
-      "precip_pct": 3,
+      "precip_pct": 2,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75.",
+      "detail": "Mostly clear, with a low around 74.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     }
   ]
