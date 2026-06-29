@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-29T01:30:02Z",
+  "updated": "2026-06-29T02:00:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-06-28T19:00:00-05:00",
+      "start": "2026-06-28T20:00:00-05:00",
       "end": "2026-06-29T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 76,
@@ -17,7 +17,7 @@
       "wind_dir": "SSE",
       "precip_pct": 0,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 76. Heat index values as high as 101. South southeast wind 10 to 15 mph, with gusts as high as 30 mph.",
+      "detail": "Partly cloudy, with a low around 76. South southeast wind 10 to 15 mph, with gusts as high as 30 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
