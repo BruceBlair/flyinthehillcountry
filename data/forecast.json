@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-29T17:00:04Z",
+  "updated": "2026-06-29T17:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,17 +8,17 @@
   "periods": [
     {
       "number": 1,
-      "name": "Today",
-      "start": "2026-06-29T07:00:00-05:00",
+      "name": "This Afternoon",
+      "start": "2026-06-29T12:00:00-05:00",
       "end": "2026-06-29T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 96,
-      "wind_speed": "10 to 15 mph",
+      "wind_speed": "15 mph",
       "wind_dir": "S",
       "precip_pct": 0,
-      "short": "Sunny then Haze",
-      "detail": "Haze after 1pm. Sunny, with a high near 96. Heat index values as high as 100. South wind 10 to 15 mph, with gusts as high as 30 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/few/haze?size=medium"
+      "short": "Haze",
+      "detail": "Haze after 1pm. Sunny, with a high near 96. Heat index values as high as 100. South wind around 15 mph, with gusts as high as 30 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/haze?size=medium"
     },
     {
       "number": 2,
