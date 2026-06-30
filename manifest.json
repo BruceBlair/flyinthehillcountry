@@ -906,6 +906,20 @@
       "nice_shot": 62.8
     },
     {
+      "timestamp": "20260630_140036",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1782846036.570603-3vxg38",
+      "snapshot": "wildlife/20260630_140036_bird.jpg",
+      "clip": "wildlife/20260630_140036_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 62.7
+    },
+    {
       "timestamp": "20260630_135634",
       "label": "bird",
       "score": 0.0,
@@ -994,6 +1008,20 @@
       },
       "uploads": {},
       "nice_shot": 62.5
+    },
+    {
+      "timestamp": "20260630_142022",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782847222.222045-ke9kis",
+      "snapshot": "wildlife/20260630_142022_bird.jpg",
+      "clip": "wildlife/20260630_142022_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 62.4
     },
     {
       "timestamp": "20260630_135642",
@@ -1300,6 +1328,20 @@
       "nice_shot": 61.3
     },
     {
+      "timestamp": "20260630_141306",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1782846786.328181-bs0pc2",
+      "snapshot": "wildlife/20260630_141306_bird.jpg",
+      "clip": "wildlife/20260630_141306_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 61.2
+    },
+    {
       "timestamp": "20260621_200638",
       "label": "sunset_scene",
       "categories": [
@@ -1358,6 +1400,20 @@
       },
       "uploads": {},
       "nice_shot": 61.2
+    },
+    {
+      "timestamp": "20260630_142643",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782847603.252071-01xfy8",
+      "snapshot": "wildlife/20260630_142643_bird.jpg",
+      "clip": "wildlife/20260630_142643_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 61.0
     },
     {
       "timestamp": "20260621_200238",
@@ -22135,5 +22191,5 @@
       "clip": null
     }
   ],
-  "updated": "2026-06-30T14:02:01.630666"
+  "updated": "2026-06-30T15:02:03.276946"
 }
