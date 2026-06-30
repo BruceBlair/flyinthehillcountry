@@ -21757,6 +21757,20 @@
       "nice_shot": 36.1
     },
     {
+      "timestamp": "20260630_160335",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782853415.249186-4rwvqc",
+      "snapshot": "wildlife/20260630_160335_dog.jpg",
+      "clip": "wildlife/20260630_160335_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 35.4
+    },
+    {
       "timestamp": "20260628_203427",
       "label": "bird",
       "score": 0.0,
@@ -22289,5 +22303,5 @@
       "clip": null
     }
   ],
-  "updated": "2026-06-30T16:02:01.236087"
+  "updated": "2026-06-30T17:02:01.323511"
 }
