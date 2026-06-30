@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-30T01:20:01Z",
+  "updated": "2026-06-30T11:50:03Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -11,16 +11,16 @@
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "status": "active",
       "current": {
-        "timestamp": "2026-06-30T01:19:45Z",
-        "temp_f": 84.56,
-        "humidity_pct": 61.0,
-        "pressure_msl_inhg": 29.99,
-        "wind_speed_mph": 5.82,
-        "wind_dir_deg": 148.0,
-        "wind_gust_mph": 10.96,
-        "rain_rate_in_hr": null,
-        "rain_daily_in": null,
-        "battery_pct": 100.0,
+        "timestamp": "2026-06-30T11:49:33Z",
+        "temp_f": 74.84,
+        "humidity_pct": 93.0,
+        "pressure_msl_inhg": 30.08,
+        "wind_speed_mph": 2.68,
+        "wind_dir_deg": 216.0,
+        "wind_gust_mph": 4.47,
+        "rain_rate_in_hr": 0.0,
+        "rain_daily_in": 0.0,
+        "battery_pct": 80.0,
         "rssi_dbm": null
       }
     },
@@ -33,16 +33,16 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-06-30T01:19:27Z",
-        "temp_f": 84.56,
-        "humidity_pct": 61.0,
-        "pressure_msl_inhg": 29.72,
-        "wind_speed_mph": 2.24,
-        "wind_dir_deg": 302.0,
-        "wind_gust_mph": 7.38,
-        "rain_rate_in_hr": null,
-        "rain_daily_in": null,
-        "battery_pct": 100.0,
+        "timestamp": "2026-06-30T11:49:37Z",
+        "temp_f": 74.84,
+        "humidity_pct": 93.0,
+        "pressure_msl_inhg": 29.8,
+        "wind_speed_mph": 0.0,
+        "wind_dir_deg": 135.0,
+        "wind_gust_mph": 1.12,
+        "rain_rate_in_hr": 0.0,
+        "rain_daily_in": 0.0,
+        "battery_pct": 76.0,
         "rssi_dbm": null
       }
     },
@@ -55,16 +55,16 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-06-30T01:19:13Z",
-        "temp_f": 84.74,
-        "humidity_pct": 62.0,
-        "pressure_msl_inhg": 29.86,
-        "wind_speed_mph": 6.49,
-        "wind_dir_deg": 161.0,
-        "wind_gust_mph": 8.28,
-        "rain_rate_in_hr": null,
-        "rain_daily_in": null,
-        "battery_pct": 100.0,
+        "timestamp": "2026-06-30T11:48:38Z",
+        "temp_f": 74.48,
+        "humidity_pct": 95.0,
+        "pressure_msl_inhg": 29.94,
+        "wind_speed_mph": 2.01,
+        "wind_dir_deg": 152.0,
+        "wind_gust_mph": 2.01,
+        "rain_rate_in_hr": 0.0,
+        "rain_daily_in": 0.0,
+        "battery_pct": 80.0,
         "rssi_dbm": null
       }
     }
