@@ -3717,6 +3717,20 @@
       "nice_shot": 57.6
     },
     {
+      "timestamp": "20260630_101504",
+      "label": "cat",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782832504.442072-9cevm8",
+      "snapshot": "wildlife/20260630_101504_cat.jpg",
+      "clip": "wildlife/20260630_101504_cat.mp4",
+      "source": "backfill",
+      "nice_shot": 57.4
+    },
+    {
       "timestamp": "20260614_200053",
       "label": "sunset_scene",
       "categories": [
@@ -22037,5 +22051,5 @@
       "clip": null
     }
   ],
-  "updated": "2026-06-30T10:02:13.890216"
+  "updated": "2026-06-30T11:02:09.401483"
 }
