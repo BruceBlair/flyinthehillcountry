@@ -21803,6 +21803,20 @@
       "nice_shot": 43.9
     },
     {
+      "timestamp": "20260701_133954",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782931194.187651-0lqvib",
+      "snapshot": "wildlife/20260701_133954_bird.jpg",
+      "clip": "wildlife/20260701_133954_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 42.7
+    },
+    {
       "timestamp": "20260701_111340",
       "label": "dog",
       "score": 0.0,
@@ -21843,20 +21857,6 @@
       "clip": "wildlife/20260701_111357_dog.mp4",
       "source": "backfill",
       "nice_shot": 42.4
-    },
-    {
-      "timestamp": "20260701_115306",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": "1782924786.068534-2h3tg0",
-      "snapshot": "wildlife/20260701_115306_bird.jpg",
-      "clip": "wildlife/20260701_115306_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 41.6
     },
     {
       "timestamp": "20260630_203538",
@@ -22319,5 +22319,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-01T13:00:39.993804"
+  "updated": "2026-07-01T14:00:43.517857"
 }
