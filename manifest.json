@@ -9869,6 +9869,20 @@
       "nice_shot": 52.7
     },
     {
+      "timestamp": "20260701_173241",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782945161.992666-0mv564",
+      "snapshot": "wildlife/20260701_173241_bird.jpg",
+      "clip": "wildlife/20260701_173241_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 52.6
+    },
+    {
       "timestamp": "20260623_123556",
       "label": "bear",
       "score": 0.0,
@@ -12047,6 +12061,34 @@
       "nice_shot": 51.5
     },
     {
+      "timestamp": "20260701_173222",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782945142.902743-wgpt0t",
+      "snapshot": "wildlife/20260701_173222_bird.jpg",
+      "clip": "wildlife/20260701_173222_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 51.4
+    },
+    {
+      "timestamp": "20260701_173228",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782945148.287645-oj5ld8",
+      "snapshot": "wildlife/20260701_173228_bird.jpg",
+      "clip": "wildlife/20260701_173228_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 51.4
+    },
+    {
       "timestamp": "20260627_132420",
       "label": "bear",
       "score": 0.0,
@@ -12470,6 +12512,20 @@
       },
       "uploads": {},
       "nice_shot": 51.3
+    },
+    {
+      "timestamp": "20260701_173220",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1782945140.557885-jit17f",
+      "snapshot": "wildlife/20260701_173220_bird.jpg",
+      "clip": "wildlife/20260701_173220_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 51.2
     },
     {
       "timestamp": "20260627_131500",
@@ -16015,6 +16071,20 @@
       "nice_shot": 49.6
     },
     {
+      "timestamp": "20260701_173159",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1782945119.37215-8ie2l4",
+      "snapshot": "wildlife/20260701_173159_bird.jpg",
+      "clip": "wildlife/20260701_173159_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 49.5
+    },
+    {
       "timestamp": "20260628_065650",
       "label": "sunrise_scene",
       "categories": [
@@ -16514,6 +16584,20 @@
       },
       "uploads": {},
       "nice_shot": 49.4
+    },
+    {
+      "timestamp": "20260701_171551",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1782944151.014168-gi59u6",
+      "snapshot": "wildlife/20260701_171551_bird.jpg",
+      "clip": "wildlife/20260701_171551_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 49.3
     },
     {
       "timestamp": "20260628_192832",
@@ -17740,6 +17824,20 @@
       "nice_shot": 49.0
     },
     {
+      "timestamp": "20260701_175917",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782946757.285889-u8qb0r",
+      "snapshot": "wildlife/20260701_175917_bird.jpg",
+      "clip": "wildlife/20260701_175917_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 48.9
+    },
+    {
       "timestamp": "20260630_070128",
       "label": "sunrise_scene",
       "categories": [
@@ -17930,6 +18028,20 @@
       },
       "uploads": {},
       "nice_shot": 48.9
+    },
+    {
+      "timestamp": "20260701_175423",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1782946463.915181-nw8rmp",
+      "snapshot": "wildlife/20260701_175423_bird.jpg",
+      "clip": "wildlife/20260701_175423_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 48.8
     },
     {
       "timestamp": "20260630_071931",
@@ -22319,5 +22431,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-01T17:00:54.506469"
+  "updated": "2026-07-01T18:00:56.418224"
 }
