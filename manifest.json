@@ -9134,6 +9134,20 @@
       "nice_shot": 53.2
     },
     {
+      "timestamp": "20260701_162719",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782941239.432746-1hh14q",
+      "snapshot": "wildlife/20260701_162719_bird.jpg",
+      "clip": "wildlife/20260701_162719_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 53.1
+    },
+    {
       "timestamp": "20260626_201019",
       "label": "sunset_scene",
       "categories": [
@@ -21735,6 +21749,20 @@
       "nice_shot": 47.1
     },
     {
+      "timestamp": "20260701_164145",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1782942105.630674-81r0ak",
+      "snapshot": "wildlife/20260701_164145_bird.jpg",
+      "clip": "wildlife/20260701_164145_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 46.9
+    },
+    {
       "timestamp": "20260701_154612",
       "label": "bird",
       "score": 0.0,
@@ -21775,34 +21803,6 @@
       "clip": "wildlife/20260630_094945_bird.mp4",
       "source": "backfill",
       "nice_shot": 46.8
-    },
-    {
-      "timestamp": "20260701_150242",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": "1782936162.154419-ppaafr",
-      "snapshot": "wildlife/20260701_150242_bird.jpg",
-      "clip": "wildlife/20260701_150242_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 46.7
-    },
-    {
-      "timestamp": "20260701_140729",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": "1782932849.203254-jlpbri",
-      "snapshot": "wildlife/20260701_140729_bird.jpg",
-      "clip": "wildlife/20260701_140729_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 46.7
     },
     {
       "timestamp": "20260701_064939",
@@ -22319,5 +22319,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-01T16:01:19.903269"
+  "updated": "2026-07-01T17:00:54.506469"
 }
