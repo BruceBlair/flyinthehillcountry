@@ -8014,6 +8014,18 @@
       "nice_shot": 54.1
     },
     {
+      "timestamp": "20260701_195740",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260701_195740_scene.jpg",
+      "clip": null,
+      "nice_shot": 54.0
+    },
+    {
       "timestamp": "20260623_124415",
       "label": "bear",
       "score": 0.0,
@@ -21929,6 +21941,18 @@
       "nice_shot": 46.7
     },
     {
+      "timestamp": "20260701_195940",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260701_195940_scene.jpg",
+      "clip": null,
+      "nice_shot": 46.6
+    },
+    {
       "timestamp": "20260701_103523",
       "label": "bird",
       "score": 0.0,
@@ -21969,6 +21993,30 @@
       "clip": "wildlife/20260701_111357_dog.mp4",
       "source": "backfill",
       "nice_shot": 42.4
+    },
+    {
+      "timestamp": "20260701_195340",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260701_195340_scene.jpg",
+      "clip": null,
+      "nice_shot": 41.8
+    },
+    {
+      "timestamp": "20260701_195540",
+      "label": "sunset_scene",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunset/20260701_195540_scene.jpg",
+      "clip": null,
+      "nice_shot": 41.7
     },
     {
       "timestamp": "20260630_203538",
@@ -22431,5 +22479,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-01T19:00:53.887290"
+  "updated": "2026-07-01T20:00:50.140557"
 }
