@@ -23211,6 +23211,20 @@
       "nice_shot": 46.4
     },
     {
+      "timestamp": "20260703_103828",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783093108.270047-at9lzk",
+      "snapshot": "wildlife/20260703_103828_dog.jpg",
+      "clip": "wildlife/20260703_103828_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 46.2
+    },
+    {
       "timestamp": "20260703_070206",
       "label": "sunrise_scene",
       "categories": [
@@ -23387,6 +23401,20 @@
       "nice_shot": 45.0
     },
     {
+      "timestamp": "20260703_104442",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783093482.194693-9pbnly",
+      "snapshot": "wildlife/20260703_104442_bird.jpg",
+      "clip": "wildlife/20260703_104442_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 44.9
+    },
+    {
       "timestamp": "20260703_071049",
       "label": "bird",
       "score": 0.0,
@@ -23429,6 +23457,20 @@
       "nice_shot": 44.5
     },
     {
+      "timestamp": "20260703_104445",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783093485.255591-dkbflk",
+      "snapshot": "wildlife/20260703_104445_bird.jpg",
+      "clip": "wildlife/20260703_104445_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 44.0
+    },
+    {
       "timestamp": "20260701_103523",
       "label": "bird",
       "score": 0.0,
@@ -23455,6 +23497,20 @@
       "clip": "wildlife/20260702_192016_bear.mp4",
       "source": "backfill",
       "nice_shot": 43.5
+    },
+    {
+      "timestamp": "20260703_105041",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783093841.55015-4b3uux",
+      "snapshot": "wildlife/20260703_105041_dog.jpg",
+      "clip": "wildlife/20260703_105041_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 43.2
     },
     {
       "timestamp": "20260701_111340",
@@ -23971,5 +24027,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-03T10:00:24.381983"
+  "updated": "2026-07-03T11:00:25.833561"
 }
