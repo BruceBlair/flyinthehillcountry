@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T06:10:03Z",
+  "updated": "2026-07-04T06:15:03Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -11,13 +11,13 @@
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "status": "active",
       "current": {
-        "timestamp": "2026-07-04T06:09:32Z",
-        "temp_f": 78.62,
+        "timestamp": "2026-07-04T06:14:33Z",
+        "temp_f": 78.44,
         "humidity_pct": 84.0,
         "pressure_msl_inhg": 30.1,
-        "wind_speed_mph": 1.57,
-        "wind_dir_deg": 183.0,
-        "wind_gust_mph": 4.47,
+        "wind_speed_mph": 4.92,
+        "wind_dir_deg": 177.0,
+        "wind_gust_mph": 6.26,
         "rain_rate_in_hr": null,
         "rain_daily_in": null,
         "battery_pct": 96.0,
@@ -33,10 +33,10 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-07-04T06:05:33Z",
+        "timestamp": "2026-07-04T06:13:33Z",
         "temp_f": 78.98,
         "humidity_pct": 82.0,
-        "pressure_msl_inhg": 29.82,
+        "pressure_msl_inhg": 29.83,
         "wind_speed_mph": 0.0,
         "wind_dir_deg": 232.0,
         "wind_gust_mph": 0.0,
@@ -55,7 +55,7 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-07-04T06:08:03Z",
+        "timestamp": "2026-07-04T06:13:03Z",
         "temp_f": 91.58,
         "humidity_pct": 47.0,
         "pressure_msl_inhg": 30.02,
