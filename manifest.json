@@ -9450,6 +9450,20 @@
       "nice_shot": 53.2
     },
     {
+      "timestamp": "20260704_123236",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783186356.748561-y5krp9",
+      "snapshot": "wildlife/20260704_123236_bird.jpg",
+      "clip": "wildlife/20260704_123236_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 53.1
+    },
+    {
       "timestamp": "20260701_162719",
       "label": "bird",
       "score": 0.0,
@@ -10647,6 +10661,34 @@
       "nice_shot": 52.5
     },
     {
+      "timestamp": "20260704_123233",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783186353.46778-dv2f3o",
+      "snapshot": "wildlife/20260704_123233_bird.jpg",
+      "clip": "wildlife/20260704_123233_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 52.4
+    },
+    {
+      "timestamp": "20260704_125357",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783187637.346558-bn6uhc",
+      "snapshot": "wildlife/20260704_125357_bird.jpg",
+      "clip": "wildlife/20260704_125357_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 52.4
+    },
+    {
       "timestamp": "20260704_094048",
       "label": "bird",
       "score": 0.0,
@@ -11217,6 +11259,20 @@
       },
       "uploads": {},
       "nice_shot": 52.2
+    },
+    {
+      "timestamp": "20260704_124523",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783187123.51386-uj7z2z",
+      "snapshot": "wildlife/20260704_124523_bird.jpg",
+      "clip": "wildlife/20260704_124523_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 52.1
     },
     {
       "timestamp": "20260704_112726",
@@ -25455,5 +25511,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-04T12:00:33.273037"
+  "updated": "2026-07-04T13:00:37.959837"
 }
