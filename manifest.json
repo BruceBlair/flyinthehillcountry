@@ -12512,6 +12512,34 @@
       "nice_shot": 51.6
     },
     {
+      "timestamp": "20260704_102311",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783178591.16962-620ssc",
+      "snapshot": "wildlife/20260704_102311_dog.jpg",
+      "clip": "wildlife/20260704_102311_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 51.5
+    },
+    {
+      "timestamp": "20260704_105024",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783180224.111093-itmogd",
+      "snapshot": "wildlife/20260704_105024_dog.jpg",
+      "clip": "wildlife/20260704_105024_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 51.5
+    },
+    {
       "timestamp": "20260701_200741",
       "label": "sunset_scene",
       "categories": [
@@ -12667,6 +12695,20 @@
       },
       "uploads": {},
       "nice_shot": 51.5
+    },
+    {
+      "timestamp": "20260704_100416",
+      "label": "cat",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783177456.630879-wvjyu7",
+      "snapshot": "wildlife/20260704_100416_cat.jpg",
+      "clip": "wildlife/20260704_100416_cat.mp4",
+      "source": "backfill",
+      "nice_shot": 51.4
     },
     {
       "timestamp": "20260701_210450",
@@ -13775,6 +13817,20 @@
       },
       "uploads": {},
       "nice_shot": 51.0
+    },
+    {
+      "timestamp": "20260704_102404",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783178644.955498-2bhqhh",
+      "snapshot": "wildlife/20260704_102404_dog.jpg",
+      "clip": "wildlife/20260704_102404_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 50.9
     },
     {
       "timestamp": "20260702_125515",
@@ -25315,5 +25371,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-04T10:00:28.727964"
+  "updated": "2026-07-04T11:00:36.508909"
 }
