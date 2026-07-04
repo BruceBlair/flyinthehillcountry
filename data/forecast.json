@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-04T17:00:03Z",
+  "updated": "2026-07-04T17:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Independence Day",
-      "start": "2026-07-04T07:00:00-05:00",
+      "start": "2026-07-04T12:00:00-05:00",
       "end": "2026-07-04T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 95,
