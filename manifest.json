@@ -23821,6 +23821,20 @@
       "nice_shot": 40.2
     },
     {
+      "timestamp": "20260703_183037",
+      "label": "horse",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783121437.880461-d7pbna",
+      "snapshot": "wildlife/20260703_183037_horse.jpg",
+      "clip": "wildlife/20260703_183037_horse.mp4",
+      "source": "backfill",
+      "nice_shot": 40.1
+    },
+    {
       "timestamp": "20260703_152249",
       "label": "bear",
       "score": 0.0,
@@ -24629,5 +24643,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-03T18:00:39.913954"
+  "updated": "2026-07-03T19:00:33.485303"
 }
