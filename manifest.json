@@ -24539,6 +24539,18 @@
       "nice_shot": 41.7
     },
     {
+      "timestamp": "20260705_060035",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260705_060035_scene.jpg",
+      "clip": null,
+      "nice_shot": 41.6
+    },
+    {
       "timestamp": "20260703_205211",
       "label": "sunset_scene",
       "categories": [
@@ -24967,6 +24979,18 @@
       "clip": "wildlife/20260703_113221_bird.mp4",
       "source": "backfill",
       "nice_shot": 38.9
+    },
+    {
+      "timestamp": "20260705_055834",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260705_055834_scene.jpg",
+      "clip": null,
+      "nice_shot": 38.8
     },
     {
       "timestamp": "20260704_212022",
@@ -25743,6 +25767,18 @@
       "nice_shot": 31.8
     },
     {
+      "timestamp": "20260705_055634",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260705_055634_scene.jpg",
+      "clip": null,
+      "nice_shot": 30.8
+    },
+    {
       "timestamp": "20260630_204222",
       "label": "bird",
       "score": 0.0,
@@ -25769,6 +25805,30 @@
       "clip": "wildlife/20260630_204248_bird.mp4",
       "source": "backfill",
       "nice_shot": 30.2
+    },
+    {
+      "timestamp": "20260705_055233",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260705_055233_scene.jpg",
+      "clip": null,
+      "nice_shot": 27.7
+    },
+    {
+      "timestamp": "20260705_055434",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260705_055434_scene.jpg",
+      "clip": null,
+      "nice_shot": 25.5
     },
     {
       "timestamp": "20260704_055041",
@@ -25925,5 +25985,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-05T05:01:01.659764"
+  "updated": "2026-07-05T06:01:04.434037"
 }
