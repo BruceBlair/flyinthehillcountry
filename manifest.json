@@ -26801,6 +26801,18 @@
       "nice_shot": 27.1
     },
     {
+      "timestamp": "20260706_073205",
+      "label": "golden_hour",
+      "categories": [
+        "golden_hour/golden_hour"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/golden_hour/20260706_073205_scene.jpg",
+      "clip": null,
+      "nice_shot": 26.7
+    },
+    {
       "timestamp": "20260706_035629",
       "label": "cat",
       "score": 0.0,
@@ -26969,5 +26981,5 @@
       "nice_shot": 15.9
     }
   ],
-  "updated": "2026-07-06T07:00:22.817340"
+  "updated": "2026-07-06T08:00:20.490622"
 }
