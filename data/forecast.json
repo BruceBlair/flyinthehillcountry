@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-06T05:30:03Z",
+  "updated": "2026-07-06T06:00:05Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,15 +9,15 @@
     {
       "number": 1,
       "name": "Overnight",
-      "start": "2026-07-06T00:00:00-05:00",
+      "start": "2026-07-06T01:00:00-05:00",
       "end": "2026-07-06T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 75,
+      "temp_f": 74,
       "wind_speed": "5 mph",
       "wind_dir": "SSW",
-      "precip_pct": 5,
+      "precip_pct": 2,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75. South southwest wind around 5 mph.",
+      "detail": "Partly cloudy, with a low around 74. South southwest wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
@@ -26,13 +26,13 @@
       "start": "2026-07-06T06:00:00-05:00",
       "end": "2026-07-06T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 96,
+      "temp_f": 95,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "S",
-      "precip_pct": 26,
-      "short": "Mostly Sunny then Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms after 4pm. Mostly sunny, with a high near 96. Heat index values as high as 100. South wind 0 to 5 mph. Chance of precipitation is 30%. New rainfall amounts between a tenth and quarter of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,30?size=medium"
+      "wind_dir": "SSW",
+      "precip_pct": 16,
+      "short": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
+      "detail": "A slight chance of showers and thunderstorms after 4pm. Mostly sunny, with a high near 95. Heat index values as high as 100. South southwest wind 0 to 5 mph. Chance of precipitation is 20%. New rainfall amounts between a tenth and quarter of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,20?size=medium"
     },
     {
       "number": 3,
@@ -40,13 +40,13 @@
       "start": "2026-07-06T18:00:00-05:00",
       "end": "2026-07-07T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 75,
+      "temp_f": 74,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "S",
-      "precip_pct": 26,
-      "short": "Chance Showers And Thunderstorms then Partly Cloudy",
-      "detail": "A chance of showers and thunderstorms before 10pm. Partly cloudy, with a low around 75. South wind 0 to 5 mph. Chance of precipitation is 30%. New rainfall amounts between a tenth and quarter of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/sct?size=medium"
+      "wind_dir": "SSE",
+      "precip_pct": 16,
+      "short": "Slight Chance Showers And Thunderstorms then Mostly Clear",
+      "detail": "A slight chance of showers and thunderstorms before 7pm. Mostly clear, with a low around 74. South southeast wind 0 to 5 mph. Chance of precipitation is 20%. New rainfall amounts between a tenth and quarter of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/few?size=medium"
     },
     {
       "number": 4,
