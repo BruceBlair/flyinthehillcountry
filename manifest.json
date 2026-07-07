@@ -517,6 +517,20 @@
       "nice_shot": 64.8
     },
     {
+      "timestamp": "20260707_163742",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783460262.156811-h0kkww",
+      "snapshot": "wildlife/20260707_163742_bird.jpg",
+      "clip": "wildlife/20260707_163742_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 64.7
+    },
+    {
       "timestamp": "20260630_091006",
       "label": "bird",
       "score": 0.0,
@@ -818,6 +832,20 @@
       "clip": "wildlife/20260617_122230_bird.mp4",
       "source": "backfill",
       "nice_shot": 63.9
+    },
+    {
+      "timestamp": "20260707_163730",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783460250.232969-ybd2eu",
+      "snapshot": "wildlife/20260707_163730_bird.jpg",
+      "clip": "wildlife/20260707_163730_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 63.8
     },
     {
       "timestamp": "20260702_065555",
@@ -20436,6 +20464,20 @@
       "nice_shot": 48.8
     },
     {
+      "timestamp": "20260707_163411",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783460051.857422-tr1uzk",
+      "snapshot": "wildlife/20260707_163411_dog.jpg",
+      "clip": "wildlife/20260707_163411_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 48.7
+    },
+    {
       "timestamp": "20260702_111745",
       "label": "bird",
       "score": 0.0,
@@ -25075,6 +25117,20 @@
       "nice_shot": 44.9
     },
     {
+      "timestamp": "20260707_164604",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783460764.519418-9ocudt",
+      "snapshot": "wildlife/20260707_164604_bird.jpg",
+      "clip": "wildlife/20260707_164604_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 44.8
+    },
+    {
       "timestamp": "20260703_071049",
       "label": "bird",
       "score": 0.0,
@@ -25101,6 +25157,20 @@
       "clip": "wildlife/20260701_210916_bird.mp4",
       "source": "backfill",
       "nice_shot": 44.8
+    },
+    {
+      "timestamp": "20260707_163345",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783460025.637807-dcy2s7",
+      "snapshot": "wildlife/20260707_163345_bird.jpg",
+      "clip": "wildlife/20260707_163345_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 44.5
     },
     {
       "timestamp": "20260704_171043",
@@ -25267,6 +25337,20 @@
       "nice_shot": 43.5
     },
     {
+      "timestamp": "20260707_164314",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783460594.988657-nkeko3",
+      "snapshot": "wildlife/20260707_164314_bird.jpg",
+      "clip": "wildlife/20260707_164314_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 43.4
+    },
+    {
       "timestamp": "20260706_091552",
       "label": "bird",
       "score": 0.0,
@@ -25349,6 +25433,20 @@
       "clip": "wildlife/20260703_105041_dog.mp4",
       "source": "backfill",
       "nice_shot": 43.2
+    },
+    {
+      "timestamp": "20260707_164136",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783460496.244169-j30pcn",
+      "snapshot": "wildlife/20260707_164136_bear.jpg",
+      "clip": "wildlife/20260707_164136_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 43.0
     },
     {
       "timestamp": "20260706_091553",
@@ -25477,6 +25575,20 @@
       "nice_shot": 42.7
     },
     {
+      "timestamp": "20260707_164139",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783460499.636099-s83x8v",
+      "snapshot": "wildlife/20260707_164139_bear.jpg",
+      "clip": "wildlife/20260707_164139_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 42.6
+    },
+    {
       "timestamp": "20260701_111340",
       "label": "dog",
       "score": 0.0,
@@ -25489,6 +25601,34 @@
       "clip": "wildlife/20260701_111340_dog.mp4",
       "source": "backfill",
       "nice_shot": 42.5
+    },
+    {
+      "timestamp": "20260707_163328",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783460008.415684-dwe70m",
+      "snapshot": "wildlife/20260707_163328_bird.jpg",
+      "clip": "wildlife/20260707_163328_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 42.4
+    },
+    {
+      "timestamp": "20260707_164143",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783460503.091993-kbdmxi",
+      "snapshot": "wildlife/20260707_164143_bear.jpg",
+      "clip": "wildlife/20260707_164143_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 42.4
     },
     {
       "timestamp": "20260701_111357",
@@ -25531,6 +25671,20 @@
       "clip": "wildlife/20260703_141516_bird.mp4",
       "source": "backfill",
       "nice_shot": 42.2
+    },
+    {
+      "timestamp": "20260707_164135",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783460495.108053-271ugr",
+      "snapshot": "wildlife/20260707_164135_bear.jpg",
+      "clip": "wildlife/20260707_164135_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 42.1
     },
     {
       "timestamp": "20260703_202210",
@@ -26687,151 +26841,47 @@
       "nice_shot": 29.8
     },
     {
-      "timestamp": "20260706_212022",
+      "timestamp": "20260706_212049",
       "label": "bird",
       "score": 0.0,
       "categories": [
         "wildlife"
       ],
       "camera": "trackmix_zoom",
-      "event_id": "1783390822.571686-euenyl",
-      "snapshot": "wildlife/20260706_212022_bird.jpg",
-      "clip": "wildlife/20260706_212022_bird.mp4",
+      "event_id": "1783390849.941559-d7pxww",
+      "snapshot": "wildlife/20260706_212049_bird.jpg",
+      "clip": "wildlife/20260706_212049_bird.mp4",
       "source": "backfill",
-      "nice_shot": 29.6
+      "nice_shot": 28.3
     },
     {
-      "timestamp": "20260706_212026",
+      "timestamp": "20260706_212156",
       "label": "bird",
       "score": 0.0,
       "categories": [
         "wildlife"
       ],
       "camera": "trackmix_zoom",
-      "event_id": "1783390826.766359-lxt7fh",
-      "snapshot": "wildlife/20260706_212026_bird.jpg",
-      "clip": "wildlife/20260706_212026_bird.mp4",
+      "event_id": "1783390916.294969-jhnuux",
+      "snapshot": "wildlife/20260706_212156_bird.jpg",
+      "clip": "wildlife/20260706_212156_bird.mp4",
       "source": "backfill",
-      "nice_shot": 29.5
+      "nice_shot": 26.0
     },
     {
-      "timestamp": "20260706_212029",
+      "timestamp": "20260706_212441",
       "label": "bird",
       "score": 0.0,
       "categories": [
         "wildlife"
       ],
       "camera": "trackmix_zoom",
-      "event_id": "1783390829.756035-2le4a3",
-      "snapshot": "wildlife/20260706_212029_bird.jpg",
-      "clip": "wildlife/20260706_212029_bird.mp4",
+      "event_id": "1783391081.532318-bewpku",
+      "snapshot": "wildlife/20260706_212441_bird.jpg",
+      "clip": "wildlife/20260706_212441_bird.mp4",
       "source": "backfill",
-      "nice_shot": 29.1
-    },
-    {
-      "timestamp": "20260706_212031",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_zoom",
-      "event_id": "1783390831.944292-9jh0nr",
-      "snapshot": "wildlife/20260706_212031_bird.jpg",
-      "clip": "wildlife/20260706_212031_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 29.1
-    },
-    {
-      "timestamp": "20260706_212034",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_zoom",
-      "event_id": "1783390834.959474-93d0v6",
-      "snapshot": "wildlife/20260706_212034_bird.jpg",
-      "clip": "wildlife/20260706_212034_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 29.0
-    },
-    {
-      "timestamp": "20260706_212044",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_zoom",
-      "event_id": "1783390844.941809-gx5v8z",
-      "snapshot": "wildlife/20260706_212044_bird.jpg",
-      "clip": "wildlife/20260706_212044_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 28.9
-    },
-    {
-      "timestamp": "20260706_212042",
-      "label": "bird",
-      "score": 0.0,
-      "categories": [
-        "wildlife"
-      ],
-      "camera": "trackmix_zoom",
-      "event_id": "1783390842.744095-4lmx3m",
-      "snapshot": "wildlife/20260706_212042_bird.jpg",
-      "clip": "wildlife/20260706_212042_bird.mp4",
-      "source": "backfill",
-      "nice_shot": 28.8
-    },
-    {
-      "timestamp": "20260707_101537",
-      "label": "golden_hour",
-      "categories": [
-        "golden_hour/golden_hour"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/golden_hour/20260707_101537_scene.jpg",
-      "clip": null,
-      "nice_shot": 11.5
-    },
-    {
-      "timestamp": "20260707_101537",
-      "label": "storm",
-      "categories": [
-        "weather"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "weather/20260707_101537_storm.jpg",
-      "clip": null,
-      "nice_shot": 11.5
-    },
-    {
-      "timestamp": "20260707_100819",
-      "label": "golden_hour",
-      "categories": [
-        "golden_hour/golden_hour"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "golden_hour/golden_hour/20260707_100819_scene.jpg",
-      "clip": null,
-      "nice_shot": 11.5
-    },
-    {
-      "timestamp": "20260707_100819",
-      "label": "storm",
-      "categories": [
-        "weather"
-      ],
-      "camera": "trackmix_wide",
-      "event_id": null,
-      "snapshot": "weather/20260707_100819_storm.jpg",
-      "clip": null,
-      "nice_shot": 11.5
+      "nice_shot": 20.0
     }
   ],
-  "updated": "2026-07-07T16:00:45.749245"
+  "updated": "2026-07-07T17:00:41.322946"
 }
