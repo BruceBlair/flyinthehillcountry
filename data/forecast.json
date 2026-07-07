@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-07T19:30:02Z",
+  "updated": "2026-07-07T20:00:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,15 +9,15 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-07-07T13:00:00-05:00",
+      "start": "2026-07-07T15:00:00-05:00",
       "end": "2026-07-07T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 95,
       "wind_speed": "5 mph",
-      "wind_dir": "S",
+      "wind_dir": "SSE",
       "precip_pct": 19,
       "short": "Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of rain showers before 4pm, then a slight chance of showers and thunderstorms. Mostly sunny, with a high near 95. South wind around 5 mph. Chance of precipitation is 20%.",
+      "detail": "A slight chance of rain showers before 4pm, then a slight chance of showers and thunderstorms. Mostly sunny, with a high near 95. South southeast wind around 5 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_hi,20?size=medium"
     },
     {
