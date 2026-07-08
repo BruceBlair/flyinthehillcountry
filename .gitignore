@@ -25,6 +25,9 @@ Thumbs.db
 # Environment variables
 .env
 
+# Confidential — unfiled patent disclosures, never commit (public repo)
+handoff/
+
 # Home Assistant runtime files
 homeassistant/config/secrets.yaml
 homeassistant/config/*.db

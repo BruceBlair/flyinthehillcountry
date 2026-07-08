@@ -565,11 +565,38 @@
 
     // ── Map ───────────────────────────────────────────────────────────────────
 
-    function windSvg(deg) {
-      // Amber arrow pointing from wind origin direction; rotated by wind_dir_deg
-      return '<svg width="16" height="16" viewBox="0 0 16 16" style="transform:rotate(' + deg + 'deg);display:block">' +
-        '<path d="M8 1 L4.5 12 L8 9 L11.5 12 Z" fill="#c8a46a" opacity="0.95"/>' +
-        '</svg>';
+    function windSvg(deg, speed_mph) {
+      const spd = speed_mph != null ? speed_mph : 0;
+
+      if (spd < 2.5) {
+        // Calm: open circle, no rotation needed
+        return '<svg width="28" height="28" viewBox="0 0 28 28" style="display:block">' +
+          '<circle cx="14" cy="14" r="5" fill="none" stroke="#c8a46a" stroke-width="1.5" opacity="0.95"/>' +
+          '</svg>';
+      }
+
+      const parts = [];
+      // Arrow tip pointing up; staff centered at x=14
+      parts.push('<path d="M14 2 L11 10 L14 8 L17 10 Z" fill="#c8a46a" opacity="0.95"/>');
+      parts.push('<line x1="14" y1="8" x2="14" y2="25" stroke="#c8a46a" stroke-width="1.5" opacity="0.95"/>');
+
+      // Wind barbs — round to nearest 5 mph per WMO convention
+      let remaining = Math.round(spd / 5) * 5;
+      let y = 9;
+      while (remaining >= 50) {           // pennant = 50 mph (filled triangle)
+        parts.push('<path d="M14 ' + y + ' L24 ' + (y+3) + ' L14 ' + (y+7) + ' Z" fill="#c8a46a" opacity="0.95"/>');
+        y += 8; remaining -= 50;
+      }
+      while (remaining >= 10) {           // full barb = 10 mph
+        parts.push('<line x1="14" y1="' + y + '" x2="24" y2="' + (y+4) + '" stroke="#c8a46a" stroke-width="1.5" opacity="0.95"/>');
+        y += 5; remaining -= 10;
+      }
+      if (remaining >= 5) {               // half barb = 5 mph
+        parts.push('<line x1="14" y1="' + y + '" x2="19" y2="' + (y+2) + '" stroke="#c8a46a" stroke-width="1.5" opacity="0.95"/>');
+      }
+
+      return '<svg width="28" height="28" viewBox="0 0 28 28" style="transform:rotate(' + deg + 'deg);display:block">' +
+        parts.join('') + '</svg>';
     }
 
     function nodeCoords(node) {
@@ -580,15 +607,16 @@
     function buildIcon(node) {
       const isActive = node.status === 'active';
       const c = node.current;
-      const wdeg = (c && c.wind_dir_deg) != null ? c.wind_dir_deg : 0;
+      const wdeg  = (c && c.wind_dir_deg)   != null ? c.wind_dir_deg   : 0;
+      const wspd  = (c && c.wind_speed_mph)  != null ? c.wind_speed_mph : 0;
 
       if (isActive) {
         const html =
           '<div style="display:flex;flex-direction:column;align-items:center;gap:1px;pointer-events:none">' +
-          windSvg(wdeg) +
+          windSvg(wdeg, wspd) +
           '<div style="width:13px;height:13px;border-radius:50%;background:#5cb85c;border:2px solid #0d1112;box-shadow:0 0 7px rgba(92,184,92,.7)"></div>' +
           '</div>';
-        return L.divIcon({ html: html, className: '', iconSize: [16, 32], iconAnchor: [8, 32] });
+        return L.divIcon({ html: html, className: '', iconSize: [28, 42], iconAnchor: [14, 42] });
       } else {
         const html =
           '<div style="width:14px;height:14px;border-radius:50%;border:2px dashed #6e8285;pointer-events:none"></div>';

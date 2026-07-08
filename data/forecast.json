@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-08T11:00:08Z",
+  "updated": "2026-07-08T14:00:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,35 +8,21 @@
   "periods": [
     {
       "number": 1,
-      "name": "Overnight",
-      "start": "2026-07-08T05:00:00-05:00",
-      "end": "2026-07-08T06:00:00-05:00",
-      "is_daytime": false,
-      "temp_f": 73,
-      "wind_speed": "5 mph",
-      "wind_dir": "SSW",
-      "precip_pct": 0,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 73. South southwest wind around 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
-    },
-    {
-      "number": 2,
-      "name": "Wednesday",
-      "start": "2026-07-08T06:00:00-05:00",
+      "name": "Today",
+      "start": "2026-07-08T09:00:00-05:00",
       "end": "2026-07-08T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 95,
-      "wind_speed": "0 to 10 mph",
+      "wind_speed": "5 to 10 mph",
       "wind_dir": "SSW",
       "precip_pct": 11,
-      "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 95. Heat index values as high as 101. South southwest wind 0 to 10 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+      "short": "Sunny",
+      "detail": "Sunny, with a high near 95. Heat index values as high as 101. South southwest wind 5 to 10 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 3,
-      "name": "Wednesday Night",
+      "number": 2,
+      "name": "Tonight",
       "start": "2026-07-08T18:00:00-05:00",
       "end": "2026-07-09T06:00:00-05:00",
       "is_daytime": false,
@@ -49,7 +35,7 @@
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 4,
+      "number": 3,
       "name": "Thursday",
       "start": "2026-07-09T06:00:00-05:00",
       "end": "2026-07-09T18:00:00-05:00",
@@ -63,7 +49,7 @@
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 5,
+      "number": 4,
       "name": "Thursday Night",
       "start": "2026-07-09T18:00:00-05:00",
       "end": "2026-07-10T06:00:00-05:00",
@@ -77,7 +63,7 @@
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 6,
+      "number": 5,
       "name": "Friday",
       "start": "2026-07-10T06:00:00-05:00",
       "end": "2026-07-10T18:00:00-05:00",
@@ -91,7 +77,7 @@
       "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,30?size=medium"
     },
     {
-      "number": 7,
+      "number": 6,
       "name": "Friday Night",
       "start": "2026-07-10T18:00:00-05:00",
       "end": "2026-07-11T06:00:00-05:00",
@@ -105,7 +91,7 @@
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/sct?size=medium"
     },
     {
-      "number": 8,
+      "number": 7,
       "name": "Saturday",
       "start": "2026-07-11T06:00:00-05:00",
       "end": "2026-07-11T18:00:00-05:00",
@@ -119,7 +105,7 @@
       "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,30?size=medium"
     },
     {
-      "number": 9,
+      "number": 8,
       "name": "Saturday Night",
       "start": "2026-07-11T18:00:00-05:00",
       "end": "2026-07-12T06:00:00-05:00",
@@ -133,7 +119,7 @@
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/sct?size=medium"
     },
     {
-      "number": 10,
+      "number": 9,
       "name": "Sunday",
       "start": "2026-07-12T06:00:00-05:00",
       "end": "2026-07-12T18:00:00-05:00",
@@ -143,11 +129,11 @@
       "wind_dir": "SSE",
       "precip_pct": 19,
       "short": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 1pm. Mostly sunny, with a high near 94. Chance of precipitation is 20%.",
+      "detail": "A slight chance of showers and thunderstorms after 1pm. Mostly sunny, with a high near 94. South southeast wind 0 to 10 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,20?size=medium"
     },
     {
-      "number": 11,
+      "number": 10,
       "name": "Sunday Night",
       "start": "2026-07-12T18:00:00-05:00",
       "end": "2026-07-13T06:00:00-05:00",
@@ -161,7 +147,7 @@
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20?size=medium"
     },
     {
-      "number": 12,
+      "number": 11,
       "name": "Monday",
       "start": "2026-07-13T06:00:00-05:00",
       "end": "2026-07-13T18:00:00-05:00",
@@ -175,7 +161,7 @@
       "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,30?size=medium"
     },
     {
-      "number": 13,
+      "number": 12,
       "name": "Monday Night",
       "start": "2026-07-13T18:00:00-05:00",
       "end": "2026-07-14T06:00:00-05:00",
@@ -189,7 +175,7 @@
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/sct?size=medium"
     },
     {
-      "number": 14,
+      "number": 13,
       "name": "Tuesday",
       "start": "2026-07-14T06:00:00-05:00",
       "end": "2026-07-14T18:00:00-05:00",
@@ -199,8 +185,22 @@
       "wind_dir": "S",
       "precip_pct": 26,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A slight chance of rain showers between 7am and 1pm, then a chance of showers and thunderstorms. Mostly sunny, with a high near 95.",
+      "detail": "A slight chance of rain showers between 7am and 1pm, then a chance of showers and thunderstorms. Mostly sunny, with a high near 95. Chance of precipitation is 30%.",
       "icon": "https://api.weather.gov/icons/land/day/rain_showers,20/tsra_hi,30?size=medium"
+    },
+    {
+      "number": 14,
+      "name": "Tuesday Night",
+      "start": "2026-07-14T18:00:00-05:00",
+      "end": "2026-07-15T06:00:00-05:00",
+      "is_daytime": false,
+      "temp_f": 74,
+      "wind_speed": "0 to 5 mph",
+      "wind_dir": "S",
+      "precip_pct": 26,
+      "short": "Chance Showers And Thunderstorms then Partly Cloudy",
+      "detail": "A chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 74.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/sct?size=medium"
     }
   ]
 }
