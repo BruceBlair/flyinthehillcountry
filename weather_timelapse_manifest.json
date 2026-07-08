@@ -1,0 +1,32 @@
+{
+  "latest": {
+    "timestamp": "20260708_091603",
+    "video": "weather_timelapse/20260708_091603_timelapse.mp4",
+    "thumbnail": "weather_timelapse/20260708_091603_timelapse_thumb.jpg",
+    "score": 71.9,
+    "avg_score": 70.0,
+    "frame_count": 31,
+    "duration_min": 15.5
+  },
+  "entries": [
+    {
+      "timestamp": "20260708_091603",
+      "video": "weather_timelapse/20260708_091603_timelapse.mp4",
+      "thumbnail": "weather_timelapse/20260708_091603_timelapse_thumb.jpg",
+      "score": 71.9,
+      "avg_score": 70.0,
+      "frame_count": 31,
+      "duration_min": 15.5
+    },
+    {
+      "timestamp": "20260708_085541",
+      "video": "weather_timelapse/20260708_085541_timelapse.mp4",
+      "thumbnail": "weather_timelapse/20260708_085541_timelapse_thumb.jpg",
+      "score": 73.0,
+      "avg_score": 72.1,
+      "frame_count": 31,
+      "duration_min": 15.5
+    }
+  ],
+  "updated": "2026-07-08T09:31:25.822613"
+}
