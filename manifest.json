@@ -20780,6 +20780,18 @@
       "nice_shot": 48.8
     },
     {
+      "timestamp": "20260708_055333",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260708_055333_scene.jpg",
+      "clip": null,
+      "nice_shot": 48.7
+    },
+    {
       "timestamp": "20260707_163411",
       "label": "dog",
       "score": 0.0,
@@ -24945,6 +24957,18 @@
       "nice_shot": 47.1
     },
     {
+      "timestamp": "20260708_055534",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260708_055534_scene.jpg",
+      "clip": null,
+      "nice_shot": 47.0
+    },
+    {
       "timestamp": "20260703_061204",
       "label": "sunrise_scene",
       "categories": [
@@ -25023,6 +25047,18 @@
       "clip": "wildlife/20260630_094945_bird.mp4",
       "source": "backfill",
       "nice_shot": 46.8
+    },
+    {
+      "timestamp": "20260708_055734",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260708_055734_scene.jpg",
+      "clip": null,
+      "nice_shot": 46.7
     },
     {
       "timestamp": "20260706_183317",
@@ -25249,6 +25285,18 @@
       "snapshot": "golden_hour/sunset/20260703_210811_scene.jpg",
       "clip": null,
       "nice_shot": 45.7
+    },
+    {
+      "timestamp": "20260708_055934",
+      "label": "sunrise_scene",
+      "categories": [
+        "golden_hour/sunrise"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/sunrise/20260708_055934_scene.jpg",
+      "clip": null,
+      "nice_shot": 45.6
     },
     {
       "timestamp": "20260704_132155",
@@ -26369,5 +26417,5 @@
       "nice_shot": 38.7
     }
   ],
-  "updated": "2026-07-08T05:00:57.722325"
+  "updated": "2026-07-08T06:01:23.776736"
 }
