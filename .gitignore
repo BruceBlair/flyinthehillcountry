@@ -40,3 +40,8 @@ homeassistant/config/deps/
 homeassistant/config/tts/
 homeassistant/config/comets.json
 homeassistant/config/blueprints/
+
+# Credentials — TLS key, camera RTSP creds, HA webhook IDs (public repo)
+nginx/certs/
+nginx/ecowitt-proxy.conf
+mediamtx/mediamtx.yml
