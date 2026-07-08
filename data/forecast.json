@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-08T21:30:05Z",
+  "updated": "2026-07-08T22:00:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-07-08T16:00:00-05:00",
+      "start": "2026-07-08T15:00:00-05:00",
       "end": "2026-07-08T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 95,
@@ -17,7 +17,7 @@
       "wind_dir": "S",
       "precip_pct": 10,
       "short": "Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms. Sunny, with a high near 95. Heat index values as high as 100. South wind around 10 mph.",
+      "detail": "A slight chance of showers and thunderstorms after 4pm. Sunny, with a high near 95. Heat index values as high as 101. South wind around 10 mph.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_hi?size=medium"
     },
     {
