@@ -205,19 +205,13 @@ def _git_push_with_retry(repo, branch="main", attempts=3):
                            capture_output=True, check=False)
         if r.returncode == 0:
             return
-        # Sync index to remote without touching the working tree, then re-apply
-        # nodes.json only.  Avoids merge conflicts from dirty tracked files
-        # (automations.yaml) and untracked files that are tracked on remote.
-        subprocess.run(["git", "-C", repo, "fetch", "origin", "--quiet"], check=False)
-        subprocess.run(["git", "-C", repo, "reset", "--mixed", f"origin/{branch}"],
-                       check=False)
-        subprocess.run(["git", "-C", repo, "add", "data/nodes.json"], check=False)
-        diff = subprocess.run(["git", "-C", repo, "diff", "--cached", "--quiet"],
-                              check=False)
-        if diff.returncode != 0:
-            ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
-            subprocess.run(["git", "-C", repo, "commit", "-m",
-                            f"data: nodes.json {ts} UTC"], check=False)
+        # Rebase onto the fetched remote instead of resetting to it — reset
+        # --mixed here previously discarded *any* local commit ahead of
+        # origin (not just this script's own nodes.json commit), which ate
+        # unrelated work mid-session more than once. --autostash covers the
+        # original concern (dirty tracked files like automations.yaml).
+        subprocess.run(["git", "-C", repo, "pull", "--rebase", "--autostash",
+                        "--quiet"], check=False)
     raise subprocess.CalledProcessError(1, "git push", b"Push failed after retries")
 
 def git_push(file_path):

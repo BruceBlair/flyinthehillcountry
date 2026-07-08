@@ -1,0 +1,2108 @@
+#!/usr/bin/env python3
+"""
+content_manager.py — Ground Truth Network
+Unified content management UI: photo cull, timelapse building, pipeline status.
+Replaces cull_ui.py. LAN-only — do NOT expose port 8766 publicly.
+
+Usage:
+  python3 content_manager.py
+  python3 content_manager.py --port 8766 --highlights-dir /volume1/highlights \
+      --frigate-dir /volume1/frigate --sync-script ../github-pages/sync.sh
+"""
+
+import argparse
+import io
+import json
+import logging
+import mimetypes
+import os
+import re
+import shutil
+import subprocess
+import tempfile
+import threading
+from datetime import datetime, timedelta
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
+from urllib.parse import urlparse, unquote, quote as urlquote
+
+from manifest_io import atomic_write_json
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(message)s", datefmt="%H:%M:%S")
+log = logging.getLogger("content-manager")
+
+HIGHLIGHTS_DIR = Path(os.getenv("HIGHLIGHTS_DIR", "/volume1/highlights"))
+STOCK_READY    = Path(os.getenv("STOCK_READY_DIR", "/volume1/stock_ready"))
+FRIGATE_DIR    = Path(os.getenv("FRIGATE_DIR",    "/volume1/docker/frigate/media/recordings"))
+SYNC_SCRIPT: Path | None = None
+FRAME_DURATION  = 0.12   # seconds per frame in timelapse (~8 fps)
+GOLDEN_PAD_MIN  = 30     # minutes padding before/after sunrise or sunset
+STATIC_DIR = Path(__file__).parent / "static"
+CREDS_PATH = Path.home() / ".gtn" / "platform_creds.json"
+
+_thumb_cache: dict[str, bytes] = {}
+_manifest_lock = threading.Lock()
+
+# ── Job state ─────────────────────────────────────────────────────────────────
+
+_job_lock = threading.Lock()
+_job: dict = {"state": "idle", "stage": "", "frames_done": 0, "frames_total": 0, "error": ""}
+_build_queue: list[tuple] = []   # list of (start_dt, end_dt, label, interval_secs)
+
+
+def _job_update(**kwargs) -> None:
+    with _job_lock:
+        _job.update(kwargs)
+
+
+def _job_snapshot() -> dict:
+    with _job_lock:
+        return {**_job, "queued": len(_build_queue)}
+
+
+# ── Manifest helpers ──────────────────────────────────────────────────────────
+
+def load_manifest() -> dict:
+    mf = HIGHLIGHTS_DIR / "manifest.json"
+    return json.loads(mf.read_text()) if mf.exists() else {"entries": []}
+
+
+def save_manifest(m: dict) -> None:
+    with _manifest_lock:
+        atomic_write_json(HIGHLIGHTS_DIR / "manifest.json", m)
+
+
+_queue_lock = threading.Lock()
+
+
+def load_queue() -> dict:
+    qf = HIGHLIGHTS_DIR / "upload_queue.json"
+    return json.loads(qf.read_text()) if qf.exists() else {"mode": "manual", "queue": []}
+
+
+def save_queue(q: dict) -> None:
+    with _queue_lock:
+        atomic_write_json(HIGHLIGHTS_DIR / "upload_queue.json", q)
+
+
+def load_creds() -> dict:
+    _defaults = {"shutterstock": {}, "adobe_stock": {}, "anthropic": {}}
+    if CREDS_PATH.exists():
+        try:
+            return json.loads(CREDS_PATH.read_text())
+        except (json.JSONDecodeError, OSError):
+            log.warning("platform_creds.json is corrupt or unreadable; using defaults")
+            return _defaults
+    return _defaults
+
+
+def save_creds(creds: dict) -> None:
+    CREDS_PATH.parent.mkdir(parents=True, exist_ok=True)
+    atomic_write_json(CREDS_PATH, creds)
+    CREDS_PATH.chmod(0o600)
+
+
+def service_status() -> dict:
+    import socket, shutil
+
+    def _tcp_ok(host: str, port: int, timeout: float = 0.8) -> bool:
+        try:
+            s = socket.create_connection((host, port), timeout=timeout)
+            s.close()
+            return True
+        except OSError:
+            return False
+
+    nas_ip = os.getenv("NAS_IP", "192.168.100.202")
+    services = {
+        "mosquitto": _tcp_ok("mosquitto", 1883),
+        "influxdb":  _tcp_ok("influxdb",  8086),
+        "grafana":   _tcp_ok("grafana",   3000),
+        "frigate":   _tcp_ok(nas_ip,      5000),
+    }
+
+    disk: dict = {}
+    for name, path in [("highlights", HIGHLIGHTS_DIR), ("stock_ready", STOCK_READY)]:
+        try:
+            u = shutil.disk_usage(path)
+            disk[name] = {
+                "used_gb":  round(u.used  / 1e9, 1),
+                "total_gb": round(u.total / 1e9, 1),
+                "pct":      round(u.used  / u.total * 100, 1),
+            }
+        except OSError:
+            disk[name] = None
+
+    m = load_manifest()
+    entries = m.get("entries", [])
+    by_cat: dict[str, int] = {}
+    flagged = {"crop": 0, "enhance": 0, "auth_hold": 0}
+    for e in entries:
+        cat = (e.get("categories") or ["unknown"])[0]
+        by_cat[cat] = by_cat.get(cat, 0) + 1
+        for f in flagged:
+            if (e.get("flags") or {}).get(f):
+                flagged[f] += 1
+
+    log_ts = None
+    if _PIPELINE_LOG.exists():
+        log_ts = datetime.fromtimestamp(_PIPELINE_LOG.stat().st_mtime).isoformat()
+
+    return {
+        "services": services,
+        "disk":     disk,
+        "manifest": {"total": len(entries), "by_category": by_cat, "flagged": flagged},
+        "pipeline_log_ts": log_ts,
+    }
+
+
+def platform_status() -> dict:
+    creds = load_creds()
+    result = {}
+    for platform in ("shutterstock", "adobe_stock"):
+        pc = creds.get(platform, {})
+        result[platform] = {
+            "configured": bool(pc.get("client_id") or pc.get("api_key")),
+            "has_token":  bool(pc.get("access_token")),
+        }
+    ac = creds.get("anthropic", {})
+    result["anthropic"] = {
+        "configured": bool(ac.get("api_key")),
+        "has_token":  bool(ac.get("api_key")),
+    }
+    return result
+
+
+_DEFAULT_FLAGS = {"crop": False, "enhance": False, "auth_hold": False}
+
+
+def entries_with_defaults(m: dict) -> list:
+    result = []
+    for e in m.get("entries", []):
+        entry = dict(e)
+        entry["flags"] = {**_DEFAULT_FLAGS, **(entry.get("flags") or {})}
+        entry.setdefault("crop_region", None)
+        entry.setdefault("uploads", {})
+        result.append(entry)
+    return result
+
+
+def find_entry_by_snapshot(m: dict, snapshot: str):
+    for i, e in enumerate(m.get("entries", [])):
+        if e.get("snapshot") == snapshot:
+            return i, e
+    return None, None
+
+
+def patch_entry_flags(snapshot: str, flag_updates: dict) -> dict | None:
+    from manifest_io import locked_manifest_update
+    result = {}
+    def _modify(m):
+        _, entry = find_entry_by_snapshot(m, snapshot)
+        if entry is None:
+            return
+        flags = entry.get("flags") or {"crop": False, "enhance": False, "auth_hold": False}
+        entry["flags"] = flags
+        for k, v in flag_updates.items():
+            if k in {"crop", "enhance", "auth_hold"}:
+                flags[k] = bool(v)
+        result["flags"] = dict(flags)
+    locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _modify)
+    return result if result else None
+
+
+def _valid_crop_region(r) -> bool:
+    if r is None:
+        return True
+    if not isinstance(r, dict):
+        return False
+    return all(isinstance(r.get(k), (int, float)) and 0.0 <= r[k] <= 1.0
+               for k in ("x", "y", "w", "h"))
+
+
+def patch_entry_crop_region(snapshot: str, region) -> dict | None:
+    from manifest_io import locked_manifest_update
+    result = {}
+    def _modify(m):
+        _, entry = find_entry_by_snapshot(m, snapshot)
+        if entry is None:
+            return
+        entry["crop_region"] = region
+        result["crop_region"] = region
+    locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _modify)
+    return result if result else None
+
+
+def patch_entry_metadata(snapshot: str, title: str, keywords: str) -> dict | None:
+    from manifest_io import locked_manifest_update
+    result = {}
+    def _modify(m):
+        _, entry = find_entry_by_snapshot(m, snapshot)
+        if entry is None:
+            return
+        entry["title"]    = title
+        entry["keywords"] = keywords
+        result["title"]    = title
+        result["keywords"] = keywords
+    locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _modify)
+    return result if result else None
+
+
+def images_by_category() -> dict:
+    cats: dict[str, list] = {}
+    for e in load_manifest().get("entries", []):
+        snap = e.get("snapshot")
+        if not snap:
+            continue
+        cat = (e.get("categories") or ["unknown"])[0]
+        cats.setdefault(cat, []).append({
+            "path":      snap,
+            "timestamp": e.get("timestamp", ""),
+            "label":     e.get("label", ""),
+            "score":     e.get("nice_shot") or 0,
+        })
+    for v in cats.values():
+        v.sort(key=lambda x: x["timestamp"], reverse=True)
+    return cats
+
+
+def delete_snapshots(paths: list[str]) -> int:
+    paths_set = set(paths)
+    deleted = 0
+    with _manifest_lock:
+        m = load_manifest()
+        kept = []
+        for e in m.get("entries", []):
+            snap = e.get("snapshot")
+            if snap and snap in paths_set:
+                full = HIGHLIGHTS_DIR / snap
+                if full.exists():
+                    full.unlink()
+                    deleted += 1
+                    log.info(f"deleted  {snap}")
+            else:
+                kept.append(e)
+        m["entries"] = kept
+        atomic_write_json(HIGHLIGHTS_DIR / "manifest.json", m)
+    if deleted:
+        _trigger_sync()
+    return deleted
+
+
+# ── Thumbnails ────────────────────────────────────────────────────────────────
+
+def make_thumb(rel: str) -> bytes:
+    if rel in _thumb_cache:
+        return _thumb_cache[rel]
+    try:
+        from PIL import Image
+        img = Image.open(HIGHLIGHTS_DIR / rel)
+        img.thumbnail((240, 180))
+        buf = io.BytesIO()
+        img.save(buf, "JPEG", quality=72)
+        data = buf.getvalue()
+    except Exception:
+        data = b""
+    _thumb_cache[rel] = data
+    return data
+
+
+# ── Sync ──────────────────────────────────────────────────────────────────────
+
+def _trigger_sync() -> None:
+    if not SYNC_SCRIPT:
+        return
+    try:
+        subprocess.Popen(["bash", str(SYNC_SCRIPT)],
+                         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        log.info("sync.sh triggered")
+    except Exception as e:
+        log.warning(f"sync trigger failed: {e}")
+
+
+# ── Platform upload ──────────────────────────────────────────────────────────
+
+import urllib.request
+import urllib.error
+
+
+def _multipart_upload(url: str, file_path: Path, fields: dict, headers: dict) -> dict:
+    """POST a multipart/form-data request. Returns parsed JSON or raises."""
+    boundary = "GTNboundary"
+    body_parts = []
+    for k, v in fields.items():
+        body_parts.append(
+            f"--{boundary}\r\nContent-Disposition: form-data; "
+            f'name="{k}"\r\n\r\n{v}\r\n'.encode()
+        )
+    img_data = file_path.read_bytes()
+    body_parts.append(
+        f'--{boundary}\r\nContent-Disposition: form-data; name="file"; '
+        f'filename="{file_path.name}"\r\n'
+        f"Content-Type: image/jpeg\r\n\r\n".encode() + img_data + b"\r\n"
+    )
+    body_parts.append(f"--{boundary}--\r\n".encode())
+    body = b"".join(body_parts)
+    req = urllib.request.Request(url, data=body, headers={
+        "Content-Type": f"multipart/form-data; boundary={boundary}",
+        "Content-Length": str(len(body)),
+        **headers,
+    })
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        return json.loads(resp.read())
+
+
+def _json_request(method: str, url: str, payload: dict, headers: dict) -> dict:
+    body = json.dumps(payload).encode()
+    req = urllib.request.Request(url, data=body, method=method, headers={
+        "Content-Type": "application/json",
+        **headers,
+    })
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        return json.loads(resp.read())
+
+
+def apply_crop(snap: str) -> dict:
+    """Crop the source image using its stored crop_region, write to stock_ready/."""
+    from PIL import Image
+    m = load_manifest()
+    _, entry = find_entry_by_snapshot(m, snap)
+    if entry is None:
+        return {"error": "not found in manifest"}
+    region = entry.get("crop_region")
+    if not region:
+        return {"error": "no crop_region set — use the crop picker first"}
+    src = HIGHLIGHTS_DIR / snap
+    if not src.exists():
+        return {"error": "source file not found"}
+
+    img = Image.open(src)
+    iw, ih = img.size
+    px = int(region["x"] * iw)
+    py = int(region["y"] * ih)
+    pw = int(region["w"] * iw)
+    ph = int(region["h"] * ih)
+    px = max(0, min(px, iw - 1))
+    py = max(0, min(py, ih - 1))
+    pw = max(1, min(pw, iw - px))
+    ph = max(1, min(ph, ih - py))
+
+    cropped = img.crop((px, py, px + pw, py + ph))
+
+    cat = (entry.get("categories") or ["misc"])[0]
+    out_dir = STOCK_READY / cat
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / (Path(snap).stem + "_crop.jpg")
+    cropped.save(str(out_path), "JPEG", quality=95)
+    log.info("crop applied: %s → %s", snap, out_path)
+
+    ts = datetime.now().isoformat()
+    def _record(m):
+        _, e = find_entry_by_snapshot(m, snap)
+        if e is not None:
+            e["crop_applied"] = {"path": str(out_path), "timestamp": ts}
+    from manifest_io import locked_manifest_update as _lmu
+    _lmu(HIGHLIGHTS_DIR / "manifest.json", _record)
+
+    return {"ok": True, "path": str(out_path), "size": [pw, ph]}
+
+
+def apply_all_pending_crops() -> dict:
+    """Apply crop to every manifest entry that has crop_region and flags.crop set."""
+    m = load_manifest()
+    results = {"ok": [], "errors": []}
+    for e in m.get("entries", []):
+        snap = e.get("snapshot")
+        if not snap:
+            continue
+        if not (e.get("crop_region") and (e.get("flags") or {}).get("crop")):
+            continue
+        r = apply_crop(snap)
+        if r.get("ok"):
+            results["ok"].append(snap)
+        else:
+            results["errors"].append({"snapshot": snap, "error": r.get("error")})
+    return results
+
+
+def upload_to_shutterstock(snap_path: Path, title: str, keywords: str, creds: dict) -> dict:
+    token = creds.get("access_token")
+    if not token:
+        return {"ok": False, "error": "shutterstock: no access_token"}
+    auth = {"Authorization": f"Bearer {token}"}
+    try:
+        upload = _multipart_upload(
+            "https://api.shutterstock.com/v2/images/upload",
+            snap_path, {}, auth,
+        )
+        upload_id = upload.get("upload_id") or upload.get("id")
+        if not upload_id:
+            return {"ok": False, "error": f"shutterstock: no upload_id in response"}
+
+        kw_list = [k.strip() for k in keywords.split(",") if k.strip()]
+        sub = _json_request("POST", "https://api.shutterstock.com/v2/images", {
+            "upload_id": upload_id,
+            "title": title or snap_path.stem,
+            "description": title or "",
+            "keywords": kw_list,
+            "editorial": False,
+        }, auth)
+        return {"ok": True, "id": str(sub.get("id", ""))}
+    except urllib.error.HTTPError as e:
+        body = e.read(512).decode(errors="replace")
+        return {"ok": False, "error": f"shutterstock HTTP {e.code}: {body}"}
+    except Exception as e:
+        return {"ok": False, "error": f"shutterstock: {e}"}
+
+
+def upload_to_adobe_stock(snap_path: Path, title: str, keywords: str, creds: dict) -> dict:
+    api_key = creds.get("api_key")
+    if not api_key:
+        return {"ok": False, "error": "adobe_stock: no api_key"}
+    headers = {"x-api-key": api_key}
+    fname = snap_path.name
+    try:
+        _multipart_upload(
+            f"https://contributor.stock.adobe.com/api/v1/files/{urlquote(fname)}",
+            snap_path, {}, headers,
+        )
+        kw_list = [k.strip() for k in keywords.split(",") if k.strip()]
+        sub = _json_request("POST",
+            "https://contributor.stock.adobe.com/api/v1/assets",
+            {"title": title or snap_path.stem, "keywords": kw_list,
+             "file": fname, "content_type": "image/jpeg"},
+            headers,
+        )
+        return {"ok": True, "id": str(sub.get("id", ""))}
+    except urllib.error.HTTPError as e:
+        body = e.read(512).decode(errors="replace")
+        return {"ok": False, "error": f"adobe_stock HTTP {e.code}: {body}"}
+    except Exception as e:
+        return {"ok": False, "error": f"adobe_stock: {e}"}
+
+
+_UPLOADERS = {
+    "shutterstock": upload_to_shutterstock,
+    "adobe_stock":  upload_to_adobe_stock,
+}
+
+
+def upload_item(item: dict) -> dict:
+    """Run uploads for one queue item. Returns {ok, results: {platform: result}}."""
+    snap = item.get("snapshot", "")
+    snap_path = HIGHLIGHTS_DIR / snap
+    if not snap_path.exists():
+        return {"ok": False, "error": "file not found"}
+
+    title    = item.get("title", "")
+    keywords = item.get("keywords", "")
+    creds    = load_creds()
+    results  = {}
+
+    for platform in item.get("platforms", []):
+        fn = _UPLOADERS.get(platform)
+        if not fn:
+            results[platform] = {"ok": False, "error": "unknown platform"}
+            continue
+        pc = creds.get(platform, {})
+        results[platform] = fn(snap_path, title, keywords, pc)
+
+    overall_ok = all(r.get("ok") for r in results.values()) if results else False
+
+    # Write upload results back to manifest entry
+    ts = datetime.now().isoformat()
+    def _record(m):
+        _, entry = find_entry_by_snapshot(m, snap)
+        if entry is not None:
+            uploads = entry.setdefault("uploads", {})
+            for plat, res in results.items():
+                uploads[plat] = {
+                    "status":    "uploaded" if res.get("ok") else "error",
+                    "timestamp": ts,
+                    "id":        res.get("id", ""),
+                    "error":     res.get("error", ""),
+                }
+    from manifest_io import locked_manifest_update
+    locked_manifest_update(HIGHLIGHTS_DIR / "manifest.json", _record)
+
+    return {"ok": overall_ok, "results": results}
+
+
+_upload_lock = threading.Lock()
+
+
+def claude_chat(user_message: str, history: list) -> dict:
+    """Call Claude API with manifest context injected as system prompt."""
+    creds = load_creds()
+    api_key = creds.get("anthropic", {}).get("api_key")
+    if not api_key:
+        return {"error": "No Anthropic API key — add it in the Platforms tab"}
+
+    m = load_manifest()
+    entries = m.get("entries", [])
+    queue = load_queue()
+    pstatus = platform_status()
+
+    by_cat: dict[str, int] = {}
+    flagged = {"crop": 0, "enhance": 0, "auth_hold": 0}
+    for e in entries:
+        cat = (e.get("categories") or ["unknown"])[0]
+        by_cat[cat] = by_cat.get(cat, 0) + 1
+        for f in flagged:
+            if (e.get("flags") or {}).get(f):
+                flagged[f] += 1
+
+    cat_lines = "\n".join(f"  {c}: {n}" for c, n in sorted(by_cat.items()))
+    plat_lines = "\n".join(
+        f"  {p}: {'connected' if s.get('has_token') else 'not configured'}"
+        for p, s in pstatus.items() if p != "anthropic"
+    )
+    system = f"""You are a concise assistant for the Ground Truth Network — a wildlife and weather camera system on a Texas Hill Country ranch.
+
+Photo library snapshot:
+  Total entries: {len(entries)}
+{cat_lines}
+  Flagged crop: {flagged['crop']} | enhance: {flagged['enhance']} | auth hold: {flagged['auth_hold']}
+
+Upload queue: {len(queue.get('queue', []))} items, mode={queue.get('mode', 'manual')}
+Stock platforms:
+{plat_lines}
+
+Answer questions about the library, flag status, and upload workflow. Be brief."""
+
+    messages = []
+    for h in (history or [])[-10:]:
+        if h.get("role") in ("user", "assistant") and h.get("content"):
+            messages.append({"role": h["role"], "content": str(h["content"])})
+    if not messages or messages[-1]["role"] != "user":
+        messages.append({"role": "user", "content": user_message})
+
+    body = json.dumps({
+        "model": "claude-haiku-4-5-20251001",
+        "max_tokens": 512,
+        "system": system,
+        "messages": messages,
+    }).encode()
+    req = urllib.request.Request(
+        "https://api.anthropic.com/v1/messages",
+        data=body,
+        headers={
+            "x-api-key": api_key,
+            "anthropic-version": "2023-06-01",
+            "Content-Type": "application/json",
+        },
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            data = json.loads(resp.read())
+            return {"reply": data["content"][0]["text"]}
+    except urllib.error.HTTPError as e:
+        msg = e.read(256).decode(errors="replace")
+        return {"error": f"Anthropic API {e.code}: {msg}"}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+def run_upload_queue() -> dict:
+    """Process all pending items in the queue (auto mode). Runs synchronously."""
+    if not _upload_lock.acquire(blocking=False):
+        return {"ok": False, "error": "upload already running"}
+    try:
+        q = load_queue()
+        pending = [e for e in q["queue"]
+                   if e.get("uploadStatus") not in ("uploaded", "uploading")]
+        if not pending:
+            return {"ok": True, "processed": 0}
+
+        processed = errors = 0
+        for item in pending:
+            item["uploadStatus"] = "uploading"
+            save_queue(q)
+            res = upload_item(item)
+            item["uploadStatus"] = "uploaded" if res.get("ok") else "error"
+            save_queue(q)
+            if res.get("ok"):
+                processed += 1
+            else:
+                errors += 1
+        return {"ok": True, "processed": processed, "errors": errors}
+    finally:
+        _upload_lock.release()
+
+
+# ── Path safety ───────────────────────────────────────────────────────────────
+
+def _is_local_client(handler) -> bool:
+    """Return True only for loopback or RFC1918 source addresses."""
+    import ipaddress
+    try:
+        ip = ipaddress.ip_address(handler.client_address[0])
+        return ip.is_loopback or ip.is_private
+    except Exception:
+        return False
+
+
+def safe_rel(raw: str) -> str | None:
+    try:
+        import os
+        base = os.path.realpath(str(HIGHLIGHTS_DIR))
+        candidate = os.path.realpath(str(HIGHLIGHTS_DIR / raw))
+        # realpath follows symlinks, so this catches symlink escapes that Path.resolve() misses
+        if candidate != base and not candidate.startswith(base + os.sep):
+            return None
+        return raw
+    except Exception:
+        return None
+
+
+# ── HTML ──────────────────────────────────────────────────────────────────────
+
+_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GTN Content Manager</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#111;color:#eee;font:14px/1.4 system-ui,sans-serif}
+#topbar{position:sticky;top:0;z-index:10;background:#1a1a1a;border-bottom:1px solid #333;
+        padding:10px 16px;display:flex;align-items:center;gap:12px}
+#topbar h1{font-size:15px;font-weight:600;flex:1}
+#maintabs{display:flex;gap:4px;padding:8px 16px;background:#181818;border-bottom:1px solid #2a2a2a}
+.mtab{padding:6px 16px;border-radius:4px;cursor:pointer;background:#2a2a2a;
+      border:1px solid #444;font-size:13px;user-select:none}
+.mtab.active{background:#0055aa;border-color:#0055aa}
+.panel{display:none;padding:14px 16px}
+.panel.active{display:block}
+button{background:#c33;color:#fff;border:none;padding:7px 14px;border-radius:4px;
+       cursor:pointer;font-size:13px}
+button:disabled{background:#444;cursor:default}
+button.ok{background:#2a7}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+       background:#2a7;color:#fff;padding:10px 22px;border-radius:6px;
+       display:none;font-weight:600;z-index:99}
+/* photos */
+#bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+#count{color:#f66;font-weight:600}
+#subtabs{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.stab{padding:5px 12px;border-radius:4px;cursor:pointer;background:#2a2a2a;
+      border:1px solid #444;font-size:12px;user-select:none}
+.stab.active{background:#0055aa;border-color:#0055aa}
+.section{display:none}
+.section.active{display:block}
+.sec-bar{display:flex;gap:10px;margin-bottom:8px;align-items:center;font-size:12px;color:#888}
+.sec-bar a{color:#69f;cursor:pointer;text-decoration:underline}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.card{position:relative;cursor:pointer;border-radius:4px;overflow:hidden;
+      border:3px solid transparent;transition:border-color .12s}
+.card.selected{border-color:#f44}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#222}
+.ts{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.65);
+    padding:3px 6px;font-size:11px;color:#ccc;overflow:hidden}
+.badge{position:absolute;top:4px;right:4px;background:#f44;color:#fff;border-radius:50%;
+       width:20px;height:20px;display:none;align-items:center;justify-content:center;
+       font-size:13px;font-weight:bold}
+.card.selected .badge{display:flex}
+/* flag chips + popover */
+.flag-chips{position:absolute;top:4px;left:4px;display:flex;flex-direction:column;gap:2px}
+.chip{font-size:9px;padding:2px 5px;border-radius:2px;font-weight:700;cursor:pointer;user-select:none}
+.chip-crop{background:#fa0;color:#000}
+.chip-enh{background:#4af;color:#000}
+.chip-hold{background:#f44;color:#fff}
+.card-menu{position:absolute;bottom:22px;right:4px;background:rgba(0,0,0,.6);color:#ccc;
+           border:none;border-radius:3px;font-size:14px;line-height:1;padding:1px 5px;
+           cursor:pointer;opacity:0;transition:opacity .15s}
+.card:hover .card-menu{opacity:1}
+.flag-popover{position:fixed;background:#222;border:1px solid #444;border-radius:6px;
+              padding:12px;z-index:50;min-width:190px;box-shadow:0 4px 16px rgba(0,0,0,.7)}
+.flag-popover .pop-title{font-size:11px;color:#666;margin-bottom:8px}
+.flag-popover label{display:flex;align-items:center;gap:8px;margin-bottom:6px;
+                    cursor:pointer;font-size:13px}
+.flag-popover .sep{border-top:1px solid #333;margin:8px 0}
+.flag-popover button{width:100%;font-size:11px;padding:4px 8px;margin-top:4px}
+/* timelapse */
+.tl-form{background:#1e1e1e;border:1px solid #333;border-radius:6px;padding:14px;
+         margin-bottom:12px;display:flex;flex-direction:column;gap:10px}
+.tl-form label{font-size:13px;color:#aaa}
+.tl-form input,.tl-form select{background:#2a2a2a;border:1px solid #444;color:#eee;
+  padding:6px 10px;border-radius:4px;font-size:13px;width:100%}
+.mode-btns{display:flex;gap:6px;margin-bottom:10px}
+.mode-btn{padding:6px 14px;border-radius:4px;cursor:pointer;background:#2a2a2a;
+          border:1px solid #444;font-size:13px;color:#eee;user-select:none}
+.mode-btn.active{background:#0055aa;border-color:#0055aa}
+.estimate{font-size:12px;color:#6cf;margin-top:4px}
+.progress-wrap{height:6px;background:#333;border-radius:3px;overflow:hidden;
+               margin-top:8px;display:none}
+.progress-bar{height:100%;background:#0af;width:0%;transition:width .3s}
+.tl-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+          gap:10px;margin-top:16px}
+.tl-card{background:#1e1e1e;border:2px solid #333;border-radius:6px;
+          overflow:hidden;cursor:pointer;position:relative}
+.tl-card.tl-selected{border-color:#0af}
+.tl-card img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#222}
+.tl-card-info{padding:8px 10px;font-size:12px;color:#aaa;line-height:1.6}
+.tl-card-play{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.55);
+  border:none;border-radius:50%;width:28px;height:28px;font-size:14px;
+  color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.tl-card-play:hover{background:rgba(0,170,255,.7)}
+/* status */
+.log-box{background:#0d0d0d;border:1px solid #2a2a2a;border-radius:4px;
+         padding:10px;font:12px/1.6 monospace;color:#8f8;white-space:pre-wrap;
+         max-height:400px;overflow-y:auto;margin-top:10px}
+.status-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+/* edit metadata modal */
+#editModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+           z-index:50;align-items:center;justify-content:center}
+#editModal.open{display:flex}
+#editBox{background:#1e1e1e;border:1px solid #444;border-radius:8px;
+         padding:20px;width:380px;display:flex;flex-direction:column;gap:12px}
+#editBox h2{font-size:14px;font-weight:600;color:#eee;margin:0}
+#editBox label{font-size:12px;color:#aaa;display:flex;flex-direction:column;gap:4px}
+#editBox input{background:#2a2a2a;border:1px solid #555;color:#eee;
+               padding:7px 10px;border-radius:4px;font-size:13px;width:100%}
+#editBox input:focus{outline:none;border-color:#0af}
+.edit-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.edit-actions button{padding:7px 18px}
+</style>
+</head>
+<body>
+<div id="topbar"><h1>GTN Content Manager</h1></div>
+<div id="maintabs">
+  <div class="mtab active" data-panel="photos">Photos</div>
+  <div class="mtab" data-panel="timelapse">Timelapse</div>
+  <div class="mtab" data-panel="status">Status</div>
+</div>
+
+<!-- PHOTOS -->
+<div id="photos" class="panel active">
+  <div id="bar">
+    <span id="count">0 selected</span>
+    <button id="editBtn" onclick="openEdit()" class="ok" style="display:none">Edit metadata</button>
+    <button id="delBtn" disabled onclick="confirmDelete()">Delete selected</button>
+    <button id="applyAllCropsBtn" class="ok" onclick="applyAllCrops()" title="Apply saved crop regions to stock_ready/ for all flagged images">Apply all pending crops</button>
+  </div>
+  <div id="subtabs"></div>
+  <div id="sections"></div>
+</div>
+
+<!-- EDIT METADATA MODAL -->
+<div id="editModal">
+  <div id="editBox">
+    <h2 id="editTitle">Edit metadata</h2>
+    <label>Title
+      <input type="text" id="editTitleInput" placeholder="Descriptive title">
+    </label>
+    <label>Keywords (comma-separated)
+      <input type="text" id="editKeywordsInput" placeholder="sunset, wildlife, Texas">
+    </label>
+    <div class="edit-actions">
+      <button onclick="closeEdit()">Cancel</button>
+      <button class="ok" onclick="saveEdit()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELAPSE -->
+<div id="timelapse" class="panel">
+  <div class="mode-btns">
+    <div class="mode-btn active" data-mode="golden">Golden Hour</div>
+    <div class="mode-btn" data-mode="fullday">Full Day</div>
+    <div class="mode-btn" data-mode="custom">Custom Range</div>
+  </div>
+
+  <div class="tl-form" id="form-golden">
+    <label>Date <input type="date" id="gh-date"></label>
+    <label>Type
+      <select id="gh-type">
+        <option value="sunrise">Sunrise</option>
+        <option value="sunset">Sunset</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="tl-form" id="form-fullday" style="display:none">
+    <label>Date <input type="date" id="fd-date"></label>
+  </div>
+
+  <div class="tl-form" id="form-custom" style="display:none">
+    <label>Start <input type="datetime-local" id="cr-start"></label>
+    <label>End   <input type="datetime-local" id="cr-end"></label>
+    <label>Label <input type="text" id="cr-label" placeholder="storm_rollout"></label>
+  </div>
+
+  <div class="tl-form">
+    <div style="display:flex;gap:16px;align-items:center">
+      <label style="display:flex;align-items:center;gap:6px">
+        <input type="radio" name="timing" value="interval" checked onchange="timingMode()">
+        Interval
+      </label>
+      <label style="display:flex;align-items:center;gap:6px">
+        <input type="radio" name="timing" value="duration" onchange="timingMode()">
+        Target duration
+      </label>
+    </div>
+    <div id="interval-row">
+      <label>Extract 1 frame every
+        <input type="number" id="t-interval" value="10" min="1" max="300"
+               style="width:70px" oninput="recalc()"> seconds
+      </label>
+      <div class="estimate" id="est-duration"></div>
+    </div>
+    <div id="duration-row" style="display:none">
+      <label>Make video
+        <input type="number" id="t-duration" value="5" min="1" step="0.5"
+               style="width:70px" oninput="recalc()"> minutes long
+      </label>
+      <div class="estimate" id="est-interval"></div>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap">
+    <button class="ok" onclick="buildTimelapse()">Build Timelapse</button>
+    <button id="tlRebuildBtn" class="ok" style="display:none" onclick="rebuildSelected()">Rebuild selected (<span id="tlSelCount">0</span>)</button>
+    <button id="tlDelBtn" class="del" style="display:none" onclick="deleteSelected()">Delete selected</button>
+    <span id="build-status" style="font-size:13px;color:#aaa"></span>
+  </div>
+  <div class="progress-wrap" id="prog-wrap">
+    <div class="progress-bar" id="prog-bar"></div>
+  </div>
+  <div class="tl-list" id="tl-list"></div>
+</div>
+
+<!-- STATUS -->
+<div id="status" class="panel">
+  <div class="status-row">
+    <button class="ok" onclick="runPipeline()">Run pipeline now</button>
+    <span id="pipe-status" style="font-size:13px;color:#aaa"></span>
+  </div>
+  <div class="log-box" id="log-box">Loading...</div>
+</div>
+
+<div id="toast"></div>
+<script>
+'use strict';
+
+// ── Tab switching ─────────────────────────────────────────────
+document.querySelectorAll('.mtab').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.mtab').forEach(x => x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById(t.dataset.panel).classList.add('active');
+  if (t.dataset.panel === 'timelapse') { loadTimelapses(); recalc(); }
+  if (t.dataset.panel === 'status') loadLog();
+}));
+
+// ── Photos tab ────────────────────────────────────────────────
+const selected = new Set();
+let allData = {};
+
+function fmtTs(ts) {
+  const m = ts.match(/^(\\d{4})(\\d{2})(\\d{2})_(\\d{2})(\\d{2})/);
+  return m ? `${m[1]}-${m[2]}-${m[3]} ${m[4]}:${m[5]}` : ts;
+}
+
+function makeCard(img) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.path = img.path;
+
+  const photo = document.createElement('img');
+  photo.src = '/thumb/' + encodeURIComponent(img.path);
+  photo.loading = 'lazy';
+  photo.alt = img.label || '';
+
+  const chips = document.createElement('div');
+  chips.className = 'flag-chips';
+  if (img.flags && img.flags.crop)      chips.appendChild(_chip('CROP', 'chip-crop', img));
+  if (img.flags && img.flags.enhance)   chips.appendChild(_chip('ENH',  'chip-enh',  img));
+  if (img.flags && img.flags.auth_hold) chips.appendChild(_chip('HOLD', 'chip-hold', img));
+
+  const ts = document.createElement('div');
+  ts.className = 'ts';
+  ts.textContent = fmtTs(img.timestamp);
+
+  const badge = document.createElement('div');
+  badge.className = 'badge';
+  badge.textContent = '\\u2715';
+
+  const menu = document.createElement('button');
+  menu.className = 'card-menu';
+  menu.textContent = '\\u22ef';
+  menu.title = 'Actions';
+  menu.addEventListener('click', e => {
+    e.stopPropagation();
+    openFlagPopover(img, card);
+  });
+
+  card.append(photo, chips, ts, badge, menu);
+  card.addEventListener('click', e => {
+    if (!e.target.classList.contains('chip')) toggle(card, img.path);
+  });
+  return card;
+}
+
+function _chip(label, cls, img) {
+  const c = document.createElement('span');
+  c.className = 'chip ' + cls;
+  c.textContent = label;
+  c.addEventListener('click', e => {
+    e.stopPropagation();
+    openFlagPopover(img, e.currentTarget.closest('.card'));
+  });
+  return c;
+}
+
+async function initPhotos() {
+  const r = await fetch('/api/photos');
+  const data = await r.json();
+  const cats = {};
+  for (const e of (data.entries || [])) {
+    const cat = (e.categories || ['unknown'])[0];
+    (cats[cat] = cats[cat] || []).push({...e, path: e.snapshot});
+  }
+  for (const arr of Object.values(cats)) {
+    arr.sort((a, b) => (b.timestamp || '').localeCompare(a.timestamp || ''));
+  }
+  allData = cats;
+  const subtabs  = document.getElementById('subtabs');
+  const sections = document.getElementById('sections');
+  Object.keys(allData).sort().forEach((cat, i) => {
+    const imgs = allData[cat];
+    const tab = document.createElement('div');
+    tab.className = 'stab' + (i === 0 ? ' active' : '');
+    tab.textContent = cat + ' (' + imgs.length + ')';
+    tab.dataset.cat = cat;
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.stab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.section').forEach(x => x.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('sec-' + cat).classList.add('active');
+    });
+    subtabs.appendChild(tab);
+
+    const sec = document.createElement('div');
+    sec.className = 'section' + (i === 0 ? ' active' : '');
+    sec.id = 'sec-' + cat;
+
+    const bar = document.createElement('div');
+    bar.className = 'sec-bar';
+    const info = document.createElement('span');
+    info.textContent = imgs.length + ' photos';
+    const selAll = document.createElement('a');
+    selAll.textContent = 'select all';
+    selAll.addEventListener('click', () => selectAll(cat));
+    const deselAll = document.createElement('a');
+    deselAll.textContent = 'deselect all';
+    deselAll.addEventListener('click', () => deselectAll(cat));
+    bar.append(info, selAll, deselAll);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+    imgs.forEach(img => grid.appendChild(makeCard(img)));
+    sec.append(bar, grid);
+    sections.appendChild(sec);
+  });
+}
+
+function toggle(card, path) {
+  if (selected.has(path)) { selected.delete(path); card.classList.remove('selected'); }
+  else                    { selected.add(path);    card.classList.add('selected'); }
+  updateCount();
+}
+function selectAll(cat) {
+  allData[cat].forEach(img => {
+    selected.add(img.path);
+    document.querySelector('.card[data-path="' + CSS.escape(img.path) + '"]')
+            ?.classList.add('selected');
+  });
+  updateCount();
+}
+function deselectAll(cat) {
+  allData[cat].forEach(img => {
+    selected.delete(img.path);
+    document.querySelector('.card[data-path="' + CSS.escape(img.path) + '"]')
+            ?.classList.remove('selected');
+  });
+  updateCount();
+}
+function updateCount() {
+  document.getElementById('count').textContent = selected.size + ' selected';
+  document.getElementById('delBtn').disabled = selected.size === 0;
+  const editBtn = document.getElementById('editBtn');
+  editBtn.style.display = selected.size === 1 ? '' : 'none';
+}
+
+// ── Flag popover ──────────────────────────────────────────────
+function openFlagPopover(img, card) {
+  document.querySelectorAll('.flag-popover').forEach(p => p.remove());
+  const pop = document.createElement('div');
+  pop.className = 'flag-popover';
+  const rect = card.getBoundingClientRect();
+  pop.style.top  = Math.min(rect.bottom + 4, window.innerHeight - 260) + 'px';
+  pop.style.left = Math.min(rect.left, window.innerWidth - 200) + 'px';
+
+  const title = document.createElement('div');
+  title.className = 'pop-title';
+  title.textContent = fmtTs(img.timestamp);
+  pop.appendChild(title);
+
+  const flagDefs = [{key:'crop',label:'Crop'},{key:'enhance',label:'Enhance'},{key:'auth_hold',label:'Auth Hold'}];
+  for (const fd of flagDefs) {
+    const row = document.createElement('label');
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.checked = !!(img.flags && img.flags[fd.key]);
+    cb.addEventListener('change', () => { toggleFlag(img, fd.key); pop.remove(); });
+    const lbl = document.createElement('span');
+    lbl.textContent = fd.label;
+    row.append(cb, lbl);
+    pop.appendChild(row);
+  }
+
+  const sep = document.createElement('div');
+  sep.className = 'sep';
+  pop.appendChild(sep);
+
+  const cropBtn = document.createElement('button');
+  cropBtn.className = 'sec';
+  cropBtn.textContent = img.crop_region ? 'Edit crop region' : 'Set crop region';
+  cropBtn.addEventListener('click', () => { pop.remove(); openCropPicker(img); });
+  pop.appendChild(cropBtn);
+
+  if (img.flags && img.flags.crop && img.crop_region) {
+    const applyBtn = document.createElement('button');
+    applyBtn.className = 'ok';
+    applyBtn.textContent = img.crop_applied ? 'Re-apply crop' : 'Apply crop \\u2192 stock_ready';
+    applyBtn.addEventListener('click', () => { pop.remove(); applyCrop(img); });
+    pop.appendChild(applyBtn);
+  }
+
+  const editMeta = document.createElement('button');
+  editMeta.className = 'ok';
+  editMeta.textContent = 'Edit metadata';
+  editMeta.addEventListener('click', () => { pop.remove(); openEditForEntry(img); });
+  pop.appendChild(editMeta);
+
+  const qBtn = document.createElement('button');
+  qBtn.className = 'ok';
+  qBtn.textContent = '+ Queue for upload';
+  qBtn.addEventListener('click', () => { addToQueue(img.path); pop.remove(); });
+  pop.appendChild(qBtn);
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'sec';
+  closeBtn.textContent = 'Close';
+  closeBtn.addEventListener('click', () => pop.remove());
+  pop.appendChild(closeBtn);
+
+  document.body.appendChild(pop);
+  setTimeout(() => {
+    document.addEventListener('click', function h() { pop.remove(); document.removeEventListener('click', h); });
+  }, 50);
+}
+
+async function toggleFlag(img, flagKey) {
+  const newVal = !(img.flags && img.flags[flagKey]);
+  const resp = await fetch('/api/photos/' + encodeURIComponent(img.path) + '/flags', {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({[flagKey]: newVal}),
+  });
+  if (!resp.ok) { toast('Flag update failed'); return; }
+  if (!img.flags) img.flags = {};
+  img.flags[flagKey] = newVal;
+  const card = document.querySelector('.card[data-path="' + CSS.escape(img.path) + '"]');
+  if (card) card.parentNode.replaceChild(makeCard(img), card);
+  toast(newVal ? flagKey + ' set' : flagKey + ' cleared');
+}
+
+// ── Crop picker ───────────────────────────────────────────────
+function openCropPicker(img) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;' +
+    'display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
+
+  const hint = document.createElement('div');
+  hint.style.cssText = 'color:#888;font-size:12px';
+  hint.textContent = 'Drag to select crop region';
+  overlay.appendChild(hint);
+
+  const frame = document.createElement('div');
+  frame.style.cssText = 'position:relative;display:inline-block;cursor:crosshair;user-select:none';
+
+  const photo = document.createElement('img');
+  photo.src = '/photo/' + encodeURIComponent(img.path);
+  photo.style.cssText = 'max-width:80vw;max-height:70vh;display:block';
+  frame.appendChild(photo);
+
+  const sel = document.createElement('div');
+  sel.style.cssText = 'position:absolute;border:2px solid #fa0;background:rgba(255,170,0,.12);pointer-events:none;display:none';
+  frame.appendChild(sel);
+  overlay.appendChild(frame);
+
+  const coords = document.createElement('div');
+  coords.style.cssText = 'color:#fa0;font-size:12px;font-family:monospace';
+  coords.textContent = img.crop_region
+    ? 'saved: x=' + img.crop_region.x.toFixed(3) + ' y=' + img.crop_region.y.toFixed(3) +
+      ' w=' + img.crop_region.w.toFixed(3) + ' h=' + img.crop_region.h.toFixed(3)
+    : 'no region set';
+  overlay.appendChild(coords);
+
+  const btnRow = document.createElement('div');
+  btnRow.style.cssText = 'display:flex;gap:8px';
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'ok';
+  saveBtn.textContent = 'Save region';
+  saveBtn.disabled = !img.crop_region;
+  const cancelBtn = document.createElement('button');
+  cancelBtn.style.background = '#2a2a2a';
+  cancelBtn.textContent = 'Cancel';
+  btnRow.append(saveBtn, cancelBtn);
+  overlay.appendChild(btnRow);
+
+  let region = img.crop_region ? {...img.crop_region} : null;
+  let dragging = false, ox = 0, oy = 0;
+  const ir = () => photo.getBoundingClientRect();
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+  function updateSel(r) {
+    const b = ir();
+    sel.style.left = (r.x * b.width) + 'px';
+    sel.style.top  = (r.y * b.height) + 'px';
+    sel.style.width  = (r.w * b.width) + 'px';
+    sel.style.height = (r.h * b.height) + 'px';
+    sel.style.display = 'block';
+    coords.textContent = 'x=' + r.x.toFixed(3) + ' y=' + r.y.toFixed(3) +
+      ' w=' + r.w.toFixed(3) + ' h=' + r.h.toFixed(3);
+    saveBtn.disabled = false;
+  }
+  if (region) updateSel(region);
+
+  frame.addEventListener('mousedown', e => {
+    const b = ir();
+    ox = clamp((e.clientX - b.left) / b.width, 0, 1);
+    oy = clamp((e.clientY - b.top)  / b.height, 0, 1);
+    dragging = true; e.preventDefault();
+  });
+  window.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const b = ir();
+    const cx = clamp((e.clientX - b.left) / b.width, 0, 1);
+    const cy = clamp((e.clientY - b.top)  / b.height, 0, 1);
+    region = {x: Math.min(ox,cx), y: Math.min(oy,cy), w: Math.abs(cx-ox), h: Math.abs(cy-oy)};
+    updateSel(region);
+  });
+  window.addEventListener('mouseup', () => { dragging = false; });
+
+  saveBtn.addEventListener('click', async () => {
+    if (!region || region.w < 0.01 || region.h < 0.01) { toast('Selection too small'); return; }
+    const res = await fetch('/api/photos/' + encodeURIComponent(img.path) + '/crop_region', {
+      method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify(region),
+    });
+    if (!res.ok) { toast('Failed to save crop region'); return; }
+    img.crop_region = region;
+    // Auto-enable the crop flag so the Apply button appears without a separate step
+    await fetch('/api/photos/' + encodeURIComponent(img.path) + '/flags', {
+      method: 'PATCH', headers: {'Content-Type':'application/json'}, body: JSON.stringify({crop: true}),
+    });
+    img.flags = img.flags || {};
+    img.flags.crop = true;
+    toast('Crop region saved — use ··· menu to apply');
+    overlay.remove();
+    const card = document.querySelector('.card[data-path="' + CSS.escape(img.path) + '"]');
+    if (card) card.parentNode.replaceChild(makeCard(img), card);
+  });
+  cancelBtn.addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+async function applyCrop(img) {
+  toast('Applying crop…');
+  const res = await fetch('/api/photos/' + encodeURIComponent(img.path) + '/crop/apply', {method:'POST'});
+  const data = await res.json();
+  if (data.ok) {
+    img.crop_applied = {path: data.path};
+    toast('Cropped \\u2192 ' + data.path.split('/').pop());
+    const card = document.querySelector('.card[data-path="' + CSS.escape(img.path) + '"]');
+    if (card) card.parentNode.replaceChild(makeCard(img), card);
+  } else {
+    toast('Crop failed: ' + (data.error || 'unknown'));
+  }
+}
+
+async function applyAllCrops() {
+  toast('Applying all pending crops…');
+  const res = await fetch('/api/photos/crop/apply-all', {method:'POST'});
+  const data = await res.json();
+  const n = (data.ok || []).length;
+  const e = (data.errors || []).length;
+  toast(n + ' crop(s) applied' + (e ? ', ' + e + ' error(s)' : ''));
+  if (n > 0) location.reload();
+}
+
+async function addToQueue(snapshot) {
+  const resp = await fetch('/api/upload/queue/add', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({snapshot, title:'', keywords:'', platforms:['shutterstock','adobe_stock']}),
+  });
+  if (!resp.ok) { toast('Failed to add to queue'); return; }
+  toast('Added to upload queue');
+}
+
+// ── Edit metadata ─────────────────────────────────────────────
+let _editSnap = null;
+
+function openEditForEntry(img) {
+  _editSnap = img.path;
+  document.getElementById('editTitle').textContent = fmtTs(img.timestamp);
+  document.getElementById('editTitleInput').value    = img.title    || '';
+  document.getElementById('editKeywordsInput').value = img.keywords || '';
+  document.getElementById('editModal').classList.add('open');
+  document.getElementById('editTitleInput').focus();
+}
+
+function openEdit() {
+  const snap = [...selected][0];
+  const img = Object.values(allData).flat().find(i => i.path === snap);
+  openEditForEntry(img || {path: snap, timestamp: snap, title: '', keywords: ''});
+}
+
+function closeEdit() {
+  document.getElementById('editModal').classList.remove('open');
+}
+
+async function saveEdit() {
+  const snap = _editSnap;
+  if (!snap) return;
+  const title    = document.getElementById('editTitleInput').value.trim();
+  const keywords = document.getElementById('editKeywordsInput').value.trim();
+  const r = await fetch('/api/photos/' + encodeURIComponent(snap) + '/metadata', {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({title, keywords}),
+  });
+  if (!r.ok) { toast('Save failed'); return; }
+  const img = Object.values(allData).flat().find(i => i.path === snap);
+  if (img) { img.title = title; img.keywords = keywords; }
+  closeEdit();
+  toast('Metadata saved');
+}
+
+document.getElementById('editModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('editModal')) closeEdit();
+});
+async function confirmDelete() {
+  if (!selected.size) return;
+  if (!confirm('Permanently delete ' + selected.size + ' photo(s) from highlights?\\n\\nThis cannot be undone.')) return;
+  const paths = [...selected];
+  const r = await fetch('/api/delete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({paths}),
+  });
+  const j = await r.json();
+  const deletedSet = new Set(j.paths);
+  j.paths.forEach(p => {
+    document.querySelector('.card[data-path="' + CSS.escape(p) + '"]')?.remove();
+    selected.delete(p);
+  });
+  Object.keys(allData).forEach(cat => {
+    allData[cat] = allData[cat].filter(img => !deletedSet.has(img.path));
+    const n = document.querySelectorAll('#sec-' + cat + ' .card').length;
+    const tab = document.querySelector('.stab[data-cat="' + cat + '"]');
+    if (tab) tab.textContent = cat + ' (' + n + ')';
+  });
+  updateCount();
+  toast('Deleted ' + j.deleted + ' photo(s)');
+}
+
+// ── Timelapse tab ───────────────────────────────────────────────
+let tlMode = 'golden';
+
+function setMode(mode) {
+  tlMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.mode === mode);
+  });
+  document.getElementById('form-golden').style.display  = mode === 'golden'  ? '' : 'none';
+  document.getElementById('form-fullday').style.display = mode === 'fullday' ? '' : 'none';
+  document.getElementById('form-custom').style.display  = mode === 'custom'  ? '' : 'none';
+}
+
+document.querySelectorAll('.mode-btn').forEach(b => b.addEventListener('click', () => {
+  setMode(b.dataset.mode);
+  recalc();
+}));
+
+// Default dates to today
+const today = new Date().toISOString().slice(0, 10);
+document.getElementById('gh-date').value = today;
+document.getElementById('fd-date').value = today;
+
+function timingMode() {
+  const isInterval = document.querySelector('input[name=timing]:checked').value === 'interval';
+  document.getElementById('interval-row').style.display = isInterval ? '' : 'none';
+  document.getElementById('duration-row').style.display = isInterval ? 'none' : '';
+  recalc();
+}
+
+function windowSecs() {
+  if (tlMode === 'golden')  return 60 * 60;         // +-30 min = 60 min total
+  if (tlMode === 'fullday') return 15 * 60 * 60;    // ~15h with padding
+  const s = document.getElementById('cr-start').value;
+  const e = document.getElementById('cr-end').value;
+  if (!s || !e) return 15 * 60 * 60;
+  return Math.max(60, (new Date(e) - new Date(s)) / 1000);
+}
+
+function fmtSecs(s) {
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = Math.round(s % 60);
+  if (h > 0) return h + 'h ' + m + 'm';
+  if (m > 0) return m + 'm ' + sec + 's';
+  return sec + 's';
+}
+
+function recalc() {
+  const wSecs = windowSecs();
+  const isInterval = document.querySelector('input[name=timing]:checked').value === 'interval';
+  if (isInterval) {
+    const iv = parseFloat(document.getElementById('t-interval').value) || 10;
+    const frames = Math.round(wSecs / iv);
+    const dur = frames * 0.12;
+    document.getElementById('est-duration').textContent =
+      '-> ~' + frames + ' frames, video ~' + fmtSecs(dur);
+  } else {
+    const dur = (parseFloat(document.getElementById('t-duration').value) || 5) * 60;
+    const frames = dur / 0.12;
+    const iv = (wSecs / frames).toFixed(1);
+    document.getElementById('est-interval').textContent =
+      '-> 1 frame every ' + iv + 's';
+  }
+}
+
+let _building = false;
+
+async function buildTimelapse() {
+  const isInterval = document.querySelector('input[name=timing]:checked').value === 'interval';
+  let intervalSecs;
+  if (isInterval) {
+    intervalSecs = parseFloat(document.getElementById('t-interval').value) || 10;
+  } else {
+    const dur = (parseFloat(document.getElementById('t-duration').value) || 5) * 60;
+    intervalSecs = Math.max(1, windowSecs() / (dur / 0.12));
+  }
+
+  const body = {mode: tlMode, interval_secs: Math.round(intervalSecs)};
+  if (tlMode === 'golden') {
+    body.date = document.getElementById('gh-date').value;
+    body.type = document.getElementById('gh-type').value;
+  } else if (tlMode === 'fullday') {
+    body.date = document.getElementById('fd-date').value;
+  } else {
+    body.start = document.getElementById('cr-start').value;
+    body.end   = document.getElementById('cr-end').value;
+    body.label = document.getElementById('cr-label').value || 'custom';
+  }
+
+  const r = await fetch('/api/timelapse/build', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+  });
+  const j = await r.json();
+  if (j.error) { toast('Error: ' + j.error); return; }
+  if (j.position > 1) {
+    toast('Queued — position ' + j.position + ' in queue');
+  }
+  _building = true;
+  document.getElementById('prog-wrap').style.display = '';
+  pollBuild();
+}
+
+function pollBuild() {
+  setTimeout(async () => {
+    const r = await fetch('/api/timelapse/status');
+    const j = await r.json();
+    const st  = document.getElementById('build-status');
+    const bar = document.getElementById('prog-bar');
+    const queueSuffix = j.queued > 0 ? ' \xb7 ' + j.queued + ' queued' : '';
+    if (j.state === 'running') {
+      const pct = j.frames_total > 0
+        ? Math.round(j.frames_done / j.frames_total * 100) : 0;
+      bar.style.width = pct + '%';
+      st.textContent  = j.stage + '... ' + j.frames_done + '/' + j.frames_total + ' frames' + queueSuffix;
+      pollBuild();
+    } else if (j.queued > 0) {
+      bar.style.width = '0%';
+      st.textContent  = 'Waiting to start…' + queueSuffix;
+      if (j.state === 'done') { loadTimelapses(); toast('Timelapse built!'); }
+      pollBuild();
+    } else {
+      _building = false;
+      document.getElementById('prog-wrap').style.display = 'none';
+      bar.style.width = '0%';
+      st.textContent  = j.state === 'done' ? 'Done!' : (j.error ? 'Error: ' + j.error : '');
+      if (j.state === 'done') { loadTimelapses(); toast('Timelapse built!'); }
+    }
+  }, 1500);
+}
+
+const _tlSelected = new Map();  // video filename -> entry
+
+function _tlUpdateButtons() {
+  const n = _tlSelected.size;
+  document.getElementById('tlSelCount').textContent = n;
+  document.getElementById('tlRebuildBtn').style.display = n > 0 ? '' : 'none';
+  document.getElementById('tlDelBtn').style.display     = n > 0 ? '' : 'none';
+  // Single selection: also populate the form
+  if (n === 1) {
+    const e = [..._tlSelected.values()][0];
+    const type = (e.type || '').toLowerCase();
+    if (type === 'sunrise' || type === 'sunset') {
+      setMode('golden');
+      document.getElementById('gh-date').value = e.date || '';
+      document.getElementById('gh-type').value = type;
+    } else if (type === 'fullday') {
+      setMode('fullday');
+      document.getElementById('fd-date').value = e.date || '';
+    } else {
+      setMode('custom');
+      if (e.start) document.getElementById('cr-start').value = e.start.slice(0,16);
+      if (e.end)   document.getElementById('cr-end').value   = e.end.slice(0,16);
+      document.getElementById('cr-label').value = e.label || '';
+    }
+    recalc();
+  }
+}
+
+async function loadTimelapses() {
+  const r = await fetch('/api/timelapses');
+  const j = await r.json();
+  const list = document.getElementById('tl-list');
+  list.textContent = '';
+  _tlSelected.clear();
+  _tlUpdateButtons();
+
+  (j.entries || []).forEach(e => {
+    const card = document.createElement('div');
+    card.className = 'tl-card';
+    card.addEventListener('click', () => {
+      if (_tlSelected.has(e.video)) {
+        _tlSelected.delete(e.video);
+        card.classList.remove('tl-selected');
+      } else {
+        _tlSelected.set(e.video, e);
+        card.classList.add('tl-selected');
+      }
+      _tlUpdateButtons();
+    });
+
+    const img = document.createElement('img');
+    img.src = e.thumbnail ? '/thumb/' + encodeURIComponent(e.thumbnail) : '';
+    img.alt = '';
+
+    const play = document.createElement('button');
+    play.className = 'tl-card-play';
+    play.title = 'Watch';
+    play.textContent = '▶';
+    play.addEventListener('click', ev => {
+      ev.stopPropagation();
+      window.open('/timelapse/' + encodeURIComponent(e.video), '_blank');
+    });
+
+    const info = document.createElement('div');
+    info.className = 'tl-card-info';
+
+    const title = document.createElement('strong');
+    title.textContent = e.date + ' ' + (e.type || e.label || '');
+
+    const detail = document.createTextNode(
+      '\\n' + (e.frame_count || 0) + ' frames \xb7 ~' +
+      fmtSecs((e.frame_count || 0) * 0.12)
+    );
+
+    info.append(title, detail);
+    card.append(img, play, info);
+    list.appendChild(card);
+  });
+}
+
+async function rebuildSelected() {
+  if (_tlSelected.size === 0) return;
+  const entries = [..._tlSelected.values()];
+  let queued = 0;
+  for (const e of entries) {
+    let body;
+    if (e.start && e.end) {
+      body = {mode: 'custom', interval_secs: 10,
+              start: e.start.slice(0, 16), end: e.end.slice(0, 16),
+              label: e.label || e.type || 'rebuild'};
+    } else if (e.type === 'fullday') {
+      body = {mode: 'fullday', date: e.date, interval_secs: 10};
+    } else {
+      body = {mode: 'golden', date: e.date, type: e.type || 'sunset', interval_secs: 10};
+    }
+    const r = await fetch('/api/timelapse/build', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(body),
+    });
+    const j = await r.json();
+    if (!j.error) queued++;
+  }
+  toast('Queued ' + queued + ' rebuild(s).');
+  _building = true;
+  document.getElementById('prog-wrap').style.display = '';
+  pollBuild();
+}
+
+async function deleteSelected() {
+  if (_tlSelected.size === 0) return;
+  if (!confirm('Delete ' + _tlSelected.size + ' timelapse(s)?\\n\\nThis cannot be undone.')) return;
+  let deleted = 0;
+  for (const video of _tlSelected.keys()) {
+    const r = await fetch('/api/timelapse/delete', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({video}),
+    });
+    const j = await r.json();
+    if (!j.error) deleted++;
+  }
+  toast('Deleted ' + deleted + '.');
+  loadTimelapses();
+}
+
+// ── Status tab ────────────────────────────────────────────────
+async function loadLog() {
+  const r = await fetch('/api/pipeline/log');
+  document.getElementById('log-box').textContent = await r.text();
+}
+
+async function runPipeline() {
+  document.getElementById('pipe-status').textContent = 'Starting...';
+  await fetch('/api/pipeline/run', {method: 'POST'});
+  document.getElementById('pipe-status').textContent = 'Running in background...';
+  setTimeout(loadLog, 3000);
+}
+
+// ── Toast ─────────────────────────────────────────────────────
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 5000);
+}
+
+initPhotos();
+recalc();
+</script>
+</body>
+</html>
+"""
+
+
+# ── HTTP handler ─────────────────────────────────────────────────────────────────────────────
+
+class ContentHandler(BaseHTTPRequestHandler):
+    def log_message(self, fmt, *args):
+        log.info(fmt % args)
+
+    def do_GET(self):
+        p = urlparse(self.path).path
+
+        if p == "/":
+            shell = STATIC_DIR / "command_center.html"
+            if shell.exists():
+                self._send(200, "text/html", shell.read_bytes())
+            else:
+                self._send(200, "text/html", _HTML.encode())
+        elif p == "/api/images":
+            self._send(200, "application/json",
+                       json.dumps(images_by_category()).encode())
+        elif p == "/api/timelapse/status":
+            self._send(200, "application/json",
+                       json.dumps(_job_snapshot()).encode())
+        elif p == "/api/timelapses":
+            self._send(200, "application/json", _timelapses_json())
+        elif p == "/api/pipeline/log":
+            self._send(200, "text/plain", _pipeline_log())
+        elif p.startswith("/thumb/"):
+            rel = safe_rel(unquote(p[len("/thumb/"):]))
+            if not rel:
+                self._send(403, "text/plain", b"Forbidden"); return
+            data = make_thumb(rel)
+            self._send(200 if data else 404, "image/jpeg", data)
+        elif p.startswith("/photo/"):
+            rel = safe_rel(unquote(p[len("/photo/"):]))
+            if not rel:
+                self._send(403, "text/plain", b"Forbidden"); return
+            full = HIGHLIGHTS_DIR / rel
+            self._send(200 if full.exists() else 404, "image/jpeg",
+                       full.read_bytes() if full.exists() else b"")
+        elif p.startswith("/timelapse/"):
+            name = Path(unquote(p[len("/timelapse/"):])).name  # strip directory traversal
+            full = HIGHLIGHTS_DIR / "timelapse" / name
+            if not full.exists():
+                self._send(404, "text/plain", b"Not found"); return
+            file_size = full.stat().st_size
+            range_header = self.headers.get("Range", "")
+            if range_header.startswith("bytes="):
+                rng = range_header[6:].split("-", 1)
+                start = int(rng[0]) if rng[0] else 0
+                end   = int(rng[1]) if len(rng) > 1 and rng[1] else file_size - 1
+                end   = min(end, file_size - 1)
+                length = end - start + 1
+                with open(full, "rb") as f:
+                    f.seek(start)
+                    data = f.read(length)
+                self.send_response(206)
+                self.send_header("Content-Type", "video/mp4")
+                self.send_header("Content-Range", f"bytes {start}-{end}/{file_size}")
+                self.send_header("Content-Length", str(length))
+                self.send_header("Accept-Ranges", "bytes")
+                self.end_headers()
+                self.wfile.write(data)
+            else:
+                self.send_response(200)
+                self.send_header("Content-Type", "video/mp4")
+                self.send_header("Content-Length", str(file_size))
+                self.send_header("Accept-Ranges", "bytes")
+                self.end_headers()
+                with open(full, "rb") as f:
+                    self.wfile.write(f.read())
+        elif p == "/api/photos":
+            m = load_manifest()
+            self._send(200, "application/json",
+                       json.dumps({"entries": entries_with_defaults(m)}).encode())
+        elif p == "/api/upload/queue":
+            self._send(200, "application/json", json.dumps(load_queue()).encode())
+        elif p == "/api/platforms/status":
+            self._send(200, "application/json", json.dumps(platform_status()).encode())
+        elif p == "/api/status":
+            self._send(200, "application/json", json.dumps(service_status()).encode())
+        elif p.startswith("/static/"):
+            rel = unquote(p[len("/static/"):])
+            try:
+                target = (STATIC_DIR / rel).resolve()
+                target.relative_to(STATIC_DIR.resolve())
+            except Exception:
+                self._send(403, "text/plain", b"Forbidden"); return
+            if not target.exists() or not target.is_file():
+                self._send(404, "text/plain", b"Not found"); return
+            ct, _ = mimetypes.guess_type(str(target))
+            self._send(200, ct or "application/octet-stream", target.read_bytes())
+        else:
+            self._send(404, "text/plain", b"Not found")
+
+    def do_POST(self):
+        p = urlparse(self.path).path
+        length = int(self.headers.get("Content-Length", 0))
+        try:
+            payload = json.loads(self.rfile.read(length)) if length else {}
+        except Exception:
+            self._send(400, "application/json", b'{"error":"bad json"}'); return
+
+        if p == "/api/delete":
+            safe_paths = [r for path in payload.get("paths", [])
+                          if (r := safe_rel(path))]
+            deleted = delete_snapshots(safe_paths)
+            self._send(200, "application/json",
+                       json.dumps({"deleted": deleted, "paths": safe_paths}).encode())
+        elif p == "/api/timelapse/build":
+            err, position = _start_build(payload)
+            if err:
+                self._send(400, "application/json",
+                           json.dumps({"error": err}).encode())
+            else:
+                self._send(200, "application/json",
+                           json.dumps({"ok": True, "position": position}).encode())
+        elif p == "/api/timelapse/delete":
+            err = _delete_timelapse(payload.get("video", ""))
+            if err:
+                self._send(400, "application/json",
+                           json.dumps({"error": err}).encode())
+            else:
+                self._send(200, "application/json", b'{"ok":true}')
+        elif p == "/api/pipeline/run":
+            _run_pipeline()
+            self._send(200, "application/json", b'{"ok":true}')
+        elif p == "/api/upload/queue/add":
+            snap = safe_rel(payload.get("snapshot", ""))
+            if not snap:
+                self._send(400, "application/json", b'{"error":"invalid snapshot"}'); return
+            q = load_queue()
+            if not any(e["snapshot"] == snap for e in q["queue"]):
+                q["queue"].append({
+                    "snapshot": snap,
+                    "title":    payload.get("title", ""),
+                    "keywords": payload.get("keywords", ""),
+                    "platforms": payload.get("platforms", []),
+                })
+            save_queue(q)
+            self._send(200, "application/json", b'{"ok":true}')
+        elif p == "/api/upload/queue/mode":
+            mode = payload.get("mode")
+            if mode not in ("manual", "auto"):
+                self._send(400, "application/json",
+                           b'{"error":"mode must be manual or auto"}'); return
+            q = load_queue()
+            q["mode"] = mode
+            save_queue(q)
+            self._send(200, "application/json", b'{"ok":true}')
+        elif p == "/api/claude":
+            result = claude_chat(payload.get("message", ""), payload.get("history", []))
+            self._send(200, "application/json", json.dumps(result).encode())
+        elif re.match(r"^/api/photos/.+/crop/apply$", p):
+            snap = safe_rel(unquote(p[len("/api/photos/"):-len("/crop/apply")]))
+            if not snap:
+                self._send(403, "application/json", b'{"error":"invalid snapshot"}'); return
+            self._send(200, "application/json", json.dumps(apply_crop(snap)).encode())
+        elif p == "/api/photos/crop/apply-all":
+            self._send(200, "application/json", json.dumps(apply_all_pending_crops()).encode())
+        elif p == "/api/upload/run":
+            result = run_upload_queue()
+            self._send(200, "application/json", json.dumps(result).encode())
+        elif re.match(r"^/api/upload/.+/submit$", p):
+            snap = safe_rel(unquote(p[len("/api/upload/"):-len("/submit")]))
+            if not snap:
+                self._send(403, "application/json", b'{"error":"invalid snapshot"}'); return
+            q = load_queue()
+            item = next((e for e in q["queue"] if e.get("snapshot") == snap), None)
+            if item is None:
+                self._send(404, "application/json", b'{"error":"not in queue"}'); return
+            title    = payload.get("title",    item.get("title", ""))
+            keywords = payload.get("keywords", item.get("keywords", ""))
+            platforms = payload.get("platforms", item.get("platforms", []))
+            item.update({"title": title, "keywords": keywords, "platforms": platforms,
+                         "uploadStatus": "uploading"})
+            save_queue(q)
+            result = upload_item(item)
+            item["uploadStatus"] = "uploaded" if result.get("ok") else "error"
+            save_queue(q)
+            self._send(200, "application/json", json.dumps(result).encode())
+        elif p == "/api/platforms/credentials":
+            if not _is_local_client(self):
+                self._send(403, "application/json", b'{"error":"forbidden"}'); return
+            platform = payload.get("platform")
+            if platform not in ("shutterstock", "adobe_stock", "anthropic"):
+                self._send(400, "application/json", b'{"error":"unknown platform"}'); return
+            creds = load_creds()
+            creds.setdefault(platform, {}).update(
+                {k: v for k, v in payload.items() if k != "platform"}
+            )
+            save_creds(creds)
+            self._send(200, "application/json", b'{"ok":true}')
+        else:
+            self._send(404, "text/plain", b"Not found")
+
+    def do_PATCH(self):
+        p = urlparse(self.path).path
+        length = int(self.headers.get("Content-Length", 0))
+        try:
+            payload = json.loads(self.rfile.read(length)) if length else {}
+        except Exception:
+            self._send(400, "application/json", b'{"error":"bad json"}'); return
+
+        m = re.match(r"^/api/photos/(.+)/flags$", p)
+        if m:
+            snap = safe_rel(unquote(m.group(1)))
+            if not snap:
+                self._send(403, "text/plain", b"Forbidden"); return
+            result = patch_entry_flags(snap, payload)
+            if result is None:
+                self._send(404, "application/json", b'{"error":"not found"}'); return
+            self._send(200, "application/json", json.dumps(result).encode())
+            return
+
+        m = re.match(r"^/api/photos/(.+)/crop_region$", p)
+        if m:
+            snap = safe_rel(unquote(m.group(1)))
+            if not snap:
+                self._send(403, "text/plain", b"Forbidden"); return
+            region = payload if payload else None
+            if not _valid_crop_region(region):
+                self._send(400, "application/json", b'{"error":"invalid crop_region"}'); return
+            result = patch_entry_crop_region(snap, region)
+            if result is None:
+                self._send(404, "application/json", b'{"error":"not found"}'); return
+            self._send(200, "application/json", json.dumps(result).encode())
+            return
+
+        m = re.match(r"^/api/photos/(.+)/metadata$", p)
+        if m:
+            snap = safe_rel(unquote(m.group(1)))
+            if not snap:
+                self._send(403, "text/plain", b"Forbidden"); return
+            title    = str(payload.get("title",    ""))
+            keywords = str(payload.get("keywords", ""))
+            result = patch_entry_metadata(snap, title, keywords)
+            if result is None:
+                self._send(404, "application/json", b'{"error":"not found"}'); return
+            self._send(200, "application/json", json.dumps(result).encode())
+            return
+
+        self._send(404, "text/plain", b"Not found")
+
+    def do_DELETE(self):
+        p = urlparse(self.path).path
+        m = re.match(r"^/api/upload/queue/(.+)$", p)
+        if m:
+            snap = safe_rel(unquote(m.group(1)))
+            if not snap:
+                self._send(403, "text/plain", b"Forbidden"); return
+            q = load_queue()
+            q["queue"] = [e for e in q["queue"] if e.get("snapshot") != snap]
+            save_queue(q)
+            self._send(200, "application/json", b'{"ok":true}')
+            return
+        self._send(404, "text/plain", b"Not found")
+
+    def _send(self, status: int, ct: str, body: bytes):
+        self.send_response(status)
+        self.send_header("Content-Type", ct)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+
+# ── Timelapse list / delete ───────────────────────────────────────────────────────────────────────
+
+def _timelapses_json() -> bytes:
+    mf = HIGHLIGHTS_DIR / "timelapse_manifest.json"
+    return mf.read_bytes() if mf.exists() else b'{"entries":[]}'
+
+
+def _delete_timelapse(video_name: str) -> str | None:
+    """Remove a timelapse video and its manifest entry. Returns error string or None."""
+    if not video_name or "/" in video_name or "\\" in video_name:
+        return "Invalid video name"
+
+    mf_path = HIGHLIGHTS_DIR / "timelapse_manifest.json"
+    if not mf_path.exists():
+        return "No manifest found"
+
+    manifest = json.loads(mf_path.read_text())
+    entries = manifest.get("entries", [])
+    entry = next((e for e in entries if e.get("video") == video_name), None)
+    if not entry:
+        return f"Entry not found: {video_name}"
+
+    video_path = HIGHLIGHTS_DIR / "timelapse" / video_name
+    if video_path.exists():
+        video_path.unlink()
+
+    manifest["entries"] = [e for e in entries if e.get("video") != video_name]
+    manifest["updated"] = datetime.now().isoformat()
+    atomic_write_json(mf_path, manifest)
+    log.info("deleted timelapse %s", video_name)
+    return None
+
+
+# ── Pipeline log ──────────────────────────────────────────────────────────────────────────────
+
+_PIPELINE_LOG = Path("/tmp/gtn_pipeline.log")
+
+
+def _pipeline_log() -> bytes:
+    if not _PIPELINE_LOG.exists():
+        return b"No pipeline runs yet."
+    lines = _PIPELINE_LOG.read_text(errors="replace").splitlines()
+    return "\n".join(lines[-50:]).encode()
+
+
+def _run_pipeline() -> None:
+    script = Path(__file__).parent.parent / "cron-scan-sync.sh"
+    if not script.exists():
+        log.warning("cron-scan-sync.sh not found")
+        return
+    with open(_PIPELINE_LOG, "w") as fh:
+        subprocess.Popen(["bash", str(script)], stdout=fh, stderr=subprocess.STDOUT)
+    log.info("pipeline started")
+
+
+# ── Build dispatch ──────────────────────────────────────────────────────────────────────────────
+
+def _start_build(payload: dict) -> tuple[str | None, int]:
+    """Validate payload and enqueue a build. Returns (error_string_or_None, queue_position)."""
+    mode = payload.get("mode")
+    if mode not in ("golden", "fullday", "custom"):
+        return f"Unknown mode: {mode!r}", 0
+
+    interval_secs = max(1, int(payload.get("interval_secs") or 10))
+
+    try:
+        start_dt, end_dt, label = _resolve_window(payload)
+    except Exception as exc:
+        return str(exc), 0
+
+    with _job_lock:
+        _build_queue.append((start_dt, end_dt, label, interval_secs))
+        position = len(_build_queue)
+        already_running = _job["state"] == "running"
+
+    if not already_running:
+        _dispatch_next()
+
+    return None, position
+
+
+def _dispatch_next() -> None:
+    with _job_lock:
+        if not _build_queue:
+            return
+        args = _build_queue.pop(0)
+    _job_update(state="running", stage="starting", frames_done=0, frames_total=0, error="")
+    threading.Thread(target=_build_thread, args=args, daemon=True).start()
+
+
+def _resolve_window(payload: dict) -> tuple[datetime, datetime, str]:
+    """Return (start_dt, end_dt, label) for a build payload."""
+    from astral import LocationInfo
+    from astral.sun import sun as astral_sun
+
+    lat = float(os.getenv("LATITUDE", "39.8"))
+    lon = float(os.getenv("LONGITUDE", "-98.5"))
+    tz  = os.getenv("TZ", "America/Chicago")
+    loc = LocationInfo(latitude=lat, longitude=lon, timezone=tz)
+    pad = timedelta(minutes=GOLDEN_PAD_MIN)
+    mode = payload["mode"]
+
+    if mode == "golden":
+        date = datetime.strptime(payload["date"], "%Y-%m-%d").date()
+        kind = payload.get("type", "sunset")
+        s = astral_sun(loc.observer, date=date, tzinfo=loc.tzinfo)
+        center = s[kind].replace(tzinfo=None)
+        return center - pad, center + pad, f"{payload['date'].replace('-','')}_{kind}"
+
+    if mode == "fullday":
+        date = datetime.strptime(payload["date"], "%Y-%m-%d").date()
+        s = astral_sun(loc.observer, date=date, tzinfo=loc.tzinfo)
+        start_dt = s["sunrise"].replace(tzinfo=None) - pad
+        end_dt   = s["sunset"].replace(tzinfo=None)  + pad
+        return start_dt, end_dt, f"{payload['date'].replace('-','')}_fullday"
+
+    # custom
+    start_dt = datetime.fromisoformat(payload["start"])
+    end_dt   = datetime.fromisoformat(payload["end"])
+    if end_dt <= start_dt:
+        raise ValueError("end must be after start")
+    raw   = payload.get("label") or "custom"
+    label = "".join(c if c.isalnum() or c == "_" else "_" for c in raw)
+    return start_dt, end_dt, f"{start_dt.strftime('%Y%m%d')}_{label}"
+
+
+def _build_thread(start_dt: datetime, end_dt: datetime,
+                  label: str, interval_secs: int) -> None:
+    tmp_dir = Path(tempfile.mkdtemp(prefix="gtn_tl_"))
+    try:
+        import frigate_extract as fe
+        from timelapse_builder import _build_one
+        _job_update(stage="finding segments")
+        segments = fe.find_segments(start_dt, end_dt, FRIGATE_DIR)
+        if not segments:
+            _job_update(state="error",
+                        error="No Frigate recordings found for this window"); return
+
+        window_secs   = (end_dt - start_dt).total_seconds()
+        total_estimate = int(window_secs / interval_secs)
+        _job_update(stage="extracting", frames_total=total_estimate)
+
+        frames = fe.extract_frames(
+            segments, start_dt, end_dt, interval_secs,
+            tmp_dir / "frames",
+            on_progress=lambda n: _job_update(frames_done=n),
+        )
+        if not frames:
+            _job_update(state="error",
+                        error="No frames extracted — check Frigate paths"); return
+
+        _job_update(stage="encoding", frames_done=len(frames), frames_total=len(frames))
+        out_dir  = HIGHLIGHTS_DIR / "timelapse"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_path = out_dir / f"{label}_timelapse.mp4"
+
+        if not _build_one(frames, out_path, cpu_percent=15):
+            _job_update(state="error", error="ffmpeg encode failed"); return
+
+        _write_timelapse_manifest(label, out_path, frames, start_dt, end_dt)
+        _job_update(state="done", frames_done=len(frames))
+
+    except Exception as exc:
+        log.exception("build thread error")
+        _job_update(state="error", error=str(exc))
+    finally:
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+        _dispatch_next()
+
+
+def _write_timelapse_manifest(label: str, out_path: Path, frames: list[Path],
+                               start_dt: datetime, end_dt: datetime) -> None:
+    mf_path  = HIGHLIGHTS_DIR / "timelapse_manifest.json"
+    manifest = json.loads(mf_path.read_text()) if mf_path.exists() else {"entries": []}
+
+    parts    = label.split("_", 1)
+    date_fmt = (f"{parts[0][:4]}-{parts[0][4:6]}-{parts[0][6:]}"
+                if len(parts[0]) == 8 else label)
+    tl_type  = parts[1] if len(parts) > 1 else "custom"
+
+    try:
+        thumb_rel = str(frames[0].relative_to(HIGHLIGHTS_DIR))
+    except (IndexError, ValueError):
+        thumb_rel = ""
+
+    video_name = out_path.name
+    manifest["entries"] = [e for e in manifest["entries"]
+                           if e.get("video") != video_name]
+    manifest["entries"].insert(0, {
+        "session_key": label,
+        "date":        date_fmt,
+        "type":        tl_type,
+        "label":       label,
+        "frame_count": len(frames),
+        "video":       video_name,
+        "thumbnail":   thumb_rel,
+        "source":      "frigate_extract",
+        "start":       start_dt.isoformat(),
+        "end":         end_dt.isoformat(),
+        "created":     datetime.now().isoformat(),
+    })
+    manifest["updated"] = datetime.now().isoformat()
+    atomic_write_json(mf_path, manifest)
+
+
+# ── CLI ────────────────────────────────────────────────────────────────────────────────────
+
+def main():
+    global HIGHLIGHTS_DIR, FRIGATE_DIR, SYNC_SCRIPT
+
+    ap = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    ap.add_argument("--port",           type=int, default=8766)
+    ap.add_argument("--highlights-dir", default=str(HIGHLIGHTS_DIR))
+    ap.add_argument("--frigate-dir",    default=str(FRIGATE_DIR))
+    ap.add_argument("--sync-script",    default="")
+    args = ap.parse_args()
+
+    HIGHLIGHTS_DIR = Path(args.highlights_dir)
+    FRIGATE_DIR    = Path(args.frigate_dir)
+    SYNC_SCRIPT    = Path(args.sync_script) if args.sync_script else None
+
+    server = HTTPServer(("0.0.0.0", args.port), ContentHandler)
+    log.info(f"GTN Content Manager  ->  http://192.168.100.202:{args.port}")
+    log.info(f"highlights: {HIGHLIGHTS_DIR}  |  frigate: {FRIGATE_DIR}")
+    log.info("Ctrl-C to stop")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        server.shutdown()
+
+
+if __name__ == "__main__":
+    main()

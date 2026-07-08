@@ -40,8 +40,21 @@ homeassistant/config/deps/
 homeassistant/config/tts/
 homeassistant/config/comets.json
 homeassistant/config/blueprints/
+homeassistant/config/.HA_VERSION
+homeassistant/config/.ha_run.lock
+homeassistant/config/.cache/
+homeassistant/config/image/
 
 # Credentials — TLS key, camera RTSP creds, HA webhook IDs (public repo)
 nginx/certs/
 nginx/ecowitt-proxy.conf
 mediamtx/mediamtx.yml
+ecowitt-proxy.py
+
+# Local-only working data — not published, not referenced by any manifest
+weather/scout/
+wildlife/*.mp4
+temporary/
+
+# Editor swap files
+*.swp
