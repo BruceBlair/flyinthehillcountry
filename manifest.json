@@ -60,6 +60,20 @@
       "nice_shot": 71.9
     },
     {
+      "timestamp": "20260709_145201",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783626721.135707-fmqrna",
+      "snapshot": "wildlife/20260709_145201_bird.jpg",
+      "clip": "wildlife/20260709_145201_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 70.9
+    },
+    {
       "timestamp": "20260708_091928",
       "label": "bird",
       "score": 0.0,
@@ -72,6 +86,20 @@
       "clip": "wildlife/20260708_091928_bird.mp4",
       "source": "backfill",
       "nice_shot": 70.5
+    },
+    {
+      "timestamp": "20260709_141556",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783624556.995933-32zn2s",
+      "snapshot": "wildlife/20260709_141556_bird.jpg",
+      "clip": "wildlife/20260709_141556_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 70.4
     },
     {
       "timestamp": "20260708_093629",
@@ -11216,33 +11244,33 @@
       "nice_shot": 40.3
     },
     {
-      "timestamp": "20260709_073615",
+      "timestamp": "20260709_074108",
       "label": "bird",
       "score": 0.0,
       "categories": [
         "wildlife"
       ],
       "camera": "trackmix_zoom",
-      "event_id": "1783600575.184323-65nhkv",
-      "snapshot": "wildlife/20260709_073615_bird.jpg",
-      "clip": "wildlife/20260709_073615_bird.mp4",
+      "event_id": "1783600868.712345-r8hgqp",
+      "snapshot": "wildlife/20260709_074108_bird.jpg",
+      "clip": "wildlife/20260709_074108_bird.mp4",
       "source": "backfill",
-      "nice_shot": 40.3
+      "nice_shot": 40.2
     },
     {
-      "timestamp": "20260709_074045",
+      "timestamp": "20260709_074144",
       "label": "bird",
       "score": 0.0,
       "categories": [
         "wildlife"
       ],
       "camera": "trackmix_zoom",
-      "event_id": "1783600845.721583-tqjy31",
-      "snapshot": "wildlife/20260709_074045_bird.jpg",
-      "clip": "wildlife/20260709_074045_bird.mp4",
+      "event_id": "1783600904.884344-a5p6gh",
+      "snapshot": "wildlife/20260709_074144_bird.jpg",
+      "clip": "wildlife/20260709_074144_bird.mp4",
       "source": "backfill",
       "nice_shot": 40.2
     }
   ],
-  "updated": "2026-07-09T14:07:44.099478"
+  "updated": "2026-07-09T15:07:53.700665"
 }
