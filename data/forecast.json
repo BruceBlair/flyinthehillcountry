@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-09T05:30:01Z",
+  "updated": "2026-07-09T06:00:07Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,17 +8,17 @@
   "periods": [
     {
       "number": 1,
-      "name": "Tonight",
-      "start": "2026-07-08T19:00:00-05:00",
+      "name": "Overnight",
+      "start": "2026-07-09T00:00:00-05:00",
       "end": "2026-07-09T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 74,
-      "wind_speed": "5 to 10 mph",
-      "wind_dir": "S",
-      "precip_pct": 10,
-      "short": "Slight Chance Rain Showers then Mostly Clear",
-      "detail": "A slight chance of rain showers before 10pm. Mostly clear, with a low around 74. South wind 5 to 10 mph, with gusts as high as 20 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/rain_showers/few?size=medium"
+      "wind_speed": "5 mph",
+      "wind_dir": "SSW",
+      "precip_pct": 0,
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 74. South southwest wind around 5 mph, with gusts as high as 20 mph.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
       "number": 2,
