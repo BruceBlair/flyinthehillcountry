@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-08T11:01:54Z",
+  "updated": "2026-07-09T05:05:02Z",
   "coverage_phases": [
     {
       "start": "2026-03-10",
@@ -899,12 +899,7 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260627/20260627_sunrise.mp4",
-        "day_1": "timelapse/20260627/20260627_day_1.mp4",
-        "day_2": "timelapse/20260627/20260627_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-06-28": {
       "photos": false,
@@ -923,17 +918,12 @@
       "timelapse": false
     },
     "2026-06-30": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": false,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260630/20260630_sunrise.mp4",
-        "day_1": "timelapse/20260630/20260630_day_1.mp4",
-        "day_2": "timelapse/20260630/20260630_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-07-01": {
       "photos": false,
@@ -941,12 +931,7 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260701/20260701_sunrise.mp4",
-        "day_1": "timelapse/20260701/20260701_day_1.mp4",
-        "day_2": "timelapse/20260701/20260701_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-07-02": {
       "photos": false,
@@ -954,25 +939,15 @@
       "video_continuous": true,
       "video_events": false,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260702/20260702_sunrise.mp4",
-        "day_1": "timelapse/20260702/20260702_day_1.mp4",
-        "day_2": "timelapse/20260702/20260702_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-07-03": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260703/20260703_sunrise.mp4",
-        "day_1": "timelapse/20260703/20260703_day_1.mp4",
-        "day_2": "timelapse/20260703/20260703_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-07-04": {
       "photos": false,
@@ -980,12 +955,7 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260704/20260704_sunrise.mp4",
-        "day_1": "timelapse/20260704/20260704_day_1.mp4",
-        "day_2": "timelapse/20260704/20260704_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-07-05": {
       "photos": false,
@@ -993,15 +963,10 @@
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260705/20260705_sunrise.mp4",
-        "day_1": "timelapse/20260705/20260705_day_1.mp4",
-        "day_2": "timelapse/20260705/20260705_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-07-06": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -1009,19 +974,22 @@
       "timelapse": true
     },
     "2026-07-07": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
       "video_founding": false,
-      "timelapse": true,
-      "timelapse_sections": {
-        "sunrise": "timelapse/20260707/20260707_sunrise.mp4",
-        "day_1": "timelapse/20260707/20260707_day_1.mp4",
-        "day_2": "timelapse/20260707/20260707_day_2.mp4"
-      }
+      "timelapse": true
     },
     "2026-07-08": {
+      "photos": true,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": false
+    },
+    "2026-07-09": {
       "photos": false,
       "weather": true,
       "video_continuous": true,
