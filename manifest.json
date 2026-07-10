@@ -11360,7 +11360,19 @@
       "clip": "wildlife/20260709_075236_bird.mp4",
       "source": "backfill",
       "nice_shot": 39.6
+    },
+    {
+      "timestamp": "20260710_073348",
+      "label": "golden_hour",
+      "categories": [
+        "golden_hour/golden_hour"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": "golden_hour/golden_hour/20260710_073348_scene.jpg",
+      "clip": null,
+      "nice_shot": 39.2
     }
   ],
-  "updated": "2026-07-10T07:08:11.716683"
+  "updated": "2026-07-10T08:06:50.395378"
 }
