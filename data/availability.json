@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-09T10:11:58Z",
+  "updated": "2026-07-10T12:33:08Z",
   "coverage_phases": [
     {
       "start": "2026-03-10",
@@ -995,6 +995,19 @@
       }
     },
     "2026-07-09": {
+      "photos": false,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": true,
+      "timelapse_sections": {
+        "sunrise": "timelapse/20260709/20260709_sunrise.mp4",
+        "day_1": "timelapse/20260709/20260709_day_1.mp4",
+        "day_2": "timelapse/20260709/20260709_day_2.mp4"
+      }
+    },
+    "2026-07-10": {
       "photos": false,
       "weather": true,
       "video_continuous": true,
