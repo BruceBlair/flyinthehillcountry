@@ -11500,6 +11500,20 @@
       "nice_shot": 39.2
     },
     {
+      "timestamp": "20260710_171406",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783721646.051686-7i8jgm",
+      "snapshot": "wildlife/20260710_171406_bird.jpg",
+      "clip": "wildlife/20260710_171406_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 36.2
+    },
+    {
       "timestamp": "20260710_161209",
       "label": "bird",
       "score": 0.0,
@@ -11536,5 +11550,5 @@
       "clip": null
     }
   ],
-  "updated": "2026-07-10T17:07:51.696156"
+  "updated": "2026-07-10T18:06:42.331244"
 }
