@@ -15,7 +15,7 @@ START_DATE=$(date -d "2 days ago" +%Y-%m-%d)
 log "Backfilling Frigate events since $START_DATE ..."
 docker exec highlight-curator \
   python3 /app/backfill-highlights.py --mode events --start-date "$START_DATE" \
-  --frigate-db /frigate-config/frigate.db --frigate-api http://192.168.100.202:5000 \
+  --frigate-db /frigate-config/frigate.db --frigate-api http://172.19.0.1:5000 \
   --highlights-dir /highlights \
   || log "WARN: backfill step failed (continuing)"
 log "Backfill complete."

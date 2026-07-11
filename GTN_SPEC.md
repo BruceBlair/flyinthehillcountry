@@ -1,6 +1,6 @@
 # GTN NAS Project Spec
 # Ground Truth Network — HITHC LLC
-# For Claude Code on UGREEN NAS (192.168.100.202)
+# For Claude Code on UGREEN NAS (hillshaveeyes.local)
 # Last updated: 2026-06-07
 # Read this file at the start of every session before touching anything.
 
@@ -13,7 +13,7 @@ Entity: High in the Hill Country LLC (HITHC)
 Venture: Ground Truth Network (GTN) / FlyInTheHillCountry  
 Domain: highlyreflective.one  
 NAS user: HighlyReflective  
-NAS IP: 192.168.100.202  
+NAS IP: hillshaveeyes.local (DHCP; formerly static 192.168.100.202 — router doesn't support reservations)  
 Shutterstock: Approved contributor — first stock pipeline target  
 
 ---
@@ -67,7 +67,7 @@ Shutterstock: Approved contributor — first stock pipeline target
   clips/                         # Event snapshots JPEGs
 ```
 Frigate config: `/volume1/docker/frigate/config/config.yml`  
-Frigate API: `http://192.168.100.202:5000/api/`  
+Frigate API: `http://hillshaveeyes.local:5000/api/` (from the host or another LAN device) or `http://127.0.0.1:5000/api/` (from host-side scripts) or `http://172.19.0.1:5000/api/` (from containers on the `weather-station_homelab` bridge network, since Frigate runs host-network)  
 Camera: trackmix_wide + trackmix_zoom (Reolink TrackMix at 192.168.100.131)
 
 ### Photo pipeline (CREATE THESE — do not exist yet)
@@ -316,7 +316,7 @@ Mosquitto     MQTT broker — all sensor telemetry
 InfluxDB      Time series DB, infinite retention
 Grafana       Visualization
 Frigate       AI camera detection
-              API at http://192.168.100.202:5000/api/
+              API at http://hillshaveeyes.local:5000/api/ (see NAS-address note above for in-container access)
               OpenVINO inference
               detect.enabled = true (re-enabled 2026-06-06)
               continuous recording = ON (set 2026-06-06, days=30)
