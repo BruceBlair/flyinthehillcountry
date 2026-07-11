@@ -11648,7 +11648,29 @@
       "clip": "wildlife/20260709_075914_bird.mp4",
       "source": "backfill",
       "nice_shot": 39.6
+    },
+    {
+      "timestamp": "20260711_100615",
+      "label": "golden_hour",
+      "categories": [
+        "golden_hour/golden_hour"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": null,
+      "clip": null
+    },
+    {
+      "timestamp": "20260711_100615",
+      "label": "storm",
+      "categories": [
+        "weather"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": null,
+      "clip": null
     }
   ],
-  "updated": "2026-07-10T23:07:05.202351"
+  "updated": "2026-07-11T13:38:40.023654"
 }
