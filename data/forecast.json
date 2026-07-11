@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-11T00:30:02Z",
+  "updated": "2026-07-11T01:00:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,15 +9,15 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-07-10T18:00:00-05:00",
+      "start": "2026-07-10T19:00:00-05:00",
       "end": "2026-07-11T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 74,
-      "wind_speed": "0 to 15 mph",
+      "wind_speed": "0 to 10 mph",
       "wind_dir": "SSE",
       "precip_pct": 18,
       "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
-      "detail": "A slight chance of showers and thunderstorms before 9pm. Partly cloudy, with a low around 74. South southeast wind 0 to 15 mph. Chance of precipitation is 20%.",
+      "detail": "A slight chance of showers and thunderstorms before 9pm. Partly cloudy, with a low around 74. South southeast wind 0 to 10 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
     },
     {
