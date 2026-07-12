@@ -12147,8 +12147,8 @@
       "categories": [
         "timelapse"
       ],
-      "snapshot": null,
-      "clip": "timelapse/20260711/20260711_day_1.mp4",
+      "snapshot": "timelapse/20260711/20260711_day_1_thumb.jpg",
+      "clip": "timelapse/20260711/20260711_day_1_web.mp4",
       "source": "daily-timelapse"
     },
     {
@@ -12158,8 +12158,8 @@
       "categories": [
         "timelapse"
       ],
-      "snapshot": null,
-      "clip": "timelapse/20260711/20260711_day_2.mp4",
+      "snapshot": "timelapse/20260711/20260711_day_2_thumb.jpg",
+      "clip": "timelapse/20260711/20260711_day_2_web.mp4",
       "source": "daily-timelapse"
     }
   ],
