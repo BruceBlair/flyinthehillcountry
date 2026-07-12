@@ -11902,6 +11902,17 @@
       "nice_shot": 39.6
     },
     {
+      "timestamp": "20260711_210430",
+      "label": "sunset",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": null,
+      "clip": null
+    },
+    {
       "timestamp": "20260711_100615",
       "label": "golden_hour",
       "categories": [
@@ -11924,5 +11935,5 @@
       "clip": null
     }
   ],
-  "updated": "2026-07-11T21:02:49.988115"
+  "updated": "2026-07-11T22:03:06.785131"
 }
