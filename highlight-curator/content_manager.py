@@ -113,7 +113,7 @@ def service_status() -> dict:
         except OSError:
             return False
 
-    nas_ip = os.getenv("NAS_IP", "192.168.100.202")
+    nas_ip = os.getenv("NAS_IP", "172.19.0.1")
     services = {
         "mosquitto": _tcp_ok("mosquitto", 1883),
         "influxdb":  _tcp_ok("influxdb",  8086),
@@ -2040,7 +2040,7 @@ def main():
     SYNC_SCRIPT    = Path(args.sync_script) if args.sync_script else None
 
     server = HTTPServer(("0.0.0.0", args.port), ContentHandler)
-    log.info(f"GTN Content Manager  ->  http://192.168.100.202:{args.port}")
+    log.info(f"GTN Content Manager  ->  http://hillshaveeyes.local:{args.port}")
     log.info(f"highlights: {HIGHLIGHTS_DIR}  |  frigate: {FRIGATE_DIR}")
     log.info("Ctrl-C to stop")
     try:
