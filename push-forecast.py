@@ -74,7 +74,7 @@ def git_push(file_path):
         return
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
     subprocess.run(
-        ["git", "-C", str(SCRIPT_DIR), "commit", "-m", f"data: forecast.json {ts} UTC"],
+        ["git", "-C", str(SCRIPT_DIR), "commit", "-m", f"data: forecast.json {ts} UTC", "--", rel],
         check=True,
     )
     subprocess.run(["git", "-C", str(SCRIPT_DIR), "pull", "--rebase", "--autostash", "--quiet"], check=False)

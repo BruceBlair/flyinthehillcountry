@@ -225,7 +225,7 @@ def git_push(file_path):
         return
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M")
     subprocess.run(
-        ["git", "-C", str(SCRIPT_DIR), "commit", "-m", f"data: nodes.json {ts} UTC"],
+        ["git", "-C", str(SCRIPT_DIR), "commit", "-m", f"data: nodes.json {ts} UTC", "--", rel],
         check=True,
     )
     _git_push_with_retry(str(SCRIPT_DIR))
