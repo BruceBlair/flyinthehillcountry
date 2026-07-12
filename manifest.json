@@ -23823,7 +23823,29 @@
       "snapshot": null,
       "clip": "timelapse/20260709/20260709_day_2.mp4",
       "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260711_000000",
+      "label": "timelapse",
+      "section": "day_1",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260711/20260711_day_1.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260711_000000",
+      "label": "timelapse",
+      "section": "day_2",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260711/20260711_day_2.mp4",
+      "source": "daily-timelapse"
     }
   ],
-  "updated": "2026-07-10T12:33:08Z"
+  "updated": "2026-07-12T08:11:36Z"
 }
