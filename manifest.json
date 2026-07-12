@@ -12420,6 +12420,94 @@
       "event_id": null,
       "snapshot": null,
       "clip": null
+    },
+    {
+      "timestamp": "20260708_000000",
+      "label": "timelapse",
+      "section": "sunrise",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260708/20260708_sunrise.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260708_000000",
+      "label": "timelapse",
+      "section": "day_1",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260708/20260708_day_1.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260708_000000",
+      "label": "timelapse",
+      "section": "day_2",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260708/20260708_day_2.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260709_000000",
+      "label": "timelapse",
+      "section": "sunrise",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": null,
+      "clip": "timelapse/20260709/20260709_sunrise.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260709_000000",
+      "label": "timelapse",
+      "section": "day_1",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": "timelapse/20260709/20260709_day_1_thumb.jpg",
+      "clip": "timelapse/20260709/20260709_day_1_web.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260709_000000",
+      "label": "timelapse",
+      "section": "day_2",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": "timelapse/20260709/20260709_day_2_thumb.jpg",
+      "clip": "timelapse/20260709/20260709_day_2_web.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260711_000000",
+      "label": "timelapse",
+      "section": "day_1",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": "timelapse/20260711/20260711_day_1_thumb.jpg",
+      "clip": "timelapse/20260711/20260711_day_1_web.mp4",
+      "source": "daily-timelapse"
+    },
+    {
+      "timestamp": "20260711_000000",
+      "label": "timelapse",
+      "section": "day_2",
+      "categories": [
+        "timelapse"
+      ],
+      "snapshot": "timelapse/20260711/20260711_day_2_thumb.jpg",
+      "clip": "timelapse/20260711/20260711_day_2_web.mp4",
+      "source": "daily-timelapse"
     }
   ],
   "updated": "2026-07-12T16:00:29.079489"
