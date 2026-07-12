@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """
 register_timelapse.py — register daily timelapse sections in manifest.json
-and data/availability.json, then commit+push.
+and data/availability.json.
 
 Usage: register_timelapse.py <YYYYMMDD> <out_dir>
 
-Called by daily_timelapse.sh after ffmpeg runs.
-Idempotent: skips sections already present for that date.
+Called by daily_timelapse.sh after ffmpeg runs. sync.sh (hourly cron) is
+the sole writer/pusher of the published site's manifest.json.
+Idempotent: updates clip/snapshot in place if they've changed.
 """
-import json, subprocess, sys
+import json, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -36,8 +37,8 @@ def register(datestr: str, out_dir: str):
     m = load_json(MANIFEST_FILE)
     entries = m.get("entries", [])
 
-    existing_sections = {
-        e["section"]
+    existing_by_section = {
+        e["section"]: e
         for e in entries
         if "timelapse" in e.get("categories", [])
         and e.get("timestamp", "")[:8] == datestr
@@ -50,25 +51,30 @@ def register(datestr: str, out_dir: str):
         if not mp4.exists():
             print(f"  skip {section}: {mp4.name} not found")
             continue
-        clip = f"timelapse/{datestr}/{datestr}_{section}.mp4"
-        if section not in existing_sections:
+
+        web_mp4 = out / f"{datestr}_{section}_web.mp4"
+        thumb   = out / f"{datestr}_{section}_thumb.jpg"
+        clip      = f"timelapse/{datestr}/{web_mp4.name}" if web_mp4.exists() else f"timelapse/{datestr}/{mp4.name}"
+        snapshot  = f"timelapse/{datestr}/{thumb.name}" if thumb.exists() else None
+
+        existing = existing_by_section.get(section)
+        if existing is None:
             entries.append({
                 "timestamp": f"{datestr}_000000",
                 "label": "timelapse",
                 "section": section,
                 "categories": ["timelapse"],
-                "snapshot": None,
+                "snapshot": snapshot,
                 "clip": clip,
                 "source": "daily-timelapse",
             })
             print(f"  manifest: added {section}")
+        elif existing.get("clip") != clip or existing.get("snapshot") != snapshot:
+            existing["clip"] = clip
+            existing["snapshot"] = snapshot
+            print(f"  manifest: updated {section} (clip/snapshot)")
         else:
             print(f"  manifest: {section} already present, skipping")
-            clip = next(
-                e["clip"]
-                for e in entries
-                if e.get("section") == section and e.get("timestamp", "")[:8] == datestr
-            )
         added_sections[section] = clip
 
     m["entries"] = entries
@@ -90,25 +96,8 @@ def register(datestr: str, out_dir: str):
     avail["updated"] = now
     save_json(AVAILABILITY_FILE, avail)
     print(f"  availability: timelapse={day['timelapse']} for {date_iso}")
-
-    # ── git commit + push ────────────────────────────────────────────────────
-    def run(cmd):
-        subprocess.run(cmd, cwd=str(SCRIPT_DIR), check=True)
-
-    run(["git", "add", "manifest.json", "data/availability.json"])
-    diff = subprocess.run(
-        ["git", "diff", "--cached", "--quiet"], cwd=str(SCRIPT_DIR)
-    )
-    if diff.returncode == 0:
-        print("No changes to commit.")
-        return
-    run(["git", "commit", "-m", f"data: timelapse {date_iso} {now}"])
-    subprocess.run(
-        ["git", "pull", "--rebase", "--autostash", "--quiet"],
-        cwd=str(SCRIPT_DIR), check=False
-    )
-    run(["git", "push"])
-    print(f"Pushed timelapse entries for {date_iso}")
+    # sync.sh (hourly cron) is the sole writer/pusher of the published
+    # manifest.json — it reads timelapse entries straight from this file.
 
 
 if __name__ == "__main__":

@@ -93,6 +93,19 @@ for SECTION in sunrise day_1 day_2 sunset; do
       -vf "setpts=0.05*PTS" -an \
       -c:v libx264 -preset medium -crf 23 \
       "${OUT_DIR}/${DATE}_${SECTION}.mp4" 2>&1 | tail -1
+
+    # Poster thumbnail for the site card
+    ffmpeg -y -ss 1 -i "${OUT_DIR}/${DATE}_${SECTION}.mp4" \
+      -vframes 1 -vf "scale=480:-1" \
+      "${OUT_DIR}/${DATE}_${SECTION}_thumb.jpg" 2>&1 | tail -1
+
+    # Small compressed variant for publishing (full-quality file stays local only).
+    # +faststart moves the moov atom to the front so browsers can start playback
+    # without downloading the whole file first (root cause of unresponsive play button).
+    ffmpeg -y -i "${OUT_DIR}/${DATE}_${SECTION}.mp4" \
+      -vf "scale=640:-2" -an \
+      -c:v libx264 -preset veryfast -crf 30 -movflags +faststart \
+      "${OUT_DIR}/${DATE}_${SECTION}_web.mp4" 2>&1 | tail -1
   else
     echo "  $SECTION: no segments in window ${START_HMS}–${END_HMS}"
   fi

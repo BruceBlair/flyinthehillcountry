@@ -14,8 +14,18 @@
 
 set -e
 
+# Prevent overlapping runs (e.g. a slow push still in flight when the next
+# hourly cron fires) from racing each other on the same local git repo.
+LOCK_FILE="${LOCK_FILE:-/tmp/gtn-sync.lock}"
+exec 200>"$LOCK_FILE"
+if ! flock -n 200; then
+  echo "[$(date '+%H:%M:%S')] Another sync.sh run is already in progress; skipping."
+  exit 0
+fi
+
 HIGHLIGHTS_SRC="${HIGHLIGHTS_SRC:-/volume1/highlights}"
 PAGES_REPO="${PAGES_REPO:-/volume1/github-pages-repo}"
+TIMELAPSE_SRC="${TIMELAPSE_SRC:-/volume1/camera_raw/timelapse}"
 # Site files live in the project root (parent of this script's directory)
 SITE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -50,12 +60,14 @@ FILTERED_MF="$TMPWORK/manifest.json"
 HIGHLIGHTS_SRC="$HIGHLIGHTS_SRC" \
 EXCLUDE_FILE="$EXCLUDE_FILE"     \
 FILTERED_MF="$FILTERED_MF"       \
+SITE_DIR="$SITE_DIR"             \
 python3 - <<'PYEOF'
 import json, os, sys
 
-src   = os.environ["HIGHLIGHTS_SRC"] + "/manifest.json"
-excl  = os.environ["EXCLUDE_FILE"]
-out   = os.environ["FILTERED_MF"]
+src      = os.environ["HIGHLIGHTS_SRC"] + "/manifest.json"
+tl_src   = os.environ["SITE_DIR"] + "/manifest.json"
+excl     = os.environ["EXCLUDE_FILE"]
+out      = os.environ["FILTERED_MF"]
 
 try:
     m = json.loads(open(src).read())
@@ -70,6 +82,14 @@ with open(excl, "w") as f:
         snap = e.get("snapshot", "")
         if snap:
             f.write(snap + "\n")
+
+# Merge in nightly timelapse entries (register_timelapse.py writes these to
+# weather-station/manifest.json directly; this script is the sole publisher).
+try:
+    tl_m = json.loads(open(tl_src).read())
+    kept += [e for e in tl_m.get("entries", []) if "timelapse" in e.get("categories", [])]
+except Exception:
+    pass
 
 m["entries"] = kept
 json.dump(m, open(out, "w"), indent=2)
@@ -91,6 +111,17 @@ rsync -av --delete \
   --include="*.json"           \
   --exclude="*"                \
   "$HIGHLIGHTS_SRC/" "$PAGES_REPO/"
+
+# ── Sync nightly timelapse web/thumb variants only (full-quality files stay local) ──
+if [ -d "$TIMELAPSE_SRC" ]; then
+  log "Syncing timelapse web variants from $TIMELAPSE_SRC..."
+  rsync -av --delete \
+    --include="*/"              \
+    --include="*_web.mp4"       \
+    --include="*_thumb.jpg"     \
+    --exclude="*"                \
+    "$TIMELAPSE_SRC/" "$PAGES_REPO/timelapse/"
+fi
 
 # Write the filtered manifest (auth-held entries stripped)
 cp "$FILTERED_MF" "$PAGES_REPO/manifest.json"
