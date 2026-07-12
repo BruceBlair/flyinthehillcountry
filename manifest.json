@@ -11902,6 +11902,146 @@
       "nice_shot": 39.6
     },
     {
+      "timestamp": "20260712_024157",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783842117.963254-2d1jwc",
+      "snapshot": "wildlife/20260712_024157_bear.jpg",
+      "clip": "wildlife/20260712_024157_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 36.5
+    },
+    {
+      "timestamp": "20260712_024150",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783842110.793403-ots97r",
+      "snapshot": "wildlife/20260712_024150_bear.jpg",
+      "clip": null,
+      "source": "backfill",
+      "nice_shot": 36.4
+    },
+    {
+      "timestamp": "20260712_024200",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783842120.001615-3dmgzx",
+      "snapshot": "wildlife/20260712_024200_bear.jpg",
+      "clip": "wildlife/20260712_024200_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 36.4
+    },
+    {
+      "timestamp": "20260712_024201",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783842121.845329-2dk7xw",
+      "snapshot": "wildlife/20260712_024201_bear.jpg",
+      "clip": "wildlife/20260712_024201_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 36.4
+    },
+    {
+      "timestamp": "20260712_024212",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783842132.17877-axrzr9",
+      "snapshot": "wildlife/20260712_024212_bear.jpg",
+      "clip": "wildlife/20260712_024212_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 36.3
+    },
+    {
+      "timestamp": "20260712_024216",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783842136.711906-hk3jg8",
+      "snapshot": "wildlife/20260712_024216_bear.jpg",
+      "clip": "wildlife/20260712_024216_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 36.3
+    },
+    {
+      "timestamp": "20260712_024204",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783842124.278342-rz3fdo",
+      "snapshot": "wildlife/20260712_024204_bear.jpg",
+      "clip": null,
+      "source": "backfill",
+      "nice_shot": 36.1
+    },
+    {
+      "timestamp": "20260712_024221",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783842141.786113-w244o2",
+      "snapshot": "wildlife/20260712_024221_bear.jpg",
+      "clip": "wildlife/20260712_024221_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 36.1
+    },
+    {
+      "timestamp": "20260712_024156",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1783842116.291324-89tp0b",
+      "snapshot": "wildlife/20260712_024156_bear.jpg",
+      "clip": "wildlife/20260712_024156_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 36.0
+    },
+    {
+      "timestamp": "20260712_024207",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1783842127.273016-js0dzs",
+      "snapshot": "wildlife/20260712_024207_bear.jpg",
+      "clip": null,
+      "source": "backfill",
+      "nice_shot": 36.0
+    },
+    {
       "timestamp": "20260711_210430",
       "label": "sunset",
       "categories": [
@@ -11935,5 +12075,5 @@
       "clip": null
     }
   ],
-  "updated": "2026-07-12T02:00:06.812737"
+  "updated": "2026-07-12T03:00:26.283125"
 }
