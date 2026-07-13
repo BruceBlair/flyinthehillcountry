@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-12T21:03:10Z",
+  "updated": "2026-07-13T05:05:02Z",
   "coverage_phases": [
     {
       "start": "2026-03-10",
@@ -206,7 +206,7 @@
       "timelapse": false
     },
     "2026-04-02": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -222,7 +222,7 @@
       "timelapse": false
     },
     "2026-04-04": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -262,7 +262,7 @@
       "timelapse": false
     },
     "2026-04-09": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -270,7 +270,7 @@
       "timelapse": false
     },
     "2026-04-10": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -278,7 +278,7 @@
       "timelapse": false
     },
     "2026-04-11": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -286,7 +286,7 @@
       "timelapse": false
     },
     "2026-04-12": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -302,7 +302,7 @@
       "timelapse": false
     },
     "2026-04-14": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -358,7 +358,7 @@
       "timelapse": true
     },
     "2026-04-21": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": false,
@@ -382,7 +382,7 @@
       "timelapse": true
     },
     "2026-04-24": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": false,
@@ -390,7 +390,7 @@
       "timelapse": true
     },
     "2026-04-25": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": false,
@@ -422,7 +422,7 @@
       "timelapse": false
     },
     "2026-04-29": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -470,7 +470,7 @@
       "timelapse": false
     },
     "2026-05-05": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -574,7 +574,7 @@
       "timelapse": false
     },
     "2026-05-18": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": false,
@@ -590,7 +590,7 @@
       "timelapse": false
     },
     "2026-05-20": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -654,7 +654,7 @@
       "timelapse": false
     },
     "2026-05-28": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -662,7 +662,7 @@
       "timelapse": false
     },
     "2026-05-29": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -702,7 +702,7 @@
       "timelapse": false
     },
     "2026-06-03": {
-      "photos": true,
+      "photos": false,
       "weather": false,
       "video_continuous": false,
       "video_events": true,
@@ -718,7 +718,7 @@
       "timelapse": false
     },
     "2026-06-05": {
-      "photos": true,
+      "photos": false,
       "weather": true,
       "video_continuous": false,
       "video_events": true,
@@ -766,7 +766,7 @@
       "timelapse": false
     },
     "2026-06-11": {
-      "photos": true,
+      "photos": false,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -782,7 +782,7 @@
       "timelapse": false
     },
     "2026-06-13": {
-      "photos": true,
+      "photos": false,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -830,7 +830,7 @@
       "timelapse": true
     },
     "2026-06-19": {
-      "photos": true,
+      "photos": false,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -838,7 +838,7 @@
       "timelapse": true
     },
     "2026-06-20": {
-      "photos": true,
+      "photos": false,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -894,7 +894,7 @@
       "timelapse": true
     },
     "2026-06-27": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -926,22 +926,6 @@
       "timelapse": true
     },
     "2026-07-01": {
-      "photos": false,
-      "weather": true,
-      "video_continuous": true,
-      "video_events": true,
-      "video_founding": false,
-      "timelapse": true
-    },
-    "2026-07-02": {
-      "photos": false,
-      "weather": true,
-      "video_continuous": true,
-      "video_events": false,
-      "video_founding": false,
-      "timelapse": true
-    },
-    "2026-07-03": {
       "photos": true,
       "weather": true,
       "video_continuous": true,
@@ -949,8 +933,24 @@
       "video_founding": false,
       "timelapse": true
     },
-    "2026-07-04": {
+    "2026-07-02": {
+      "photos": true,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": false,
+      "video_founding": false,
+      "timelapse": true
+    },
+    "2026-07-03": {
       "photos": false,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": true
+    },
+    "2026-07-04": {
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -995,7 +995,7 @@
       }
     },
     "2026-07-09": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -1008,7 +1008,7 @@
       }
     },
     "2026-07-10": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": true,
@@ -1016,7 +1016,7 @@
       "timelapse": false
     },
     "2026-07-11": {
-      "photos": false,
+      "photos": true,
       "weather": true,
       "video_continuous": true,
       "video_events": false,
@@ -1028,6 +1028,14 @@
       }
     },
     "2026-07-12": {
+      "photos": true,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": false
+    },
+    "2026-07-13": {
       "photos": false,
       "weather": true,
       "video_continuous": true,
