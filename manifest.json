@@ -12434,6 +12434,17 @@
       "nice_shot": 36.0
     },
     {
+      "timestamp": "20260712_210413",
+      "label": "sunset",
+      "categories": [
+        "golden_hour/sunset"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": null,
+      "snapshot": null,
+      "clip": null
+    },
+    {
       "timestamp": "20260712_073442",
       "label": "golden_hour",
       "categories": [
@@ -12566,5 +12577,5 @@
       "source": "daily-timelapse"
     }
   ],
-  "updated": "2026-07-12T21:00:19.040503"
+  "updated": "2026-07-12T22:00:22.986423"
 }
