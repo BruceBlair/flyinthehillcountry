@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-13T18:00:04Z",
+  "updated": "2026-07-13T18:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-07-13T12:00:00-05:00",
+      "start": "2026-07-13T13:00:00-05:00",
       "end": "2026-07-13T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 91,
@@ -17,7 +17,7 @@
       "wind_dir": "S",
       "precip_pct": 52,
       "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms after 1pm. Partly sunny, with a high near 91. Heat index values as high as 100. South wind around 5 mph. Chance of precipitation is 50%. New rainfall amounts between a tenth and quarter of an inch possible.",
+      "detail": "A chance of showers and thunderstorms. Partly sunny, with a high near 91. Heat index values as high as 100. South wind around 5 mph. Chance of precipitation is 50%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_sct,50?size=medium"
     },
     {
