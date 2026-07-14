@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-14T12:00:02Z",
+  "updated": "2026-07-14T12:05:01Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -11,14 +11,14 @@
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "status": "active",
       "current": {
-        "timestamp": "2026-07-14T11:59:51Z",
+        "timestamp": "2026-07-14T12:04:46Z",
         "temp_f": 71.78,
         "humidity_pct": 99.0,
-        "pressure_msl_inhg": 30.1,
-        "wind_speed_mph": 1.34,
-        "wind_dir_deg": 52.0,
-        "wind_gust_mph": 1.34,
-        "rain_rate_in_hr": 0.05,
+        "pressure_msl_inhg": 30.11,
+        "wind_speed_mph": 0.0,
+        "wind_dir_deg": 329.0,
+        "wind_gust_mph": 0.0,
+        "rain_rate_in_hr": 0.07,
         "rain_daily_in": 0.61,
         "battery_pct": 60.0,
         "rssi_dbm": null
@@ -33,15 +33,15 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-07-14T11:59:53Z",
+        "timestamp": "2026-07-14T12:04:48Z",
         "temp_f": 72.14,
         "humidity_pct": 99.0,
         "pressure_msl_inhg": 29.83,
         "wind_speed_mph": 0.0,
-        "wind_dir_deg": 44.0,
+        "wind_dir_deg": 279.0,
         "wind_gust_mph": 0.0,
         "rain_rate_in_hr": 0.05,
-        "rain_daily_in": 0.67,
+        "rain_daily_in": 0.68,
         "battery_pct": 56.0,
         "rssi_dbm": null
       }
@@ -55,15 +55,15 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-07-14T11:59:47Z",
+        "timestamp": "2026-07-14T12:04:42Z",
         "temp_f": 71.96,
         "humidity_pct": 99.0,
-        "pressure_msl_inhg": 29.97,
+        "pressure_msl_inhg": 29.96,
         "wind_speed_mph": 0.0,
-        "wind_dir_deg": 62.0,
-        "wind_gust_mph": 1.12,
+        "wind_dir_deg": 261.0,
+        "wind_gust_mph": 0.0,
         "rain_rate_in_hr": 0.05,
-        "rain_daily_in": 0.59,
+        "rain_daily_in": 0.6,
         "battery_pct": 60.0,
         "rssi_dbm": null
       }
