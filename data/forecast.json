@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-17T10:30:02Z",
+  "updated": "2026-07-17T11:00:10Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,21 +8,7 @@
   "periods": [
     {
       "number": 1,
-      "name": "Overnight",
-      "start": "2026-07-17T03:00:00-05:00",
-      "end": "2026-07-17T06:00:00-05:00",
-      "is_daytime": false,
-      "temp_f": 73,
-      "wind_speed": "5 mph",
-      "wind_dir": "SSE",
-      "precip_pct": 8,
-      "short": "Mostly Cloudy",
-      "detail": "Mostly cloudy, with a low around 73. South southeast wind around 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/bkn?size=medium"
-    },
-    {
-      "number": 2,
-      "name": "Friday",
+      "name": "Today",
       "start": "2026-07-17T06:00:00-05:00",
       "end": "2026-07-17T18:00:00-05:00",
       "is_daytime": true,
@@ -35,8 +21,8 @@
       "icon": "https://api.weather.gov/icons/land/day/bkn?size=medium"
     },
     {
-      "number": 3,
-      "name": "Friday Night",
+      "number": 2,
+      "name": "Tonight",
       "start": "2026-07-17T18:00:00-05:00",
       "end": "2026-07-18T06:00:00-05:00",
       "is_daytime": false,
@@ -49,7 +35,7 @@
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
-      "number": 4,
+      "number": 3,
       "name": "Saturday",
       "start": "2026-07-18T06:00:00-05:00",
       "end": "2026-07-18T18:00:00-05:00",
@@ -63,7 +49,7 @@
       "icon": "https://api.weather.gov/icons/land/day/bkn?size=medium"
     },
     {
-      "number": 5,
+      "number": 4,
       "name": "Saturday Night",
       "start": "2026-07-18T18:00:00-05:00",
       "end": "2026-07-19T06:00:00-05:00",
@@ -73,11 +59,11 @@
       "wind_dir": "SSE",
       "precip_pct": 0,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 73. South southeast wind 5 to 10 mph, with gusts as high as 20 mph.",
+      "detail": "Partly cloudy, with a low around 73. Heat index values as high as 100. South southeast wind 5 to 10 mph, with gusts as high as 20 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
-      "number": 6,
+      "number": 5,
       "name": "Sunday",
       "start": "2026-07-19T06:00:00-05:00",
       "end": "2026-07-19T18:00:00-05:00",
@@ -91,7 +77,7 @@
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
-      "number": 7,
+      "number": 6,
       "name": "Sunday Night",
       "start": "2026-07-19T18:00:00-05:00",
       "end": "2026-07-20T06:00:00-05:00",
@@ -105,7 +91,7 @@
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 8,
+      "number": 7,
       "name": "Monday",
       "start": "2026-07-20T06:00:00-05:00",
       "end": "2026-07-20T18:00:00-05:00",
@@ -119,7 +105,7 @@
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 9,
+      "number": 8,
       "name": "Monday Night",
       "start": "2026-07-20T18:00:00-05:00",
       "end": "2026-07-21T06:00:00-05:00",
@@ -133,7 +119,7 @@
       "icon": "https://api.weather.gov/icons/land/night/skc?size=medium"
     },
     {
-      "number": 10,
+      "number": 9,
       "name": "Tuesday",
       "start": "2026-07-21T06:00:00-05:00",
       "end": "2026-07-21T18:00:00-05:00",
@@ -143,11 +129,11 @@
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 95.",
+      "detail": "Sunny, with a high near 95. South wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 11,
+      "number": 10,
       "name": "Tuesday Night",
       "start": "2026-07-21T18:00:00-05:00",
       "end": "2026-07-22T06:00:00-05:00",
@@ -161,7 +147,7 @@
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 12,
+      "number": 11,
       "name": "Wednesday",
       "start": "2026-07-22T06:00:00-05:00",
       "end": "2026-07-22T18:00:00-05:00",
@@ -175,7 +161,7 @@
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 13,
+      "number": 12,
       "name": "Wednesday Night",
       "start": "2026-07-22T18:00:00-05:00",
       "end": "2026-07-23T06:00:00-05:00",
@@ -189,7 +175,7 @@
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 14,
+      "number": 13,
       "name": "Thursday",
       "start": "2026-07-23T06:00:00-05:00",
       "end": "2026-07-23T18:00:00-05:00",
@@ -201,6 +187,20 @@
       "short": "Sunny",
       "detail": "Sunny, with a high near 96.",
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
+    },
+    {
+      "number": 14,
+      "name": "Thursday Night",
+      "start": "2026-07-23T18:00:00-05:00",
+      "end": "2026-07-24T06:00:00-05:00",
+      "is_daytime": false,
+      "temp_f": 74,
+      "wind_speed": "0 to 5 mph",
+      "wind_dir": "S",
+      "precip_pct": 0,
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 74.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     }
   ]
 }
