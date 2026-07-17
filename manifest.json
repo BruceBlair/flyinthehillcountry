@@ -13134,6 +13134,20 @@
       "nice_shot": 31.9
     },
     {
+      "timestamp": "20260717_102615",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1784301975.496803-zsa79v",
+      "snapshot": "wildlife/20260717_102615_bear.jpg",
+      "clip": "wildlife/20260717_102615_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 31.8
+    },
+    {
       "timestamp": "20260717_061305",
       "label": "bird",
       "score": 0.0,
@@ -14160,5 +14174,5 @@
       "source": "daily-timelapse"
     }
   ],
-  "updated": "2026-07-17T10:00:16.446916"
+  "updated": "2026-07-17T11:00:14.322996"
 }
