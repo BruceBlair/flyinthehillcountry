@@ -11502,6 +11502,20 @@
       "nice_shot": 49.9
     },
     {
+      "timestamp": "20260717_134432",
+      "label": "bird",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1784313872.720956-dz99gw",
+      "snapshot": "wildlife/20260717_134432_bird.jpg",
+      "clip": "wildlife/20260717_134432_bird.mp4",
+      "source": "backfill",
+      "nice_shot": 49.1
+    },
+    {
       "timestamp": "20260713_135308",
       "label": "bear",
       "score": 0.0,
@@ -11860,6 +11874,20 @@
       "snapshot": "golden_hour/sunset/20260709_205353_scene.jpg",
       "clip": null,
       "nice_shot": 45.7
+    },
+    {
+      "timestamp": "20260717_132626",
+      "label": "bear",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_zoom",
+      "event_id": "1784312786.870147-ej8ffg",
+      "snapshot": "wildlife/20260717_132626_bear.jpg",
+      "clip": "wildlife/20260717_132626_bear.mp4",
+      "source": "backfill",
+      "nice_shot": 45.6
     },
     {
       "timestamp": "20260709_205953",
@@ -14300,5 +14328,5 @@
       "source": "daily-timelapse"
     }
   ],
-  "updated": "2026-07-17T13:00:19.780125"
+  "updated": "2026-07-17T14:00:15.912830"
 }
