@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-17T08:30:02Z",
+  "updated": "2026-07-17T09:00:05Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,13 +9,13 @@
     {
       "number": 1,
       "name": "Overnight",
-      "start": "2026-07-17T03:00:00-05:00",
+      "start": "2026-07-17T04:00:00-05:00",
       "end": "2026-07-17T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 73,
       "wind_speed": "5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 8,
+      "precip_pct": 5,
       "short": "Mostly Cloudy",
       "detail": "Mostly cloudy, with a low around 73. South southeast wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/bkn?size=medium"
