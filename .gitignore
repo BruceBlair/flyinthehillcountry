@@ -1,0 +1,43 @@
+# Environment variables (secrets)
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Home Assistant runtime files (config dir is bind-mounted; git tracks only the editable config files)
+homeassistant/config/secrets.yaml
+homeassistant/config/*.db
+homeassistant/config/*.db-shm
+homeassistant/config/*.db-wal
+homeassistant/config/*.log
+homeassistant/config/*.log.*
+homeassistant/config/.storage/
+homeassistant/config/deps/
+homeassistant/config/tts/
+homeassistant/config/comets.json
+homeassistant/config/blueprints/
+homeassistant/config/.HA_VERSION
+homeassistant/config/.ha_run.lock
+homeassistant/config/.cache/
+homeassistant/config/image/
+
+# Credentials — TLS key, camera RTSP creds, HA webhook IDs (this repo is public via GitHub Pages)
+nginx/certs/
+nginx/ecowitt-proxy.conf
+mediamtx/mediamtx.yml
+ecowitt-proxy.py
+
+# Local-only working data — not published, not referenced by any manifest
+weather/scout/
+wildlife/*.mp4
+temporary/
+
+# Raw high-volume generated data — only derived JSON aggregates get committed (see repo hygiene principle)
+audio_manifest.json
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
