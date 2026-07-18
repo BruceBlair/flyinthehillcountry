@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-18T17:00:04Z",
+  "updated": "2026-07-18T17:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,17 +8,17 @@
   "periods": [
     {
       "number": 1,
-      "name": "Today",
-      "start": "2026-07-18T07:00:00-05:00",
+      "name": "This Afternoon",
+      "start": "2026-07-18T12:00:00-05:00",
       "end": "2026-07-18T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 93,
       "wind_speed": "10 mph",
       "wind_dir": "S",
       "precip_pct": 0,
-      "short": "Partly Sunny",
-      "detail": "Partly sunny, with a high near 93. Heat index values as high as 101. South wind around 10 mph, with gusts as high as 20 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/bkn?size=medium"
+      "short": "Mostly Sunny",
+      "detail": "Mostly sunny, with a high near 93. Heat index values as high as 101. South wind around 10 mph, with gusts as high as 20 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
       "number": 2,
