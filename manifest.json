@@ -11618,6 +11618,20 @@
       "nice_shot": 50.3
     },
     {
+      "timestamp": "20260718_140254",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1784401374.934795-enakaw",
+      "snapshot": "wildlife/20260718_140254_dog.jpg",
+      "clip": "wildlife/20260718_140254_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 50.2
+    },
+    {
       "timestamp": "20260710_060758",
       "label": "sunrise_scene",
       "categories": [
@@ -12044,6 +12058,20 @@
       "clip": "wildlife/20260713_140611_bear.mp4",
       "source": "backfill",
       "nice_shot": 46.1
+    },
+    {
+      "timestamp": "20260718_140144",
+      "label": "dog",
+      "score": 0.0,
+      "categories": [
+        "wildlife"
+      ],
+      "camera": "trackmix_wide",
+      "event_id": "1784401304.942321-sckdfr",
+      "snapshot": "wildlife/20260718_140144_dog.jpg",
+      "clip": "wildlife/20260718_140144_dog.mp4",
+      "source": "backfill",
+      "nice_shot": 46.0
     },
     {
       "timestamp": "20260718_102049",
@@ -14994,5 +15022,5 @@
       "source": "daily-timelapse"
     }
   ],
-  "updated": "2026-07-18T14:00:35.341530"
+  "updated": "2026-07-18T15:00:51.260542"
 }
