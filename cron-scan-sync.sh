@@ -6,7 +6,7 @@
 
 set -uo pipefail
 
-SYNC_SH="/home/HighlyReflective/weather-station/github-pages/sync.sh"
+SYNC_SH="/home/HighlyReflective/hithc-gtn-depot/github-pages/sync.sh"
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
 
