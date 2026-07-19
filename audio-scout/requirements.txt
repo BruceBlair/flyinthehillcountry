@@ -1,6 +1,7 @@
 birdnetlib>=0.9.0
 tensorflow>=2.15.0
 tensorflow-hub>=0.16.0
+setuptools<81
 paho-mqtt>=2.0.0
 requests>=2.31.0
 numpy>=1.26.0
