@@ -22,7 +22,7 @@ Shutterstock: Approved contributor — first stock pipeline target
 
 ### Weather station working tree
 ```
-/home/HighlyReflective/weather-station/
+/home/HighlyReflective/hithc-gtn-depot/
   manifest.json                  # 1,553 entries, updated 2026-06-07
   weather/                       # 343 photos — general sky/weather scenes
   golden_hour/
@@ -67,7 +67,7 @@ Shutterstock: Approved contributor — first stock pipeline target
   clips/                         # Event snapshots JPEGs
 ```
 Frigate config: `/volume1/docker/frigate/config/config.yml`  
-Frigate API: `http://hillshaveeyes.local:5000/api/` (from the host or another LAN device) or `http://127.0.0.1:5000/api/` (from host-side scripts) or `http://172.19.0.1:5000/api/` (from containers on the `weather-station_homelab` bridge network, since Frigate runs host-network)  
+Frigate API: `http://hillshaveeyes.local:5000/api/` (from the host or another LAN device) or `http://127.0.0.1:5000/api/` (from host-side scripts) or `http://172.19.0.1:5000/api/` (from containers on the `hithc-gtn-depot_homelab` bridge network, since Frigate runs host-network)  
 Camera: trackmix_wide + trackmix_zoom (Reolink TrackMix at 192.168.100.131)
 
 ### Photo pipeline (CREATE THESE — do not exist yet)
@@ -127,7 +127,7 @@ Phase 3: CONTINUOUS
 
 ## 4. MANIFEST SCHEMA — CURRENT STATE
 
-File: `/home/HighlyReflective/weather-station/manifest.json`  
+File: `/home/HighlyReflective/hithc-gtn-depot/manifest.json`  
 Entries: 1,553  
 Updated: 2026-06-07T11:00:26  
 
@@ -186,7 +186,7 @@ These 10 entries need manual tagging before AI keyword pass:
 
 ## 5. JSON FILES FOR GITHUB PAGES
 
-All three files live in: `/home/HighlyReflective/weather-station/data/`  
+All three files live in: `/home/HighlyReflective/hithc-gtn-depot/data/`  
 Create this directory if it does not exist.  
 These files are pushed to GitHub repo on a cron schedule.
 
@@ -393,7 +393,7 @@ Auto-publish toggle: stored as a config flag, not hardcoded.
 
 Do these in order. Do not start a later task until the earlier one is confirmed working.
 
-1. ~~Create `/home/HighlyReflective/weather-station/data/` directory~~ ✓ DONE 2026-06-08
+1. ~~Create `/home/HighlyReflective/hithc-gtn-depot/data/` directory~~ ✓ DONE 2026-06-08
 2. ~~Confirm InfluxDB bucket name and weather data start date (first() query)~~ ✓ DONE 2026-06-08 (org=ground_truth, bucket=sensor_data, Ecowitt start=2026-06-05)
 3. ~~Write script: InfluxDB → nodes.json → git push (cron every 5 min)~~ ✓ DONE 2026-06-08 (push-nodes.py, cron */5)
 4. ~~Write script: NWS API → forecast.json → git push~~ ✓ DONE 2026-06-08 (push-forecast.py, cron */30, EWX/142,79)
@@ -421,7 +421,7 @@ Do these in order. Do not start a later task until the earlier one is confirmed 
 
 ## 11. WHAT DOES NOT EXIST YET
 
-- ~~`/home/HighlyReflective/weather-station/data/` directory~~ ✓ DONE 2026-06-08
+- ~~`/home/HighlyReflective/hithc-gtn-depot/data/` directory~~ ✓ DONE 2026-06-08
 - ~~nodes.json, forecast.json, availability.json~~ ✓ DONE 2026-06-08
 - ~~`/volume1/photo_pipeline/` directory tree~~ ✓ DONE 2026-06-08
 - ~~status field in manifest entries~~ ✓ DONE 2026-06-08
