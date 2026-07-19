@@ -5,9 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Deployment
 
 ```bash
-# First-time setup (creates /volume1 dirs, copies configs, provisions Grafana datasource)
+# First-time setup
 cp .env.example .env   # fill in credentials first
-bash setup.sh
 
 # Start / stop all services
 docker compose up -d
@@ -29,7 +28,7 @@ docker compose up -d --force-recreate <service>
 
 All services defined in `docker-compose.yml`. Three network modes are in use:
 - `homelab` bridge: mosquitto, influxdb, grafana, highlight-curator, star-scanner, vote-server, night-sky-patrol, ffmpeg-processor
-- `host` network: homeassistant, frigate, mediamtx, sky-watcher, audio-scout (require direct LAN access or avoid bridge NAT)
+- `host` network: homeassistant, frigate, mediamtx, sky-watcher, audio-scout, nginx-ssl (require direct LAN access or avoid bridge NAT)
 
 | Service | Port(s) | Image/Build |
 |---|---|---|
@@ -43,27 +42,16 @@ All services defined in `docker-compose.yml`. Three network modes are in use:
 | highlight-curator | — | ./highlight-curator |
 | star-scanner | — | ./highlight-curator (alt command) |
 | vote-server | 8765 | ./highlight-curator (alt command) |
-| content-manager | 8766 | ./highlight-curator (alt command) |
 | night-sky-patrol | — | ./night-sky-patrol |
 | sky-watcher | host | ./sky-watcher |
 | audio-scout | host | ./audio-scout |
+| nginx-ssl | host | nginx:alpine |
 
-## Config File Relationships
+## Config Files
 
-`setup.sh` copies canonical source files into runtime locations. **Edit the source files** at the repo root, then re-run `setup.sh` or copy manually:
+Runtime configs for `mosquitto`, `homeassistant`, `grafana`, `mediamtx`, and `nginx` live directly under each service's own directory at the repo root (e.g. `homeassistant/config/configuration.yaml`, `mosquitto/config/mosquitto.conf`) and are edited in place — there is no separate templating step. These directories are filesystem copies, not git-tracked (see `.gitignore`).
 
-| Source (repo root) | Runtime location |
-|---|---|
-| `mosquitto.conf` | `mosquitto/config/mosquitto.conf` |
-| `frigate-config.yml` | `frigate/config/config.yml` |
-| `ha-configuration.yaml` | `homeassistant/config/configuration.yaml` |
-| `ha-automations.yaml` | `homeassistant/config/automations.yaml` |
-| `mediamtx/mediamtx.yml` | `mediamtx/mediamtx.yml` |
-| `ffmpeg-process-media.sh` | `ffmpeg/scripts/process_media.sh` |
-
-`setup.sh` also templates `grafana/provisioning/datasources/influxdb.yml` from `.env` values at runtime — do not edit that file directly.
-
-**Note:** Frigate's docker-compose mounts `/volume1/docker/frigate/config:/config`, but `setup.sh` copies to `./frigate/config/`. These may diverge — verify which path Frigate is actually reading if config changes don't take effect.
+Frigate's config is not part of this repo at all: its docker-compose mount (`/volume1/docker/frigate/config:/config`) is an absolute host path outside the repo tree.
 
 ## Highlight Pipeline Architecture
 
@@ -179,7 +167,7 @@ InfluxDB org: `ground_truth`, bucket: `sensor_data`.
 | `NAS_IP` | ptz-patrol.sh, cron-scan-sync.sh, docker-compose defaults |
 | `TZ` | homeassistant, highlight-curator, sky-watcher |
 | `CAMERA_IP/USER/PASSWORD` | frigate, star-patrol, night-sky-patrol, sky-watcher, panorama-capture.sh |
-| `INFLUXDB_USER/PASSWORD/TOKEN` | influxdb, setup.sh grafana provisioning |
+| `INFLUXDB_USER/PASSWORD/TOKEN` | influxdb, grafana provisioning |
 | `GRAFANA_USER/PASSWORD` | grafana |
 | `HA_TOKEN` | ptz-patrol.sh, night-sky-patrol |
 | `LATITUDE/LONGITUDE` | highlight-curator (golden hour calc), star-patrol, night-sky-patrol |
@@ -240,8 +228,6 @@ curl -X POST http://localhost:8123/auth/token \
 **Two separate timelapse storage locations** — not duplicates, different producers:
 - `/volume1/camera_timelapse/{sunrise,sunset}/` — raw JPEG frames captured by HA automations; also holds FFmpeg-built MP4s and `panoramas/`. Written by `ffmpeg-processor` (container path `/output/timelapse`).
 - `/volume1/highlights/timelapse/` — finished timelapse MP4s built by `timelapse_builder.py` inside highlight-curator from the best-scored highlight frames.
-
-**`content_manager.py`** lives in `highlight-curator/`, runs on port **8766** as the `content-manager` Docker service. No `--sync-script` is passed — sync is handled by the hourly cron job instead.
 
 ## Agent skills
 
