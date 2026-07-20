@@ -1,0 +1,138 @@
+:root {
+  --hithc-cream: #faf7f2;
+  --hithc-ink: #2b2620;
+  --hithc-brown: #3a2f28;
+  --hithc-amber: #c1622d;
+  --hithc-amber-dark: #9c4d22;
+  --hithc-sage: #5c7a5c;
+  --hithc-border: #e4dccc;
+  --hithc-max-width: 960px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--hithc-cream);
+  color: var(--hithc-ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+header.site-header {
+  background: var(--hithc-brown);
+  color: var(--hithc-cream);
+  padding: 0.75rem 1.5rem;
+}
+
+header.site-header .site-header-inner {
+  max-width: var(--hithc-max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+header.site-header .brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--hithc-cream);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+
+header.site-header nav {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+header.site-header nav a {
+  color: var(--hithc-cream);
+  text-decoration: none;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.15rem;
+}
+
+header.site-header nav a:hover {
+  opacity: 1;
+}
+
+header.site-header nav a.active {
+  opacity: 1;
+  border-bottom-color: var(--hithc-amber);
+}
+
+main {
+  max-width: var(--hithc-max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  min-height: 60vh;
+}
+
+main h1 {
+  margin-top: 0;
+}
+
+.coming-soon-badge {
+  display: inline-block;
+  background: var(--hithc-amber);
+  color: var(--hithc-cream);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  margin-bottom: 1rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--hithc-border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: box-shadow 0.15s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 14px rgba(43, 38, 32, 0.1);
+}
+
+.card h3 {
+  margin: 0 0 0.4rem;
+  color: var(--hithc-amber-dark);
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #5a5248;
+}
+
+footer.site-footer {
+  background: var(--hithc-brown);
+  color: var(--hithc-cream);
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.85rem;
+}
+
+footer.site-footer a {
+  color: var(--hithc-cream);
+}
