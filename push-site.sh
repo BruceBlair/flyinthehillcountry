@@ -19,17 +19,21 @@ if [ ! -d "$PAGES_REPO/.git" ]; then
   exit 1
 fi
 
+cd "$PAGES_REPO"
+log "Reconciling $PAGES_REPO with its remote before syncing ..."
+git fetch origin
+git reset --hard "origin/$(git rev-parse --abbrev-ref HEAD)"
+
 log "Syncing site files from $SITE_SRC to $PAGES_REPO ..."
 rsync -av --delete \
   --exclude=".git" \
   "$SITE_SRC/" "$PAGES_REPO/"
 
-cd "$PAGES_REPO"
 git add -A
 if git diff --cached --quiet; then
   log "Nothing new to deploy."
 else
-  git commit -m "site: deploy $(date '+%Y-%m-%d %H:%M') UTC"
+  git commit -m "site: deploy $(date -u '+%Y-%m-%d %H:%M') UTC"
   git push
   log "Deployed."
 fi
