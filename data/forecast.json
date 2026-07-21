@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-21T16:30:03Z",
+  "updated": "2026-07-21T17:00:28Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,16 +8,16 @@
   "periods": [
     {
       "number": 1,
-      "name": "Today",
-      "start": "2026-07-21T09:00:00-05:00",
+      "name": "This Afternoon",
+      "start": "2026-07-21T12:00:00-05:00",
       "end": "2026-07-21T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 99,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "S",
+      "wind_dir": "SSW",
       "precip_pct": 0,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 99. Heat index values as high as 105. South wind 0 to 5 mph.",
+      "detail": "Sunny, with a high near 99. Heat index values as high as 106. South southwest wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
@@ -26,12 +26,12 @@
       "start": "2026-07-21T18:00:00-05:00",
       "end": "2026-07-22T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 77,
+      "temp_f": 78,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SW",
+      "wind_dir": "SSW",
       "precip_pct": 0,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 77. Heat index values as high as 101. Southwest wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 78. Heat index values as high as 104. South southwest wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -40,12 +40,12 @@
       "start": "2026-07-22T06:00:00-05:00",
       "end": "2026-07-22T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 101,
-      "wind_speed": "0 to 5 mph",
-      "wind_dir": "N",
-      "precip_pct": 0,
+      "temp_f": 102,
+      "wind_speed": "5 mph",
+      "wind_dir": "NNW",
+      "precip_pct": 1,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 101. Heat index values as high as 108. North wind 0 to 5 mph.",
+      "detail": "Sunny, with a high near 102. Heat index values as high as 110. North northwest wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
@@ -54,12 +54,12 @@
       "start": "2026-07-22T18:00:00-05:00",
       "end": "2026-07-23T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 81,
+      "temp_f": 82,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SSW",
-      "precip_pct": 2,
+      "wind_dir": "ESE",
+      "precip_pct": 3,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 81. Heat index values as high as 107. South southwest wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 82. Heat index values as high as 109. East southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -69,11 +69,11 @@
       "end": "2026-07-23T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 99,
-      "wind_speed": "0 to 5 mph",
+      "wind_speed": "5 to 10 mph",
       "wind_dir": "NE",
-      "precip_pct": 2,
+      "precip_pct": 1,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 99. Northeast wind 0 to 5 mph.",
+      "detail": "Sunny, with a high near 99. Northeast wind 5 to 10 mph, with gusts as high as 20 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
@@ -83,11 +83,11 @@
       "end": "2026-07-24T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 78,
-      "wind_speed": "0 to 5 mph",
-      "wind_dir": "SE",
-      "precip_pct": 2,
+      "wind_speed": "0 to 10 mph",
+      "wind_dir": "ESE",
+      "precip_pct": 3,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 78. Southeast wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 78. East southeast wind 0 to 10 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -96,12 +96,12 @@
       "start": "2026-07-24T06:00:00-05:00",
       "end": "2026-07-24T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 98,
+      "temp_f": 97,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
       "precip_pct": 2,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 98. South wind 0 to 5 mph.",
+      "detail": "Sunny, with a high near 97. South wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
@@ -128,9 +128,9 @@
       "wind_speed": "5 mph",
       "wind_dir": "S",
       "precip_pct": 15,
-      "short": "Sunny then Slight Chance Rain Showers",
-      "detail": "A slight chance of rain showers after 1pm. Sunny, with a high near 97. South wind around 5 mph. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/day/few/rain_showers,20?size=medium"
+      "short": "Sunny",
+      "detail": "Sunny, with a high near 97. South wind around 5 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/day/few/few,20?size=medium"
     },
     {
       "number": 10,
@@ -142,9 +142,9 @@
       "wind_speed": "5 mph",
       "wind_dir": "S",
       "precip_pct": 15,
-      "short": "Slight Chance Rain Showers",
-      "detail": "A slight chance of rain showers. Mostly clear, with a low around 78. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/night/rain_showers,20?size=medium"
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 78. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/few,20?size=medium"
     },
     {
       "number": 11,
@@ -156,9 +156,9 @@
       "wind_speed": "5 mph",
       "wind_dir": "S",
       "precip_pct": 15,
-      "short": "Slight Chance Rain Showers",
-      "detail": "A slight chance of rain showers before 1pm. Mostly sunny, with a high near 96. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/day/rain_showers,20?size=medium"
+      "short": "Mostly Sunny",
+      "detail": "Mostly sunny, with a high near 96. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/day/sct,20?size=medium"
     },
     {
       "number": 12,
