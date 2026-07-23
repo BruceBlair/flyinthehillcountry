@@ -1,6 +1,6 @@
 {
-  "updated": "2026-07-23T08:40:01Z",
-  "nodes_data_updated": "2026-07-23T08:35:02Z",
+  "updated": "2026-07-23T08:45:01Z",
+  "nodes_data_updated": "2026-07-23T08:40:02Z",
   "overall_status": "unknown",
   "thresholds_mph": {
     "gust_no_go": 25.0,
@@ -19,7 +19,7 @@
       "reason": "no live wind data (station reporting null \u2014 sensor or integration issue, not necessarily calm conditions)",
       "wind_gust_mph": null,
       "wind_speed_mph": null,
-      "wind_dir_deg": 52.0
+      "wind_dir_deg": 44.0
     },
     {
       "id": "HITHC-VALLEY-E",
@@ -31,7 +31,7 @@
       "reason": "no live wind data (station reporting null \u2014 sensor or integration issue, not necessarily calm conditions)",
       "wind_gust_mph": null,
       "wind_speed_mph": null,
-      "wind_dir_deg": 129.0
+      "wind_dir_deg": 309.0
     },
     {
       "id": "HITHC-RIDGE-S",
@@ -43,7 +43,7 @@
       "reason": "no live wind data (station reporting null \u2014 sensor or integration issue, not necessarily calm conditions)",
       "wind_gust_mph": null,
       "wind_speed_mph": null,
-      "wind_dir_deg": 103.0
+      "wind_dir_deg": 8.0
     }
   ]
 }
