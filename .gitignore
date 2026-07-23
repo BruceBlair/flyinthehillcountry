@@ -33,6 +33,7 @@ ecowitt-proxy.py
 weather/scout/
 wildlife/*.mp4
 temporary/
+homeassistant/storage_backup_*.tar.gz
 
 # Raw high-volume generated data — only derived JSON aggregates get committed (see repo hygiene principle)
 audio_manifest.json

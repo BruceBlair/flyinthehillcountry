@@ -1,0 +1,3 @@
+{
+  "_comment": "Hand-curated representative photo/audio per species. Key = species common name (must match audio-scout's `species` field exactly). Add entries as: \"Species Name\": {\"photo\": \"path/or/url.jpg\", \"audio_clip\": \"path/or/url.mp3\"}. Species not listed here show as 'not yet curated' on the site — push-wildlife.py never auto-fills this."
+}

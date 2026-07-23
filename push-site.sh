@@ -10,6 +10,7 @@
 set -euo pipefail
 
 SITE_SRC="$(cd "$(dirname "$0")/site" && pwd)"
+DATA_SRC="$(cd "$(dirname "$0")/data" && pwd)"
 PAGES_REPO="${PAGES_REPO:-/volume1/senselayer-pages-repo}"
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*"; }
@@ -28,6 +29,12 @@ log "Syncing site files from $SITE_SRC to $PAGES_REPO ..."
 rsync -av --delete \
   --exclude=".git" \
   "$SITE_SRC/" "$PAGES_REPO/"
+
+log "Syncing live data JSON from $DATA_SRC to $PAGES_REPO/data ..."
+mkdir -p "$PAGES_REPO/data"
+rsync -av --delete \
+  --exclude="wildlife-curated.json" \
+  "$DATA_SRC/" "$PAGES_REPO/data/"
 
 git add -A
 if git diff --cached --quiet; then

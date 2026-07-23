@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wildlife &amp; Nature Conservancy — HITHC</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body data-nav-id="demos">
+  <div id="site-header"></div>
+
+  <main>
+    <h1>Wildlife &amp; Nature Conservancy</h1>
+    <p>
+      Per-species activity summaries built from the audio-scout detection
+      network — not a per-event feed. Population sizes are acoustic-detection
+      estimates, not verified counts.
+    </p>
+    <div id="stale-banner" class="stale-banner"></div>
+    <p class="updated-line" id="wildlife-updated">Loading…</p>
+
+    <div class="filter-bar">
+      <input type="search" id="species-search" placeholder="Search species…" />
+      <label><input type="checkbox" id="quiet-only" /> Gone quiet only</label>
+    </div>
+
+    <div class="species-grid" id="species-grid"></div>
+
+    <p><a href="/demos/">&larr; Back to Demo Applications</a></p>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/assets/nav.js" defer></script>
+  <script src="/assets/live-data.js" defer></script>
+  <script src="/assets/wildlife.js" defer></script>
+</body>
+</html>

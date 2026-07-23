@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flight Go/No-Go — HITHC</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body data-nav-id="demos">
+  <div id="site-header"></div>
+
+  <main>
+    <h1>Flight Go/No-Go</h1>
+    <p>
+      A live wind-condition indicator for flight routing, derived from the
+      Ground Truth Network's wind sensors against configurable thresholds.
+      This will be the future home of a dedicated flight-routing product.
+    </p>
+    <div id="stale-banner" class="stale-banner"></div>
+    <p class="updated-line" id="flight-updated">Loading…</p>
+
+    <div class="overall-indicator" id="overall-indicator"></div>
+
+    <div class="node-map" id="node-map"></div>
+
+    <div class="station-grid" id="station-grid"></div>
+
+    <p id="thresholds" style="font-size:0.85rem;color:#7a7061;"></p>
+
+    <p><a href="/demos/">&larr; Back to Demo Applications</a></p>
+  </main>
+
+  <div id="site-footer"></div>
+  <script src="/assets/nav.js" defer></script>
+  <script src="/assets/live-data.js" defer></script>
+  <script src="/assets/flight-routing.js" defer></script>
+</body>
+</html>

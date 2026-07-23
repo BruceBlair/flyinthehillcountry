@@ -306,6 +306,69 @@ The `dates` object is built by scanning all five sources:
 Weather data start date: UNKNOWN — query InfluxDB first() to determine.  
 Update `availability.json` weather flags once confirmed.
 
+### flood.json (added 2026-07-23, `push-flood.py`)
+```json
+{
+  "updated": "2026-07-23T07:51:23Z",
+  "overall_flood_risk": "normal",
+  "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
+  "stations": [
+    {
+      "id": "HITHC-RIDGE-N",
+      "label": "North Ridge",
+      "lat": 30.017359, "lon": -98.055174,
+      "status": "active | stale | offline",
+      "soil_sensor_installed": false,
+      "soil_moisture_pct": null,
+      "soil_channels_pct": null,
+      "rain_rate_in_hr": null,
+      "rain_daily_in": null,
+      "flood_risk": "normal | watch | warning",
+      "flood_risk_reason": "no data",
+      "last_updated": null
+    }
+  ]
+}
+```
+Only **one** physical soil-moisture probe cluster exists so far (5 channels, paired with Valley East). HA has it registered under three device names — `southside1`, `eastside_1`, `top_of_the_hill_station` — all reporting identical values every cycle (found 2026-07-23, not yet cleaned up in HA's entity registry). `push-flood.py` treats `southside1` as canonical and reports North/South Ridge as `soil_sensor_installed: false`, not offline — there's no hardware there yet, distinct from a dead sensor.
+
+### flight-conditions.json (added 2026-07-23, `push-flight-conditions.py`)
+```json
+{
+  "updated": "2026-07-23T07:51:23Z",
+  "nodes_data_updated": "2026-07-23T07:50:02Z",
+  "overall_status": "go | caution | no-go | unknown",
+  "thresholds_mph": { "gust_no_go": 25.0, "gust_caution": 15.0, "sustained_no_go": 20.0, "sustained_caution": 12.0 },
+  "stations": [
+    { "id": "HITHC-RIDGE-N", "label": "North Ridge", "lat": 30.017359, "lon": -98.055174,
+      "node_status": "active", "status": "unknown", "reason": "...",
+      "wind_gust_mph": null, "wind_speed_mph": null, "wind_dir_deg": 246.0 }
+  ]
+}
+```
+Pure derivation from `nodes.json` — no separate sensor query. Reports `"unknown"` (not a false "go") when wind fields are null, which is the current state on all 3 stations pending the open HA `ecowitt` integration binding bug (wind_speed/wind_gust/outdoor_temperature/relative_pressure frozen despite live upstream data — see CLAUDE.md Gotchas). Will start reporting real go/caution/no-go automatically once that's fixed, no code change needed here.
+
+### wildlife-species.json (added 2026-07-23, `push-wildlife.py`)
+```json
+{
+  "updated": "2026-07-23T07:53:30Z",
+  "source_manifest_updated": "2026-07-18T14:20:00",
+  "species_count": 148,
+  "skipped": { "non_species_labels": 122216, "low_confidence": 14176, "unparsable_timestamp": 0 },
+  "species": [
+    {
+      "species": "House Finch", "scientific_name": "Haemorhous mexicanus",
+      "family": null, "conservation_status": null, "description": null,
+      "representative_photo": null, "representative_audio_clip": null, "curated": false,
+      "first_identified": "2026-05-10", "last_seen": "2026-07-18", "gone_quiet": false,
+      "total_detections": 6673, "hourly_activity": [0, 0, "...24 entries..."],
+      "population_estimate": "Abundant activity (estimate: 4+ individuals)"
+    }
+  ]
+}
+```
+Aggregates `/volume1/highlights/audio_manifest.json` (154K+ raw detections, ~66MB) down to a per-species summary — read the whole file each run (1-2s), don't stream/tail it. Excludes YAMNet's non-species ambient labels (Dog/Cat/Horse/Cattle/Rain/Thunder/Wind/Vehicle/Animal/Wild animals — see `audio-scout/classifier.py`'s `_YAMNET_KEEP`). Representative photo/audio per species is **hand-curated only**, via `data/wildlife-curated.json` (keyed by species name, `{photo, audio_clip}`) — the script never auto-picks one from raw detections; a species with no entry there shows `curated: false` and the site renders a "not yet curated" placeholder.
+
 ---
 
 ## 6. DOCKER STACK ON NAS

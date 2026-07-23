@@ -228,3 +228,306 @@ footer.site-footer a {
   top: 50%;
   transform: translateY(-50%);
 }
+
+/* ── Live-data demo pages (weather/flood/flight/wildlife) ─────────────── */
+
+.updated-line {
+  font-size: 0.85rem;
+  color: #7a7061;
+  margin: -0.5rem 0 1.5rem;
+}
+
+.stale-banner {
+  display: none;
+  background: #fff3e0;
+  border: 1px solid var(--hithc-amber);
+  color: var(--hithc-brown);
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.stale-banner.show {
+  display: block;
+}
+
+.status-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  color: #fff;
+}
+
+.status-badge.status-active,
+.status-badge.status-go,
+.status-badge.status-normal { background: var(--hithc-sage); }
+
+.status-badge.status-stale,
+.status-badge.status-caution,
+.status-badge.status-watch,
+.status-badge.status-unknown { background: var(--hithc-amber); }
+
+.status-badge.status-offline,
+.status-badge.status-no-go,
+.status-badge.status-warning { background: #b3402f; }
+
+.node-map {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(180deg, #eef2e6 0%, #e4dccc 100%);
+  border: 1px solid var(--hithc-border);
+  border-radius: 10px;
+  margin: 1.5rem 0;
+}
+
+.node-map .node-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px rgba(43, 38, 32, 0.3);
+  cursor: default;
+}
+
+.node-map .node-pin.status-active,
+.node-map .node-pin.status-go,
+.node-map .node-pin.status-normal { background: var(--hithc-sage); }
+
+.node-map .node-pin.status-stale,
+.node-map .node-pin.status-caution,
+.node-map .node-pin.status-watch,
+.node-map .node-pin.status-unknown { background: var(--hithc-amber); }
+
+.node-map .node-pin.status-offline,
+.node-map .node-pin.status-no-go,
+.node-map .node-pin.status-warning { background: #b3402f; }
+
+.node-map .node-pin::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.7rem;
+  background: rgba(43, 38, 32, 0.85);
+  color: #fff;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+}
+
+.station-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.station-card {
+  background: #fff;
+  border: 1px solid var(--hithc-border);
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+}
+
+.station-card h3 {
+  margin: 0 0 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 1.05rem;
+}
+
+.station-card .reading-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem 0.75rem;
+  font-size: 0.9rem;
+  margin-top: 0.6rem;
+}
+
+.station-card .reading-grid dt {
+  color: #7a7061;
+}
+
+.station-card .reading-grid dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.station-card .reason {
+  font-size: 0.8rem;
+  color: #7a7061;
+  margin-top: 0.6rem;
+}
+
+.overall-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--hithc-border);
+  margin: 1.5rem 0;
+}
+
+.overall-indicator .dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.overall-indicator .dot.status-go,
+.overall-indicator .dot.status-normal { background: var(--hithc-sage); }
+
+.overall-indicator .dot.status-caution,
+.overall-indicator .dot.status-watch,
+.overall-indicator .dot.status-unknown { background: var(--hithc-amber); }
+
+.overall-indicator .dot.status-no-go,
+.overall-indicator .dot.status-warning { background: #b3402f; }
+
+.overall-indicator .label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.forecast-strip {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.forecast-period {
+  flex: 0 0 130px;
+  background: #fff;
+  border: 1px solid var(--hithc-border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.forecast-period img {
+  width: 40px;
+  height: 40px;
+}
+
+.forecast-period .name {
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-bottom: 0.3rem;
+}
+
+.species-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.species-card {
+  background: #fff;
+  border: 1px solid var(--hithc-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.species-card .species-photo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--hithc-border);
+  display: block;
+}
+
+.species-card .species-photo-placeholder {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--hithc-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7a7061;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.species-card .body {
+  padding: 0.9rem 1rem;
+}
+
+.species-card h3 {
+  margin: 0 0 0.15rem;
+  font-size: 1rem;
+  color: var(--hithc-amber-dark);
+}
+
+.species-card .sci-name {
+  font-style: italic;
+  font-size: 0.8rem;
+  color: #7a7061;
+  margin: 0 0 0.5rem;
+}
+
+.species-card .meta {
+  font-size: 0.8rem;
+  color: #5a5248;
+  margin: 0.2rem 0;
+}
+
+.quiet-flag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #b3402f;
+  margin-left: 0.4rem;
+}
+
+.heatmap {
+  display: flex;
+  gap: 1px;
+  margin-top: 0.5rem;
+  height: 20px;
+  align-items: flex-end;
+}
+
+.heatmap .bar {
+  flex: 1;
+  background: var(--hithc-amber);
+  border-radius: 1px 1px 0 0;
+  min-height: 1px;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.filter-bar input, .filter-bar select {
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--hithc-border);
+  border-radius: 6px;
+  background: #fff;
+}

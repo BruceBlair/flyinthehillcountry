@@ -229,6 +229,50 @@ curl -X POST http://localhost:8123/auth/token \
 - `/volume1/camera_timelapse/{sunrise,sunset}/` — raw JPEG frames captured by HA automations; also holds FFmpeg-built MP4s and `panoramas/`. Written by `ffmpeg-processor` (container path `/output/timelapse`).
 - `/volume1/highlights/timelapse/` — finished timelapse MP4s built by `timelapse_builder.py` inside highlight-curator from the best-scored highlight frames.
 
+**`hithc-gtn-depot` has no GitHub remote of its own** — the live site repo is a separate clone. `push-site.sh` rsyncs `site/` into `/volume1/senselayer-pages-repo`, a clone of `github.com/BruceBlair/ground-truth-gallery` (GitHub Pages source, branch `main`, custom domain `senselayer.io`). Don't look for site deploy history in this repo's own git log — check `ground-truth-gallery` instead.
+
+**Cloudflare MCP plugin (`cloudflare@cloudflare`) OAuth grants DNS *read* scope only by default** — write attempts fail with `10000: Authentication error` even after the browser consent flow completes successfully. DNS record changes currently have to be made manually in the Cloudflare dashboard, not via the MCP `execute` tool, unless the OAuth flow is redone with DNS-edit explicitly granted.
+
+## senselayer.io DNS & Domain Portfolio
+
+`senselayer.io` DNS is authoritative on Cloudflare (zone `e688f7d9ad14450257c1610d8e2ebe64`, account `Blair.bruce@gmail.com's Account`; nameservers `bart`/`elinore`.ns.cloudflare.com; registrar is still Namecheap). As of 2026-07-20:
+- Apex + `www` are proxied records pointing at GitHub Pages — A: `185.199.108-111.153`, AAAA: `2606:50c0:8000-8003::153`, `www` CNAME → `bruceblair.github.io` — serving `BruceBlair/ground-truth-gallery`.
+- MX/SPF/DMARC still use legacy Namecheap email forwarding (`eforward1-5.registrar-servers.com`, SPF `include:spf.efwd.registrar-servers.com`), left untouched during the DNS repoint.
+- Unlike every other zone in the same Cloudflare account (~26 other domains, mostly brand-defensive registrations like `flyinthehillcountry.*`, `highinthca.*`, `highlyreflective.*`), `senselayer.io` has **no DKIM record** and DMARC is `p=none` (monitor-only, not enforced) — the other zones all use Cloudflare Email Routing with DKIM present and `p=quarantine`. This shows up as dashboard warnings; migrating `senselayer.io` to Cloudflare Email Routing would fix it but changes mail delivery, so it's pending a decision, not yet done.
+- `highestinthehillcountry.com` (same account) also still points at the Namecheap parking page — flagged but out of scope, not fixed.
+
+## Photo Sales Gallery (site/photo-sales.html)
+
+A static, manifest-driven gallery replacing the old "coming soon" stub:
+- `site/photos/manifest.json` — `{file, category}[]`, one entry per photo (`file` is the basename with no extension; both `thumb/` and `full/` use `<file>.jpg`). Regenerate this whenever the photo set changes; `gallery.js` reads it at page load and does not hardcode any filenames.
+- `site/photos/thumb/*.jpg` and `site/photos/full/*.jpg` — pre-resized with ImageMagick before ever touching git: `convert -auto-orient -strip -resize 'WxH>' -quality Q -sampling-factor 4:2:0 [-interlace Plane] in out.jpg` (full: 1920px/q82, thumb: 480px/q75). Never commit originals straight from `/volume1/top_100_approved/` — a 106MB source set reduces to ~21MB this way.
+- `site/assets/gallery.js` — renders the grid + a click-through lightbox (prev/next, Esc/arrow-key nav). Grid items interpolate `p.file`/`p.category` from the manifest, so they're built with `document.createElement`/`.textContent`, not template-string `innerHTML` — a `PostToolUse:Write` security hook flags `innerHTML` with interpolated data as XSS-risk. The lightbox's own static shell markup (no interpolated data) is fine as a plain `innerHTML` assignment.
+
+**Publishing a large photo batch without saturating the link**: don't push it as one commit. `push-site.sh`'s rsync-mirror step makes partial `site/photos/` contents at push time naturally produce an incremental commit, so split large photo drops into several sequential `git commit` + `push-site.sh` runs (e.g. thumbnails+page first, then full-res in 2-3 batches), with a short pause (`ScheduleWakeup` or `sleep`) between the full-res batches. This was done for the initial 51-photo launch: 4 commits (4bce92f→d5a0751 in this repo, mirrored 1a3d762→de5e0b9 in `ground-truth-gallery`) instead of one ~21MB push.
+
+**Verifying a deploy when `senselayer.io` itself is flaky**: use `raw.githubusercontent.com/BruceBlair/ground-truth-gallery/main/<path>` to check pushed file content directly — it bypasses the custom domain, Cloudflare, and the Pages build/serving layer entirely, so it can confirm a push succeeded even while the domain is mid-DNS-work or otherwise unreachable (see DNS section above for a real instance of this).
+
+**`split -n l/N` needs a real seekable file, not a pipe** — `ls | sort | split -n l/3 -` fails with `split: cannot determine file size`. Write the list to a file first (`... > all.txt`), then `split -n l/3 -d --additional-suffix=.list all.txt batch_`.
+
+## Live Demo Pages (Weather / Flood / Wildlife / Flight)
+
+Four `site/demos/*.html` pages fetch `/data/*.json` client-side (plain `fetch`, no build step, `site/assets/live-data.js` has shared helpers — `fetchJSON`, `formatAge`, `isStale`/`showStaleBanner`, `renderNodeMap`). Each page's JS re-fetches on a `setInterval` so it stays live without a manual reload.
+
+- `push-nodes.py`/`push-forecast.py` → weather-monitoring.html (pre-existing)
+- `push-flood.py` → flood-monitoring.html
+- `push-flight-conditions.py` → flight-routing.html (pure derivation from `nodes.json`, no new sensor query)
+- `push-wildlife.py` → wildlife.html
+
+See GTN_SPEC.md §5 for the JSON schemas.
+
+**`push-site.sh` didn't sync `data/` at all until 2026-07-23** — it only rsynced `site/` into the pages repo, so `nodes.json`/`forecast.json`/`availability.json` were never actually reaching senselayer.io despite the cron faithfully updating them every 5-30 min. Fixed by adding a second rsync pass (`$DATA_SRC` → `$PAGES_REPO/data/`, excluding `wildlife-curated.json` since that's an internal curation input, not published data). If a new push-*.py script's JSON isn't showing up live, check this rsync step exists and isn't excluding it — don't assume the script itself is broken.
+
+**`push-nodes.py`/`push-forecast.py`/`push-flood.py`/etc.'s own internal `git commit`+`push` always fails** (`hithc-gtn-depot` has no remote — see DNS/deploy section above) — this is expected and harmless, the JSON write already happened before the git step. The newer scripts (`push-flood.py`, `push-flight-conditions.py`, `push-wildlife.py`) check `git remote` first and skip the push attempt silently instead of spamming `ERROR: Command 'git push' returned non-zero exit status 1` every cycle; the older ones (`push-nodes.py`, `push-forecast.py`, `push-availability.py`) still spam that error and haven't been touched to match — cosmetic log noise only, not a functional bug.
+
+**GitHub Pages' legacy build pipeline can silently wedge** — found 2026-07-23: builds had been failing/stuck since 2026-07-20 (2.5+ days), but `senselayer.io` kept serving 200 OK with 3-day-stale content the whole time (GH Pages serves the last good build when a new one fails, so nothing *looks* broken from the outside — check `last-modified` in the response headers, not just the status code). Recovery: `gh api -X POST repos/BruceBlair/ground-truth-gallery/pages/builds` to force a fresh build, then poll `gh api repos/BruceBlair/ground-truth-gallery/pages/builds/latest --jq .status` until it's `built` (not `queued`/`building`). Worth an occasional spot-check (`curl -sI https://senselayer.io/ | grep last-modified` vs. the last known push time) since the hourly cron gives no signal when this happens.
+
+**Soil-moisture probe is registered three times in HA under different device names** (`southside1`, `eastside_1`, `top_of_the_hill_station` — all report identical `soil_moisture_1..5`/`soil_battery_1..5` values every cycle, confirmed 2026-07-23). Only one physical cluster exists (paired with Valley East); `push-flood.py` treats `southside1` as canonical. Worth cleaning up in HA's entity registry at some point (delete the two duplicate devices) so this isn't a trap for the next script that queries soil entities — the duplication isn't visually obvious in InfluxDB, only the "±same value at ±same timestamp under 3 prefixes" pattern gives it away.
+
 ## Agent skills
 
 ### Issue tracker
