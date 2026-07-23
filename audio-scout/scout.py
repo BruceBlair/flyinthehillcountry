@@ -41,7 +41,7 @@ CHUNK_SEC    = 3
 CHUNK_BYTES  = SAMPLE_RATE * 2 * CHUNK_SEC   # 16-bit mono = 2 bytes/sample
 
 RTSP_URL = (
-    f"rtsp://{CAMERA_USER}:{CAMERA_PASS}@{CAMERA_IP}:554/h264Preview_01_main"
+    f"rtsp://{CAMERA_USER}:{CAMERA_PASS}@{CAMERA_IP}:554/h264Preview_01_sub"
 )
 
 # ─── State ───────────────────────────────────────────────────────────────────

@@ -5,7 +5,7 @@ imgs = []
 for f in sorted(glob.glob("High*.jpg")):
     imgs.append(cv2.imread(f))
 
-stitcher = cv2.Stitcher_create(cv2.Stitcher_SCANS)
+stitcher = cv2.Stitcher_create(cv2.Stitcher_PANORAMA)
 status, pano = stitcher.stitch(imgs)
 
 if status == cv2.Stitcher_OK:

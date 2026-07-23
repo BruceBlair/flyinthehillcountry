@@ -55,72 +55,75 @@
                 date: "{{ now().strftime('%Y%m%d') }}"
   mode: single
 
-- id: golden_hour_snapshot
-  alias: "Golden Hour — Periodic Snapshot Request"
-  triggers:
-    - trigger: time_pattern
-      minutes: /5
-  conditions:
-    - condition: state
-      entity_id: input_boolean.golden_hour_capture
-      state: "on"
-  actions:
-    - action: mqtt.publish
-      data:
-        topic: cameras/snapshots/golden_hour
-        payload: >
-          {"camera":"trackmix_wide","timestamp":{{ now().timestamp() | int }}}
-  mode: single
+# DISABLED 2026-07-22 — reolink automations off, user locked out of HA / recording trouble
+# - id: golden_hour_snapshot
+#   alias: "Golden Hour — Periodic Snapshot Request"
+#   triggers:
+#     - trigger: time_pattern
+#       minutes: /5
+#   conditions:
+#     - condition: state
+#       entity_id: input_boolean.golden_hour_capture
+#       state: "on"
+#   actions:
+#     - action: mqtt.publish
+#       data:
+#         topic: cameras/snapshots/golden_hour
+#         payload: >
+#           {"camera":"trackmix_wide","timestamp":{{ now().timestamp() | int }}}
+#   mode: single
 
 # ─── Sunrise / Sunset Watch ───────────────────────────────────────────────────
 
-- id: sunrise_watch_start
-  alias: "Sunrise Watch — Begin 2 Hours Before Sunrise"
-  triggers:
-    - trigger: sun
-      event: sunrise
-      offset: "-02:00:00"
-  conditions: []
-  actions:
-    - action: input_boolean.turn_on
-      target:
-        entity_id: input_boolean.sunset_sunrise_watch
-    - if:
-        - condition: state
-          entity_id: input_boolean.camera_manual_mode
-          state: "off"
-      then:
-        - action: rest_command.ptz_move
-          data:
-            direction: Up
-            speed: 20
-        - delay: "00:00:03"
-        - action: rest_command.ptz_stop
-  mode: single
+# DISABLED 2026-07-22 — reolink automations off, user locked out of HA / recording trouble
+# - id: sunrise_watch_start
+#   alias: "Sunrise Watch — Begin 2 Hours Before Sunrise"
+#   triggers:
+#     - trigger: sun
+#       event: sunrise
+#       offset: "-02:00:00"
+#   conditions: []
+#   actions:
+#     - action: input_boolean.turn_on
+#       target:
+#         entity_id: input_boolean.sunset_sunrise_watch
+#     - if:
+#         - condition: state
+#           entity_id: input_boolean.camera_manual_mode
+#           state: "off"
+#       then:
+#         - action: rest_command.ptz_move
+#           data:
+#             direction: Up
+#             speed: 20
+#         - delay: "00:00:03"
+#         - action: rest_command.ptz_stop
+#   mode: single
 
-- id: sunset_watch_start
-  alias: "Sunset Watch — Begin 2 Hours Before Sunset"
-  triggers:
-    - trigger: sun
-      event: sunset
-      offset: "-02:00:00"
-  conditions: []
-  actions:
-    - action: input_boolean.turn_on
-      target:
-        entity_id: input_boolean.sunset_sunrise_watch
-    - if:
-        - condition: state
-          entity_id: input_boolean.camera_manual_mode
-          state: "off"
-      then:
-        - action: rest_command.ptz_move
-          data:
-            direction: Left
-            speed: 20
-        - delay: "00:00:03"
-        - action: rest_command.ptz_stop
-  mode: single
+# DISABLED 2026-07-22 — reolink automations off, user locked out of HA / recording trouble
+# - id: sunset_watch_start
+#   alias: "Sunset Watch — Begin 2 Hours Before Sunset"
+#   triggers:
+#     - trigger: sun
+#       event: sunset
+#       offset: "-02:00:00"
+#   conditions: []
+#   actions:
+#     - action: input_boolean.turn_on
+#       target:
+#         entity_id: input_boolean.sunset_sunrise_watch
+#     - if:
+#         - condition: state
+#           entity_id: input_boolean.camera_manual_mode
+#           state: "off"
+#       then:
+#         - action: rest_command.ptz_move
+#           data:
+#             direction: Left
+#             speed: 20
+#         - delay: "00:00:03"
+#         - action: rest_command.ptz_stop
+#   mode: single
 
 # ─── Wildlife Detection ───────────────────────────────────────────────────────
 
@@ -267,86 +270,89 @@
 
 # ─── PTZ Patrol ───────────────────────────────────────────────────────────────
 
-- id: ptz_perimeter_patrol
-  alias: "PTZ — Daytime Perimeter Sweep"
-  triggers:
-    - trigger: time_pattern
-      minutes: /10
-  conditions:
-    - condition: state
-      entity_id: sun.sun
-      state: above_horizon
-    - condition: state
-      entity_id: input_boolean.ptz_patrol_enabled
-      state: "on"
-    - condition: state
-      entity_id: input_boolean.camera_manual_mode
-      state: "off"
-  actions:
-    - action: rest_command.ptz_move
-      data:
-        direction: Right
-        speed: 20
-    - delay: "00:00:04"
-    - action: rest_command.ptz_stop
-    - delay: "00:00:05"
-    - action: rest_command.ptz_move
-      data:
-        direction: Left
-        speed: 20
-    - delay: "00:00:08"
-    - action: rest_command.ptz_stop
-    - delay: "00:00:02"
-    - action: rest_command.ptz_move
-      data:
-        direction: Right
-        speed: 20
-    - delay: "00:00:04"
-    - action: rest_command.ptz_stop
-  mode: single
+# DISABLED 2026-07-22 — reolink automations off, user locked out of HA / recording trouble
+# - id: ptz_perimeter_patrol
+#   alias: "PTZ — Daytime Perimeter Sweep"
+#   triggers:
+#     - trigger: time_pattern
+#       minutes: /10
+#   conditions:
+#     - condition: state
+#       entity_id: sun.sun
+#       state: above_horizon
+#     - condition: state
+#       entity_id: input_boolean.ptz_patrol_enabled
+#       state: "on"
+#     - condition: state
+#       entity_id: input_boolean.camera_manual_mode
+#       state: "off"
+#   actions:
+#     - action: rest_command.ptz_move
+#       data:
+#         direction: Right
+#         speed: 20
+#     - delay: "00:00:04"
+#     - action: rest_command.ptz_stop
+#     - delay: "00:00:05"
+#     - action: rest_command.ptz_move
+#       data:
+#         direction: Left
+#         speed: 20
+#     - delay: "00:00:08"
+#     - action: rest_command.ptz_stop
+#     - delay: "00:00:02"
+#     - action: rest_command.ptz_move
+#       data:
+#         direction: Right
+#         speed: 20
+#     - delay: "00:00:04"
+#     - action: rest_command.ptz_stop
+#   mode: single
 
 # ─── Night Operations ─────────────────────────────────────────────────────────
 
-- id: night_sky_patrol_trigger
-  alias: "Night Sky Patrol — Every 2 Hours"
-  triggers:
-    - trigger: time_pattern
-      hours: /2
-  conditions:
-    - condition: state
-      entity_id: sun.sun
-      state: below_horizon
-    - condition: state
-      entity_id: input_boolean.night_sky_patrol_enabled
-      state: "on"
-    - condition: state
-      entity_id: input_boolean.camera_manual_mode
-      state: "off"
-  actions:
-    - action: mqtt.publish
-      data:
-        topic: cameras/control/night_sky_patrol
-        payload: '{"trigger":"scheduled"}'
-  mode: single
+# DISABLED 2026-07-22 — reolink automations off, user locked out of HA / recording trouble
+# - id: night_sky_patrol_trigger
+#   alias: "Night Sky Patrol — Every 2 Hours"
+#   triggers:
+#     - trigger: time_pattern
+#       hours: /2
+#   conditions:
+#     - condition: state
+#       entity_id: sun.sun
+#       state: below_horizon
+#     - condition: state
+#       entity_id: input_boolean.night_sky_patrol_enabled
+#       state: "on"
+#     - condition: state
+#       entity_id: input_boolean.camera_manual_mode
+#       state: "off"
+#   actions:
+#     - action: mqtt.publish
+#       data:
+#         topic: cameras/control/night_sky_patrol
+#         payload: '{"trigger":"scheduled"}'
+#   mode: single
 
-- id: moon_track_periodic
-  alias: "Moon Track — Every 30 Minutes at Night"
-  triggers:
-    - trigger: time_pattern
-      minutes: /30
-  conditions:
-    - condition: state
-      entity_id: sun.sun
-      state: below_horizon
-    - condition: state
-      entity_id: input_boolean.camera_manual_mode
-      state: "off"
-  actions:
-    - action: mqtt.publish
-      data:
-        topic: cameras/control/moon_track
-        payload: '{"trigger":"periodic"}'
-  mode: single
+# DISABLED 2026-07-22 — reolink automations off, user locked out of HA / recording trouble
+# - id: moon_track_periodic
+#   alias: "Moon Track — Every 30 Minutes at Night"
+#   triggers:
+#     - trigger: time_pattern
+#       minutes: /30
+#   conditions:
+#     - condition: state
+#       entity_id: sun.sun
+#       state: below_horizon
+#     - condition: state
+#       entity_id: input_boolean.camera_manual_mode
+#       state: "off"
+#   actions:
+#     - action: mqtt.publish
+#       data:
+#         topic: cameras/control/moon_track
+#         payload: '{"trigger":"periodic"}'
+#   mode: single
 
 # ─── Sensor MQTT Republish ────────────────────────────────────────────────────
 
