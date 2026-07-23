@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-23T05:00:09Z",
+  "updated": "2026-07-23T05:30:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,8 +8,8 @@
   "periods": [
     {
       "number": 1,
-      "name": "Tonight",
-      "start": "2026-07-22T23:00:00-05:00",
+      "name": "Overnight",
+      "start": "2026-07-23T00:00:00-05:00",
       "end": "2026-07-23T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 80,
