@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-23T23:00:04Z",
+  "updated": "2026-07-23T23:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,20 +8,6 @@
   "periods": [
     {
       "number": 1,
-      "name": "This Afternoon",
-      "start": "2026-07-23T17:00:00-05:00",
-      "end": "2026-07-23T18:00:00-05:00",
-      "is_daytime": true,
-      "temp_f": 99,
-      "wind_speed": "10 mph",
-      "wind_dir": "NE",
-      "precip_pct": 0,
-      "short": "Sunny",
-      "detail": "Sunny, with a high near 99. Heat index values as high as 107. Northeast wind around 10 mph, with gusts as high as 25 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
-    },
-    {
-      "number": 2,
       "name": "Tonight",
       "start": "2026-07-23T18:00:00-05:00",
       "end": "2026-07-24T06:00:00-05:00",
@@ -29,13 +15,13 @@
       "temp_f": 77,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "NE",
-      "precip_pct": 34,
-      "short": "Partly Cloudy then Chance Showers And Thunderstorms",
-      "detail": "A chance of rain showers between 1am and 4am, then a chance of showers and thunderstorms. Partly cloudy, with a low around 77. Heat index values as high as 105. Northeast wind 5 to 10 mph, with gusts as high as 30 mph. Chance of precipitation is 30%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/sct/tsra_hi,30?size=medium"
+      "precip_pct": 35,
+      "short": "Chance Rain Showers",
+      "detail": "A chance of rain showers after 10pm. Partly cloudy, with a low around 77. Heat index values as high as 107. Northeast wind 5 to 10 mph, with gusts as high as 30 mph. Chance of precipitation is 40%. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/night/rain_showers,20/rain_showers,40?size=medium"
     },
     {
-      "number": 3,
+      "number": 2,
       "name": "Friday",
       "start": "2026-07-24T06:00:00-05:00",
       "end": "2026-07-24T18:00:00-05:00",
@@ -43,13 +29,13 @@
       "temp_f": 93,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 32,
-      "short": "Chance Showers And Thunderstorms then Mostly Sunny",
-      "detail": "A chance of showers and thunderstorms before 7am. Mostly sunny, with a high near 93. Heat index values as high as 102. South southeast wind 5 to 10 mph, with gusts as high as 25 mph. Chance of precipitation is 30%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/tsra_hi,30/sct?size=medium"
+      "precip_pct": 24,
+      "short": "Slight Chance Rain Showers then Mostly Sunny",
+      "detail": "A slight chance of rain showers before 7am. Mostly sunny, with a high near 93. Heat index values as high as 102. South southeast wind 5 to 10 mph, with gusts as high as 25 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/rain_showers,20/sct?size=medium"
     },
     {
-      "number": 4,
+      "number": 3,
       "name": "Friday Night",
       "start": "2026-07-24T18:00:00-05:00",
       "end": "2026-07-25T06:00:00-05:00",
@@ -57,13 +43,13 @@
       "temp_f": 75,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
-      "precip_pct": 1,
+      "precip_pct": 3,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75. Heat index values as high as 100. South wind 5 to 10 mph, with gusts as high as 25 mph.",
+      "detail": "Mostly clear, with a low around 75. Heat index values as high as 101. South wind 5 to 10 mph, with gusts as high as 25 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 5,
+      "number": 4,
       "name": "Saturday",
       "start": "2026-07-25T06:00:00-05:00",
       "end": "2026-07-25T18:00:00-05:00",
@@ -73,11 +59,11 @@
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 95. South wind around 5 mph.",
+      "detail": "Mostly sunny, with a high near 95. Heat index values as high as 102. South wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
-      "number": 6,
+      "number": 5,
       "name": "Saturday Night",
       "start": "2026-07-25T18:00:00-05:00",
       "end": "2026-07-26T06:00:00-05:00",
@@ -91,7 +77,7 @@
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 7,
+      "number": 6,
       "name": "Sunday",
       "start": "2026-07-26T06:00:00-05:00",
       "end": "2026-07-26T18:00:00-05:00",
@@ -105,7 +91,7 @@
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 8,
+      "number": 7,
       "name": "Sunday Night",
       "start": "2026-07-26T18:00:00-05:00",
       "end": "2026-07-27T06:00:00-05:00",
@@ -119,7 +105,7 @@
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 9,
+      "number": 8,
       "name": "Monday",
       "start": "2026-07-27T06:00:00-05:00",
       "end": "2026-07-27T18:00:00-05:00",
@@ -133,7 +119,7 @@
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 10,
+      "number": 9,
       "name": "Monday Night",
       "start": "2026-07-27T18:00:00-05:00",
       "end": "2026-07-28T06:00:00-05:00",
@@ -143,11 +129,11 @@
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 74.",
+      "detail": "Mostly clear, with a low around 74. South wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 11,
+      "number": 10,
       "name": "Tuesday",
       "start": "2026-07-28T06:00:00-05:00",
       "end": "2026-07-28T18:00:00-05:00",
@@ -161,7 +147,7 @@
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 12,
+      "number": 11,
       "name": "Tuesday Night",
       "start": "2026-07-28T18:00:00-05:00",
       "end": "2026-07-29T06:00:00-05:00",
@@ -175,7 +161,7 @@
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
-      "number": 13,
+      "number": 12,
       "name": "Wednesday",
       "start": "2026-07-29T06:00:00-05:00",
       "end": "2026-07-29T18:00:00-05:00",
@@ -189,7 +175,7 @@
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
-      "number": 14,
+      "number": 13,
       "name": "Wednesday Night",
       "start": "2026-07-29T18:00:00-05:00",
       "end": "2026-07-30T06:00:00-05:00",
@@ -201,6 +187,20 @@
       "short": "Mostly Clear",
       "detail": "Mostly clear, with a low around 75.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
+    },
+    {
+      "number": 14,
+      "name": "Thursday",
+      "start": "2026-07-30T06:00:00-05:00",
+      "end": "2026-07-30T18:00:00-05:00",
+      "is_daytime": true,
+      "temp_f": 98,
+      "wind_speed": "5 mph",
+      "wind_dir": "S",
+      "precip_pct": 1,
+      "short": "Mostly Sunny",
+      "detail": "Mostly sunny, with a high near 98.",
+      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     }
   ]
 }
