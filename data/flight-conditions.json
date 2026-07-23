@@ -1,0 +1,49 @@
+{
+  "updated": "2026-07-23T07:51:23Z",
+  "nodes_data_updated": "2026-07-23T07:50:02Z",
+  "overall_status": "unknown",
+  "thresholds_mph": {
+    "gust_no_go": 25.0,
+    "gust_caution": 15.0,
+    "sustained_no_go": 20.0,
+    "sustained_caution": 12.0
+  },
+  "stations": [
+    {
+      "id": "HITHC-RIDGE-N",
+      "label": "North Ridge",
+      "lat": 30.017359,
+      "lon": -98.055174,
+      "node_status": "active",
+      "status": "unknown",
+      "reason": "no live wind data (station reporting null \u2014 sensor or integration issue, not necessarily calm conditions)",
+      "wind_gust_mph": null,
+      "wind_speed_mph": null,
+      "wind_dir_deg": 15.0
+    },
+    {
+      "id": "HITHC-VALLEY-E",
+      "label": "Valley East",
+      "lat": 30.017007,
+      "lon": -98.053447,
+      "node_status": "active",
+      "status": "unknown",
+      "reason": "no live wind data (station reporting null \u2014 sensor or integration issue, not necessarily calm conditions)",
+      "wind_gust_mph": null,
+      "wind_speed_mph": null,
+      "wind_dir_deg": 44.0
+    },
+    {
+      "id": "HITHC-RIDGE-S",
+      "label": "South Ridge",
+      "lat": 30.014389,
+      "lon": -98.056389,
+      "node_status": "active",
+      "status": "unknown",
+      "reason": "no live wind data (station reporting null \u2014 sensor or integration issue, not necessarily calm conditions)",
+      "wind_gust_mph": null,
+      "wind_speed_mph": null,
+      "wind_dir_deg": 46.0
+    }
+  ]
+}
