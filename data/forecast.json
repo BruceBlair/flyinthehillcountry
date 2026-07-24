@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-24T05:00:05Z",
+  "updated": "2026-07-24T05:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,17 +8,17 @@
   "periods": [
     {
       "number": 1,
-      "name": "Tonight",
-      "start": "2026-07-23T23:00:00-05:00",
+      "name": "Overnight",
+      "start": "2026-07-24T00:00:00-05:00",
       "end": "2026-07-24T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 77,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SE",
       "precip_pct": 25,
-      "short": "Mostly Cloudy then Chance Rain Showers",
+      "short": "Chance Rain Showers",
       "detail": "A chance of rain showers after 1am. Mostly cloudy, with a low around 77. Southeast wind 5 to 10 mph. Chance of precipitation is 30%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/bkn/rain_showers,30?size=medium"
+      "icon": "https://api.weather.gov/icons/land/night/rain_showers,30?size=medium"
     },
     {
       "number": 2,
