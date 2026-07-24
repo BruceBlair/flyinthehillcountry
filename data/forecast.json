@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-23T23:30:03Z",
+  "updated": "2026-07-24T00:00:07Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-07-23T18:00:00-05:00",
+      "start": "2026-07-23T19:00:00-05:00",
       "end": "2026-07-24T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 77,
@@ -17,7 +17,7 @@
       "wind_dir": "NE",
       "precip_pct": 35,
       "short": "Chance Rain Showers",
-      "detail": "A chance of rain showers after 10pm. Partly cloudy, with a low around 77. Heat index values as high as 107. Northeast wind 5 to 10 mph, with gusts as high as 30 mph. Chance of precipitation is 40%. New rainfall amounts less than a tenth of an inch possible.",
+      "detail": "A chance of rain showers after 10pm. Partly cloudy, with a low around 77. Heat index values as high as 105. Northeast wind 5 to 10 mph, with gusts as high as 30 mph. Chance of precipitation is 40%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/night/rain_showers,20/rain_showers,40?size=medium"
     },
     {
