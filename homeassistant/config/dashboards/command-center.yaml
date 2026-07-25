@@ -1,0 +1,226 @@
+title: Command Center
+views:
+  - title: Overview
+    path: overview
+    icon: mdi:view-dashboard
+    cards:
+      - type: picture-glance
+        title: High Res In The Hill Country
+        camera_image: camera.high_res_in_the_hill_country_fluent_lens_0
+        entities:
+          - binary_sensor.high_res_in_the_hill_country_motion
+          - binary_sensor.high_res_in_the_hill_country_person
+          - binary_sensor.high_res_in_the_hill_country_animal
+          - binary_sensor.high_res_in_the_hill_country_vehicle
+      - type: entities
+        title: Storm Status
+        entities:
+          - binary_sensor.storm_detected
+          - sensor.storm_severity
+          - sensor.weather_wind_speed
+          - sensor.weather_wind_gust
+          - sensor.weather_wind_direction
+          - sensor.weather_precipitation_rate
+          - sensor.weather_temperature
+      - type: glance
+        title: Quick Controls
+        entities:
+          - input_boolean.storm_alerts_enabled
+          - input_boolean.ptz_patrol_enabled
+          - input_boolean.night_sky_patrol_enabled
+          - input_boolean.camera_manual_mode
+
+  - title: Weather
+    path: weather
+    icon: mdi:weather-partly-cloudy
+    cards:
+      - type: entities
+        title: North Ridge
+        entities:
+          - sensor.gw3000b_outdoor_temperature
+          - sensor.gw3000b_feels_like_temperature
+          - sensor.gw3000b_dewpoint
+          - sensor.gw3000b_humidity
+          - sensor.gw3000b_wind_speed
+          - sensor.gw3000b_wind_gust
+          - sensor.gw3000b_wind_direction
+          - sensor.gw3000b_relative_pressure
+          - sensor.gw3000b_rain_rate_piezo
+          - sensor.gw3000b_daily_rain_piezo
+          - sensor.gw3000b_uv_index
+          - sensor.gw3000b_solar_radiation
+          - sensor.gw3000b_wh90_battery
+          - binary_sensor.gw3000b_rain_state_piezo
+      - type: entities
+        title: Valley East
+        entities:
+          - sensor.southside1_outdoor_temperature
+          - sensor.southside1_feels_like_temperature
+          - sensor.southside1_dewpoint
+          - sensor.southside1_humidity
+          - sensor.southside1_wind_speed
+          - sensor.southside1_wind_gust
+          - sensor.southside1_wind_direction
+          - sensor.southside1_relative_pressure
+          - sensor.southside1_rain_rate_piezo
+          - sensor.southside1_daily_rain_piezo
+          - sensor.southside1_uv_index
+          - sensor.southside1_solar_radiation
+          - sensor.southside1_wh90_battery
+          - binary_sensor.southside1_rain_state_piezo
+      - type: entities
+        title: South Ridge
+        entities:
+          - sensor.ecowitt_station_2_outdoor_temperature
+          - sensor.ecowitt_station_2_feels_like_temperature
+          - sensor.ecowitt_station_2_dewpoint
+          - sensor.ecowitt_station_2_humidity
+          - sensor.ecowitt_station_2_wind_speed
+          - sensor.ecowitt_station_2_wind_gust
+          - sensor.ecowitt_station_2_wind_direction
+          - sensor.ecowitt_station_2_relative_pressure
+          - sensor.ecowitt_station_2_rain_rate_piezo
+          - sensor.ecowitt_station_2_daily_rain_piezo
+          - sensor.ecowitt_station_2_uv_index
+          - sensor.ecowitt_station_2_solar_radiation
+          - sensor.ecowitt_station_2_wh90_battery
+          - binary_sensor.ecowitt_station_2_rain_state_piezo
+
+  - title: Soil & Flood
+    path: soil-flood
+    icon: mdi:water-alert
+    cards:
+      - type: entities
+        title: Soil Moisture (Valley East probe cluster)
+        entities:
+          - sensor.southside1_soil_moisture_1
+          - sensor.southside1_soil_moisture_2
+          - sensor.southside1_soil_moisture_3
+          - sensor.southside1_soil_moisture_4
+          - sensor.southside1_soil_moisture_5
+          - sensor.southside1_soil_battery_1
+          - sensor.southside1_soil_battery_2
+          - sensor.southside1_soil_battery_3
+          - sensor.southside1_soil_battery_4
+          - sensor.southside1_soil_battery_5
+      - type: entities
+        title: Leak Detection
+        entities:
+          - binary_sensor.gtn_nodes_southside1_leak_detection_4
+          - binary_sensor.gtn_nodes_eastside_1_leak_detection_4
+          - binary_sensor.gtn_nodes_top_of_the_hill_station_leak_detection_4
+      - type: markdown
+        content: >-
+          Full flood go/no-go and wind-based flight-condition status for all
+          3 stations lives on the [senselayer.io flood](https://senselayer.io/demos/flood-monitoring.html)
+          and [flight](https://senselayer.io/demos/flight-routing.html) pages — computed
+          by `push-flood.py`/`push-flight-conditions.py`, not by HA directly.
+
+  - title: Camera & PTZ
+    path: camera-ptz
+    icon: mdi:cctv
+    cards:
+      - type: horizontal-stack
+        cards:
+          - type: picture-entity
+            title: Fluent Lens
+            entity: camera.high_res_in_the_hill_country_fluent_lens_0
+          - type: picture-entity
+            title: Clear Lens
+            entity: camera.high_res_in_the_hill_country_clear_lens_0
+      - type: entities
+        title: PTZ Controls
+        entities:
+          - select.high_res_in_the_hill_country_ptz_preset
+          - select.high_res_in_the_hill_country_day_night_mode
+          - select.high_res_in_the_hill_country_floodlight_mode
+          - select.high_res_in_the_hill_country_auto_track_method
+          - sensor.high_res_in_the_hill_country_ptz_pan_position
+          - sensor.high_res_in_the_hill_country_ptz_tilt_position
+          - sensor.high_res_in_the_hill_country_day_night_state
+      - type: glance
+        title: PTZ Movement
+        columns: 6
+        entities:
+          - button.high_res_in_the_hill_country_ptz_up
+          - button.high_res_in_the_hill_country_ptz_down
+          - button.high_res_in_the_hill_country_ptz_left
+          - button.high_res_in_the_hill_country_ptz_right
+          - button.high_res_in_the_hill_country_ptz_stop
+          - button.high_res_in_the_hill_country_ptz_calibrate
+      - type: entities
+        title: Camera Switches
+        entities:
+          - switch.high_res_in_the_hill_country_record
+          - switch.high_res_in_the_hill_country_record_audio
+          - switch.high_res_in_the_hill_country_auto_tracking
+          - switch.high_res_in_the_hill_country_guard_return
+          - switch.high_res_in_the_hill_country_siren_on_event
+          - switch.high_res_in_the_hill_country_email_on_event
+          - switch.high_res_in_the_hill_country_push_notifications
+          - switch.high_res_in_the_hill_country_ftp_upload
+          - switch.high_res_in_the_hill_country_infrared_lights_in_night_mode
+          - button.high_res_in_the_hill_country_guard_go_to
+          - button.high_res_in_the_hill_country_guard_set_current_position
+          - update.high_res_in_the_hill_country_firmware
+
+  - title: Sky & Automations
+    path: sky-automations
+    icon: mdi:telescope
+    cards:
+      - type: entities
+        title: Automation Switches
+        entities:
+          - input_boolean.night_sky_patrol_enabled
+          - input_boolean.golden_hour_capture
+          - input_boolean.sky_event_active
+          - input_boolean.sunset_sunrise_watch
+          - input_boolean.ptz_patrol_enabled
+          - input_boolean.storm_alerts_enabled
+          - input_boolean.camera_manual_mode
+      - type: entities
+        title: Sun & Golden Hour
+        entities:
+          - sensor.sun_elevation
+          - sensor.sun_azimuth
+          - binary_sensor.golden_hour_active
+          - sensor.sun_next_rising
+          - sensor.sun_next_setting
+          - sensor.sun_next_dawn
+          - sensor.sun_next_dusk
+          - sensor.sun_next_noon
+          - sensor.sun_next_midnight
+      - type: entities
+        title: Automations
+        entities:
+          - automation.storm_alert_detected
+          - automation.storm_alert_severe_conditions
+          - automation.storm_alert_cleared
+          - automation.ptz_daytime_perimeter_sweep
+          - automation.night_sky_patrol_every_2_hours
+          - automation.moon_track_every_30_minutes_at_night
+          - automation.golden_hour_window_opens
+          - automation.golden_hour_window_closes
+          - automation.golden_hour_periodic_snapshot_request
+          - automation.sunrise_watch_begin_2_hours_before_sunrise
+          - automation.sunset_watch_begin_2_hours_before_sunset
+          - automation.timelapse_daily_compile_at_night
+          - automation.weather_republish_sensors_to_mqtt_every_5_minutes
+          - automation.frigate_wildlife_detection_alert
+
+  - title: System
+    path: system
+    icon: mdi:cog
+    cards:
+      - type: entities
+        title: Backup
+        entities:
+          - sensor.backup_backup_manager_state
+          - sensor.backup_last_successful_automatic_backup
+          - sensor.backup_next_scheduled_automatic_backup
+          - sensor.backup_last_attempted_automatic_backup
+      - type: entities
+        title: People
+        entities:
+          - person.bruce_j_blair
+          - person.hithc_admin
