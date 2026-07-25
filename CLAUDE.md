@@ -217,6 +217,8 @@ curl -X POST http://localhost:8123/auth/token \
 
 **`docker compose restart` does NOT pick up a rebuilt image.** After `docker compose build`, use `up -d --force-recreate <service>`.
 
+**HA `configuration.yaml` MUST set `homeassistant: unit_system: us_customary` explicitly.** Without it, HA's unit system can end up Metric (e.g. after an onboarding-wizard replay), and the built-in `ecowitt` integration's `_new_sensor()` filter (`homeassistant/components/ecowitt/sensor.py`) silently refuses to (re)create any imperial-typed sensor (temperature °F, wind speed/gust mph, pressure inHg) on every reload/restart — while dimensionless types (humidity %, wind_direction °) are unaffected since they aren't unit-gated. Symptom: those 4 fields frozen/`unavailable` on all Ecowitt stations despite confirmed-live upstream payloads, surviving both config-entry reload and full container restart. Diagnose by comparing entity-registry duplicates: a station whose entity_id was already taken under the old unit system gets an auto-suffixed `_2` shadow entity in the new unit — if the `_2` variant is fresh and the original is frozen, this is the cause.
+
 **`python:3.12-slim` does not include setuptools, and setuptools ≥72 drops `pkg_resources`.** New Python services need `setuptools>=69.0.0,<72.0.0` in requirements.txt or packages like tensorflow-hub that import `pkg_resources` fail with `ModuleNotFoundError: No module named 'pkg_resources'`.
 
 **`/volume1/highlights/` files can only be chmod'd via `docker exec highlight-curator`** — that container owns the mount; running chmod as the current user hits permission denied, and Frigate does not mount that path.

@@ -10,6 +10,7 @@ homeassistant:
   time_zone: America/Chicago
   currency: USD
   country: US
+  unit_system: us_customary
 
 frontend:
   themes: !include_dir_merge_named themes
