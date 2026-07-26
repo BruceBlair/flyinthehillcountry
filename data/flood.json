@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-26T05:00:02Z",
+  "updated": "2026-07-26T05:05:01Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -37,14 +37,14 @@
       "rain_daily_in": 0.0,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-07-26T04:59:57Z"
+      "last_updated": "2026-07-26T05:04:56Z"
     },
     {
       "id": "HITHC-RIDGE-S",
       "label": "South Ridge",
       "lat": 30.014389,
       "lon": -98.056389,
-      "status": "offline",
+      "status": "active",
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
@@ -52,7 +52,7 @@
       "rain_daily_in": 0.0,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-07-25T19:36:00Z"
+      "last_updated": "2026-07-26T05:01:00Z"
     }
   ]
 }
