@@ -311,6 +311,44 @@ footer.site-footer a {
 .node-map .node-pin.status-no-go,
 .node-map .node-pin.status-warning { background: #b3402f; }
 
+/* Native GTN stations use the default solid status-colored circle above.
+   External (scraped/pulled third-party) and preferred-future-location pins
+   override that so all 3 categories read as visually distinct at a glance —
+   see GTN_SPEC.md §5 for the external-stations.json / preferred-locations.json
+   schemas these map to. */
+.node-map .node-pin.kind-external {
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 2px solid var(--hithc-border);
+  box-shadow: none;
+}
+
+/* Diamond drawn via a rotated ::before instead of clip-path — clip-path cuts
+   the border along with everything else outside the polygon, leaving only
+   the 4 tangent points visible (found while screenshotting this page). A
+   separate ::before can be rotated on its own without touching the ::after
+   label, which stays on the (unrotated) parent box. */
+.node-map .node-pin.kind-preferred {
+  width: 0;
+  height: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.node-map .node-pin.kind-preferred::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 13px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: var(--hithc-cream);
+  border: 2px dashed var(--hithc-amber-dark);
+}
+
 .node-map .node-pin::after {
   content: attr(data-label);
   position: absolute;
@@ -323,6 +361,58 @@ footer.site-footer a {
   color: #fff;
   padding: 0.1rem 0.4rem;
   border-radius: 4px;
+}
+
+.map-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--hithc-muted, #6b6459);
+  margin: -0.75rem 0 1.5rem;
+}
+
+.map-legend .legend-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: var(--hithc-sage);
+}
+
+.map-legend .legend-swatch.kind-external {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  border: 2px solid var(--hithc-border);
+}
+
+.map-legend .legend-swatch.kind-preferred {
+  width: 10px;
+  height: 10px;
+  border-radius: 0;
+  transform: rotate(45deg); /* no ::after content on this element, so plain rotate() is fine (unlike the map pin) */
+  background: var(--hithc-cream);
+  border: 2px dashed var(--hithc-amber-dark);
+}
+
+.contribute-banner {
+  background: #fff;
+  border: 1px solid var(--hithc-border);
+  border-left: 4px solid var(--hithc-sage);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+}
+
+.contribute-banner h2 {
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.contribute-banner p {
+  margin-bottom: 0;
 }
 
 .station-grid {

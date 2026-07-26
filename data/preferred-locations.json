@@ -1,0 +1,33 @@
+{
+  "updated": "2026-07-25T00:00:00Z",
+  "note": "Hand-curated proposed future GTN node sites, not live sensors. Coordinates are draft sketches reasoned from the 3 existing stations' known lat/lon/elevation (see three_station_update_spec.md) — none of these have been field-surveyed with a GPS. Confirm on the ground before treating any of these as an install target.",
+  "locations": [
+    {
+      "id": "PROPOSED-DRAINAGE-1",
+      "label": "Lower Drainage Corridor",
+      "lat": 30.0158,
+      "lon": -98.0512,
+      "feature_type": "drainage",
+      "rationale": "Downhill and further east of HITHC-VALLEY-E, the property's lowest existing station (1065 ft vs. 1115/1148 ft on the two ridges) — likely along the natural runoff path off the property. Matches GTN's own upstream flash-flood-warning thesis (see docs/patent-ecosystem.md and ground-truth/10_gtn.html's Camp Mystic / Cypress Creek framing): a node here would see rising water before it reaches lower ground.",
+      "coordinates_confirmed": false
+    },
+    {
+      "id": "PROPOSED-RIDGE-1",
+      "label": "West Ridge Extension",
+      "lat": 30.0158,
+      "lon": -98.0625,
+      "feature_type": "ridgeline",
+      "rationale": "A third ridgeline point west of the existing North Ridge / South Ridge pair, widening the array's baseline for the 2D wind-field and lightning-triangulation products GTN's own pitch deck cites as needing multiple ridge-spaced nodes.",
+      "coordinates_confirmed": false
+    },
+    {
+      "id": "PROPOSED-APPROACH-1",
+      "label": "Approach Corridor Overlook",
+      "lat": 30.0210,
+      "lon": -98.0505,
+      "feature_type": "flight_approach",
+      "rationale": "Northeast of the existing cluster, along the likely small-aircraft approach vector this property already serves (see flight-routing.html / push-flight-conditions.py). A node here would extend gust/crosswind coverage into the approach path itself rather than only at the landing site.",
+      "coordinates_confirmed": false
+    }
+  ]
+}

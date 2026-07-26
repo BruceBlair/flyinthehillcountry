@@ -49,17 +49,25 @@ function fmt(value, decimals, unit) {
 // external map library — the 3 GTN stations sit within about half a mile
 // of each other, so a small equirectangular approximation centered on
 // their centroid is all that's needed to show relative position).
-function renderNodeMap(container, nodes, statusOf, labelOf) {
+function renderNodeMap(container, nodes, statusOf, labelOf, kindOf) {
   container.innerHTML = "";
   if (!nodes.length) return;
+  kindOf = kindOf || (() => "native");
 
-  const lats = nodes.map((n) => n.lat);
-  const lons = nodes.map((n) => n.lon);
+  // The map's scale is set by "native"/"preferred" nodes only (property
+  // scale, ~half a mile across) — "external" nodes (regional WU stations,
+  // up to ~20 miles out) are clamped to the map edge in their true direction
+  // instead of expanding the box, so one distant regional station doesn't
+  // collapse the tightly-clustered native pins into a single blob.
+  const scaleNodes = nodes.filter((n) => kindOf(n) !== "external");
+  const boxNodes = scaleNodes.length ? scaleNodes : nodes;
+
+  const lats = boxNodes.map((n) => n.lat);
   const centerLat = (Math.max(...lats) + Math.min(...lats)) / 2;
   const cosLat = Math.cos((centerLat * Math.PI) / 180);
 
-  const xs = nodes.map((n) => n.lon * cosLat);
-  const ys = nodes.map((n) => n.lat);
+  const xs = boxNodes.map((n) => n.lon * cosLat);
+  const ys = boxNodes.map((n) => n.lat);
   const pad = 0.15; // fractional padding so pins aren't flush with the edge
   const minX = Math.min(...xs), maxX = Math.max(...xs);
   const minY = Math.min(...ys), maxY = Math.max(...ys);
@@ -69,11 +77,13 @@ function renderNodeMap(container, nodes, statusOf, labelOf) {
   nodes.forEach((n) => {
     const x = n.lon * cosLat;
     const y = n.lat;
-    const px = pad * 100 + ((x - minX) / spanX) * (100 - 2 * pad * 100);
-    const py = (1 - pad) * 100 - ((y - minY) / spanY) * (100 - 2 * pad * 100);
+    let px = pad * 100 + ((x - minX) / spanX) * (100 - 2 * pad * 100);
+    let py = (1 - pad) * 100 - ((y - minY) / spanY) * (100 - 2 * pad * 100);
+    px = Math.min(97, Math.max(3, px));
+    py = Math.min(97, Math.max(3, py));
 
     const pin = document.createElement("div");
-    pin.className = `node-pin status-${statusOf(n)}`;
+    pin.className = `node-pin status-${statusOf(n)} kind-${kindOf(n)}`;
     pin.style.left = `${px}%`;
     pin.style.top = `${py}%`;
     pin.dataset.label = labelOf(n);

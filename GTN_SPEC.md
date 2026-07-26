@@ -369,6 +369,41 @@ Pure derivation from `nodes.json` — no separate sensor query. Reports `"unknow
 ```
 Aggregates `/volume1/highlights/audio_manifest.json` (154K+ raw detections, ~66MB) down to a per-species summary — read the whole file each run (1-2s), don't stream/tail it. Excludes YAMNet's non-species ambient labels (Dog/Cat/Horse/Cattle/Rain/Thunder/Wind/Vehicle/Animal/Wild animals — see `audio-scout/classifier.py`'s `_YAMNET_KEEP`). Representative photo/audio per species is **hand-curated only**, via `data/wildlife-curated.json` (keyed by species name, `{photo, audio_clip}`) — the script never auto-picks one from raw detections; a species with no entry there shows `curated: false` and the site renders a "not yet curated" placeholder.
 
+### external-stations.json (added 2026-07-26, `push-external-stations.py`)
+```json
+{
+  "updated": "2026-07-26T00:35:42Z",
+  "networks_configured": { "wunderground": true, "ecowitt": false },
+  "source_note": "Station identity anonymized (id/name dropped, lat/lon rounded to ~0.01 deg) before publishing, per network ToS on redistributing other members' data.",
+  "attribution": "Weather Underground (wunderground.com)",
+  "stations": [
+    {
+      "id": "wu-1", "network": "wunderground", "distance_mi": 3.2,
+      "approx_lat": 30.02, "approx_lon": -98.05,
+      "temp_f": 91.4, "humidity_pct": 40, "wind_speed_mph": 3.2, "wind_gust_mph": 6.1,
+      "pressure_in": 29.85, "last_updated": "2026-07-26T00:30:00Z"
+    }
+  ]
+}
+```
+Pulls nearby Personal Weather Stations from Weather Underground's official PWS API (`api.weather.com/v3/location/near?product=pws` + `/v2/pws/observations/current`) — requires `WU_API_KEY` in `.env` from a WU account with a registered PWS (`wunderground.com/member/api-keys`). Without a key the script writes an empty `stations: []` and exits 0, no error. **Ecowitt.net's public crowd map has no equivalent official API** — the documented Ecowitt cloud API (`doc.ecowitt.net/web/#/apiv3en`) is scoped to devices registered to your own account only, not third-party stations on their map; pulling those would mean scraping an undocumented endpoint, which was deliberately not built (fragile + likely ToS problem for a site redistributing the data continuously). `networks_configured.ecowitt` stays `false` until Ecowitt ships a real nearby-stations API. Rendered on `weather-monitoring.html`'s map as `kind: "external"` pins, visually distinct from the 3 native GTN stations (`nodes.json`) — see `site/assets/style.css`'s `.node-pin.kind-external` rule.
+
+### preferred-locations.json (added 2026-07-26, hand-curated)
+```json
+{
+  "updated": "2026-07-25T00:00:00Z",
+  "note": "Hand-curated proposed future GTN node sites, not live sensors. Coordinates are draft sketches, not field-surveyed.",
+  "locations": [
+    {
+      "id": "PROPOSED-DRAINAGE-1", "label": "Lower Drainage Corridor",
+      "lat": 30.0158, "lon": -98.0512, "feature_type": "drainage",
+      "rationale": "...", "coordinates_confirmed": false
+    }
+  ]
+}
+```
+Static, hand-edited file (like `wildlife-curated.json`) — no push script. `feature_type` is one of `drainage`/`ridgeline`/`flight_approach` so far; add more as candidate sites are identified. Rendered as `kind: "preferred"` dashed-diamond pins on the weather map — these represent where the network *could* expand next (drainage/runoff monitoring, ridgeline wind-field baseline extension, flight approach corridor coverage), not deployed hardware. Edit directly and let `push-site.sh`'s existing `data/` rsync pick it up.
+
 ---
 
 ## 6. DOCKER STACK ON NAS

@@ -1,9 +1,6 @@
 const NODES_INTERVAL_SEC = 5 * 60;
 const FORECAST_INTERVAL_SEC = 30 * 60;
 
-function statusOf(node) { return node.status; }
-function labelOf(node) { return node.label; }
-
 function buildStationCard(node) {
   const card = document.createElement("div");
   card.className = "station-card";
@@ -78,14 +75,44 @@ function appendForecastPeriods(strip, periods) {
   });
 }
 
+function mapKindOf(n) { return n.kind || "native"; }
+function mapStatusOf(n) { return n.status || "unknown"; }
+function mapLabelOf(n) { return n.label; }
+
 async function refreshNodes() {
   try {
     const nodes = await fetchJSON("/data/nodes.json");
     showStaleBanner(nodes.updated, NODES_INTERVAL_SEC, "sensor readings");
     document.getElementById("nodes-updated").textContent = `Last updated: ${formatAge(nodes.updated)}`;
 
+    const merged = nodes.nodes.map((n) => ({ ...n, kind: "native" }));
+
+    try {
+      const ext = await fetchJSON("/data/external-stations.json");
+      ext.stations
+        .filter((s) => s.approx_lat != null && s.approx_lon != null)
+        .forEach((s) => merged.push({
+          lat: s.approx_lat,
+          lon: s.approx_lon,
+          kind: "external",
+          status: s.temp_f != null ? "active" : "offline",
+          label: `Regional station (${s.network === "wunderground" ? "WU" : s.network}) — ${s.distance_mi != null ? s.distance_mi + " mi" : "distance unknown"}`,
+        }));
+    } catch (e) { /* external-stations.json is optional — map still works without it */ }
+
+    try {
+      const pref = await fetchJSON("/data/preferred-locations.json");
+      pref.locations.forEach((p) => merged.push({
+        lat: p.lat,
+        lon: p.lon,
+        kind: "preferred",
+        status: "unknown",
+        label: `Proposed: ${p.label}`,
+      }));
+    } catch (e) { /* preferred-locations.json is optional — map still works without it */ }
+
     const mapEl = document.getElementById("node-map");
-    renderNodeMap(mapEl, nodes.nodes, statusOf, labelOf);
+    renderNodeMap(mapEl, merged, mapStatusOf, mapLabelOf, mapKindOf);
 
     const grid = document.getElementById("station-grid");
     grid.textContent = "";

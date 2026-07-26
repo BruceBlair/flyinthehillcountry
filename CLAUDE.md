@@ -264,8 +264,13 @@ Four `site/demos/*.html` pages fetch `/data/*.json` client-side (plain `fetch`, 
 - `push-flood.py` → flood-monitoring.html
 - `push-flight-conditions.py` → flight-routing.html (pure derivation from `nodes.json`, no new sensor query)
 - `push-wildlife.py` → wildlife.html
+- `push-external-stations.py` (added 2026-07-26) → weather-monitoring.html's map, plus the static hand-curated `data/preferred-locations.json` (no push script) for proposed future node sites
 
-See GTN_SPEC.md §5 for the JSON schemas.
+See GTN_SPEC.md §5 for the JSON schemas. `renderNodeMap()` in `live-data.js` takes an optional 5th `kindOf` arg (`native`/`external`/`preferred`) — weather-monitoring.js is the only caller that uses it; flood/flight/wildlife pages omit it and get the old all-native rendering unchanged.
+
+**Ecowitt.net's public station map has no official "nearby stations" API** — only Weather Underground's PWS API does (`api.weather.com/v3/location/near?product=pws`, official and documented). Confirmed 2026-07-25 by reading Ecowitt's actual cloud API docs: every endpoint is scoped to devices registered to your own account (`application_key`/`api_key` + device IMEI/MAC), there's no discovery endpoint for other users' public stations. `push-external-stations.py` therefore only pulls from Wunderground (needs `WU_API_KEY` in `.env`, no-ops cleanly without one); Ecowitt foreign-node scraping was deliberately not built — the only way to get that data would be scraping their map's undocumented internal endpoint, which is fragile and a likely ToS problem for a site that would redistribute it continuously. If Ecowitt ever ships a real API for this, add a second branch — the `external-stations.json` schema already has a `network` field and `networks_configured.ecowitt` sitting at `false` waiting for it.
+
+**Cron for `push-*.py` scripts lives only in `crontab -l`, not in this repo** — `cron-scan-sync.sh` is a separate hourly job for the highlight-curator scan/sync pipeline (see its own header), not a registry of all cron entries. When adding a new push script's schedule, add it directly via `crontab -e`/`crontab -l | ... | crontab -`; there's no repo file that reflects the true cron state, so `crontab -l` is the only source of truth.
 
 ## HA Command Center Dashboard
 

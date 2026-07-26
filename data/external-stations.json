@@ -1,0 +1,10 @@
+{
+  "updated": "2026-07-26T06:37:02Z",
+  "networks_configured": {
+    "wunderground": false,
+    "ecowitt": false
+  },
+  "source_note": "WU_API_KEY not set in .env \u2014 register a WU account/PWS at wunderground.com/member/api-keys, then add the key to enable nearby-station pulls. Ecowitt.net's public map has no equivalent official API (see script docstring) and is not wired up.",
+  "attribution": "Weather Underground (wunderground.com)",
+  "stations": []
+}
