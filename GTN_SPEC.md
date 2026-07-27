@@ -388,6 +388,25 @@ Aggregates `/volume1/highlights/audio_manifest.json` (154K+ raw detections, ~66M
 ```
 Pulls nearby Personal Weather Stations from Weather Underground's official PWS API (`api.weather.com/v3/location/near?product=pws` + `/v2/pws/observations/current`) — requires `WU_API_KEY` in `.env` from a WU account with a registered PWS (`wunderground.com/member/api-keys`). Without a key the script writes an empty `stations: []` and exits 0, no error. **Ecowitt.net's public crowd map has no equivalent official API** — the documented Ecowitt cloud API (`doc.ecowitt.net/web/#/apiv3en`) is scoped to devices registered to your own account only, not third-party stations on their map; pulling those would mean scraping an undocumented endpoint, which was deliberately not built (fragile + likely ToS problem for a site redistributing the data continuously). `networks_configured.ecowitt` stays `false` until Ecowitt ships a real nearby-stations API. Rendered on `weather-monitoring.html`'s map as `kind: "external"` pins, visually distinct from the 3 native GTN stations (`nodes.json`) — see `site/assets/style.css`'s `.node-pin.kind-external` rule.
 
+### external-flood-gauges.json (added 2026-07-27, `push-external-flood-gauges.py`)
+```json
+{
+  "updated": "2026-07-27T16:27:15Z",
+  "source": "USGS NWIS Instantaneous Values (waterservices.usgs.gov)",
+  "attribution": "USGS Water Data for the Nation",
+  "note": "Provisional data, subject to revision. Public federal gauge data — not anonymized.",
+  "gauges": [
+    {
+      "site_no": "08171000", "name": "Blanco River at Wimberley, TX",
+      "lat": 29.99438, "lon": -98.08893,
+      "gage_height_ft": 3.80, "discharge_cfs": 24.2,
+      "last_updated": "2026-07-27T11:15:00.000-05:00", "distance_mi": 3.6
+    }
+  ]
+}
+```
+Pulls stream-gauge readings (gage height + discharge) from USGS's public NWIS Instantaneous Values API (`waterservices.usgs.gov/nwis/iv/`) for a fixed, hand-discovered list of 3 nearby gauges — most notably the Blanco River gauge at Wimberley (site `08171000`), the same reach that flooded catastrophically in May 2015. No API key/account required, and unlike `external-stations.json`, no anonymization is applied — USGS gauges are public federal infrastructure, not private citizens' equipment, so there's no ToS redistribution concern. Rendered on `flood-monitoring.html`'s map as `kind: "gauge"` square pins — see `site/assets/style.css`'s `.node-pin.kind-gauge` rule — plus a dedicated "Regional River & Creek Gauges" card grid below the native station cards.
+
 ### preferred-locations.json (added 2026-07-26, hand-curated)
 ```json
 {

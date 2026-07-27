@@ -5,6 +5,7 @@
   --hithc-amber: #c1622d;
   --hithc-amber-dark: #9c4d22;
   --hithc-sage: #5c7a5c;
+  --hithc-water: #3d6b8c;
   --hithc-border: #e4dccc;
   --hithc-max-width: 960px;
 }
@@ -349,6 +350,16 @@ footer.site-footer a {
   border: 2px dashed var(--hithc-amber-dark);
 }
 
+/* USGS river/creek gauges (flood-monitoring.html) — square instead of the
+   weather map's circle/ring/diamond trio, so the two demo pages' external-source
+   pins never look identical even though both use kind-* on the same shared
+   renderNodeMap()/CSS. */
+.node-map .node-pin.kind-gauge {
+  border-radius: 2px;
+  background: var(--hithc-water);
+  border: 2px solid #fff;
+}
+
 .node-map .node-pin::after {
   content: attr(data-label);
   position: absolute;
@@ -395,6 +406,12 @@ footer.site-footer a {
   transform: rotate(45deg); /* no ::after content on this element, so plain rotate() is fine (unlike the map pin) */
   background: var(--hithc-cream);
   border: 2px dashed var(--hithc-amber-dark);
+}
+
+.map-legend .legend-swatch.kind-gauge {
+  border-radius: 2px;
+  background: var(--hithc-water);
+  border: 2px solid #fff;
 }
 
 .contribute-banner {
