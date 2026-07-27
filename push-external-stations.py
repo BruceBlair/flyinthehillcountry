@@ -83,7 +83,9 @@ def fetch_nearby_stations():
             )
             obs = wu_get(obs_url)
             reading = (obs.get("observations") or [{}])[0]
-        except (urllib.error.HTTPError, urllib.error.URLError, IndexError):
+        except (urllib.error.HTTPError, urllib.error.URLError, IndexError, json.JSONDecodeError):
+            # Some nearby stations return HTTP 204 (no body) when offline/stale —
+            # qcStatus -1 in the /near response is the tell. Skip, don't fail the batch.
             reading = {}
         imperial = reading.get("imperial", {})
         lat = reading.get("lat")
