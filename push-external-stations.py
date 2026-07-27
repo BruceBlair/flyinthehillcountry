@@ -137,6 +137,7 @@ if __name__ == "__main__":
             }
             OUTPUT_FILE.write_text(json.dumps(output, indent=2))
             print("WU_API_KEY not configured — wrote empty external-stations.json, no error.")
+            git_push(OUTPUT_FILE)
             sys.exit(0)
 
         stations = fetch_nearby_stations()
