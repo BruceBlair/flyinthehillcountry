@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-29T18:30:11Z",
+  "updated": "2026-07-29T19:00:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,15 +9,15 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-07-29T12:00:00-05:00",
+      "start": "2026-07-29T14:00:00-05:00",
       "end": "2026-07-29T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 97,
-      "wind_speed": "5 to 10 mph",
+      "wind_speed": "5 mph",
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 97. Heat index values as high as 103. South wind 5 to 10 mph.",
+      "detail": "Sunny, with a high near 97. Heat index values as high as 103. South wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
@@ -113,10 +113,10 @@
       "temp_f": 76,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SW",
-      "precip_pct": 16,
-      "short": "Mostly Cloudy then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 1am. Mostly cloudy, with a low around 76. Southwest wind 0 to 5 mph. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/night/bkn/tsra_hi,20?size=medium"
+      "precip_pct": 15,
+      "short": "Partly Cloudy then Slight Chance Showers And Thunderstorms",
+      "detail": "A slight chance of showers and thunderstorms after 1am. Partly cloudy, with a low around 76. Southwest wind 0 to 5 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/sct/tsra_hi,20?size=medium"
     },
     {
       "number": 9,
@@ -124,12 +124,12 @@
       "start": "2026-08-02T06:00:00-05:00",
       "end": "2026-08-02T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 95,
+      "temp_f": 96,
       "wind_speed": "5 mph",
       "wind_dir": "N",
-      "precip_pct": 16,
+      "precip_pct": 15,
       "short": "Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms. Sunny, with a high near 95. North wind around 5 mph. Chance of precipitation is 20%.",
+      "detail": "A slight chance of showers and thunderstorms. Mostly sunny, with a high near 96. North wind around 5 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/day/tsra_hi,20?size=medium"
     },
     {
@@ -138,12 +138,12 @@
       "start": "2026-08-02T18:00:00-05:00",
       "end": "2026-08-03T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 75,
+      "temp_f": 74,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SE",
-      "precip_pct": 16,
+      "precip_pct": 15,
       "short": "Slight Chance Showers And Thunderstorms then Mostly Clear",
-      "detail": "A slight chance of showers and thunderstorms before 7pm. Mostly clear, with a low around 75. Chance of precipitation is 20%.",
+      "detail": "A slight chance of showers and thunderstorms before 7pm. Mostly clear, with a low around 74. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/few?size=medium"
     },
     {
@@ -166,12 +166,12 @@
       "start": "2026-08-03T18:00:00-05:00",
       "end": "2026-08-04T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 75,
+      "temp_f": 76,
       "wind_speed": "5 mph",
       "wind_dir": "SSE",
       "precip_pct": 6,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75.",
+      "detail": "Mostly clear, with a low around 76.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -198,9 +198,9 @@
       "wind_speed": "5 mph",
       "wind_dir": "SSE",
       "precip_pct": 3,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 75.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     }
   ]
 }
