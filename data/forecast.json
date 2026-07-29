@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-29T03:30:02Z",
+  "updated": "2026-07-29T04:30:01Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-07-28T18:00:00-05:00",
+      "start": "2026-07-28T22:00:00-05:00",
       "end": "2026-07-29T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 75,
@@ -17,7 +17,7 @@
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75. Heat index values as high as 107. South wind 5 to 10 mph, with gusts as high as 20 mph.",
+      "detail": "Mostly clear, with a low around 75. South wind 5 to 10 mph, with gusts as high as 20 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -54,12 +54,12 @@
       "start": "2026-07-30T06:00:00-05:00",
       "end": "2026-07-30T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 97,
-      "wind_speed": "5 mph",
-      "wind_dir": "S",
+      "temp_f": 98,
+      "wind_speed": "5 to 10 mph",
+      "wind_dir": "SSW",
       "precip_pct": 0,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 97. Heat index values as high as 104. South wind around 5 mph.",
+      "detail": "Mostly sunny, with a high near 98. Heat index values as high as 105. South southwest wind 5 to 10 mph.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
@@ -72,9 +72,9 @@
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
       "precip_pct": 0,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 74. South wind 5 to 10 mph, with gusts as high as 20 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 74. South wind 5 to 10 mph, with gusts as high as 20 mph.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
       "number": 6,
@@ -82,13 +82,13 @@
       "start": "2026-07-31T06:00:00-05:00",
       "end": "2026-07-31T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 98,
+      "temp_f": 99,
       "wind_speed": "5 mph",
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 98. South wind around 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
+      "detail": "Sunny, with a high near 99. South wind around 5 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
       "number": 7,
@@ -98,10 +98,10 @@
       "is_daytime": false,
       "temp_f": 76,
       "wind_speed": "5 mph",
-      "wind_dir": "S",
+      "wind_dir": "SSW",
       "precip_pct": 1,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76. South wind around 5 mph.",
+      "detail": "Mostly clear, with a low around 76. South southwest wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -124,12 +124,12 @@
       "start": "2026-08-01T18:00:00-05:00",
       "end": "2026-08-02T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 77,
+      "temp_f": 78,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSW",
-      "precip_pct": 4,
+      "precip_pct": 6,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 77. South southwest wind 0 to 5 mph.",
+      "detail": "Partly cloudy, with a low around 78. South southwest wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
