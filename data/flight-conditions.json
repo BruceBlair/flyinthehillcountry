@@ -1,6 +1,6 @@
 {
-  "updated": "2026-07-31T02:10:01Z",
-  "nodes_data_updated": "2026-07-31T02:05:02Z",
+  "updated": "2026-07-31T02:15:01Z",
+  "nodes_data_updated": "2026-07-31T02:10:01Z",
   "overall_status": "go",
   "thresholds_mph": {
     "gust_no_go": 25.0,
@@ -17,9 +17,9 @@
       "node_status": "active",
       "status": "go",
       "reason": "winds within limits",
-      "wind_gust_mph": 7.61,
-      "wind_speed_mph": 4.47,
-      "wind_dir_deg": 157.0
+      "wind_gust_mph": 9.39,
+      "wind_speed_mph": 3.8,
+      "wind_dir_deg": 161.0
     },
     {
       "id": "HITHC-VALLEY-E",
@@ -30,8 +30,8 @@
       "status": "go",
       "reason": "winds within limits",
       "wind_gust_mph": 2.46,
-      "wind_speed_mph": 1.12,
-      "wind_dir_deg": 350.0
+      "wind_speed_mph": 0.0,
+      "wind_dir_deg": 72.0
     },
     {
       "id": "HITHC-RIDGE-S",
