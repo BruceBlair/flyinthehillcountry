@@ -1,5 +1,5 @@
 {
-  "updated": "2026-07-31T15:00:02Z",
+  "updated": "2026-07-31T15:15:01Z",
   "source": "USGS NWIS Instantaneous Values (waterservices.usgs.gov)",
   "attribution": "USGS Water Data for the Nation",
   "note": "Provisional data, subject to revision (see waterdata.usgs.gov/nwis/help/?provisional). Public federal gauge data \u2014 not anonymized (see script docstring).",
@@ -11,7 +11,7 @@
       "lon": -98.08893,
       "gage_height_ft": 3.75,
       "discharge_cfs": 19.2,
-      "last_updated": "2026-07-31T09:45:00.000-05:00",
+      "last_updated": "2026-07-31T10:00:00.000-05:00",
       "distance_mi": 3.6
     },
     {
@@ -29,9 +29,9 @@
       "name": "Onion Creek near Driftwood, TX",
       "lat": 30.08299,
       "lon": -98.00779,
-      "gage_height_ft": 2.4,
-      "discharge_cfs": 1.23,
-      "last_updated": "2026-07-31T09:45:00.000-05:00",
+      "gage_height_ft": 2.39,
+      "discharge_cfs": 1.11,
+      "last_updated": "2026-07-31T10:00:00.000-05:00",
       "distance_mi": 5.2
     }
   ]
