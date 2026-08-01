@@ -1,7 +1,7 @@
 {
-  "updated": "2026-08-01T03:50:01Z",
-  "nodes_data_updated": "2026-08-01T03:45:02Z",
-  "overall_status": "unknown",
+  "updated": "2026-08-01T03:55:01Z",
+  "nodes_data_updated": "2026-08-01T03:50:01Z",
+  "overall_status": "go",
   "thresholds_mph": {
     "gust_no_go": 25.0,
     "gust_caution": 15.0,
@@ -17,9 +17,9 @@
       "node_status": "active",
       "status": "go",
       "reason": "winds within limits",
-      "wind_gust_mph": 9.62,
-      "wind_speed_mph": 4.47,
-      "wind_dir_deg": 130.0
+      "wind_gust_mph": 12.08,
+      "wind_speed_mph": 6.26,
+      "wind_dir_deg": 198.0
     },
     {
       "id": "HITHC-VALLEY-E",
@@ -29,21 +29,21 @@
       "node_status": "active",
       "status": "go",
       "reason": "winds within limits",
-      "wind_gust_mph": 4.92,
-      "wind_speed_mph": 4.25,
-      "wind_dir_deg": 48.0
+      "wind_gust_mph": 2.01,
+      "wind_speed_mph": 0.0,
+      "wind_dir_deg": 15.0
     },
     {
       "id": "HITHC-RIDGE-S",
       "label": "South Ridge",
       "lat": 30.014389,
       "lon": -98.056389,
-      "node_status": "offline",
-      "status": "unknown",
-      "reason": "no live wind data (station reporting null \u2014 sensor or integration issue, not necessarily calm conditions)",
-      "wind_gust_mph": null,
-      "wind_speed_mph": null,
-      "wind_dir_deg": null
+      "node_status": "active",
+      "status": "go",
+      "reason": "winds within limits",
+      "wind_gust_mph": 2.68,
+      "wind_speed_mph": 2.46,
+      "wind_dir_deg": 165.0
     }
   ]
 }
