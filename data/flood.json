@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-01T23:15:01Z",
+  "updated": "2026-08-01T23:20:01Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -8,7 +8,7 @@
       "label": "North Ridge",
       "lat": 30.017359,
       "lon": -98.055174,
-      "status": "active",
+      "status": "stale",
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
