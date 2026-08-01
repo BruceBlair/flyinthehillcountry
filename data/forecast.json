@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-01T22:00:03Z",
+  "updated": "2026-08-01T22:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-08-01T16:00:00-05:00",
+      "start": "2026-08-01T17:00:00-05:00",
       "end": "2026-08-01T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 97,
@@ -17,7 +17,7 @@
       "wind_dir": "N",
       "precip_pct": 23,
       "short": "Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms. Mostly cloudy. High near 97, with temperatures falling to around 93 in the afternoon. Heat index values as high as 105. North wind around 5 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "detail": "A slight chance of showers and thunderstorms. Mostly cloudy. High near 97, with temperatures falling to around 93 in the afternoon. Heat index values as high as 103. North wind around 5 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/day/tsra,20?size=medium"
     },
     {
