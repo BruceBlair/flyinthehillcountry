@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-01T21:55:01Z",
+  "updated": "2026-08-01T22:00:03Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -8,15 +8,15 @@
       "label": "North Ridge",
       "lat": 30.017359,
       "lon": -98.055174,
-      "status": "offline",
+      "status": "active",
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
-      "rain_rate_in_hr": null,
-      "rain_daily_in": null,
+      "rain_rate_in_hr": 0.02,
+      "rain_daily_in": 0.0,
       "flood_risk": "normal",
-      "flood_risk_reason": "no data",
-      "last_updated": null
+      "flood_risk_reason": "no elevated readings",
+      "last_updated": "2026-08-01T21:57:25Z"
     },
     {
       "id": "HITHC-VALLEY-E",
@@ -37,7 +37,7 @@
       "rain_daily_in": null,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-01T21:53:25Z"
+      "last_updated": "2026-08-01T21:57:25Z"
     },
     {
       "id": "HITHC-RIDGE-S",
