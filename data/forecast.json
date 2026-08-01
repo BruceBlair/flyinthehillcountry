@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-01T17:00:02Z",
+  "updated": "2026-08-01T17:30:05Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,17 +8,17 @@
   "periods": [
     {
       "number": 1,
-      "name": "Today",
-      "start": "2026-08-01T09:00:00-05:00",
+      "name": "This Afternoon",
+      "start": "2026-08-01T12:00:00-05:00",
       "end": "2026-08-01T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 97,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "WNW",
-      "precip_pct": 22,
-      "short": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 1pm. Mostly sunny, with a high near 97. Heat index values as high as 105. West northwest wind 0 to 5 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,20?size=medium"
+      "wind_dir": "NW",
+      "precip_pct": 23,
+      "short": "Slight Chance Showers And Thunderstorms",
+      "detail": "A slight chance of showers and thunderstorms after 1pm. Partly sunny, with a high near 97. Heat index values as high as 105. Northwest wind 0 to 5 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_sct,20?size=medium"
     },
     {
       "number": 2,
@@ -29,9 +29,9 @@
       "temp_f": 76,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "NW",
-      "precip_pct": 22,
+      "precip_pct": 23,
       "short": "Slight Chance Showers And Thunderstorms then Mostly Cloudy",
-      "detail": "A slight chance of showers and thunderstorms before 10pm. Mostly cloudy, with a low around 76. Heat index values as high as 105. Northwest wind 0 to 5 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "detail": "A slight chance of showers and thunderstorms before 7pm. Mostly cloudy, with a low around 76. Heat index values as high as 105. Northwest wind 0 to 5 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_sct,20/bkn?size=medium"
     },
     {
@@ -41,11 +41,11 @@
       "end": "2026-08-02T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 99,
-      "wind_speed": "5 mph",
-      "wind_dir": "N",
-      "precip_pct": 6,
+      "wind_speed": "0 to 5 mph",
+      "wind_dir": "NNE",
+      "precip_pct": 1,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 99. Heat index values as high as 102. North wind around 5 mph.",
+      "detail": "Sunny, with a high near 99. Heat index values as high as 102. North northeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
