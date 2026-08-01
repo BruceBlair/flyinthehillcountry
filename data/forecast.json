@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-01T23:00:02Z",
+  "updated": "2026-08-01T23:30:01Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -13,12 +13,12 @@
       "end": "2026-08-01T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 97,
-      "wind_speed": "5 mph",
+      "wind_speed": "15 mph",
       "wind_dir": "N",
-      "precip_pct": 23,
-      "short": "Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms. Mostly cloudy. High near 97, with temperatures falling to around 93 in the afternoon. Heat index values as high as 103. North wind around 5 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/day/tsra,20?size=medium"
+      "precip_pct": 21,
+      "short": "Slight Chance Rain Showers",
+      "detail": "A slight chance of rain showers. Cloudy. High near 97, with temperatures falling to around 84 in the afternoon. North wind around 15 mph, with gusts as high as 25 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/day/rain_showers,20?size=medium"
     },
     {
       "number": 2,
@@ -27,12 +27,12 @@
       "end": "2026-08-02T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 76,
-      "wind_speed": "0 to 5 mph",
+      "wind_speed": "0 to 15 mph",
       "wind_dir": "NW",
-      "precip_pct": 23,
-      "short": "Slight Chance Showers And Thunderstorms then Mostly Cloudy",
-      "detail": "A slight chance of showers and thunderstorms before 7pm. Mostly cloudy, with a low around 76. Heat index values as high as 102. Northwest wind 0 to 5 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_sct,20/bkn?size=medium"
+      "precip_pct": 21,
+      "short": "Slight Chance Rain Showers then Mostly Cloudy",
+      "detail": "A slight chance of rain showers before 7pm. Mostly cloudy, with a low around 76. Northwest wind 0 to 15 mph, with gusts as high as 25 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/night/rain_showers,20/bkn?size=medium"
     },
     {
       "number": 3,
