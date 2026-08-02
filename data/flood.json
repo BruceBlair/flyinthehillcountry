@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-02T01:20:01Z",
+  "updated": "2026-08-02T01:35:01Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -12,11 +12,11 @@
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
-      "rain_rate_in_hr": 0.05,
-      "rain_daily_in": 0.06,
+      "rain_rate_in_hr": 0.02,
+      "rain_daily_in": 0.07,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-02T01:17:24Z"
+      "last_updated": "2026-08-02T01:28:24Z"
     },
     {
       "id": "HITHC-VALLEY-E",
@@ -37,7 +37,7 @@
       "rain_daily_in": 0.06,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-02T01:16:24Z"
+      "last_updated": "2026-08-02T01:32:24Z"
     },
     {
       "id": "HITHC-RIDGE-S",
@@ -48,11 +48,11 @@
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
-      "rain_rate_in_hr": 0.05,
-      "rain_daily_in": 0.06,
+      "rain_rate_in_hr": 0.0,
+      "rain_daily_in": 0.07,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-02T01:16:25Z"
+      "last_updated": "2026-08-02T01:32:25Z"
     }
   ]
 }
