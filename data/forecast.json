@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-03T04:30:02Z",
+  "updated": "2026-08-03T05:00:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-08-02T23:00:00-05:00",
+      "start": "2026-08-02T21:00:00-05:00",
       "end": "2026-08-03T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 73,
@@ -17,7 +17,7 @@
       "wind_dir": "",
       "precip_pct": 0,
       "short": "Clear",
-      "detail": "Clear, with a low around 73. Southwest wind around 0 mph.",
+      "detail": "Clear, with a low around 73. South southwest wind around 0 mph.",
       "icon": "https://api.weather.gov/icons/land/night/skc?size=medium"
     },
     {
