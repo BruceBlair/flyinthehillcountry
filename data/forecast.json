@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-05T18:30:06Z",
+  "updated": "2026-08-05T19:00:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -110,12 +110,12 @@
       "start": "2026-08-08T18:00:00-05:00",
       "end": "2026-08-09T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 73,
+      "temp_f": 74,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
       "precip_pct": 1,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 73. South southeast wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 74. South southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -128,9 +128,9 @@
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
       "precip_pct": 4,
-      "short": "Sunny",
-      "detail": "Sunny, with a high near 94. South wind 0 to 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
+      "short": "Mostly Sunny",
+      "detail": "Mostly sunny, with a high near 94. South wind 0 to 5 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
       "number": 10,
@@ -142,9 +142,9 @@
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
       "precip_pct": 4,
-      "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 74.",
-      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
+      "short": "Partly Cloudy",
+      "detail": "Partly cloudy, with a low around 74.",
+      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
       "number": 11,
@@ -170,9 +170,9 @@
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
       "precip_pct": 5,
-      "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75.",
-      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
+      "short": "Partly Cloudy",
+      "detail": "Partly cloudy, with a low around 75.",
+      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
       "number": 13,
@@ -184,9 +184,9 @@
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
       "precip_pct": 2,
-      "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 96.",
-      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+      "short": "Sunny",
+      "detail": "Sunny, with a high near 96.",
+      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
       "number": 14,
@@ -194,13 +194,13 @@
       "start": "2026-08-11T18:00:00-05:00",
       "end": "2026-08-12T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 74,
+      "temp_f": 75,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
       "precip_pct": 2,
-      "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 74.",
-      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
+      "short": "Partly Cloudy",
+      "detail": "Partly cloudy, with a low around 75.",
+      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     }
   ]
 }
