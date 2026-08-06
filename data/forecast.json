@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-06T19:00:04Z",
+  "updated": "2026-08-06T19:30:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-08-06T13:00:00-05:00",
+      "start": "2026-08-06T14:00:00-05:00",
       "end": "2026-08-06T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 97,
@@ -45,7 +45,7 @@
       "wind_dir": "S",
       "precip_pct": 2,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 95. Heat index values as high as 103. South wind 0 to 5 mph.",
+      "detail": "Mostly sunny, with a high near 95. Heat index values as high as 104. South wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
@@ -59,7 +59,7 @@
       "wind_dir": "SSE",
       "precip_pct": 2,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 74. Heat index values as high as 101. South southeast wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 74. Heat index values as high as 100. South southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -142,9 +142,9 @@
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
       "precip_pct": 6,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 74.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 74.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
       "number": 11,
@@ -170,9 +170,9 @@
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
       "precip_pct": 1,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 75.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
       "number": 13,
