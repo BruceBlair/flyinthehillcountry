@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-06T07:15:01Z",
+  "updated": "2026-08-06T07:30:02Z",
   "source": "USGS NWIS Instantaneous Values (waterservices.usgs.gov)",
   "attribution": "USGS Water Data for the Nation",
   "note": "Provisional data, subject to revision (see waterdata.usgs.gov/nwis/help/?provisional). Public federal gauge data \u2014 not anonymized (see script docstring).",
@@ -11,7 +11,7 @@
       "lon": -98.08893,
       "gage_height_ft": 3.7,
       "discharge_cfs": 15.0,
-      "last_updated": "2026-08-06T02:00:00.000-05:00",
+      "last_updated": "2026-08-06T02:15:00.000-05:00",
       "distance_mi": 3.6
     },
     {
@@ -31,7 +31,7 @@
       "lon": -98.00779,
       "gage_height_ft": 2.31,
       "discharge_cfs": 1.93,
-      "last_updated": "2026-08-06T02:00:00.000-05:00",
+      "last_updated": "2026-08-06T02:15:00.000-05:00",
       "distance_mi": 5.2
     }
   ]
