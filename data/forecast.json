@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-08T01:30:02Z",
+  "updated": "2026-08-08T02:00:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-08-07T19:00:00-05:00",
+      "start": "2026-08-07T20:00:00-05:00",
       "end": "2026-08-08T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 73,
       "wind_speed": "0 to 10 mph",
       "wind_dir": "S",
-      "precip_pct": 16,
-      "short": "Slight Chance Showers And Thunderstorms then Mostly Clear",
-      "detail": "A slight chance of showers and thunderstorms before 8pm. Mostly clear, with a low around 73. South wind 0 to 10 mph. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/few?size=medium"
+      "precip_pct": 5,
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 73. South wind 0 to 10 mph.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
       "number": 2,
