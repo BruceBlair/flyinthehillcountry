@@ -31,7 +31,7 @@ function renderHeader(activeId) {
 // site-wide automatically since every page loads this file.
 const ANALYTICS = {
   ga4MeasurementId: "G-HLK9H7WMX9",
-  cfBeaconToken: "",    // e.g. "abc123..." token from Cloudflare Web Analytics for this zone
+  cfBeaconToken: "9111ae5effef4491b2f1ae0d24af5dfa",
 };
 
 function loadAnalytics() {
@@ -49,7 +49,7 @@ function loadAnalytics() {
 
   if (ANALYTICS.cfBeaconToken) {
     const beacon = document.createElement("script");
-    beacon.defer = true;
+    beacon.type = "module";
     beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
     beacon.setAttribute("data-cf-beacon", JSON.stringify({ token: ANALYTICS.cfBeaconToken }));
     document.head.appendChild(beacon);
