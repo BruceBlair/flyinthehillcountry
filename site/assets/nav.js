@@ -27,6 +27,35 @@ function renderHeader(activeId) {
   `;
 }
 
+// Analytics config — fill in once accounts exist, tracking activates
+// site-wide automatically since every page loads this file.
+const ANALYTICS = {
+  ga4MeasurementId: "", // e.g. "G-XXXXXXXXXX" from the shared cross-domain GA4 property
+  cfBeaconToken: "",    // e.g. "abc123..." token from Cloudflare Web Analytics for this zone
+};
+
+function loadAnalytics() {
+  if (ANALYTICS.ga4MeasurementId) {
+    const gtagSrc = document.createElement("script");
+    gtagSrc.async = true;
+    gtagSrc.src = `https://www.googletagmanager.com/gtag/js?id=${ANALYTICS.ga4MeasurementId}`;
+    document.head.appendChild(gtagSrc);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", ANALYTICS.ga4MeasurementId);
+  }
+
+  if (ANALYTICS.cfBeaconToken) {
+    const beacon = document.createElement("script");
+    beacon.defer = true;
+    beacon.src = "https://static.cloudflareinsights.com/beacon.min.js";
+    beacon.setAttribute("data-cf-beacon", JSON.stringify({ token: ANALYTICS.cfBeaconToken }));
+    document.head.appendChild(beacon);
+  }
+}
+
 function renderFooter() {
   const year = new Date().getFullYear();
   return `
@@ -37,6 +66,7 @@ function renderFooter() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  loadAnalytics();
   const activeId = document.body.dataset.navId || "";
   const headerMount = document.getElementById("site-header");
   const footerMount = document.getElementById("site-footer");
