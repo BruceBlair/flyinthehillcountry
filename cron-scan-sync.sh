@@ -40,9 +40,7 @@ docker exec ffmpeg-processor /scripts/generate-slowmo-reel.sh 2>&1 \
   || log "WARN: reel generation failed (continuing)"
 
 # Sync highlights + site files to GitHub Pages
-# PAUSED 2026-07-19: Plan 2-5 (site shell + demo pages redesign) is in progress.
-# This was pushing the pre-redesign site to the live highlyreflective.one domain
-# every hour. Re-enable once the new senselayer.io site is ready to go live.
-log "GitHub Pages sync is paused (site redesign in progress) — skipping."
-# bash "$SYNC_SH" || log "ERROR: sync.sh failed"
-# log "Sync complete."
+# Re-enabled 2026-08-08 (was PAUSED 2026-07-19 during the Plan 2-5 site redesign).
+log "Syncing highlights + site files to GitHub Pages ..."
+bash "$SYNC_SH" || log "ERROR: sync.sh failed"
+log "Sync complete."
