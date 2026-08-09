@@ -30,7 +30,7 @@ function renderHeader(activeId) {
 // Analytics config — fill in once accounts exist, tracking activates
 // site-wide automatically since every page loads this file.
 const ANALYTICS = {
-  ga4MeasurementId: "", // e.g. "G-XXXXXXXXXX" from the shared cross-domain GA4 property
+  ga4MeasurementId: "G-HLK9H7WMX9",
   cfBeaconToken: "",    // e.g. "abc123..." token from Cloudflare Web Analytics for this zone
 };
 
