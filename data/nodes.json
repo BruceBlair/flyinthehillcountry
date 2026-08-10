@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T12:55:03Z",
+  "updated": "2026-08-10T13:10:02Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -9,7 +9,7 @@
       "elevation_ft": 1115,
       "has_camera": true,
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
-      "status": "stale",
+      "status": "offline",
       "current": {
         "timestamp": "2026-08-10T11:58:21Z",
         "temp_f": 75.02,
@@ -31,7 +31,7 @@
       "lon": -98.053447,
       "elevation_ft": 1000,
       "has_camera": false,
-      "status": "stale",
+      "status": "offline",
       "current": {
         "timestamp": "2026-08-10T11:58:14Z",
         "temp_f": 75.02,
@@ -53,7 +53,7 @@
       "lon": -98.056389,
       "elevation_ft": 1148,
       "has_camera": false,
-      "status": "stale",
+      "status": "offline",
       "current": {
         "timestamp": "2026-08-10T11:58:18Z",
         "temp_f": 73.94,
