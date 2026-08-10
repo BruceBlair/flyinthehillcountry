@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T22:05:02Z",
+  "updated": "2026-08-10T22:20:03Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -23,7 +23,7 @@
       "label": "Valley East",
       "lat": 30.017007,
       "lon": -98.053447,
-      "status": "stale",
+      "status": "active",
       "soil_sensor_installed": true,
       "soil_moisture_pct": 50.4,
       "soil_channels_pct": [
@@ -37,7 +37,7 @@
       "rain_daily_in": 0.0,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-10T21:50:18Z"
+      "last_updated": "2026-08-10T22:19:18Z"
     },
     {
       "id": "HITHC-RIDGE-S",
