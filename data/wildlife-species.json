@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-10T20:30:02Z",
+  "updated": "2026-08-10T21:00:03Z",
   "source_manifest_updated": "2026-07-18T19:20:51",
   "species_count": 148,
   "skipped": {
@@ -3504,7 +3504,7 @@
       "curated": false,
       "first_identified": "2026-05-18",
       "last_seen": "2026-07-11",
-      "gone_quiet": false,
+      "gone_quiet": true,
       "total_detections": 4,
       "hourly_activity": [
         0,
@@ -3791,7 +3791,7 @@
       "curated": false,
       "first_identified": "2026-05-17",
       "last_seen": "2026-07-11",
-      "gone_quiet": false,
+      "gone_quiet": true,
       "total_detections": 3,
       "hourly_activity": [
         0,
