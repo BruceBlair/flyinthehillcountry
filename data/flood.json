@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-14T13:10:02Z",
+  "updated": "2026-08-14T13:15:03Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -8,15 +8,15 @@
       "label": "North Ridge",
       "lat": 30.017359,
       "lon": -98.055174,
-      "status": "offline",
+      "status": "active",
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
-      "rain_rate_in_hr": null,
-      "rain_daily_in": null,
+      "rain_rate_in_hr": 0.0,
+      "rain_daily_in": 0.0,
       "flood_risk": "normal",
-      "flood_risk_reason": "no data",
-      "last_updated": null
+      "flood_risk_reason": "no elevated readings",
+      "last_updated": "2026-08-14T13:11:26Z"
     },
     {
       "id": "HITHC-VALLEY-E",
@@ -25,34 +25,34 @@
       "lon": -98.053447,
       "status": "active",
       "soil_sensor_installed": true,
-      "soil_moisture_pct": 40.4,
+      "soil_moisture_pct": 40.6,
       "soil_channels_pct": [
         35.0,
         51.0,
         32.0,
-        56.0,
+        57.0,
         28.0
       ],
-      "rain_rate_in_hr": null,
-      "rain_daily_in": null,
+      "rain_rate_in_hr": 0.0,
+      "rain_daily_in": 0.0,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-14T13:09:28Z"
+      "last_updated": "2026-08-14T13:11:25Z"
     },
     {
       "id": "HITHC-RIDGE-S",
       "label": "South Ridge",
       "lat": 30.014389,
       "lon": -98.056389,
-      "status": "offline",
+      "status": "active",
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
-      "rain_rate_in_hr": null,
-      "rain_daily_in": null,
+      "rain_rate_in_hr": 0.0,
+      "rain_daily_in": 0.0,
       "flood_risk": "normal",
-      "flood_risk_reason": "no data",
-      "last_updated": null
+      "flood_risk_reason": "no elevated readings",
+      "last_updated": "2026-08-14T13:11:24Z"
     }
   ]
 }
