@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-13T05:05:04Z",
+  "updated": "2026-08-14T05:05:05Z",
   "coverage_phases": [
     {
       "start": "2026-03-10",
@@ -1270,6 +1270,14 @@
       "timelapse": false
     },
     "2026-08-13": {
+      "photos": false,
+      "weather": true,
+      "video_continuous": true,
+      "video_events": true,
+      "video_founding": false,
+      "timelapse": false
+    },
+    "2026-08-14": {
       "photos": false,
       "weather": true,
       "video_continuous": true,
