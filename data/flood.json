@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-16T13:10:03Z",
+  "updated": "2026-08-16T13:15:03Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -12,11 +12,11 @@
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
-      "rain_rate_in_hr": 0.0,
-      "rain_daily_in": 0.0,
+      "rain_rate_in_hr": null,
+      "rain_daily_in": null,
       "flood_risk": "normal",
-      "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-14T13:11:26Z"
+      "flood_risk_reason": "no data",
+      "last_updated": null
     },
     {
       "id": "HITHC-VALLEY-E",
@@ -33,8 +33,8 @@
         55.0,
         30.0
       ],
-      "rain_rate_in_hr": 0.0,
-      "rain_daily_in": 0.0,
+      "rain_rate_in_hr": null,
+      "rain_daily_in": null,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
       "last_updated": "2026-08-16T13:09:47Z"
@@ -48,11 +48,11 @@
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
-      "rain_rate_in_hr": 0.0,
-      "rain_daily_in": 0.0,
+      "rain_rate_in_hr": null,
+      "rain_daily_in": null,
       "flood_risk": "normal",
-      "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-14T13:11:24Z"
+      "flood_risk_reason": "no data",
+      "last_updated": null
     }
   ]
 }
