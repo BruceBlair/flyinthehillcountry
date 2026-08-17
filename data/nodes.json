@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-17T14:35:03Z",
+  "updated": "2026-08-17T14:40:03Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -11,13 +11,13 @@
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "status": "active",
       "current": {
-        "timestamp": "2026-08-17T14:34:48Z",
-        "temp_f": 80.42,
+        "timestamp": "2026-08-17T14:39:48Z",
+        "temp_f": 80.24,
         "humidity_pct": 78.0,
-        "pressure_msl_inhg": 30.16,
-        "wind_speed_mph": 5.37,
-        "wind_dir_deg": 233.0,
-        "wind_gust_mph": 9.84,
+        "pressure_msl_inhg": 30.17,
+        "wind_speed_mph": 3.13,
+        "wind_dir_deg": 234.0,
+        "wind_gust_mph": 6.26,
         "rain_rate_in_hr": null,
         "rain_daily_in": null,
         "battery_pct": 100.0,
@@ -33,16 +33,16 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-08-17T14:34:46Z",
+        "timestamp": "2026-08-17T14:39:45Z",
         "temp_f": 82.22,
-        "humidity_pct": 73.0,
+        "humidity_pct": 72.0,
         "pressure_msl_inhg": 29.91,
         "wind_speed_mph": 0.0,
-        "wind_dir_deg": 44.0,
-        "wind_gust_mph": 2.24,
+        "wind_dir_deg": 333.0,
+        "wind_gust_mph": 2.46,
         "rain_rate_in_hr": null,
         "rain_daily_in": null,
-        "battery_pct": 84.0,
+        "battery_pct": 92.0,
         "rssi_dbm": null
       }
     },
@@ -55,16 +55,16 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-08-17T14:34:48Z",
-        "temp_f": 84.02,
-        "humidity_pct": 71.0,
-        "pressure_msl_inhg": 30.02,
+        "timestamp": "2026-08-17T14:39:47Z",
+        "temp_f": 85.1,
+        "humidity_pct": 69.0,
+        "pressure_msl_inhg": 30.03,
         "wind_speed_mph": 1.12,
-        "wind_dir_deg": 93.0,
-        "wind_gust_mph": 1.79,
+        "wind_dir_deg": 224.0,
+        "wind_gust_mph": 2.91,
         "rain_rate_in_hr": null,
         "rain_daily_in": null,
-        "battery_pct": 88.0,
+        "battery_pct": 92.0,
         "rssi_dbm": null
       }
     }
