@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-20T19:30:03Z",
+  "updated": "2026-08-20T20:30:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-08-20T14:00:00-05:00",
+      "start": "2026-08-20T15:00:00-05:00",
       "end": "2026-08-20T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": null,
+      "temp_f": 100,
       "wind_speed": "5 mph",
       "wind_dir": "SSE",
       "precip_pct": 0,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny. {{missing_temperature_data}}. Heat index values as high as 107. South southeast wind around 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+      "detail": "Mostly sunny, with a high near 100. Heat index values as high as 107. South southeast wind around 5 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
       "number": 2,
