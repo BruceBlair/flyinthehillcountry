@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-20T19:00:03Z",
+  "updated": "2026-08-20T19:20:03Z",
   "networks_configured": {
     "wunderground": true,
     "ecowitt": false
@@ -13,12 +13,12 @@
       "distance_mi": 0.3,
       "approx_lat": 30.01,
       "approx_lon": -98.03,
-      "temp_f": 100,
-      "humidity_pct": 39,
-      "wind_speed_mph": 4,
-      "wind_gust_mph": 6,
+      "temp_f": 99,
+      "humidity_pct": 38,
+      "wind_speed_mph": 1,
+      "wind_gust_mph": 2,
       "pressure_in": 28.94,
-      "last_updated": "2026-08-20T18:59:54Z"
+      "last_updated": "2026-08-20T19:19:32Z"
     },
     {
       "id": "wu-2",
@@ -27,11 +27,11 @@
       "approx_lat": 30.0,
       "approx_lon": -98.04,
       "temp_f": 99,
-      "humidity_pct": 34,
-      "wind_speed_mph": 6,
-      "wind_gust_mph": 6,
-      "pressure_in": 29.82,
-      "last_updated": "2026-08-20T18:59:54Z"
+      "humidity_pct": 35,
+      "wind_speed_mph": 2,
+      "wind_gust_mph": 2,
+      "pressure_in": 29.79,
+      "last_updated": "2026-08-20T19:19:55Z"
     },
     {
       "id": "wu-3",
@@ -39,12 +39,12 @@
       "distance_mi": 1.0,
       "approx_lat": 30.02,
       "approx_lon": -98.03,
-      "temp_f": 99,
-      "humidity_pct": 42,
-      "wind_speed_mph": 3,
-      "wind_gust_mph": 3,
-      "pressure_in": 29.94,
-      "last_updated": "2026-08-20T18:59:00Z"
+      "temp_f": 98,
+      "humidity_pct": 41,
+      "wind_speed_mph": 2,
+      "wind_gust_mph": 2,
+      "pressure_in": 29.93,
+      "last_updated": "2026-08-20T19:19:00Z"
     },
     {
       "id": "wu-4",
@@ -52,12 +52,12 @@
       "distance_mi": 1.0,
       "approx_lat": 30.0,
       "approx_lon": -98.05,
-      "temp_f": 101,
-      "humidity_pct": 37,
-      "wind_speed_mph": 4,
+      "temp_f": 103,
+      "humidity_pct": 34,
+      "wind_speed_mph": 2,
       "wind_gust_mph": 9,
       "pressure_in": 29.91,
-      "last_updated": "2026-08-20T18:59:56Z"
+      "last_updated": "2026-08-20T19:19:44Z"
     },
     {
       "id": "wu-5",
@@ -83,7 +83,7 @@
       "wind_speed_mph": null,
       "wind_gust_mph": null,
       "pressure_in": 30.02,
-      "last_updated": "2026-08-20T18:45:00Z"
+      "last_updated": "2026-08-20T19:15:00Z"
     },
     {
       "id": "wu-7",
@@ -91,12 +91,12 @@
       "distance_mi": 1.3,
       "approx_lat": 30.02,
       "approx_lon": -98.05,
-      "temp_f": 96,
-      "humidity_pct": 43,
-      "wind_speed_mph": 2,
-      "wind_gust_mph": 8,
+      "temp_f": 98,
+      "humidity_pct": 37,
+      "wind_speed_mph": 3,
+      "wind_gust_mph": 7,
       "pressure_in": 30.01,
-      "last_updated": "2026-08-20T18:50:00Z"
+      "last_updated": "2026-08-20T19:10:00Z"
     },
     {
       "id": "wu-8",
@@ -104,12 +104,12 @@
       "distance_mi": 1.4,
       "approx_lat": 30.02,
       "approx_lon": -98.01,
-      "temp_f": 97,
-      "humidity_pct": 44,
-      "wind_speed_mph": 3,
+      "temp_f": 98,
+      "humidity_pct": 41,
+      "wind_speed_mph": 4,
       "wind_gust_mph": 6,
-      "pressure_in": 29.98,
-      "last_updated": "2026-08-20T18:45:00Z"
+      "pressure_in": 29.97,
+      "last_updated": "2026-08-20T19:05:00Z"
     },
     {
       "id": "wu-9",
@@ -118,11 +118,11 @@
       "approx_lat": 30.02,
       "approx_lon": -98.06,
       "temp_f": 96,
-      "humidity_pct": 34,
-      "wind_speed_mph": 2,
-      "wind_gust_mph": 6,
-      "pressure_in": 30.02,
-      "last_updated": "2026-08-20T19:00:03Z"
+      "humidity_pct": 35,
+      "wind_speed_mph": 5,
+      "wind_gust_mph": 7,
+      "pressure_in": 30.01,
+      "last_updated": "2026-08-20T19:19:48Z"
     },
     {
       "id": "wu-10",
@@ -130,12 +130,12 @@
       "distance_mi": 1.7,
       "approx_lat": 30.0,
       "approx_lon": -98.01,
-      "temp_f": 100,
-      "humidity_pct": 41,
-      "wind_speed_mph": 2,
-      "wind_gust_mph": 4,
-      "pressure_in": 29.18,
-      "last_updated": "2026-08-20T18:59:00Z"
+      "temp_f": 99,
+      "humidity_pct": 37,
+      "wind_speed_mph": 3,
+      "wind_gust_mph": 6,
+      "pressure_in": 29.17,
+      "last_updated": "2026-08-20T19:19:00Z"
     }
   ]
 }
