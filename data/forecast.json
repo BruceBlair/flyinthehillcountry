@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-21T06:30:04Z",
+  "updated": "2026-08-21T07:30:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Overnight",
-      "start": "2026-08-21T01:00:00-05:00",
+      "start": "2026-08-21T02:00:00-05:00",
       "end": "2026-08-21T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 75,
@@ -45,7 +45,7 @@
       "wind_dir": "S",
       "precip_pct": 1,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76. Heat index values as high as 107. South wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 76. Heat index values as high as 106. South wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -124,12 +124,12 @@
       "start": "2026-08-24T18:00:00-05:00",
       "end": "2026-08-25T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 75,
+      "temp_f": 74,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75. South wind 5 to 10 mph, with gusts as high as 20 mph.",
+      "detail": "Mostly clear, with a low around 74. South wind 5 to 10 mph, with gusts as high as 20 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -152,13 +152,13 @@
       "start": "2026-08-25T18:00:00-05:00",
       "end": "2026-08-26T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 76,
+      "temp_f": 75,
       "wind_speed": "5 mph",
       "wind_dir": "S",
       "precip_pct": 0,
-      "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76.",
-      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
+      "short": "Clear",
+      "detail": "Clear, with a low around 75.",
+      "icon": "https://api.weather.gov/icons/land/night/skc?size=medium"
     },
     {
       "number": 12,
@@ -180,12 +180,12 @@
       "start": "2026-08-26T18:00:00-05:00",
       "end": "2026-08-27T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 76,
+      "temp_f": 75,
       "wind_speed": "5 mph",
       "wind_dir": "S",
-      "precip_pct": 3,
+      "precip_pct": 2,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76.",
+      "detail": "Mostly clear, with a low around 75.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
