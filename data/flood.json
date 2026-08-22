@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-22T17:20:01Z",
+  "updated": "2026-08-22T18:05:02Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -8,7 +8,7 @@
       "label": "North Ridge",
       "lat": 30.017359,
       "lon": -98.055174,
-      "status": "offline",
+      "status": "stale",
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
@@ -16,14 +16,14 @@
       "rain_daily_in": 0.0,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-22T02:06:09Z"
+      "last_updated": "2026-08-22T17:31:51Z"
     },
     {
       "id": "HITHC-VALLEY-E",
       "label": "Valley East",
       "lat": 30.017007,
       "lon": -98.053447,
-      "status": "stale",
+      "status": "active",
       "soil_sensor_installed": true,
       "soil_moisture_pct": 37.2,
       "soil_channels_pct": [
@@ -37,14 +37,14 @@
       "rain_daily_in": 0.0,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-22T16:44:52Z"
+      "last_updated": "2026-08-22T17:58:51Z"
     },
     {
       "id": "HITHC-RIDGE-S",
       "label": "South Ridge",
       "lat": 30.014389,
       "lon": -98.056389,
-      "status": "offline",
+      "status": "stale",
       "soil_sensor_installed": false,
       "soil_moisture_pct": null,
       "soil_channels_pct": null,
@@ -52,7 +52,7 @@
       "rain_daily_in": 0.0,
       "flood_risk": "normal",
       "flood_risk_reason": "no elevated readings",
-      "last_updated": "2026-08-22T02:06:12Z"
+      "last_updated": "2026-08-22T17:31:50Z"
     }
   ]
 }
