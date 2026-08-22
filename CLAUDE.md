@@ -243,6 +243,12 @@ curl -X POST http://localhost:8123/auth/token \
 - Unlike every other zone in the same Cloudflare account (~26 other domains, mostly brand-defensive registrations like `flyinthehillcountry.*`, `highinthca.*`, `highlyreflective.*`), `senselayer.io` has **no DKIM record** and DMARC is `p=none` (monitor-only, not enforced) — the other zones all use Cloudflare Email Routing with DKIM present and `p=quarantine`. This shows up as dashboard warnings; migrating `senselayer.io` to Cloudflare Email Routing would fix it but changes mail delivery, so it's pending a decision, not yet done.
 - `highestinthehillcountry.com` (same account) also still points at the Namecheap parking page — flagged but out of scope, not fixed.
 
+## Analytics (GA4 + Cloudflare Web Analytics)
+
+`site/assets/nav.js` has an `ANALYTICS` config block (top of file) with `ga4MeasurementId`/`cfBeaconToken` — since every page loads `nav.js`, filling in an ID activates tracking site-wide with no other file edits (`loadAnalytics()` no-ops on empty strings). Both are now filled in and **live as of 2026-08-13**: `ga4MeasurementId: "G-HLK9H7WMX9"`, plus a Cloudflare Web Analytics beacon token for the same zone. `cloudflare-analytics/traffic-report.sh` pulls 7-day requests/pageviews/uniques/top-country straight from the Cloudflare GraphQL API as a second, no-account-needed data source alongside GA4.
+
+**The wiring sat finished-but-unmerged on a branch for days before going live** — the three commits that built the loader and filled in both IDs (`e1f78b0e5`, `6ba751d77`, `e951b7253`, dated Aug 8-9) were made on `worktree-add-tracking-analytics`, never merged to `master`, so GA collected zero data despite looking fully configured in that branch. Cherry-picked onto `master` and deployed via `push-site.sh` on 2026-08-13. **Lesson: a locked worktree branch with real, complete-looking commits is not the same as deployed** — when investigating "is X actually live," check what `master`/the deployed artifact contains, not just what exists somewhere in the repo's branches. Verify a live change by re-fetching the actual served asset (`curl` the site URL, check `last-modified`) rather than trusting the source diff alone.
+
 ## Photo Sales Gallery (site/photo-sales.html)
 
 A static, manifest-driven gallery replacing the old "coming soon" stub:
