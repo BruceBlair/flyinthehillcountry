@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-23T18:00:03Z",
+  "updated": "2026-08-23T18:30:07Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,15 +9,15 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-08-23T12:00:00-05:00",
+      "start": "2026-08-23T13:00:00-05:00",
       "end": "2026-08-23T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 103,
-      "wind_speed": "5 to 10 mph",
-      "wind_dir": "S",
+      "wind_speed": "5 mph",
+      "wind_dir": "SSE",
       "precip_pct": 1,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 103. Heat index values as high as 103. South wind 5 to 10 mph.",
+      "detail": "Sunny, with a high near 103. Heat index values as high as 103. South southeast wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
@@ -26,12 +26,12 @@
       "start": "2026-08-23T18:00:00-05:00",
       "end": "2026-08-24T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 75,
-      "wind_speed": "5 to 10 mph",
+      "temp_f": 76,
+      "wind_speed": "5 mph",
       "wind_dir": "SSW",
-      "precip_pct": 1,
+      "precip_pct": 0,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75. Heat index values as high as 101. South southwest wind 5 to 10 mph.",
+      "detail": "Mostly clear, with a low around 76. Heat index values as high as 103. South southwest wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -45,7 +45,7 @@
       "wind_dir": "SSW",
       "precip_pct": 0,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 102. Heat index values as high as 105. South southwest wind around 5 mph.",
+      "detail": "Sunny, with a high near 102. Heat index values as high as 102. South southwest wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
@@ -59,7 +59,7 @@
       "wind_dir": "S",
       "precip_pct": 0,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 74. Heat index values as high as 104. South wind around 5 mph.",
+      "detail": "Mostly clear, with a low around 74. Heat index values as high as 100. South wind around 5 mph, with gusts as high as 20 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -70,10 +70,10 @@
       "is_daytime": true,
       "temp_f": 101,
       "wind_speed": "5 mph",
-      "wind_dir": "S",
+      "wind_dir": "SSW",
       "precip_pct": 0,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 101. South wind around 5 mph.",
+      "detail": "Sunny, with a high near 101. South southwest wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
@@ -96,12 +96,12 @@
       "start": "2026-08-26T06:00:00-05:00",
       "end": "2026-08-26T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 102,
+      "temp_f": 101,
       "wind_speed": "5 mph",
       "wind_dir": "S",
-      "precip_pct": 3,
+      "precip_pct": 2,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 102. South wind around 5 mph.",
+      "detail": "Sunny, with a high near 101. South wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
@@ -110,12 +110,12 @@
       "start": "2026-08-26T18:00:00-05:00",
       "end": "2026-08-27T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 76,
+      "temp_f": 77,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
-      "precip_pct": 4,
+      "precip_pct": 2,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76. South wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 77. South wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -127,7 +127,7 @@
       "temp_f": 101,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
-      "precip_pct": 18,
+      "precip_pct": 16,
       "short": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
       "detail": "A slight chance of showers and thunderstorms after 1pm. Mostly sunny, with a high near 101. South wind 0 to 5 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/day/hot/tsra_hi,20?size=medium"
@@ -140,8 +140,8 @@
       "is_daytime": false,
       "temp_f": 76,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SE",
-      "precip_pct": 18,
+      "wind_dir": "SSE",
+      "precip_pct": 16,
       "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
       "detail": "A slight chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 76. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
@@ -154,7 +154,7 @@
       "is_daytime": true,
       "temp_f": 99,
       "wind_speed": "5 mph",
-      "wind_dir": "S",
+      "wind_dir": "SSE",
       "precip_pct": 13,
       "short": "Mostly Sunny",
       "detail": "Mostly sunny, with a high near 99.",
@@ -167,7 +167,7 @@
       "end": "2026-08-29T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 75,
-      "wind_speed": "0 to 5 mph",
+      "wind_speed": "5 mph",
       "wind_dir": "SSE",
       "precip_pct": 13,
       "short": "Mostly Clear",
@@ -180,13 +180,13 @@
       "start": "2026-08-29T06:00:00-05:00",
       "end": "2026-08-29T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 99,
+      "temp_f": 98,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
-      "precip_pct": 4,
+      "precip_pct": 2,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 99.",
-      "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
+      "detail": "Sunny, with a high near 98.",
+      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
       "number": 14,
@@ -197,7 +197,7 @@
       "temp_f": 75,
       "wind_speed": "5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 4,
+      "precip_pct": 2,
       "short": "Mostly Clear",
       "detail": "Mostly clear, with a low around 75.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
