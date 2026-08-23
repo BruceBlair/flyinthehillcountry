@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-23T12:30:01Z",
+  "updated": "2026-08-23T12:45:01Z",
   "overall_flood_risk": "normal",
   "note": "Soil-moisture thresholds are illustrative placeholders, not yet calibrated against a real flood event at this property.",
   "stations": [
@@ -23,7 +23,7 @@
       "label": "Valley East",
       "lat": 30.017007,
       "lon": -98.053447,
-      "status": "stale",
+      "status": "offline",
       "soil_sensor_installed": true,
       "soil_moisture_pct": 35.2,
       "soil_channels_pct": [
