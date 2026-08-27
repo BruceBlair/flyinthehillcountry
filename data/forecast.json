@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-27T09:00:04Z",
+  "updated": "2026-08-27T09:30:01Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Overnight",
-      "start": "2026-08-27T03:00:00-05:00",
+      "start": "2026-08-27T04:00:00-05:00",
       "end": "2026-08-27T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 76,
       "wind_speed": "5 mph",
-      "wind_dir": "SSW",
+      "wind_dir": "SW",
       "precip_pct": 6,
-      "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76. South southwest wind around 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
+      "short": "Partly Cloudy",
+      "detail": "Partly cloudy, with a low around 76. Southwest wind around 5 mph.",
+      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
       "number": 2,
