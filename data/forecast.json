@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-27T10:00:08Z",
+  "updated": "2026-08-27T10:30:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -15,7 +15,7 @@
       "temp_f": 76,
       "wind_speed": "5 mph",
       "wind_dir": "SW",
-      "precip_pct": 6,
+      "precip_pct": 1,
       "short": "Partly Cloudy",
       "detail": "Partly cloudy, with a low around 76. Southwest wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
@@ -29,7 +29,7 @@
       "temp_f": 101,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "W",
-      "precip_pct": 37,
+      "precip_pct": 36,
       "short": "Mostly Sunny then Chance Showers And Thunderstorms",
       "detail": "A chance of showers and thunderstorms between 1pm and 4pm, then a chance of showers and thunderstorms. Mostly sunny, with a high near 101. Heat index values as high as 107. West wind 0 to 5 mph. Chance of precipitation is 40%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/day/hot/tsra_hi,40?size=medium"
@@ -43,7 +43,7 @@
       "temp_f": 75,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "WSW",
-      "precip_pct": 37,
+      "precip_pct": 36,
       "short": "Chance Showers And Thunderstorms then Partly Cloudy",
       "detail": "A chance of showers and thunderstorms before 10pm. Partly cloudy, with a low around 75. Heat index values as high as 103. West southwest wind 0 to 5 mph. Chance of precipitation is 40%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,40/sct?size=medium"
