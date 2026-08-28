@@ -1,6 +1,6 @@
 {
-  "updated": "2026-08-28T23:30:02Z",
-  "nodes_data_updated": "2026-08-28T23:25:01Z",
+  "updated": "2026-08-28T23:35:01Z",
+  "nodes_data_updated": "2026-08-28T23:30:02Z",
   "overall_status": "unknown",
   "thresholds_mph": {
     "gust_no_go": 25.0,
@@ -17,8 +17,8 @@
       "node_status": "active",
       "status": "go",
       "reason": "winds within limits",
-      "wind_gust_mph": 4.7,
-      "wind_speed_mph": 3.58,
+      "wind_gust_mph": 10.07,
+      "wind_speed_mph": 5.59,
       "wind_dir_deg": 153.0
     },
     {
@@ -41,9 +41,9 @@
       "node_status": "active",
       "status": "go",
       "reason": "winds within limits",
-      "wind_gust_mph": 6.93,
-      "wind_speed_mph": 1.79,
-      "wind_dir_deg": 212.0
+      "wind_gust_mph": 8.05,
+      "wind_speed_mph": 2.91,
+      "wind_dir_deg": 171.0
     }
   ]
 }
