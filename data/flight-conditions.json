@@ -1,7 +1,7 @@
 {
-  "updated": "2026-08-28T23:45:01Z",
-  "nodes_data_updated": "2026-08-28T23:40:02Z",
-  "overall_status": "unknown",
+  "updated": "2026-08-28T23:50:01Z",
+  "nodes_data_updated": "2026-08-28T23:45:02Z",
+  "overall_status": "no-go",
   "thresholds_mph": {
     "gust_no_go": 25.0,
     "gust_caution": 15.0,
@@ -15,11 +15,11 @@
       "lat": 30.017359,
       "lon": -98.055174,
       "node_status": "active",
-      "status": "caution",
-      "reason": "gust 25 mph >= 15",
-      "wind_gust_mph": 24.61,
-      "wind_speed_mph": 12.75,
-      "wind_dir_deg": 74.0
+      "status": "no-go",
+      "reason": "gust 32 mph >= 25",
+      "wind_gust_mph": 31.76,
+      "wind_speed_mph": 28.18,
+      "wind_dir_deg": 72.0
     },
     {
       "id": "HITHC-VALLEY-E",
@@ -39,11 +39,11 @@
       "lat": 30.014389,
       "lon": -98.056389,
       "node_status": "active",
-      "status": "caution",
-      "reason": "gust 16 mph >= 15",
-      "wind_gust_mph": 16.33,
-      "wind_speed_mph": 7.83,
-      "wind_dir_deg": 142.0
+      "status": "no-go",
+      "reason": "gust 28 mph >= 25",
+      "wind_gust_mph": 28.41,
+      "wind_speed_mph": 14.76,
+      "wind_dir_deg": 194.0
     }
   ]
 }
