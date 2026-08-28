@@ -180,11 +180,11 @@ services:
       - /volume1/highlights:/highlights     # for tonight_sky.json
       - ./homeassistant/config/comets.json:/config/comets.json:ro
     environment:
-      - HA_URL=http://${NAS_IP:-192.168.100.202}:8123
+      - HA_URL=http://${HA_HOST:-192.168.100.203}:8123
       - HA_TOKEN=${HA_TOKEN:?set HA_TOKEN in .env}
       - MQTT_HOST=mosquitto
       - CAMERA_IP=${CAMERA_IP:-192.168.100.131}
-      - CAMERA_USER=${CAMERA_USER:-admin}
+      - CAMERA_USER=${CAMERA_USER:-flyhigh}
       - CAMERA_PASSWORD=${CAMERA_PASSWORD:?set CAMERA_PASSWORD in .env}
       - LATITUDE=${LATITUDE:-29.9974}
       - LONGITUDE=${LONGITUDE:--98.0986}
