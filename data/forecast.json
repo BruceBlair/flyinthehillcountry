@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-28T00:00:03Z",
+  "updated": "2026-08-28T00:30:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-08-27T18:00:00-05:00",
+      "start": "2026-08-27T19:00:00-05:00",
       "end": "2026-08-28T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 75,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "S",
-      "precip_pct": 46,
-      "short": "Chance Showers And Thunderstorms then Partly Cloudy",
-      "detail": "A chance of showers and thunderstorms before 10pm. Partly cloudy, with a low around 75. Heat index values as high as 105. South wind 0 to 5 mph. Chance of precipitation is 50%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,50/sct?size=medium"
+      "wind_dir": "SSW",
+      "precip_pct": 21,
+      "short": "Slight Chance Showers And Thunderstorms then Mostly Cloudy",
+      "detail": "A slight chance of showers and thunderstorms before 10pm. Mostly cloudy, with a low around 75. Heat index values as high as 106. South southwest wind 0 to 5 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/bkn?size=medium"
     },
     {
       "number": 2,
@@ -45,7 +45,7 @@
       "wind_dir": "SSE",
       "precip_pct": 8,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75. Heat index values as high as 105. South southeast wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 75. Heat index values as high as 104. South southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
