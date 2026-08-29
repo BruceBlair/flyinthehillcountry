@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-29T06:40:02Z",
+  "updated": "2026-08-29T07:00:02Z",
   "networks_configured": {
     "wunderground": true,
     "ecowitt": false
@@ -16,9 +16,9 @@
       "temp_f": 72,
       "humidity_pct": 99,
       "wind_speed_mph": 0,
-      "wind_gust_mph": 0,
+      "wind_gust_mph": 1,
       "pressure_in": 28.98,
-      "last_updated": "2026-08-29T06:39:35Z"
+      "last_updated": "2026-08-29T06:59:44Z"
     },
     {
       "id": "wu-2",
@@ -27,11 +27,11 @@
       "approx_lat": 30.0,
       "approx_lon": -98.04,
       "temp_f": 73,
-      "humidity_pct": 95,
+      "humidity_pct": 93,
       "wind_speed_mph": 0,
       "wind_gust_mph": 0,
       "pressure_in": 29.85,
-      "last_updated": "2026-08-29T06:39:55Z"
+      "last_updated": "2026-08-29T06:59:54Z"
     },
     {
       "id": "wu-3",
@@ -41,10 +41,10 @@
       "approx_lon": -98.03,
       "temp_f": 72,
       "humidity_pct": 99,
-      "wind_speed_mph": 0,
+      "wind_speed_mph": 1,
       "wind_gust_mph": 1,
       "pressure_in": 29.99,
-      "last_updated": "2026-08-29T06:39:00Z"
+      "last_updated": "2026-08-29T06:59:00Z"
     },
     {
       "id": "wu-4",
@@ -56,8 +56,8 @@
       "humidity_pct": 99,
       "wind_speed_mph": 0,
       "wind_gust_mph": 0,
-      "pressure_in": 29.96,
-      "last_updated": "2026-08-29T06:39:52Z"
+      "pressure_in": 29.97,
+      "last_updated": "2026-08-29T06:59:58Z"
     },
     {
       "id": "wu-5",
@@ -70,7 +70,7 @@
       "wind_speed_mph": null,
       "wind_gust_mph": null,
       "pressure_in": 30.06,
-      "last_updated": "2026-08-29T06:30:00Z"
+      "last_updated": "2026-08-29T06:45:00Z"
     },
     {
       "id": "wu-6",
@@ -81,9 +81,9 @@
       "temp_f": 71,
       "humidity_pct": 97,
       "wind_speed_mph": 0,
-      "wind_gust_mph": 0,
-      "pressure_in": 30.04,
-      "last_updated": "2026-08-29T06:30:00Z"
+      "wind_gust_mph": 1,
+      "pressure_in": 30.05,
+      "last_updated": "2026-08-29T06:50:00Z"
     },
     {
       "id": "wu-7",
@@ -91,12 +91,12 @@
       "distance_mi": 1.4,
       "approx_lat": 30.02,
       "approx_lon": -98.01,
-      "temp_f": 72,
-      "humidity_pct": 96,
+      "temp_f": 71,
+      "humidity_pct": 97,
       "wind_speed_mph": 0,
-      "wind_gust_mph": 0,
+      "wind_gust_mph": 1,
       "pressure_in": 31.11,
-      "last_updated": "2026-08-29T06:30:00Z"
+      "last_updated": "2026-08-29T06:50:00Z"
     },
     {
       "id": "wu-8",
@@ -106,10 +106,10 @@
       "approx_lon": -98.06,
       "temp_f": 72,
       "humidity_pct": 96,
-      "wind_speed_mph": 0,
-      "wind_gust_mph": 1,
+      "wind_speed_mph": 1,
+      "wind_gust_mph": 2,
       "pressure_in": 30.09,
-      "last_updated": "2026-08-29T06:39:55Z"
+      "last_updated": "2026-08-29T06:59:55Z"
     },
     {
       "id": "wu-9",
@@ -122,7 +122,7 @@
       "wind_speed_mph": 0,
       "wind_gust_mph": 0,
       "pressure_in": 29.22,
-      "last_updated": "2026-08-29T06:39:00Z"
+      "last_updated": "2026-08-29T06:59:00Z"
     },
     {
       "id": "wu-10",
@@ -135,7 +135,7 @@
       "wind_speed_mph": 0,
       "wind_gust_mph": 0,
       "pressure_in": 29.96,
-      "last_updated": "2026-08-29T06:40:01Z"
+      "last_updated": "2026-08-29T07:00:03Z"
     }
   ]
 }
