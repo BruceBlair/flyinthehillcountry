@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-31T18:00:03Z",
+  "updated": "2026-08-31T18:30:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-08-31T12:00:00-05:00",
+      "start": "2026-08-31T13:00:00-05:00",
       "end": "2026-08-31T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 98,
@@ -31,7 +31,7 @@
       "wind_dir": "SSE",
       "precip_pct": 1,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 75. Heat index values as high as 102. South southeast wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 75. Heat index values as high as 101. South southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -113,10 +113,10 @@
       "temp_f": 75,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 8,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75. South southeast wind 5 to 10 mph, with gusts as high as 20 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "precip_pct": 15,
+      "short": "Partly Cloudy then Slight Chance Rain Showers",
+      "detail": "A slight chance of rain showers after 1am. Partly cloudy, with a low around 75. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/sct/rain_showers,20?size=medium"
     },
     {
       "number": 9,
@@ -127,10 +127,10 @@
       "temp_f": 98,
       "wind_speed": "5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 8,
-      "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 98. South southeast wind around 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+      "precip_pct": 15,
+      "short": "Slight Chance Rain Showers",
+      "detail": "A slight chance of rain showers before 1pm. Mostly sunny, with a high near 98. South southeast wind around 5 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/day/rain_showers,20?size=medium"
     },
     {
       "number": 10,
@@ -156,9 +156,9 @@
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
       "precip_pct": 8,
-      "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 98.",
-      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+      "short": "Sunny",
+      "detail": "Sunny, with a high near 98.",
+      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
       "number": 12,
@@ -183,10 +183,10 @@
       "temp_f": 97,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 11,
-      "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 97.",
-      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+      "precip_pct": 10,
+      "short": "Sunny",
+      "detail": "Sunny, with a high near 97.",
+      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
       "number": 14,
@@ -196,8 +196,8 @@
       "is_daytime": false,
       "temp_f": 75,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SE",
-      "precip_pct": 11,
+      "wind_dir": "SSE",
+      "precip_pct": 10,
       "short": "Mostly Clear",
       "detail": "Mostly clear, with a low around 75.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
