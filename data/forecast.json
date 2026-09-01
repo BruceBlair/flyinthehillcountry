@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-01T14:00:03Z",
+  "updated": "2026-09-01T14:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,15 +9,15 @@
     {
       "number": 1,
       "name": "Today",
-      "start": "2026-09-01T08:00:00-05:00",
+      "start": "2026-09-01T09:00:00-05:00",
       "end": "2026-09-01T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 97,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SSW",
+      "wind_dir": "S",
       "precip_pct": 17,
       "short": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms between 1pm and 4pm. Mostly sunny, with a high near 97. Heat index values as high as 103. South southwest wind 0 to 5 mph. Chance of precipitation is 20%.",
+      "detail": "A slight chance of showers and thunderstorms between 1pm and 4pm. Mostly sunny, with a high near 97. Heat index values as high as 103. South wind 0 to 5 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,20?size=medium"
     },
     {
