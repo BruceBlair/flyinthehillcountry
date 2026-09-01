@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-01T00:00:07Z",
+  "updated": "2026-09-01T00:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -29,7 +29,7 @@
       "temp_f": 97,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
-      "precip_pct": 4,
+      "precip_pct": 12,
       "short": "Sunny",
       "detail": "Sunny, with a high near 97. Heat index values as high as 103. South wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
@@ -43,7 +43,7 @@
       "temp_f": 75,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 4,
+      "precip_pct": 12,
       "short": "Partly Cloudy",
       "detail": "Partly cloudy, with a low around 75. South southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
@@ -57,10 +57,10 @@
       "temp_f": 98,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
-      "precip_pct": 11,
-      "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 98. Heat index values as high as 104. South wind 0 to 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+      "precip_pct": 15,
+      "short": "Mostly Sunny then Slight Chance Rain Showers",
+      "detail": "A slight chance of rain showers after 1pm. Mostly sunny, with a high near 98. Heat index values as high as 104. South wind 0 to 5 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/day/sct/rain_showers,20?size=medium"
     },
     {
       "number": 5,
@@ -71,10 +71,10 @@
       "temp_f": 75,
       "wind_speed": "5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 11,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75. South southeast wind around 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "precip_pct": 15,
+      "short": "Slight Chance Rain Showers then Partly Cloudy",
+      "detail": "A slight chance of rain showers before 7pm. Partly cloudy, with a low around 75. South southeast wind around 5 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/rain_showers,20/sct?size=medium"
     },
     {
       "number": 6,
@@ -85,7 +85,7 @@
       "temp_f": 98,
       "wind_speed": "5 mph",
       "wind_dir": "S",
-      "precip_pct": 3,
+      "precip_pct": 4,
       "short": "Mostly Sunny",
       "detail": "Mostly sunny, with a high near 98. South wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
