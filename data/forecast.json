@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-03T05:30:02Z",
+  "updated": "2026-09-03T06:00:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,16 +8,16 @@
   "periods": [
     {
       "number": 1,
-      "name": "Tonight",
-      "start": "2026-09-02T23:00:00-05:00",
+      "name": "Overnight",
+      "start": "2026-09-03T01:00:00-05:00",
       "end": "2026-09-03T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 76,
       "wind_speed": "5 mph",
       "wind_dir": "S",
-      "precip_pct": 6,
+      "precip_pct": 2,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 76. South wind around 5 mph. New rainfall amounts less than a tenth of an inch possible.",
+      "detail": "Mostly clear, with a low around 76. South wind around 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
