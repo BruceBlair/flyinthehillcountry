@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-08T05:00:03Z",
+  "updated": "2026-09-08T05:30:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,14 +8,14 @@
   "periods": [
     {
       "number": 1,
-      "name": "Tonight",
-      "start": "2026-09-07T22:00:00-05:00",
+      "name": "Overnight",
+      "start": "2026-09-08T00:00:00-05:00",
       "end": "2026-09-08T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 76,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
-      "precip_pct": 1,
+      "precip_pct": 3,
       "short": "Mostly Clear",
       "detail": "Mostly clear, with a low around 76. South wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
@@ -26,13 +26,13 @@
       "start": "2026-09-08T06:00:00-05:00",
       "end": "2026-09-08T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 98,
+      "temp_f": 99,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "S",
-      "precip_pct": 2,
+      "wind_dir": "SSE",
+      "precip_pct": 3,
       "short": "Sunny",
-      "detail": "Sunny, with a high near 98. Heat index values as high as 104. South wind 0 to 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
+      "detail": "Sunny, with a high near 99. Heat index values as high as 107. South southeast wind 0 to 5 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
       "number": 3,
