@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-09T21:30:01Z",
+  "updated": "2026-09-09T22:30:08Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -15,9 +15,9 @@
       "temp_f": 97,
       "wind_speed": "5 mph",
       "wind_dir": "SE",
-      "precip_pct": 15,
+      "precip_pct": 17,
       "short": "Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms. Mostly cloudy, with a high near 97. Heat index values as high as 106. Southeast wind around 5 mph. Chance of precipitation is 20%.",
+      "detail": "A slight chance of showers and thunderstorms. Mostly cloudy, with a high near 97. Heat index values as high as 104. Southeast wind around 5 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/day/tsra,20?size=medium"
     },
     {
@@ -26,12 +26,12 @@
       "start": "2026-09-09T18:00:00-05:00",
       "end": "2026-09-10T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 74,
+      "temp_f": 76,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 15,
+      "precip_pct": 17,
       "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
-      "detail": "A slight chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 74. Heat index values as high as 102. South southeast wind 0 to 5 mph. Chance of precipitation is 20%.",
+      "detail": "A slight chance of showers and thunderstorms before 8pm. Partly cloudy, with a low around 76. Heat index values as high as 101. South southeast wind 0 to 5 mph. Chance of precipitation is 20%.",
       "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
     },
     {
