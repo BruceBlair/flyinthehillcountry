@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-09T17:00:02Z",
+  "updated": "2026-09-09T17:30:04Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -8,16 +8,16 @@
   "periods": [
     {
       "number": 1,
-      "name": "Today",
-      "start": "2026-09-09T07:00:00-05:00",
+      "name": "This Afternoon",
+      "start": "2026-09-09T12:00:00-05:00",
       "end": "2026-09-09T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 97,
-      "wind_speed": "0 to 5 mph",
-      "wind_dir": "SSE",
+      "wind_speed": "5 mph",
+      "wind_dir": "SE",
       "precip_pct": 12,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 97. Heat index values as high as 104. South southeast wind 0 to 5 mph. New rainfall amounts less than a tenth of an inch possible.",
+      "detail": "Mostly sunny, with a high near 97. Heat index values as high as 104. Southeast wind around 5 mph. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
