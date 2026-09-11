@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-11T21:00:02Z",
+  "updated": "2026-09-11T21:30:01Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -59,7 +59,7 @@
       "wind_dir": "SSE",
       "precip_pct": 10,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75. Heat index values as high as 104. South southeast wind 5 to 10 mph, with gusts as high as 20 mph.",
+      "detail": "Partly cloudy, with a low around 75. Heat index values as high as 103. South southeast wind 5 to 10 mph, with gusts as high as 20 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
