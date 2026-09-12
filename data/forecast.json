@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-12T07:00:02Z",
+  "updated": "2026-09-12T08:00:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,7 +9,7 @@
     {
       "number": 1,
       "name": "Overnight",
-      "start": "2026-09-12T01:00:00-05:00",
+      "start": "2026-09-12T03:00:00-05:00",
       "end": "2026-09-12T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 75,
@@ -59,7 +59,7 @@
       "wind_dir": "S",
       "precip_pct": 1,
       "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 99. Heat index values as high as 106. South wind 5 to 10 mph, with gusts as high as 20 mph.",
+      "detail": "Mostly sunny, with a high near 99. Heat index values as high as 105. South wind 5 to 10 mph, with gusts as high as 20 mph.",
       "icon": "https://api.weather.gov/icons/land/day/hot?size=medium"
     },
     {
@@ -156,9 +156,9 @@
       "wind_speed": "0 to 5 mph",
       "wind_dir": "ESE",
       "precip_pct": 7,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 74.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "short": "Mostly Clear",
+      "detail": "Mostly clear, with a low around 74.",
+      "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
       "number": 12,
@@ -182,7 +182,7 @@
       "is_daytime": false,
       "temp_f": 73,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SE",
+      "wind_dir": "S",
       "precip_pct": 15,
       "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
       "detail": "A slight chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 73. Chance of precipitation is 20%.",
@@ -196,7 +196,7 @@
       "is_daytime": true,
       "temp_f": 95,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "E",
+      "wind_dir": "NE",
       "precip_pct": 10,
       "short": "Mostly Sunny",
       "detail": "Mostly sunny, with a high near 95.",
