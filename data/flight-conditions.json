@@ -1,6 +1,6 @@
 {
-  "updated": "2026-09-13T07:10:01Z",
-  "nodes_data_updated": "2026-09-13T07:05:01Z",
+  "updated": "2026-09-13T07:15:01Z",
+  "nodes_data_updated": "2026-09-13T07:10:01Z",
   "overall_status": "go",
   "thresholds_mph": {
     "gust_no_go": 25.0,
@@ -17,8 +17,8 @@
       "node_status": "active",
       "status": "go",
       "reason": "winds within limits",
-      "wind_gust_mph": 7.16,
-      "wind_speed_mph": 2.24,
+      "wind_gust_mph": 8.72,
+      "wind_speed_mph": 6.71,
       "wind_dir_deg": 180.0
     },
     {
@@ -31,7 +31,7 @@
       "reason": "winds within limits",
       "wind_gust_mph": 2.46,
       "wind_speed_mph": 0.0,
-      "wind_dir_deg": 215.0
+      "wind_dir_deg": 8.0
     },
     {
       "id": "HITHC-RIDGE-S",
@@ -41,9 +41,9 @@
       "node_status": "active",
       "status": "go",
       "reason": "winds within limits",
-      "wind_gust_mph": 4.92,
-      "wind_speed_mph": 1.12,
-      "wind_dir_deg": 163.0
+      "wind_gust_mph": 4.25,
+      "wind_speed_mph": 2.68,
+      "wind_dir_deg": 177.0
     }
   ]
 }
