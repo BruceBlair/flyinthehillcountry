@@ -34,10 +34,14 @@ INBOX="${7:-/volume1/gtn_inbox/panos_incoming}"
 case "${CAMERA_SEL}" in
   1)
     CAM_IP="${CAMERA_IP}"
+    CAM_USER="${CAMERA_USER}"
+    CAM_PASS="${CAMERA_PASSWORD}"
     CAM_LABEL="cam1"
     ;;
   2)
     CAM_IP="${CAMERA2_IP:?CAMERA2_IP not set in .env}"
+    CAM_USER="${CAMERA2_USER:?CAMERA2_USER not set in .env}"
+    CAM_PASS="${CAMERA2_PASSWORD:?CAMERA2_PASSWORD not set in .env}"
     CAM_LABEL="cam2"
     ;;
   *)
@@ -45,9 +49,6 @@ case "${CAMERA_SEL}" in
     exit 1
     ;;
 esac
-
-CAM_USER="${CAMERA_USER}"
-CAM_PASS="${CAMERA_PASSWORD}"
 NUDGES_PER_STEP=3   # 3 x 15deg ~= 45deg between captured frames, matches pano_capture.sh
 
 SESSION_TS="$(date +%Y%m%d_%H%M%S)"

@@ -122,7 +122,7 @@ limited only by PTZ settle time, not by Hugin CPU time:
 # camera 1 = CAMERA_IP (existing unit), camera 2 = CAMERA2_IP (steel-frame unit)
 # e.g. run cam2 for 30 minutes: ./pano_timelapse.sh 2 30
 ```
-Requires `CAMERA_IP/USER/PASSWORD` and `CAMERA2_IP` in `.env`. Manual/on-demand only —
+Requires `CAMERA_IP/USER/PASSWORD` and `CAMERA2_IP/USER/PASSWORD` in `.env`. Manual/on-demand only —
 not wired into cron-scan-sync.sh. Output: one panorama JPEG per sweep cycle under
 `<out_dir>/timelapse_<cam1|cam2>_<session_timestamp>/cycle_NNNN.jpg`.
 
@@ -180,7 +180,7 @@ InfluxDB org: `ground_truth`, bucket: `sensor_data`.
 | `NAS_IP` | ptz-patrol.sh, cron-scan-sync.sh, docker-compose defaults |
 | `TZ` | homeassistant, highlight-curator, sky-watcher |
 | `CAMERA_IP/USER/PASSWORD` | frigate, star-patrol, night-sky-patrol, sky-watcher, panorama-capture.sh, pano_timelapse.sh |
-| `CAMERA2_IP` | pano_timelapse.sh (steel-frame TrackMix; shares CAMERA_USER/PASSWORD) |
+| `CAMERA2_IP/USER/PASSWORD` | pano_timelapse.sh (steel-frame TrackMix; separate admin credentials from CAMERA_*) |
 | `INFLUXDB_USER/PASSWORD/TOKEN` | influxdb, grafana provisioning |
 | `GRAFANA_USER/PASSWORD` | grafana |
 | `HA_TOKEN` | ptz-patrol.sh, night-sky-patrol |
