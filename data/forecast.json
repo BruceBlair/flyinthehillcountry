@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-13T21:30:02Z",
+  "updated": "2026-09-13T22:00:03Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "This Afternoon",
-      "start": "2026-09-13T15:00:00-05:00",
+      "start": "2026-09-13T16:00:00-05:00",
       "end": "2026-09-13T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 98,
       "wind_speed": "10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 14,
-      "short": "Sunny",
-      "detail": "Sunny, with a high near 98. Heat index values as high as 107. South southeast wind around 10 mph, with gusts as high as 20 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
+      "precip_pct": 15,
+      "short": "Slight Chance Showers And Thunderstorms",
+      "detail": "A slight chance of showers and thunderstorms. Sunny, with a high near 98. Heat index values as high as 107. South southeast wind around 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/day/tsra_hi,20?size=medium"
     },
     {
       "number": 2,
@@ -29,10 +29,10 @@
       "temp_f": 75,
       "wind_speed": "5 to 10 mph",
       "wind_dir": "SSE",
-      "precip_pct": 14,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75. Heat index values as high as 102. South southeast wind 5 to 10 mph, with gusts as high as 20 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "precip_pct": 15,
+      "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
+      "detail": "A slight chance of showers and thunderstorms before 9pm. Partly cloudy, with a low around 75. Heat index values as high as 102. South southeast wind 5 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
     },
     {
       "number": 3,
