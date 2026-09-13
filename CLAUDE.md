@@ -113,6 +113,19 @@ Dependencies: `skyfield`, `requests` (see `star-patrol/requirements.txt`).
 ```
 Requires `HA_TOKEN` in `.env`.
 
+**pano_timelapse.sh** — repeating panorama timelapse: sweeps a TrackMix PTZ camera,
+captures a frame series, swings back to start, and repeats until a duration elapses.
+Stitching is deferred until after the capture loop ends, so the swing-back cadence is
+limited only by PTZ settle time, not by Hugin CPU time:
+```bash
+./pano_timelapse.sh <camera:1|2> <duration_min> [shots] [move_sec] [speed] [settle_sec] [out_dir]
+# camera 1 = CAMERA_IP (existing unit), camera 2 = CAMERA2_IP (steel-frame unit)
+# e.g. run cam2 for 30 minutes: ./pano_timelapse.sh 2 30
+```
+Requires `CAMERA_IP/USER/PASSWORD` and `CAMERA2_IP` in `.env`. Manual/on-demand only —
+not wired into cron-scan-sync.sh. Output: one panorama JPEG per sweep cycle under
+`<out_dir>/timelapse_<cam1|cam2>_<session_timestamp>/cycle_NNNN.jpg`.
+
 ## FFmpeg Pipeline
 
 The `ffmpeg-processor` container runs idle (`tail -f /dev/null`); execute commands via `docker exec`:
@@ -166,7 +179,8 @@ InfluxDB org: `ground_truth`, bucket: `sensor_data`.
 |---|---|
 | `NAS_IP` | ptz-patrol.sh, cron-scan-sync.sh, docker-compose defaults |
 | `TZ` | homeassistant, highlight-curator, sky-watcher |
-| `CAMERA_IP/USER/PASSWORD` | frigate, star-patrol, night-sky-patrol, sky-watcher, panorama-capture.sh |
+| `CAMERA_IP/USER/PASSWORD` | frigate, star-patrol, night-sky-patrol, sky-watcher, panorama-capture.sh, pano_timelapse.sh |
+| `CAMERA2_IP` | pano_timelapse.sh (steel-frame TrackMix; shares CAMERA_USER/PASSWORD) |
 | `INFLUXDB_USER/PASSWORD/TOKEN` | influxdb, grafana provisioning |
 | `GRAFANA_USER/PASSWORD` | grafana |
 | `HA_TOKEN` | ptz-patrol.sh, night-sky-patrol |
