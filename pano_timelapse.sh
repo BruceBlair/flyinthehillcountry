@@ -234,15 +234,21 @@ for FRAME_DIR in "${WORK_DIR}"/cycle_*/; do
 
   if timeout "${STITCH_TIMEOUT_SEC}" bash -c "set -e; $(declare -f stitch_cycle); stitch_cycle '${FRAME_DIR}' '${OUT_JPG}'" 2>"${FRAME_DIR}/stitch.log"; then
     echo "[$(date +%H:%M:%S)] ${cycle_name}: stitched -> ${OUT_JPG}"
+    rm -rf "${FRAME_DIR}"
   else
     rc=$?
+    # Leave this cycle's raw frames + stitch.log on disk instead of wiping
+    # them with the rest of WORK_DIR below — a failure/timeout log is only
+    # useful if it survives long enough to actually read it.
+    FAILED_DIR="${SESSION_OUT}/failed_${cycle_name}"
+    mv "${FRAME_DIR}" "${FAILED_DIR}"
     if [ "${rc}" -eq 124 ]; then
-      echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH TIMED OUT after ${STITCH_TIMEOUT_SEC}s, skipped (see ${FRAME_DIR}/stitch.log)" >&2
+      echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH TIMED OUT after ${STITCH_TIMEOUT_SEC}s, skipped (frames + log kept at ${FAILED_DIR})" >&2
     else
-      echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH FAILED, see ${FRAME_DIR}/stitch.log" >&2
+      echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH FAILED, skipped (frames + log kept at ${FAILED_DIR})" >&2
     fi
   fi
 done
 
-rm -rf "${WORK_DIR}"
+rmdir "${WORK_DIR}" 2>/dev/null || true
 echo "Timelapse session complete: ${SESSION_OUT}"
