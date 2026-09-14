@@ -15,9 +15,12 @@
 #                  finish before exit, so actual runtime may exceed this slightly
 # shots            frames per sweep, i.e. stops across the whole trip (default 6)
 # nudges_per_step  PTZ nudges between each stop — bigger gap = fewer, wider stops
-#                  (default 4; ~15deg per nudge @ default speed, so ~60deg/stop,
-#                  6 shots x 4 nudges = full ~300deg trip in 5 gaps)
-# move_sec         nudge duration per step in seconds (default 0.420 ~= 15 deg @ speed 5)
+#                  (default 4; ~17.75deg per nudge @ default move_sec/speed, so
+#                  ~71deg/stop, 6 shots x 4 nudges = ~355deg trip in 5 gaps —
+#                  the TrackMix's full mechanical pan range, not a true 360 wrap)
+# move_sec         nudge duration per step in seconds (default 0.497 ~= 17.75 deg
+#                  @ speed 5, calibrated off pano_capture.sh's 0.420s~=15deg baseline;
+#                  may need re-tuning per physical unit)
 # speed            PTZ speed 1-64 (default 5)
 # settle_sec       stabilize time after each nudge before the next snap (default 2)
 # out_dir          where finished panorama JPEGs land (default INBOX below)
@@ -30,7 +33,7 @@ CAMERA_SEL="${1:?usage: pano_timelapse.sh <camera:1|2> <duration_min> [shots] [n
 DURATION_MIN="${2:?duration_min required}"
 STEPS="${3:-6}"
 NUDGES_PER_STEP="${4:-4}"
-STEP_SEC="${5:-0.420}"
+STEP_SEC="${5:-0.497}"
 PTZ_SPEED="${6:-5}"
 STABILIZE="${7:-2}"
 INBOX="${8:-/volume1/gtn_inbox/panos_incoming}"

@@ -120,7 +120,8 @@ limited only by PTZ settle time, not by Hugin CPU time:
 ```bash
 ./pano_timelapse.sh <camera:1|2> <duration_min> [shots] [nudges_per_step] [move_sec] [speed] [settle_sec] [out_dir]
 # camera 1 = CAMERA_IP (existing unit), camera 2 = CAMERA2_IP (steel-frame unit)
-# default: 6 shots x 4 nudges/step ~= 6 stops covering the whole ~300deg trip
+# default: 6 shots x 4 nudges/step ~= 6 stops covering ~355deg (TrackMix's full
+# mechanical pan range — not a true seamless 360 wrap)
 # e.g. run cam2 for 30 minutes: ./pano_timelapse.sh 2 30
 ```
 Requires `CAMERA_IP/USER/PASSWORD` and `CAMERA2_IP/USER/PASSWORD` in `.env`. Manual/on-demand only —
