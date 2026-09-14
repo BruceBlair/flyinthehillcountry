@@ -55,7 +55,11 @@ case "${CAMERA_SEL}" in
 esac
 
 SESSION_TS="$(date +%Y%m%d_%H%M%S)"
-WORK_DIR="/tmp/pano_timelapse_${CAM_LABEL}_${SESSION_TS}"
+# /tmp on this NAS is tmpfs (RAM-backed) — a multi-cycle run buffering full-res
+# JPEG/TIFF frames there competes with everything else for memory and was a
+# major contributor to an OOM-driven system slowdown during a live run.
+# Raw frames go to real disk instead; only small transient files should use /tmp.
+WORK_DIR="${INBOX}/.work_${CAM_LABEL}_${SESSION_TS}"
 SESSION_OUT="${INBOX}/timelapse_${CAM_LABEL}_${SESSION_TS}"
 END_EPOCH=$(( $(date +%s) + DURATION_MIN * 60 ))
 
@@ -214,14 +218,26 @@ stitch_cycle() {
     "${frame_dir}"/remap*.tif
 }
 
+# 900s (15min) cap per cycle — observed live: a bad frame set (insufficient
+# control points / degenerate geometry) can send pano_modify or autooptimiser
+# into a near-infinite search rather than failing fast, hanging the whole
+# batch for the rest of the run. timeout kills that one cycle's pipeline and
+# moves on instead of blocking every cycle after it.
+STITCH_TIMEOUT_SEC=900
+
 for FRAME_DIR in "${WORK_DIR}"/cycle_*/; do
   cycle_name="$(basename "${FRAME_DIR}")"
   OUT_JPG="${SESSION_OUT}/${cycle_name}.jpg"
 
-  if ( set -e; stitch_cycle "${FRAME_DIR}" "${OUT_JPG}" ) 2>"${FRAME_DIR}/stitch.log"; then
+  if timeout "${STITCH_TIMEOUT_SEC}" bash -c "set -e; $(declare -f stitch_cycle); stitch_cycle '${FRAME_DIR}' '${OUT_JPG}'" 2>"${FRAME_DIR}/stitch.log"; then
     echo "[$(date +%H:%M:%S)] ${cycle_name}: stitched -> ${OUT_JPG}"
   else
-    echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH FAILED, see ${FRAME_DIR}/stitch.log" >&2
+    rc=$?
+    if [ "${rc}" -eq 124 ]; then
+      echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH TIMED OUT after ${STITCH_TIMEOUT_SEC}s, skipped (see ${FRAME_DIR}/stitch.log)" >&2
+    else
+      echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH FAILED, see ${FRAME_DIR}/stitch.log" >&2
+    fi
   fi
 done
 

@@ -125,7 +125,14 @@ limited only by PTZ settle time, not by Hugin CPU time:
 ```
 Requires `CAMERA_IP/USER/PASSWORD` and `CAMERA2_IP/USER/PASSWORD` in `.env`. Manual/on-demand only —
 not wired into cron-scan-sync.sh. Output: one panorama JPEG per sweep cycle under
-`<out_dir>/timelapse_<cam1|cam2>_<session_timestamp>/cycle_NNNN.jpg`.
+`<out_dir>/timelapse_<cam1|cam2>_<session_timestamp>/cycle_NNNN.jpg`. Raw frames are
+staged under `<out_dir>/.work_<cam1|cam2>_<session_timestamp>/` (on real disk, not
+`/tmp` — `/tmp` on this NAS is tmpfs/RAM-backed, and a multi-cycle run buffering
+full-res frames there caused an OOM-driven slowdown during a live run). Each
+cycle's stitch is capped at 15 minutes (`STITCH_TIMEOUT_SEC`) — a degenerate frame
+set can otherwise send Hugin's optimizer into a near-infinite search and hang every
+cycle queued after it; a timed-out cycle is skipped, not retried, and its raw
+frames are left on disk under `.work_*` for manual/offline stitching later.
 
 ## FFmpeg Pipeline
 
