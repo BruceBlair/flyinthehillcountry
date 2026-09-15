@@ -167,9 +167,23 @@ echo "[$(date +%H:%M:%S)] capture phase complete: ${cycle} cycles. Stitching..."
 # the whole batch — a bad sweep (glare, a bird crossing frame) shouldn't
 # lose every other cycle's panorama.
 
-stitch_cycle() {
+# The PTZ stops at the same 6 mechanical positions every cycle, so the
+# geometry between frames (rotation offsets, lens warp, canvas/crop) is
+# constant across a run - only the pixel content changes. stitch_cycle_full
+# does the expensive feature-matching/optimization (cpfind/cpclean/
+# autooptimiser) and caches the solved .pto as REFERENCE_PTO.
+# stitch_cycle_fast reuses that cached geometry for later cycles, skipping
+# straight to nona+enblend on the new images - much faster, and immune to
+# the failure mode where one cycle's feature-poor content (e.g. sky) misled
+# the optimizer into misplacing a frame.
+REFERENCE_PTO="${WORK_DIR}/.reference.pto"
+
+stitch_cycle_full() {
   local frame_dir="$1"
   local out_jpg="$2"
+  local cycle_name="$3"
+  local reference_pto="$4"
+  local work_dir="$5"
   local pto="${frame_dir}/pano.pto"
 
   pto_gen \
@@ -224,6 +238,34 @@ stitch_cycle() {
     --compression=90 \
     -o "${out_jpg}" \
     "${frame_dir}"/remap*.tif
+
+  cp "${pto}" "${reference_pto}"
+  echo "${cycle_name}" > "${work_dir}/.reference_cycle_name"
+}
+
+stitch_cycle_fast() {
+  local frame_dir="$1"
+  local out_jpg="$2"
+  local cycle_name="$3"
+  local reference_pto="$4"
+  local work_dir="$5"
+  local pto="${frame_dir}/pano.pto"
+  local ref_cycle_name
+  ref_cycle_name="$(cat "${work_dir}/.reference_cycle_name")"
+
+  sed "s#/${ref_cycle_name}/#/${cycle_name}/#g" "${reference_pto}" > "${pto}"
+
+  nona \
+    -m TIFF_m \
+    -o "${frame_dir}/remap" \
+    "${pto}"
+
+  enblend \
+    --wrap=horizontal \
+    --fine-mask \
+    --compression=90 \
+    -o "${out_jpg}" \
+    "${frame_dir}"/remap*.tif
 }
 
 # 900s (15min) cap per cycle — observed live: a bad frame set (insufficient
@@ -236,24 +278,43 @@ STITCH_TIMEOUT_SEC=900
 for FRAME_DIR in "${WORK_DIR}"/cycle_*/; do
   cycle_name="$(basename "${FRAME_DIR}")"
   OUT_JPG="${SESSION_OUT}/${cycle_name}.jpg"
+  STITCHED=0
 
-  if timeout "${STITCH_TIMEOUT_SEC}" bash -c "set -e; $(declare -f stitch_cycle); stitch_cycle '${FRAME_DIR}' '${OUT_JPG}'" 2>"${FRAME_DIR}/stitch.log"; then
-    echo "[$(date +%H:%M:%S)] ${cycle_name}: stitched -> ${OUT_JPG}"
+  if [ -s "${REFERENCE_PTO}" ]; then
+    if timeout "${STITCH_TIMEOUT_SEC}" bash -c "set -e; $(declare -f stitch_cycle_fast); stitch_cycle_fast '${FRAME_DIR}' '${OUT_JPG}' '${cycle_name}' '${REFERENCE_PTO}' '${WORK_DIR}'" 2>"${FRAME_DIR}/stitch.log"; then
+      echo "[$(date +%H:%M:%S)] ${cycle_name}: stitched (reused geometry) -> ${OUT_JPG}"
+      STITCHED=1
+    else
+      echo "[$(date +%H:%M:%S)] ${cycle_name}: fast reuse failed, retrying with a fresh geometry search" >&2
+    fi
+  fi
+
+  if [ "${STITCHED}" -eq 0 ]; then
+    if timeout "${STITCH_TIMEOUT_SEC}" bash -c "set -e; $(declare -f stitch_cycle_full); stitch_cycle_full '${FRAME_DIR}' '${OUT_JPG}' '${cycle_name}' '${REFERENCE_PTO}' '${WORK_DIR}'" 2>>"${FRAME_DIR}/stitch.log"; then
+      echo "[$(date +%H:%M:%S)] ${cycle_name}: stitched (fresh geometry search) -> ${OUT_JPG}"
+      STITCHED=1
+    else
+      rc=$?
+      if [ "${rc}" -eq 124 ]; then
+        echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH TIMED OUT after ${STITCH_TIMEOUT_SEC}s, skipped" >&2
+      else
+        echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH FAILED, skipped" >&2
+      fi
+    fi
+  fi
+
+  if [ "${STITCHED}" -eq 1 ]; then
     rm -rf "${FRAME_DIR}"
   else
-    rc=$?
     # Leave this cycle's raw frames + stitch.log on disk instead of wiping
     # them with the rest of WORK_DIR below — a failure/timeout log is only
     # useful if it survives long enough to actually read it.
     FAILED_DIR="${SESSION_OUT}/failed_${cycle_name}"
     mv "${FRAME_DIR}" "${FAILED_DIR}"
-    if [ "${rc}" -eq 124 ]; then
-      echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH TIMED OUT after ${STITCH_TIMEOUT_SEC}s, skipped (frames + log kept at ${FAILED_DIR})" >&2
-    else
-      echo "[$(date +%H:%M:%S)] ${cycle_name}: STITCH FAILED, skipped (frames + log kept at ${FAILED_DIR})" >&2
-    fi
+    echo "[$(date +%H:%M:%S)] ${cycle_name}: frames + log kept at ${FAILED_DIR}" >&2
   fi
 done
 
+rm -f "${WORK_DIR}"/.reference*
 rmdir "${WORK_DIR}" 2>/dev/null || true
 echo "Timelapse session complete: ${SESSION_OUT}"

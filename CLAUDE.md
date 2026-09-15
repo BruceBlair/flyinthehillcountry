@@ -132,8 +132,17 @@ staged under `<out_dir>/.work_<cam1|cam2>_<session_timestamp>/` (on real disk, n
 full-res frames there caused an OOM-driven slowdown during a live run). Each
 cycle's stitch is capped at 15 minutes (`STITCH_TIMEOUT_SEC`) — a degenerate frame
 set can otherwise send Hugin's optimizer into a near-infinite search and hang every
-cycle queued after it; a timed-out cycle is skipped, not retried, and its raw
-frames are left on disk under `.work_*` for manual/offline stitching later.
+cycle queued after it; a timed-out/failed cycle's raw frames + `stitch.log` are
+left under `<out_dir>/.../failed_cycle_NNNN/` for manual/offline stitching later.
+
+The PTZ stops at the same 6 mechanical positions every cycle, so image geometry
+(rotation offsets, lens warp, canvas/crop) doesn't change between cycles — only
+the pixel content does. The first successful cycle runs the full Hugin pipeline
+(`cpfind`/`cpclean`/`autooptimiser`) and caches the solved `.pto` as
+`.reference.pto`; every later cycle skips straight to `nona`+`enblend` on that
+cached geometry (much faster, and immune to a cycle's feature-poor content, e.g.
+sky, misleading the optimizer). If the cached geometry ever fails to blend, that
+cycle automatically falls back to a fresh full search and refreshes the cache.
 
 ## FFmpeg Pipeline
 
