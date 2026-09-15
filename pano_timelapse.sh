@@ -214,7 +214,12 @@ stitch_cycle() {
     -o "${frame_dir}/remap" \
     "${pto}"
 
+  # --wrap=horizontal: at ~355deg of a ~360deg-capable sweep, the first and
+  # last frames view almost the same area from opposite ends (a true 360
+  # wrap) - without this flag enblend treats that as "excessive image
+  # overlap" and refuses to blend rather than treating it as the seam.
   enblend \
+    --wrap=horizontal \
     --fine-mask \
     --compression=90 \
     -o "${out_jpg}" \
