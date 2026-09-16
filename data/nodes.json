@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-16T13:55:01Z",
+  "updated": "2026-09-16T15:10:01Z",
   "nodes": [
     {
       "id": "HITHC-RIDGE-N",
@@ -11,16 +11,16 @@
       "camera_snapshot_url": "snapshots/HITHC-RIDGE-N-latest.jpg",
       "status": "active",
       "current": {
-        "timestamp": "2026-09-16T13:54:48Z",
-        "temp_f": 77.72,
-        "humidity_pct": 93.0,
-        "pressure_msl_inhg": 30.21,
-        "wind_speed_mph": 1.79,
-        "wind_dir_deg": 135.0,
-        "wind_gust_mph": 3.36,
+        "timestamp": "2026-09-16T15:09:47Z",
+        "temp_f": 81.86,
+        "humidity_pct": 72.0,
+        "pressure_msl_inhg": 30.23,
+        "wind_speed_mph": 6.04,
+        "wind_dir_deg": 180.0,
+        "wind_gust_mph": 7.83,
         "rain_rate_in_hr": null,
         "rain_daily_in": null,
-        "battery_pct": 80.0,
+        "battery_pct": 100.0,
         "rssi_dbm": null
       }
     },
@@ -33,16 +33,16 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-09-16T13:54:48Z",
-        "temp_f": 78.62,
-        "humidity_pct": 91.0,
-        "pressure_msl_inhg": 29.94,
-        "wind_speed_mph": 0.0,
-        "wind_dir_deg": 315.0,
-        "wind_gust_mph": 0.0,
+        "timestamp": "2026-09-16T15:09:46Z",
+        "temp_f": 83.84,
+        "humidity_pct": 71.0,
+        "pressure_msl_inhg": 29.95,
+        "wind_speed_mph": 1.57,
+        "wind_dir_deg": 290.0,
+        "wind_gust_mph": 1.79,
         "rain_rate_in_hr": null,
         "rain_daily_in": 0.0,
-        "battery_pct": 72.0,
+        "battery_pct": 100.0,
         "rssi_dbm": null
       }
     },
@@ -55,16 +55,16 @@
       "has_camera": false,
       "status": "active",
       "current": {
-        "timestamp": "2026-09-16T13:54:47Z",
-        "temp_f": 78.26,
-        "humidity_pct": 93.0,
-        "pressure_msl_inhg": 30.08,
-        "wind_speed_mph": 2.01,
-        "wind_dir_deg": 202.0,
-        "wind_gust_mph": 3.58,
+        "timestamp": "2026-09-16T15:09:47Z",
+        "temp_f": 83.66,
+        "humidity_pct": 69.0,
+        "pressure_msl_inhg": 30.09,
+        "wind_speed_mph": 1.79,
+        "wind_dir_deg": 120.0,
+        "wind_gust_mph": 5.37,
         "rain_rate_in_hr": null,
         "rain_daily_in": null,
-        "battery_pct": 76.0,
+        "battery_pct": 96.0,
         "rssi_dbm": null
       }
     }
