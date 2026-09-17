@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-17T08:30:01Z",
+  "updated": "2026-09-17T09:00:05Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,16 +9,16 @@
     {
       "number": 1,
       "name": "Overnight",
-      "start": "2026-09-17T03:00:00-05:00",
+      "start": "2026-09-17T04:00:00-05:00",
       "end": "2026-09-17T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 75,
       "wind_speed": "0 mph",
       "wind_dir": "",
       "precip_pct": 1,
-      "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75. Wind around 0 mph.",
-      "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
+      "short": "Mostly Cloudy",
+      "detail": "Mostly cloudy, with a low around 75. Wind around 0 mph.",
+      "icon": "https://api.weather.gov/icons/land/night/bkn?size=medium"
     },
     {
       "number": 2,
