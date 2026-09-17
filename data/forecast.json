@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-17T04:30:01Z",
+  "updated": "2026-09-17T05:00:02Z",
   "source": "NWS",
   "node_id": "HITHC-RIDGE-N",
   "office": "EWX",
@@ -9,15 +9,15 @@
     {
       "number": 1,
       "name": "Tonight",
-      "start": "2026-09-16T22:00:00-05:00",
+      "start": "2026-09-16T23:00:00-05:00",
       "end": "2026-09-17T06:00:00-05:00",
       "is_daytime": false,
       "temp_f": 75,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "ESE",
+      "wind_dir": "SE",
       "precip_pct": 1,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 75. East southeast wind 0 to 5 mph.",
+      "detail": "Partly cloudy, with a low around 75. Southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
@@ -27,11 +27,11 @@
       "end": "2026-09-17T18:00:00-05:00",
       "is_daytime": true,
       "temp_f": 97,
-      "wind_speed": "0 to 5 mph",
-      "wind_dir": "NE",
+      "wind_speed": "0 to 10 mph",
+      "wind_dir": "ENE",
       "precip_pct": 17,
       "short": "Partly Sunny then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms after 4pm. Partly sunny, with a high near 97. Heat index values as high as 101. Northeast wind 0 to 5 mph, with gusts as high as 20 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "detail": "A slight chance of showers and thunderstorms after 4pm. Partly sunny, with a high near 97. Heat index values as high as 106. East northeast wind 0 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
       "icon": "https://api.weather.gov/icons/land/day/bkn/tsra_hi,20?size=medium"
     },
     {
@@ -42,11 +42,11 @@
       "is_daytime": false,
       "temp_f": 73,
       "wind_speed": "0 to 10 mph",
-      "wind_dir": "ESE",
+      "wind_dir": "E",
       "precip_pct": 17,
-      "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
-      "detail": "A slight chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 73. East southeast wind 0 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
+      "short": "Slight Chance Showers And Thunderstorms then Mostly Cloudy",
+      "detail": "A slight chance of showers and thunderstorms before 7pm. Mostly cloudy, with a low around 73. Heat index values as high as 101. East wind 0 to 10 mph, with gusts as high as 20 mph. Chance of precipitation is 20%. New rainfall amounts less than a tenth of an inch possible.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/bkn?size=medium"
     },
     {
       "number": 4,
@@ -57,10 +57,10 @@
       "temp_f": 97,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "E",
-      "precip_pct": 5,
-      "short": "Mostly Sunny",
-      "detail": "Mostly sunny, with a high near 97. Heat index values as high as 101. East wind 0 to 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
+      "precip_pct": 3,
+      "short": "Sunny",
+      "detail": "Sunny, with a high near 97. Heat index values as high as 104. East wind 0 to 5 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
     },
     {
       "number": 5,
@@ -68,12 +68,12 @@
       "start": "2026-09-18T18:00:00-05:00",
       "end": "2026-09-19T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 72,
+      "temp_f": 71,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SSE",
-      "precip_pct": 3,
+      "wind_dir": "SE",
+      "precip_pct": 0,
       "short": "Mostly Clear",
-      "detail": "Mostly clear, with a low around 72. South southeast wind 0 to 5 mph.",
+      "detail": "Mostly clear, with a low around 71. Southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
     },
     {
@@ -85,7 +85,7 @@
       "temp_f": 97,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 1,
+      "precip_pct": 0,
       "short": "Sunny",
       "detail": "Sunny, with a high near 97. South southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
@@ -99,7 +99,7 @@
       "temp_f": 72,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 1,
+      "precip_pct": 0,
       "short": "Mostly Clear",
       "detail": "Mostly clear, with a low around 72. South southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/few?size=medium"
@@ -110,13 +110,13 @@
       "start": "2026-09-20T06:00:00-05:00",
       "end": "2026-09-20T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 96,
+      "temp_f": 97,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "S",
       "precip_pct": 2,
-      "short": "Sunny",
-      "detail": "Sunny, with a high near 96. South wind 0 to 5 mph.",
-      "icon": "https://api.weather.gov/icons/land/day/few?size=medium"
+      "short": "Mostly Sunny",
+      "detail": "Mostly sunny, with a high near 97. South wind 0 to 5 mph.",
+      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
       "number": 9,
@@ -124,12 +124,12 @@
       "start": "2026-09-20T18:00:00-05:00",
       "end": "2026-09-21T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 74,
+      "temp_f": 73,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "S",
-      "precip_pct": 9,
+      "wind_dir": "SSE",
+      "precip_pct": 3,
       "short": "Partly Cloudy",
-      "detail": "Partly cloudy, with a low around 74. South wind 0 to 5 mph.",
+      "detail": "Partly cloudy, with a low around 73. South southeast wind 0 to 5 mph.",
       "icon": "https://api.weather.gov/icons/land/night/sct?size=medium"
     },
     {
@@ -141,10 +141,10 @@
       "temp_f": 96,
       "wind_speed": "0 to 5 mph",
       "wind_dir": "SSE",
-      "precip_pct": 25,
-      "short": "Mostly Sunny then Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms after 1pm. Mostly sunny, with a high near 96. Chance of precipitation is 30%.",
-      "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,30?size=medium"
+      "precip_pct": 15,
+      "short": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
+      "detail": "A slight chance of showers and thunderstorms after 1pm. Mostly sunny, with a high near 96. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/day/sct/tsra_hi,20?size=medium"
     },
     {
       "number": 11,
@@ -152,13 +152,13 @@
       "start": "2026-09-21T18:00:00-05:00",
       "end": "2026-09-22T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 72,
+      "temp_f": 73,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SSE",
-      "precip_pct": 25,
-      "short": "Chance Showers And Thunderstorms",
-      "detail": "A chance of showers and thunderstorms before 1am. Mostly clear, with a low around 72. Chance of precipitation is 30%.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,30/tsra_hi,20?size=medium"
+      "wind_dir": "SE",
+      "precip_pct": 15,
+      "short": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
+      "detail": "A slight chance of showers and thunderstorms before 7pm. Partly cloudy, with a low around 73. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20/sct?size=medium"
     },
     {
       "number": 12,
@@ -166,13 +166,13 @@
       "start": "2026-09-22T06:00:00-05:00",
       "end": "2026-09-22T18:00:00-05:00",
       "is_daytime": true,
-      "temp_f": 95,
+      "temp_f": 96,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "S",
-      "precip_pct": 20,
-      "short": "Slight Chance Rain Showers then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of rain showers between 7am and 1pm, then a slight chance of showers and thunderstorms. Mostly sunny, with a high near 95. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/day/rain_showers,20/tsra_hi,20?size=medium"
+      "wind_dir": "ENE",
+      "precip_pct": 11,
+      "short": "Mostly Sunny",
+      "detail": "Mostly sunny, with a high near 96.",
+      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     },
     {
       "number": 13,
@@ -180,13 +180,13 @@
       "start": "2026-09-22T18:00:00-05:00",
       "end": "2026-09-23T06:00:00-05:00",
       "is_daytime": false,
-      "temp_f": 72,
+      "temp_f": 73,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "SSE",
-      "precip_pct": 20,
-      "short": "Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of showers and thunderstorms. Partly cloudy, with a low around 72. Chance of precipitation is 20%.",
-      "icon": "https://api.weather.gov/icons/land/night/tsra_hi,20?size=medium"
+      "wind_dir": "ESE",
+      "precip_pct": 19,
+      "short": "Slight Chance Rain Showers",
+      "detail": "A slight chance of rain showers between 7pm and 1am. Partly cloudy, with a low around 73. Chance of precipitation is 20%.",
+      "icon": "https://api.weather.gov/icons/land/night/rain_showers,20?size=medium"
     },
     {
       "number": 14,
@@ -196,11 +196,11 @@
       "is_daytime": true,
       "temp_f": 96,
       "wind_speed": "0 to 5 mph",
-      "wind_dir": "NE",
-      "precip_pct": 15,
-      "short": "Slight Chance Rain Showers then Slight Chance Showers And Thunderstorms",
-      "detail": "A slight chance of rain showers before 7am, then a slight chance of showers and thunderstorms. Mostly sunny, with a high near 96.",
-      "icon": "https://api.weather.gov/icons/land/day/rain_showers,20/tsra_hi,20?size=medium"
+      "wind_dir": "ENE",
+      "precip_pct": 8,
+      "short": "Mostly Sunny",
+      "detail": "Mostly sunny, with a high near 96.",
+      "icon": "https://api.weather.gov/icons/land/day/sct?size=medium"
     }
   ]
 }
