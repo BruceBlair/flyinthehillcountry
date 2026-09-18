@@ -97,6 +97,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     environment:
       - FRIGATE_RTSP_PASSWORD=${CAMERA_PASSWORD:?set CAMERA_PASSWORD in .env}
+      - FRIGATE_RTSP_PASSWORD2=${CAMERA2_PASSWORD:?set CAMERA2_PASSWORD in .env}
     depends_on:
       - mosquitto
 
