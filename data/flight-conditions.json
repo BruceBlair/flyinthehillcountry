@@ -1,6 +1,6 @@
 {
-  "updated": "2026-09-20T01:10:01Z",
-  "nodes_data_updated": "2026-09-20T01:05:02Z",
+  "updated": "2026-09-20T01:15:01Z",
+  "nodes_data_updated": "2026-09-20T01:10:01Z",
   "overall_status": "go",
   "thresholds_mph": {
     "gust_no_go": 25.0,
@@ -43,7 +43,7 @@
       "reason": "winds within limits",
       "wind_gust_mph": 0.0,
       "wind_speed_mph": 0.0,
-      "wind_dir_deg": 224.0
+      "wind_dir_deg": 240.0
     }
   ]
 }
