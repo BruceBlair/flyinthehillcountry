@@ -11,6 +11,14 @@
 
 set -euo pipefail
 
+# Run ffmpeg at lowest CPU/IO priority with capped threads so the nightly build
+# never starves Frigate/HA on the NAS (unthrottled runs were choking the box).
+# Override with FFMPEG_THREADS=N in the environment/.env.
+FFMPEG_THREADS="${FFMPEG_THREADS:-2}"
+lowprio_ffmpeg() {
+  nice -n 19 ionice -c3 ffmpeg -nostdin -threads "$FFMPEG_THREADS" "$@"
+}
+
 REPO="/home/HighlyReflective/hithc-gtn-depot"
 ENV_FILE="$REPO/.env"
 
@@ -89,20 +97,20 @@ for SECTION in sunrise day_1 day_2 sunset; do
 
   if [ -s "$FILELIST" ]; then
     echo "  $SECTION: $(wc -l < "$FILELIST") segments → ${OUT_DIR}/${DATE}_${SECTION}.mp4"
-    ffmpeg -y -f concat -safe 0 -i "$FILELIST" \
+    lowprio_ffmpeg -y -f concat -safe 0 -i "$FILELIST" \
       -vf "setpts=0.05*PTS" -an \
       -c:v libx264 -preset medium -crf 23 \
       "${OUT_DIR}/${DATE}_${SECTION}.mp4" 2>&1 | tail -1
 
     # Poster thumbnail for the site card
-    ffmpeg -y -ss 1 -i "${OUT_DIR}/${DATE}_${SECTION}.mp4" \
+    lowprio_ffmpeg -y -ss 1 -i "${OUT_DIR}/${DATE}_${SECTION}.mp4" \
       -vframes 1 -vf "scale=480:-1" \
       "${OUT_DIR}/${DATE}_${SECTION}_thumb.jpg" 2>&1 | tail -1
 
     # Small compressed variant for publishing (full-quality file stays local only).
     # +faststart moves the moov atom to the front so browsers can start playback
     # without downloading the whole file first (root cause of unresponsive play button).
-    ffmpeg -y -i "${OUT_DIR}/${DATE}_${SECTION}.mp4" \
+    lowprio_ffmpeg -y -i "${OUT_DIR}/${DATE}_${SECTION}.mp4" \
       -vf "scale=640:-2" -an \
       -c:v libx264 -preset veryfast -crf 30 -movflags +faststart \
       "${OUT_DIR}/${DATE}_${SECTION}_web.mp4" 2>&1 | tail -1
