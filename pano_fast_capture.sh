@@ -6,10 +6,14 @@
 # full circle; measured angles in data/pano_presets_cam2.json).
 #
 # Usage: ./pano_fast_capture.sh [settle_sec] [ptz_speed] [out_dir]
+#
+# Cycle time (measured 2026-09-23, calm): ~14.5s at settle 0.5, ~16.7s at
+# settle 1 (default), ~22s at settle 2. Allow longer settle at night or in
+# wind.
 set -e
 source /home/HighlyReflective/hithc-gtn-depot/.env
 
-SETTLE_SEC="${1:-2}"
+SETTLE_SEC="${1:-1}"   # extra settle after arrival; 0.5 suffices in calm air
 PTZ_SPEED="${2:-64}"   # 1-64; 64 = fastest
 OUT_DIR="${3:-/volume1/gtn_inbox/panos_incoming/fast_$(date +%Y%m%d_%H%M%S)}"
 PRESET_IDS=(5 6 7 8 9)
@@ -27,12 +31,30 @@ TOKEN=$(curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=Login" \
 
 rapi() { curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=${1}&token=${TOKEN}" -H "Content-Type: application/json" -d "${2}"; }
 snap() { curl -sf "http://${CAM_IP}/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=${RANDOM}&token=${TOKEN}" -o "${1}"; }
+ppos() { rapi GetPtzCurPos '[{"cmd":"GetPtzCurPos","action":0,"param":{"channel":0,"PtzCurPos":{"channel":0}}}]' | grep -o '"Ppos" *: *[0-9]*' | grep -o '[0-9]*$'; }
+
+# Block until the pan position stops changing. A fixed sleep can't cover
+# both cases: the 72deg hops arrive well within 2s, but the ~288deg swing
+# back to stop 0 doesn't -- measured 2026-09-23, a fixed 2s settle snapped
+# stop 0 mid-swing (pointing ~146deg off) on every cycle.
+wait_arrival() {
+  local last="" p tries=0
+  sleep 0.3   # let the move start before the first read
+  while (( tries++ < 60 )); do
+    p=$(ppos || true)
+    [[ -n "$p" && "$p" == "$last" ]] && return 0
+    last="$p"
+    sleep 0.25
+  done
+  echo "WARNING: pan position never settled" >&2
+}
 
 t0=$(date +%s.%N)
 for i in "${!PRESET_IDS[@]}"; do
   pid="${PRESET_IDS[$i]}"
   rapi PtzCtrl "[{\"cmd\":\"PtzCtrl\",\"action\":0,\"param\":{\"channel\":0,\"op\":\"ToPos\",\"speed\":${PTZ_SPEED},\"id\":${pid}}}]" >/dev/null
-  sleep "${SETTLE_SEC}"
+  wait_arrival
+  sleep "${SETTLE_SEC}"   # post-arrival settle: vibration damping only
   fn="${OUT_DIR}/frame_$(printf '%02d' "${i}").jpg"
   snap "${fn}"
   echo "[$(date +%H:%M:%S)] stop ${i} (preset ${pid}) -> ${fn}"
