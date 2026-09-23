@@ -17,6 +17,11 @@ including the wraparound pair, and saved into the preset JSON under "lens".
 Usage:
   stitch_known_angles.py FRAME_DIR [-o out.jpg]      # stitch frame_00..04.jpg
   stitch_known_angles.py FRAME_DIR --fit-lens        # fit + save lens model
+  stitch_known_angles.py FRAME_DIR --presets data/pano_presets_cam2_tilt16.json \
+      --fit-pitch --lens-from data/pano_presets_cam2.json   # new tilt: refit pitch only
+
+Current lens values (incl. roll and the pan-axis lean) came from a joint fit
+across the level and ~16deg-up captures of 2026-09-23.
 """
 import argparse
 import glob
@@ -55,12 +60,20 @@ def vignette_gain(h, w, vig):
     return (1 + vig * r2)[..., None]
 
 
-def cyl_maps(w, h, lens, scale=1.0):
+def yaw_matrix(t):
+    c, s = math.cos(t), math.sin(t)
+    return np.array([[c, 0, s], [0, 1, 0], [-s, 0, c]])
+
+
+def cyl_maps(w, h, lens, scale=1.0, yaw_deg=0.0):
     """Remap tables taking a frame into cylinder coords centred on its own yaw.
 
     Output column u maps to yaw theta=(u-cx)/f, row v to height (v-cy)/f.
-    Each ray is pitched, projected through a pinhole and pushed through
-    single-coefficient radial distortion to find the source pixel.
+    If the pan axis itself leans (axis_tilt_deg towards axis_az_deg -- a mount
+    that isn't plumb), each ray is first rotated by that lean as seen from this
+    frame's yaw, so the correction differs per frame. Then the ray is pitched,
+    projected through a pinhole and pushed through two-term radial distortion
+    (k1, k2) to find the source pixel.
     """
     f = lens["f"] * scale
     k1 = lens["k1"]
@@ -73,13 +86,28 @@ def cyl_maps(w, h, lens, scale=1.0):
     v = (np.arange(out_h) - out_h / 2) / f
     th, hh = np.meshgrid(u, v)
     x, y, z = np.sin(th), hh, np.cos(th)
+    tilt = math.radians(lens.get("axis_tilt_deg", 0.0))
+    if tilt:
+        az = math.radians(lens.get("axis_az_deg", 0.0))
+        ra = cv2.Rodrigues(np.array([math.cos(az), 0.0, math.sin(az)]) * tilt)[0]
+        ry = yaw_matrix(math.radians(yaw_deg))
+        m = ry.T @ ra.T @ ry
+        x, y, z = (m[0, 0] * x + m[0, 1] * y + m[0, 2] * z,
+                   m[1, 0] * x + m[1, 1] * y + m[1, 2] * z,
+                   m[2, 0] * x + m[2, 1] * y + m[2, 2] * z)
     # pitch: rotate ray about the camera x axis
     cp, sp = math.cos(pitch), math.sin(pitch)
     y, z = y * cp - z * sp, y * sp + z * cp
+    # roll: camera head rotated about its optical axis (horizon slopes in-frame)
+    roll = math.radians(lens.get("roll_deg", 0.0))
+    if roll:
+        cr, sr = math.cos(roll), math.sin(roll)
+        x, y = x * cr - y * sr, x * sr + y * cr
     valid = z > 1e-3
     z = np.where(valid, z, 1e-3)
     xn, yn = x / z, y / z
-    d = 1 + k1 * (xn * xn + yn * yn)
+    r2 = xn * xn + yn * yn
+    d = 1 + k1 * r2 + lens.get("k2", 0.0) * r2 * r2
     mx = (f * xn * d + cx).astype(np.float32)
     my = (f * yn * d + cy).astype(np.float32)
     mx[~valid] = -1
@@ -92,13 +120,17 @@ def load_angles(n):
     return data, [p["deg"] for p in data["presets"][:n]]
 
 
-def warp_all(frames, lens, scale):
+def warp_all(frames, lens, scale, angles):
     h, w = frames[0].shape[:2]
-    mx, my, out_w = cyl_maps(w, h, lens, scale)
+    per_frame = bool(lens.get("axis_tilt_deg", 0.0))
+    if not per_frame:
+        mx, my, out_w = cyl_maps(w, h, lens, scale)
     warped, masks = [], []
     ones = np.full((h, w), 255, np.uint8)
     gain = vignette_gain(h, w, lens.get("vig", 0.0))
-    for fr in frames:
+    for fr, ang in zip(frames, angles):
+        if per_frame:
+            mx, my, out_w = cyl_maps(w, h, lens, scale, ang)
         warped.append(cv2.remap(fr.astype(np.float32) * gain, mx, my, cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT))
         masks.append(cv2.remap(ones, mx, my, cv2.INTER_NEAREST, borderMode=cv2.BORDER_CONSTANT) > 0)
     return warped, masks, out_w
@@ -111,10 +143,11 @@ def place(angles, f, out_w, pano_w):
 
 def overlap_cost(frames_small, angles, lens, scale):
     """Mean abs grey difference over every adjacent overlap (incl. wraparound)."""
-    warped, masks, out_w = warp_all(frames_small, lens, scale)
+    eff = effective_angles(angles, lens)
+    warped, masks, out_w = warp_all(frames_small, lens, scale, eff)
     f = lens["f"] * scale
     pano_w = int(round(2 * math.pi * f))
-    x0 = place(effective_angles(angles, lens), f, out_w, pano_w)
+    x0 = place(eff, f, out_w, pano_w)
     grey = [cv2.cvtColor(w, cv2.COLOR_BGR2GRAY) for w in warped]
     total, count = 0.0, 0
     n = len(frames_small)
@@ -134,37 +167,41 @@ def overlap_cost(frames_small, angles, lens, scale):
     return total / count
 
 
-def fit_lens(frames, angles):
+FIT_STEPS = {"f": 150.0, "k1": 0.08, "k2": 0.02, "pitch_deg": 4.0, "vig": 0.3,
+             "yaw_scale": 0.02, "roll_deg": 1.0}
+
+
+def fit_lens(frames, angles, lens, keys):
+    """Coordinate descent on the given lens keys, halving step sizes each round."""
     small = [cv2.resize(fr, None, fx=FIT_SCALE, fy=FIT_SCALE, interpolation=cv2.INTER_AREA) for fr in frames]
-    lens = default_lens(frames[0].shape[1])
+    lens = dict(lens)
     best = overlap_cost(small, angles, lens, FIT_SCALE)
-    print(f"start  f={lens['f']:.0f} k1={lens['k1']:+.3f} pitch={lens['pitch_deg']:+.1f}  cost={best:.4f}")
-    steps = {"f": lens["f"] * 0.08, "k1": 0.08, "pitch_deg": 4.0, "vig": 0.3, "yaw_scale": 0.02}
+    print(f"start  cost={best:.4f}")
+    steps = {k: FIT_STEPS[k] for k in keys}
     for rnd in range(6):
-        improved = False
-        for key in ("f", "k1", "pitch_deg", "vig", "yaw_scale"):
+        for key in keys:
             for sgn in (1, -1):
                 while True:
                     trial = dict(lens)
                     trial[key] += sgn * steps[key]
                     c = overlap_cost(small, angles, trial, FIT_SCALE)
                     if c < best - 1e-5:
-                        lens, best, improved = trial, c, True
+                        lens, best = trial, c
                     else:
                         break
-        print(f"round {rnd}  f={lens['f']:.0f} k1={lens['k1']:+.3f} pitch={lens['pitch_deg']:+.1f} "
-              f"vig={lens['vig']:+.2f} yaw_scale={lens['yaw_scale']:.4f}  cost={best:.4f}")
+        print(f"round {rnd}  " + " ".join(f"{k}={lens[k]:.4g}" for k in keys) + f"  cost={best:.4f}")
         for key in steps:
             steps[key] /= 2
     return lens, best
 
 
 def stitch(frames, angles, lens):
-    warped, masks, out_w = warp_all(frames, lens, 1.0)
+    eff = effective_angles(angles, lens)
+    warped, masks, out_w = warp_all(frames, lens, 1.0, eff)
     f = lens["f"]
     pano_w = int(round(2 * math.pi * f))
     h = frames[0].shape[0]
-    x0 = place(effective_angles(angles, lens), f, out_w, pano_w)
+    x0 = place(eff, f, out_w, pano_w)
     n = len(frames)
 
     # Gain compensation: solve per-frame gains so overlapping regions match,
@@ -212,11 +249,21 @@ def stitch(frames, angles, lens):
 
 
 def main():
+    global PRESET_JSON
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("frame_dir")
     ap.add_argument("-o", "--out")
-    ap.add_argument("--fit-lens", action="store_true", help="fit f/k1/pitch and save to preset JSON")
+    ap.add_argument("--presets", default=PRESET_JSON,
+                    help="preset JSON (angles + lens); one per tilt, e.g. pano_presets_cam2_tilt16.json")
+    mode = ap.add_mutually_exclusive_group()
+    mode.add_argument("--fit-lens", action="store_true",
+                      help="fit the whole lens model from scratch and save it to --presets")
+    mode.add_argument("--fit-pitch", action="store_true",
+                      help="keep the lens from --lens-from (or --presets) and refit only pitch_deg; "
+                           "use this when adding presets at a new camera tilt")
+    ap.add_argument("--lens-from", help="preset JSON whose lens to start from with --fit-pitch")
     args = ap.parse_args()
+    PRESET_JSON = args.presets
 
     paths = sorted(glob.glob(os.path.join(args.frame_dir, "frame_*.jpg")))
     data, angles = load_angles(len(paths))
@@ -224,10 +271,22 @@ def main():
         sys.exit(f"expected {len(data['presets'])} frames, found {len(paths)} in {args.frame_dir}")
     frames = [cv2.imread(p) for p in paths]
 
-    if args.fit_lens:
+    if args.fit_lens or args.fit_pitch:
         t = time.time()
-        lens, cost = fit_lens(frames, angles)
-        lens = {k: round(v, 4) for k, v in lens.items()}
+        if args.fit_lens:
+            # The pan-axis lean (axis_tilt_deg/axis_az_deg) is left out on purpose:
+            # from a single tilt it trades off against pitch and drifts to
+            # implausible values. Fit it jointly across two tilts instead.
+            lens, cost = fit_lens(frames, angles, default_lens(frames[0].shape[1]),
+                                  ["f", "k1", "k2", "pitch_deg", "vig", "yaw_scale", "roll_deg"])
+        else:
+            with open(args.lens_from or PRESET_JSON) as fh:
+                base = json.load(fh).get("lens")
+            if not base:
+                sys.exit("no lens to start from: pass --lens-from with a fitted preset JSON")
+            base = {k: v for k, v in base.items() if isinstance(v, (int, float))}
+            lens, cost = fit_lens(frames, angles, base, ["pitch_deg"])
+        lens = {k: round(v, 4) for k, v in lens.items() if k != "fit_cost"}
         data["lens"] = {**lens, "fit_cost": round(cost, 4), "fit_from": os.path.abspath(args.frame_dir),
                         "fitted": time.strftime("%Y-%m-%dT%H:%M:%S%z")}
         with open(PRESET_JSON, "w") as fh:

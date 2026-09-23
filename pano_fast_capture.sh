@@ -16,7 +16,9 @@ source /home/HighlyReflective/hithc-gtn-depot/.env
 SETTLE_SEC="${1:-1}"   # extra settle after arrival; 0.5 suffices in calm air
 PTZ_SPEED="${2:-64}"   # 1-64; 64 = fastest
 OUT_DIR="${3:-/volume1/gtn_inbox/panos_incoming/fast_$(date +%Y%m%d_%H%M%S)}"
-PRESET_IDS=(5 6 7 8 9)
+# Level presets by default; tilted sets via env, e.g. PANO_PRESETS="11 12 13 14 15"
+# (panoT1-5, ~15deg up; stitch with --presets data/pano_presets_cam2_tilt16.json).
+read -r -a PRESET_IDS <<< "${PANO_PRESETS:-5 6 7 8 9}"
 
 CAM_IP="${CAMERA2_IP:?CAMERA2_IP not set}"
 CAM_USER="${CAMERA2_USER:?}"
