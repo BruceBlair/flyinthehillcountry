@@ -2,7 +2,8 @@
 # Fast panorama sweep for timelapse use: jumps preset-to-preset (absolute
 # positioning via ToPos) at high PTZ speed instead of nudging, pausing only
 # long enough for the camera to settle before each snap. Requires presets
-# saved by calibrate_pano_presets.sh (ids 5-10, ~71deg apart, ~355deg trip).
+# saved by calibrate_pano_presets_angle.py (ids 5-9, 72deg apart around the
+# full circle; measured angles in data/pano_presets_cam2.json).
 #
 # Usage: ./pano_fast_capture.sh [settle_sec] [ptz_speed] [out_dir]
 set -e
@@ -11,7 +12,7 @@ source /home/HighlyReflective/hithc-gtn-depot/.env
 SETTLE_SEC="${1:-2}"
 PTZ_SPEED="${2:-64}"   # 1-64; 64 = fastest
 OUT_DIR="${3:-/volume1/gtn_inbox/panos_incoming/fast_$(date +%Y%m%d_%H%M%S)}"
-PRESET_IDS=(5 6 7 8 9 10)
+PRESET_IDS=(5 6 7 8 9)
 
 CAM_IP="${CAMERA2_IP:?CAMERA2_IP not set}"
 CAM_USER="${CAMERA2_USER:?}"
