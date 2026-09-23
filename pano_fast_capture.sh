@@ -32,6 +32,10 @@ TOKEN=$(curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=Login" \
   | python3 -c "import sys,json;d=json.load(sys.stdin);print(d[0]['value']['Token']['name'])")
 
 rapi() { curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=${1}&token=${TOKEN}" -H "Content-Type: application/json" -d "${2}"; }
+# Always release the session: the camera has a small session limit and tokens
+# live ~1h, so a caller looping every 30s exhausted it in ~15 min
+# ("max session", 2026-09-23) when this script never logged out.
+trap 'rapi Logout "[{\"cmd\":\"Logout\",\"action\":0,\"param\":{}}]" >/dev/null 2>&1 || true' EXIT
 snap() { curl -sf "http://${CAM_IP}/cgi-bin/api.cgi?cmd=Snap&channel=0&rs=${RANDOM}&token=${TOKEN}" -o "${1}"; }
 ppos() { rapi GetPtzCurPos '[{"cmd":"GetPtzCurPos","action":0,"param":{"channel":0,"PtzCurPos":{"channel":0}}}]' | grep -o '"Ppos" *: *[0-9]*' | grep -o '[0-9]*$'; }
 
