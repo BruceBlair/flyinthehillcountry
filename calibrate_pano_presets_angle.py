@@ -19,6 +19,7 @@ One-time run. Saves presets ids 5-9 (pano1-pano5), reused by
 pano_fast_capture.sh.
 """
 import json
+import os
 import signal
 import sys
 import time
@@ -29,7 +30,7 @@ import urllib3
 urllib3.disable_warnings()
 
 ENV_PATH = "/home/HighlyReflective/hithc-gtn-depot/.env"
-PRESET_JSON = "/home/HighlyReflective/hithc-gtn-depot/data/pano_presets_cam2.json"
+PRESET_JSON = os.environ.get("PANO_PRESET_JSON", "/home/HighlyReflective/hithc-gtn-depot/data/pano_presets_cam2.json")
 
 
 def load_env(path):
@@ -45,14 +46,16 @@ def load_env(path):
 
 
 env = load_env(ENV_PATH)
-CAM_IP = env["CAMERA2_IP"]
-CAM_USER = env["CAMERA2_USER"]
-CAM_PASS = env["CAMERA2_PASSWORD"]
+# PANO_CAM=1 selects cam1 (CAMERA_*); default cam2 (CAMERA2_*). Same TrackMix model.
+_CP = "CAMERA_" if os.environ.get("PANO_CAM", "2") == "1" else "CAMERA2_"
+CAM_IP = env[_CP + "IP"]
+CAM_USER = env[_CP + "USER"]
+CAM_PASS = env[_CP + "PASSWORD"]
 
 BASE = f"http://{CAM_IP}/cgi-bin/api.cgi"
 # 5 stops @ 72deg with the 104deg wide lens = 32deg (~31%) overlap per pair,
 # including the wraparound pair.
-PRESET_IDS = [5, 6, 7, 8, 9]
+PRESET_IDS = [int(i) for i in os.environ.get("PANO_PRESETS", "5 6 7 8 9").split()]
 PRESET_NAMES = ["pano1", "pano2", "pano3", "pano4", "pano5"]
 PPOS_LEFT = 2700          # measured left mechanical limit
 PPOS_RIGHT = 0            # measured right mechanical limit

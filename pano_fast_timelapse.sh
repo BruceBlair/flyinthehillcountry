@@ -25,10 +25,16 @@ mkdir -p "$OUT/cycles" "$OUT/panos"
 LOG="$OUT/timelapse.log"
 log() { echo "[$(date +%H:%M:%S)] $*" | tee -a "$LOG"; }
 
-CAM_IP="${CAMERA2_IP:?}"
+# PANO_CAM=1 selects cam1 (CAMERA_*); default cam2 (CAMERA2_*). Exported so
+# pano_fast_capture.sh picks the same camera.
+export PANO_CAM="${PANO_CAM:-2}"
+if [[ "$PANO_CAM" == 1 ]]; then CP=CAMERA_; else CP=CAMERA2_; fi
+v="${CP}IP"; CAM_IP="${!v:?}"
+v="${CP}USER"; CAM_USER="${!v:?}"
+v="${CP}PASSWORD"; CAM_PASS="${!v:?}"
 token() {
   curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=Login" -H "Content-Type: application/json" \
-    -d "[{\"cmd\":\"Login\",\"action\":0,\"param\":{\"User\":{\"userName\":\"${CAMERA2_USER}\",\"password\":\"${CAMERA2_PASSWORD}\"}}}]" \
+    -d "[{\"cmd\":\"Login\",\"action\":0,\"param\":{\"User\":{\"userName\":\"${CAM_USER}\",\"password\":\"${CAM_PASS}\"}}}]" \
     | python3 -c "import sys,json;print(json.load(sys.stdin)[0]['value']['Token']['name'])"
 }
 set_ai() {  # $1 = 0|1

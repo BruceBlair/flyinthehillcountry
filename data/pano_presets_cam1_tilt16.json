@@ -1,0 +1,55 @@
+{
+  "calibrated": "2026-09-24T18:13:54-0500",
+  "units_per_deg": 7.605633802816901,
+  "presets": [
+    {
+      "id": 20,
+      "name": "pano1",
+      "target": 2700,
+      "ppos": 2700,
+      "deg": 0.0
+    },
+    {
+      "id": 21,
+      "name": "pano2",
+      "target": 2152,
+      "ppos": 2139,
+      "deg": 73.8
+    },
+    {
+      "id": 22,
+      "name": "pano3",
+      "target": 1605,
+      "ppos": 1598,
+      "deg": 144.9
+    },
+    {
+      "id": 23,
+      "name": "pano4",
+      "target": 1057,
+      "ppos": 1050,
+      "deg": 216.9
+    },
+    {
+      "id": 24,
+      "name": "pano5",
+      "target": 510,
+      "ppos": 503,
+      "deg": 288.9
+    }
+  ],
+  "lens": {
+    "f": 1977.5845,
+    "k1": -0.1438,
+    "k2": 0.0112,
+    "vig": 0.65,
+    "yaw_scale": 0.9806,
+    "roll_deg": 0.0,
+    "axis_tilt_deg": 0.0,
+    "axis_az_deg": 0.0,
+    "pitch_deg": -22.0,
+    "fit_cost": 0.1303,
+    "fit_from": "/volume1/pano_test/cam1_test_20260924",
+    "fitted": "2026-09-24T18:14:37-0500"
+  }
+}

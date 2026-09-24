@@ -20,9 +20,11 @@ OUT_DIR="${3:-/volume1/gtn_inbox/panos_incoming/fast_$(date +%Y%m%d_%H%M%S)}"
 # (panoT1-5, ~15deg up; stitch with --presets data/pano_presets_cam2_tilt16.json).
 read -r -a PRESET_IDS <<< "${PANO_PRESETS:-5 6 7 8 9}"
 
-CAM_IP="${CAMERA2_IP:?CAMERA2_IP not set}"
-CAM_USER="${CAMERA2_USER:?}"
-CAM_PASS="${CAMERA2_PASSWORD:?}"
+# PANO_CAM=1 selects cam1 (CAMERA_*); default cam2 (CAMERA2_*). Same TrackMix model.
+if [[ "${PANO_CAM:-2}" == 1 ]]; then CP=CAMERA_; else CP=CAMERA2_; fi
+v="${CP}IP"; CAM_IP="${!v:?${CP}IP not set}"
+v="${CP}USER"; CAM_USER="${!v:?}"
+v="${CP}PASSWORD"; CAM_PASS="${!v:?}"
 
 mkdir -p "${OUT_DIR}"
 
