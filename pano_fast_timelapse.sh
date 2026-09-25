@@ -83,7 +83,16 @@ while (( $(date +%s) < END_TS )); do
     log "cycle $cyc captured in $(( $(date +%s) - t0 ))s"
   else
     log "cycle $cyc FAILED capture"
+    # Back off while the camera is unreachable. With interval 0 a network drop
+    # (2026-09-25 06:32, ~80 s) otherwise retried ~25x/s: ~1900 failed cycles
+    # per camera, each a login attempt against the camera's small session limit.
+    fails=$(( ${fails:-0} + 1 ))
+    backoff=$(( fails < 5 ? 2 ** fails : 30 ))
+    log "backing off ${backoff}s (consecutive failures: $fails)"
+    sleep "$backoff"
+    n=$((n + 1)); continue
   fi
+  fails=0
   n=$((n + 1))
   sleep $(( INTERVAL - ($(date +%s) - t0) > 0 ? INTERVAL - ($(date +%s) - t0) : 0 ))
 done
