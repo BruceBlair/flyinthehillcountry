@@ -49,5 +49,7 @@
     "axis_az_deg": 305.625,
     "pitch_deg": -15.2238,
     "fit": "joint level+tilt16, 2026-09-23 (overlap cost level 0.119, tilt 0.114)"
-  }
+  },
+  "north_offset_deg": 340.3,
+  "north_offset_note": "true bearing of unrolled pano left edge (pan left limit); median of sun sightings 2026-09-24"
 }

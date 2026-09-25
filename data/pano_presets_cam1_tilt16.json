@@ -51,5 +51,7 @@
     "fit_cost": 0.1303,
     "fit_from": "/volume1/pano_test/cam1_test_20260924",
     "fitted": "2026-09-24T18:14:37-0500"
-  }
+  },
+  "north_offset_deg": 19.3,
+  "north_offset_note": "true bearing of unrolled pano left edge (pan left limit); median of sun sightings 2026-09-24"
 }

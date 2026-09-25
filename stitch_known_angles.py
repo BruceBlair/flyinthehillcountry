@@ -303,6 +303,13 @@ def main():
     lens = data.get("lens") or default_lens(frames[0].shape[1])
     t = time.time()
     pano, gains = stitch(frames, angles, lens)
+    # Roll the 360deg wrap so true north sits at the left edge (E 25%, S 50%,
+    # W 75%), making every camera's panos line up bearing-for-bearing.
+    # north_offset_deg = true bearing of the unrolled left edge, measured from
+    # sun sightings (2026-09-24: cam1 19.3, cam2 340.3).
+    north = data.get("north_offset_deg")
+    if north is not None:
+        pano = np.roll(pano, int(round(north / 360.0 * pano.shape[1])), axis=1)
     out = args.out or os.path.join(args.frame_dir, "pano.jpg")
     cv2.imwrite(out, pano, [cv2.IMWRITE_JPEG_QUALITY, 92])
     print(f"{out}: {pano.shape[1]}x{pano.shape[0]} in {time.time() - t:.1f}s, "
