@@ -77,7 +77,7 @@ n=0
 while (( $(date +%s) < END_TS )); do
   t0=$(date +%s)
   cyc=$(printf '%04d' "$n")
-  if bash "$DIR/pano_fast_capture.sh" "$SETTLE" 64 "$OUT/cycles/$cyc" >>"$LOG" 2>&1; then
+  if PANO_REVERSE=$(( n % 2 )) bash "$DIR/pano_fast_capture.sh" "$SETTLE" 64 "$OUT/cycles/$cyc" >>"$LOG" 2>&1; then
     nice -n 15 python3 "$DIR/stitch_known_angles.py" "$OUT/cycles/$cyc" --presets "$PRESET_JSON" \
       -o "$OUT/panos/pano_$cyc.jpg" >>"$LOG" 2>&1 &
     log "cycle $cyc captured in $(( $(date +%s) - t0 ))s"

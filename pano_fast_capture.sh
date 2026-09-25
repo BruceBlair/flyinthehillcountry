@@ -70,12 +70,20 @@ if [[ "$PANO_MOVE" == pan ]]; then
   angles=()
 fi
 
+# PANO_REVERSE=1 visits the stops last-to-first. Alternating direction every
+# cycle (the timelapse runner does this) removes the ~288deg swing back to stop
+# 0, the slowest move of a sweep. Frames stay numbered by stop, so stitching is
+# unaffected by visit order.
+ORDER=("${!PRESET_IDS[@]}")
+[[ "${PANO_REVERSE:-0}" == 1 ]] && ORDER=($(printf '%s\n' "${ORDER[@]}" | tac))
+declare -A LANDED=()
+
 t0=$(date +%s.%N)
-for i in "${!PRESET_IDS[@]}"; do
+for i in "${ORDER[@]}"; do
   pid="${PRESET_IDS[$i]}"
   if [[ "$PANO_MOVE" == pan ]]; then
     read -r got deg <<< "$(CAM_IP="$CAM_IP" PTZ_TOKEN="$TOKEN" python3 "$DIR/ptz_pan_to.py" "${TARGETS[$i]}")"
-    angles+=("{\"ppos\": ${got}, \"deg\": ${deg}}")
+    LANDED[$i]="{\"ppos\": ${got}, \"deg\": ${deg}}"
   else
     rapi PtzCtrl "[{\"cmd\":\"PtzCtrl\",\"action\":0,\"param\":{\"channel\":0,\"op\":\"ToPos\",\"speed\":${PTZ_SPEED},\"id\":${pid}}}]" >/dev/null
     wait_arrival
@@ -86,6 +94,7 @@ for i in "${!PRESET_IDS[@]}"; do
   echo "[$(date +%H:%M:%S)] stop ${i} (${PANO_MOVE} ${pid}${got:+, Ppos $got}) -> ${fn}"
 done
 if [[ "$PANO_MOVE" == pan ]]; then
+  for i in "${!PRESET_IDS[@]}"; do angles+=("${LANDED[$i]}"); done
   (IFS=,; echo "{\"presets\": [${angles[*]}]}") > "${OUT_DIR}/angles.json"
 fi
 t1=$(date +%s.%N)

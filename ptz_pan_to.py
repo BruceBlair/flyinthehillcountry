@@ -16,15 +16,20 @@ calibrate_pano_presets_angle.py: 0deg at the left limit, Ppos 2700).
 import os
 import sys
 import time
+import warnings
 
+warnings.filterwarnings("ignore")   # urllib3 FutureWarning spam in the timelapse log
 import requests
 
 PPOS_LEFT = 2700
 UNITS_PER_DEG = 2700 / 355.0
-TOLERANCE = 12            # ~1.6deg; the actual Ppos is recorded, so the stitcher uses the true angle
-FAST_SPEED = 64
-SLOW_SPEED = 3
-SLOW_ZONE = 150           # switch to SLOW_SPEED within this many units of target
+TOLERANCE = int(os.environ.get("PAN_TOLERANCE", 12))            # ~1.6deg; the actual Ppos is recorded, so the stitcher uses the true angle
+FAST_SPEED = int(os.environ.get("PAN_FAST_SPEED", 64))
+SLOW_SPEED = int(os.environ.get("PAN_SLOW_SPEED", 3))
+SLOW_ZONE = int(os.environ.get("PAN_SLOW_ZONE", 150))  # speed 64 coasts ~80 units + ~70 of request latency (measured 2026-09-24)
+# Min pan speed is ~70 units/s whatever the setting and coasts ~9 units after Stop; with ~97 ms
+# per position read, stopping the fine approach 16 units out lands within TOLERANCE in one go.
+FINE_STOP = int(os.environ.get("PAN_FINE_STOP", 16))           # switch to SLOW_SPEED within this many units of target
 POLL_SEC = 0.1
 MAX_CORRECTIONS = 6
 
@@ -73,7 +78,7 @@ def move_to(target):
             time.sleep(POLL_SEC)
             p = ppos()
             remaining = (p - target) if op == "Right" else (target - p)
-            if remaining <= (SLOW_ZONE if speed == FAST_SPEED else TOLERANCE // 2):
+            if remaining <= (SLOW_ZONE if speed == FAST_SPEED else FINE_STOP):
                 break
         ptz("Stop")
         pos = settle()
