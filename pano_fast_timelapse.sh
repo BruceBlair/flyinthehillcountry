@@ -37,12 +37,33 @@ token() {
     -d "[{\"cmd\":\"Login\",\"action\":0,\"param\":{\"User\":{\"userName\":\"${CAM_USER}\",\"password\":\"${CAM_PASS}\"}}}]" \
     | python3 -c "import sys,json;print(json.load(sys.stdin)[0]['value']['Token']['name'])"
 }
+logout() { curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=Logout&token=$1" -H "Content-Type: application/json" \
+  -d '[{"cmd":"Logout","action":0,"param":{}}]' >/dev/null || true; }
 set_ai() {  # $1 = 0|1
   local t; t=$(token) || return 1
   curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=SetAiCfg&token=${t}" -H "Content-Type: application/json" \
     -d "[{\"cmd\":\"SetAiCfg\",\"action\":0,\"param\":{\"channel\":0,\"AiDetectType\":{\"people\":$1,\"vehicle\":$1,\"dog_cat\":$1}}}]" >/dev/null
   curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=SetAutoTrackCfg&token=${t}" -H "Content-Type: application/json" \
     -d "[{\"cmd\":\"SetAutoTrackCfg\",\"action\":0,\"param\":{\"channel\":0,\"AutoTrackCfg\":{\"enable\":$1}}}]" >/dev/null
+  logout "$t"   # tokens otherwise live ~1h against a small session limit
+}
+# PANO_MOVE=pan sweeps never recall presets (a recall restores the tele zoom
+# saved with it), but pan-only moves can't set tilt -- there is no tilt readout.
+# So recall the first preset once to set the tilt, then put the zoom back to
+# whatever it was before.
+set_tilt_keep_zoom() {
+  local t z first; t=$(token) || return 1
+  read -r first _ <<< "${PANO_PRESETS:-5 6 7 8 9}"
+  z=$(curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=GetZoomFocus&token=${t}" -H "Content-Type: application/json" \
+    -d '[{"cmd":"GetZoomFocus","action":0,"param":{"channel":0}}]' \
+    | python3 -c "import sys,json;print(json.load(sys.stdin)[0]['value']['ZoomFocus']['zoom']['pos'])")
+  curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=PtzCtrl&token=${t}" -H "Content-Type: application/json" \
+    -d "[{\"cmd\":\"PtzCtrl\",\"action\":0,\"param\":{\"channel\":0,\"op\":\"ToPos\",\"speed\":64,\"id\":${first}}}]" >/dev/null
+  sleep 8   # full-range pan + zoom travel
+  [[ -n "$z" ]] && curl -sf -X POST "http://${CAM_IP}/api.cgi?cmd=StartZoomFocus&token=${t}" -H "Content-Type: application/json" \
+    -d "[{\"cmd\":\"StartZoomFocus\",\"action\":0,\"param\":{\"ZoomFocus\":{\"channel\":0,\"op\":\"ZoomPos\",\"pos\":${z}}}}]" >/dev/null
+  logout "$t"
+  log "tilt set from preset $first; zoom restored to ${z:-unknown}"
 }
 finish() {
   set_ai 1 && log "AI detect/track restored" || log "WARNING: failed to restore AI detect/track"
@@ -51,6 +72,7 @@ trap finish EXIT
 trap 'exit 130' INT TERM
 
 set_ai 0 && log "AI detect/track disabled; capturing until $END every ${INTERVAL}s (settle ${SETTLE}s) -> $OUT"
+[[ "${PANO_MOVE:-preset}" == pan ]] && set_tilt_keep_zoom
 n=0
 while (( $(date +%s) < END_TS )); do
   t0=$(date +%s)

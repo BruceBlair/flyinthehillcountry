@@ -267,6 +267,12 @@ def main():
 
     paths = sorted(glob.glob(os.path.join(args.frame_dir, "frame_*.jpg")))
     data, angles = load_angles(len(paths))
+    # Pan-only captures (pano_fast_capture.sh PANO_MOVE=pan) land within ~1.6deg
+    # of the preset angle and record where they actually landed -- use that.
+    landed = os.path.join(args.frame_dir, "angles.json")
+    if os.path.exists(landed) and not (args.fit_lens or args.fit_pitch):
+        with open(landed) as fh:
+            angles = [p["deg"] for p in json.load(fh)["presets"]][:len(paths)]
     if len(paths) != len(data["presets"]):
         sys.exit(f"expected {len(data['presets'])} frames, found {len(paths)} in {args.frame_dir}")
     frames = [cv2.imread(p) for p in paths]

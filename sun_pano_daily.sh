@@ -48,6 +48,8 @@ wait_s=$(( START_TS - $(date +%s) ))
 (( wait_s > 0 )) && sleep "$wait_s"
 
 cd "$DIR"
+# Pan-only sweeps: never recall presets mid-run, so a manually set tele zoom survives.
+export PANO_MOVE=pan
 out() { echo "/volume1/pano_test/${EVENT}_${today}_$1"; }
 PANO_CAM=2 PANO_PRESETS="11 12 13 14 15" PANO_PRESET_JSON="$DIR/data/pano_presets_cam2_tilt16.json" \
   ./pano_fast_timelapse.sh "$END" 0 1.5 "$(out cam2)" >/dev/null 2>&1 &

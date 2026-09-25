@@ -19,6 +19,14 @@ OUT_DIR="${3:-/volume1/gtn_inbox/panos_incoming/fast_$(date +%Y%m%d_%H%M%S)}"
 # Level presets by default; tilted sets via env, e.g. PANO_PRESETS="11 12 13 14 15"
 # (panoT1-5, ~15deg up; stitch with --presets data/pano_presets_cam2_tilt16.json).
 read -r -a PRESET_IDS <<< "${PANO_PRESETS:-5 6 7 8 9}"
+# PANO_MOVE=pan drives each stop by pan position (Ppos targets from
+# PANO_PRESET_JSON) instead of recalling the preset: a preset recall also
+# restores the tele lens zoom saved with it, overriding any manual zoom. Pan-only
+# moves keep the current tilt and zoom; the landed angle of every frame is
+# written to angles.json for stitch_known_angles.py.
+PANO_MOVE="${PANO_MOVE:-preset}"
+PRESET_JSON="${PANO_PRESET_JSON:-/home/HighlyReflective/hithc-gtn-depot/data/pano_presets_cam2.json}"
+DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # PANO_CAM=1 selects cam1 (CAMERA_*); default cam2 (CAMERA2_*). Same TrackMix model.
 if [[ "${PANO_CAM:-2}" == 1 ]]; then CP=CAMERA_; else CP=CAMERA2_; fi
@@ -57,16 +65,29 @@ wait_arrival() {
   echo "WARNING: pan position never settled" >&2
 }
 
+if [[ "$PANO_MOVE" == pan ]]; then
+  read -r -a TARGETS <<< "$(python3 -c "import json,sys;print(' '.join(str(p['ppos']) for p in json.load(open(sys.argv[1]))['presets']))" "$PRESET_JSON")"
+  angles=()
+fi
+
 t0=$(date +%s.%N)
 for i in "${!PRESET_IDS[@]}"; do
   pid="${PRESET_IDS[$i]}"
-  rapi PtzCtrl "[{\"cmd\":\"PtzCtrl\",\"action\":0,\"param\":{\"channel\":0,\"op\":\"ToPos\",\"speed\":${PTZ_SPEED},\"id\":${pid}}}]" >/dev/null
-  wait_arrival
+  if [[ "$PANO_MOVE" == pan ]]; then
+    read -r got deg <<< "$(CAM_IP="$CAM_IP" PTZ_TOKEN="$TOKEN" python3 "$DIR/ptz_pan_to.py" "${TARGETS[$i]}")"
+    angles+=("{\"ppos\": ${got}, \"deg\": ${deg}}")
+  else
+    rapi PtzCtrl "[{\"cmd\":\"PtzCtrl\",\"action\":0,\"param\":{\"channel\":0,\"op\":\"ToPos\",\"speed\":${PTZ_SPEED},\"id\":${pid}}}]" >/dev/null
+    wait_arrival
+  fi
   sleep "${SETTLE_SEC}"   # post-arrival settle: vibration damping only
   fn="${OUT_DIR}/frame_$(printf '%02d' "${i}").jpg"
   snap "${fn}"
-  echo "[$(date +%H:%M:%S)] stop ${i} (preset ${pid}) -> ${fn}"
+  echo "[$(date +%H:%M:%S)] stop ${i} (${PANO_MOVE} ${pid}${got:+, Ppos $got}) -> ${fn}"
 done
+if [[ "$PANO_MOVE" == pan ]]; then
+  (IFS=,; echo "{\"presets\": [${angles[*]}]}") > "${OUT_DIR}/angles.json"
+fi
 t1=$(date +%s.%N)
 echo "capture phase: $(echo "$t1 - $t0" | bc)s for ${#PRESET_IDS[@]} stops"
 echo "OUT_DIR=${OUT_DIR}"
