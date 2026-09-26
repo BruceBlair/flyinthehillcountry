@@ -7,14 +7,14 @@
 # window closes. Each run encodes its own MP4.
 #
 # Usage: ./sunset_pano_nightly.sh sunrise|sunset
-#   env BEFORE_MIN / AFTER_MIN override the window (defaults: sunrise 50/40,
+#   env BEFORE_MIN / AFTER_MIN override the window (defaults: sunrise 50/70,
 #   sunset 80/50); LAST_DATE=YYYYMMDD stops capturing after that date (unset =
 #   run every day).
 set -u
 DIR="$(cd "$(dirname "$0")" && pwd)"
 EVENT="${1:?sunrise|sunset}"
 case "$EVENT" in
-  sunrise) BEFORE_MIN="${BEFORE_MIN:-50}"; AFTER_MIN="${AFTER_MIN:-40}" ;;
+  sunrise) BEFORE_MIN="${BEFORE_MIN:-50}"; AFTER_MIN="${AFTER_MIN:-70}" ;;
   sunset)  BEFORE_MIN="${BEFORE_MIN:-80}"; AFTER_MIN="${AFTER_MIN:-50}" ;;
   *) echo "usage: $0 sunrise|sunset" >&2; exit 2 ;;
 esac
