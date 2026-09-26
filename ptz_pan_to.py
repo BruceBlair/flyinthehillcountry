@@ -23,7 +23,9 @@ import requests
 
 PPOS_LEFT = 2700
 UNITS_PER_DEG = 2700 / 355.0
-TOLERANCE = int(os.environ.get("PAN_TOLERANCE", 12))            # ~1.6deg; the actual Ppos is recorded, so the stitcher uses the true angle
+TOLERANCE = int(os.environ.get("PAN_TOLERANCE", 40))            # ~5deg. One fast move stopped at the predicted point (calibrated coast +
+# latency) lands within this ~always, so no slow correction is needed; the landed Ppos is
+# recorded and the stitcher uses the true angle, with 32deg of overlap to absorb the error.
 FAST_SPEED = int(os.environ.get("PAN_FAST_SPEED", 64))
 SLOW_SPEED = int(os.environ.get("PAN_SLOW_SPEED", 3))
 SLOW_ZONE = int(os.environ.get("PAN_SLOW_ZONE", 150))  # speed 64 coasts ~80 units + ~70 of request latency (measured 2026-09-24)
