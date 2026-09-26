@@ -64,3 +64,9 @@ for c in cam1 cam2; do
   log "$c: $(grep -c 'captured in' "$L" 2>/dev/null) cycles, $(grep -c FAILED "$L" 2>/dev/null) failed, $(tail -1 "$L" 2>/dev/null)"
 done
 log "done (exit cam2=$r2 cam1=$r1)"
+# Both cameras stacked into one north-aligned video (cam2 ridge over cam1).
+if python3 "$DIR/stack_pano_videos.py" "${EVENT}_${today}" >>"$LOG" 2>&1; then
+  log "stacked video built: stacked/${EVENT}_${today}_stack_30fps.mp4"
+else
+  log "WARNING: stacked video failed"
+fi
